@@ -1,13 +1,10 @@
 import datetime
 import time
-
-import mission
 import gps_navigate
 import gps
 import bmx055
 import motor #motor.move(l,r,t)
-import motor3
-import xbee
+import im920sl
 import calibration
 import stuck
 import other
