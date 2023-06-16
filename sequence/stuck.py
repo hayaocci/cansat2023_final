@@ -12,7 +12,7 @@ import pigpio
 import time
 import traceback
 
-import BMX055
+import bmx055
 import Motor
 import RunningGPS
 
@@ -33,7 +33,7 @@ def stuckDetection(nLat = 0, nLon = 0):
 	rollCount = 0
 
 	for i in range(10):
-		bmx055data = BMX055.bmx055_read()
+		bmx055data = bmx055.bmx055_read()
 		if(math.fabs(bmx055data[0]) >= 6):
 			rollCount = rollCount + 1
 		time.sleep(0.05)
