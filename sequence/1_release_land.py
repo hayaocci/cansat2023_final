@@ -159,7 +159,7 @@ if __name__ == '__main__':
             press_count_land, press_judge_land = pressdetect_land(0.1) #閾値0.1
             gps_count_land, gps_judge_land = gpsdetect_land(10) #閾値10
             # GPSの高度情報を取得
-　　　　　　 utc, lat, lon, sHeight, gHeight = gps_data_read()
+            utc, lat, lon, sHeight, gHeight = gps_data_read()
             print(f'count{press_count_land}\tjudge{press_judge_land}\count{gps_count_land}\tjudge{gps_judge_land}')
             if (press_judge_land == 1 and gps_judge_land == 1) or (press_judge_land == 1 and acc_judge_land == 1) or (gps_judge_land == 1 and acc_judge_land == 1):
                 print('land detected')
