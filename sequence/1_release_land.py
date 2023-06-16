@@ -1,10 +1,11 @@
 import sys
-sys.path.append('/home/cansat2023/sequence/bme280') 
-from gps import gps_data_read
-import bme280 
+sys.path.append('/home/cansat2023/sequence/bme280')  
 import time
 import signal
 
+from gps import gps_data_read
+import bme280
+from bmx055 import bmx055_read
 
 def pressdetect_release(thd_press_release, t_delta_release):
     global press_count_release
