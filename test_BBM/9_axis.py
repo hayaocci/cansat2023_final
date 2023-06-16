@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from smbus import SMBus
 import time
+#a
 
 ACC_ADDRESS = 0x19
 ACC_REGISTER_ADDRESS = 0x02
