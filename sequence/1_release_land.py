@@ -139,7 +139,7 @@ if __name__ == '__main__':
     #キーボードの割り込みのシグナルハンドラを設定
     signal.signal(signal.SIGINT, handle_interrupt)
 
-    #放出判定
+    #####放出判定#######
     try:
         while 1:
             press_count_release, press_judge_release = pressdetect_release(0.3,0.5) 
@@ -151,10 +151,11 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         pass
 
-    #着地判定
+    #####着地判定######
     try:
         while 1:
             press_count_land, press_judge_land = pressdetect_land(0.1) #閾値0.1
+            gps_count_land, gps_judge_land = gpsdetect_land(10) #閾値10
             # GPSの高度情報を取得
 　　　　　　 utc, lat, lon, sHeight, gHeight = gps_data_read()
             print(f'count{press_count_land}\tjudge{press_judge_land}')
