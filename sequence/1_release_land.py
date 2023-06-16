@@ -82,20 +82,20 @@ def gpsdetect_land(anyalt):
         deltA = abs(Latestalt - Prevalt)  # 初めにとった高度 - 後にとった高度
         if 'altitude' not in gpsdata:
             print("GPS error!")
-            press_count_land = 0
-            press_judge_land = 2
+            gps_count_land = 0
+            gps_judge_land = 2
         elif deltA < anyalt:
-            press_count_land += 1
-            if press_count_land > 5:
-                press_judge_land = 1
-                print("presslandjudge")
+            gps_count_land += 1
+            if gps_count_land > 5:
+                gps_judge_land = 1
+                print("gpslandjudge")
         else:
-            press_count_land = 0
-            press_judge_land = 0
+            gps_count_land = 0
+            gps_judge_land = 0
     except:
-        press_count_land = 0
-        press_judge_land = 2
-    return press_count_land, press_judge_land
+        gps_count_land = 0
+        gps_judge_land = 2
+    return gps_count_land, gps_judge_land
 
 
 def handle_interrupt(signal, frame):
@@ -135,6 +135,8 @@ if __name__ == '__main__':
     #着地判定用
     press_count_land = 0
     press_judge_land = 0
+    gps_count_land = 0
+    gps_judge_land = 0
 
     #キーボードの割り込みのシグナルハンドラを設定
     signal.signal(signal.SIGINT, handle_interrupt)
