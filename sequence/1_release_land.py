@@ -69,7 +69,28 @@ def handle_interrupt(signal, frame):
     #キーボードの割り込み処理
     print("Interrupted")
     sys.exit(0)
+    
+def detect_landing(landing_threshold, landing_duration):
+    landing_start_time = None
 
+    while True:
+        bmx_data = bmx055_read()
+        acc_x, acc_y, acc_z = bmx_data[:3]
+
+        # 加速度の変化が一定値以下であるか判定
+        if abs(acc_x) < landing_threshold and abs(acc_y) < landing_threshold:
+            # 着地判定の開始時刻を記録
+            if landing_start_time is None:
+                landing_start_time = time.time()
+            # 着地判定の猶予期間を超えた場合、着地と判断
+            elif time.time() - landing_start_time > landing_duration:
+                print("着地しました")
+                break
+        else:
+            # 加速度が閾値を超える場合、着地判定をリセット
+            landing_start_time = None
+
+        time.sleep(0.01)  # 適宜待機時間を調整
 
 if __name__ == '__main__':
     bme280.bme280_setup()
@@ -109,6 +130,13 @@ if __name__ == '__main__':
                 break
     except KeyboardInterrupt:
         pass
+
+ # BMX055のセンサー値を使った着地判定
+    threshold = 0.1  # 加速度の閾値（適宜調整）
+    duration = 0.5  # 着地とみなす猶予期間（適宜調整）
+    detect_landing(threshold, duration)
+
+    print('finished')
 
 
     # try:
