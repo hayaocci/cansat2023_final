@@ -1,10 +1,11 @@
 import sys
-sys.path.append('/home/cansat2023/sequence/bme280') 
-
-import bme280 
+sys.path.append('/home/cansat2023/sequence/bme280')  
 import time
 import signal
 
+from gps import gps_data_read
+import bme280
+from bmx055 import bmx055_read
 
 def pressdetect_release(thd_press_release, t_delta_release):
     global press_count_release
@@ -65,11 +66,64 @@ def pressdetect_land(anypress):
         press_judge_land = 2
     return press_count_land, press_judge_land
 
+def gpsdetect_land(anyalt):
+    """
+    GPS高度情報による着地判定用
+    引数はどのくらい高度が変化したら判定にするかの閾値
+    """
+    global gps_count_land
+    global gps_judge_land
+    try:
+        gpsdata = get_gps_data()  # GPSデータを取得する関数を仮定
+        Prevalt = gpsdata['altitude']
+        time.sleep(1)  # 1秒待って次の高度の値を読むよ
+        gpsdata = get_gps_data()  # GPSデータを再度取得
+        Latestalt = gpsdata['altitude']
+        deltA = abs(Latestalt - Prevalt)  # 初めにとった高度 - 後にとった高度
+        if 'altitude' not in gpsdata:
+            print("GPS error!")
+            gps_count_land = 0
+            gps_judge_land = 2
+        elif deltA < anyalt:
+            gps_count_land += 1
+            if gps_count_land > 5:
+                gps_judge_land = 1
+                print("gpslandjudge")
+        else:
+            gps_count_land = 0
+            gps_judge_land = 0
+    except:
+        gps_count_land = 0
+        gps_judge_land = 2
+    return gps_count_land, gps_judge_land
+
+
 def handle_interrupt(signal, frame):
     #キーボードの割り込み処理
     print("Interrupted")
     sys.exit(0)
+    
+def detect_landing(landing_threshold, landing_duration):
+    landing_start_time = None
 
+    while True:
+        bmx_data = bmx055_read()
+        acc_x, acc_y, acc_z = bmx_data[:3]
+
+        # 加速度の変化が一定値以下であるか判定
+        if abs(acc_x) < landing_threshold and abs(acc_y) < landing_threshold:
+            # 着地判定の開始時刻を記録
+            if landing_start_time is None:
+                landing_start_time = time.time()
+            # 着地判定の猶予期間を超えた場合、着地と判断
+            elif time.time() - landing_start_time > landing_duration:
+                print("着地しました")
+                break
+        else:
+            # 加速度が閾値を超える場合、着地判定をリセット
+            landing_start_time = None
+
+        time.sleep(0.01)  # 適宜待機時間を調整
 
 if __name__ == '__main__':
     bme280.bme280_setup()
@@ -81,10 +135,13 @@ if __name__ == '__main__':
     #着地判定用
     press_count_land = 0
     press_judge_land = 0
+    gps_count_land = 0
+    gps_judge_land = 0
 
     #キーボードの割り込みのシグナルハンドラを設定
     signal.signal(signal.SIGINT, handle_interrupt)
 
+    #####放出判定#######
     try:
         while 1:
             press_count_release, press_judge_release = pressdetect_release(0.3,0.5) 
@@ -96,15 +153,31 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         pass
 
+    #####着地判定######
     try:
         while 1:
             press_count_land, press_judge_land = pressdetect_land(0.1) #閾値0.1
-            print(f'count{press_count_land}\tjudge{press_judge_land}')
-            if press_judge_land == 1:
+            gps_count_land, gps_judge_land = gpsdetect_land(10) #閾値10
+            # GPSの高度情報を取得
+            utc, lat, lon, sHeight, gHeight = gps_data_read()
+            print(f'count{press_count_land}\tjudge{press_judge_land}\count{gps_count_land}\tjudge{gps_judge_land}')
+            if (press_judge_land == 1 and gps_judge_land == 1) or (press_judge_land == 1 and acc_judge_land == 1) or (gps_judge_land == 1 and acc_judge_land == 1):
                 print('land detected')
                 break
+
+
+             #if press_judge_land == 1:
+#                 print('land detected')
+#                 break
     except KeyboardInterrupt:
         pass
+
+ # BMX055のセンサー値を使った着地判定
+    threshold = 0.1  # 加速度の閾値（適宜調整）
+    duration = 0.5  # 着地とみなす猶予期間（適宜調整）
+    detect_landing(threshold, duration)
+
+    print('finished')
 
 
     # try:
