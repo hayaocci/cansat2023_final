@@ -66,6 +66,38 @@ def pressdetect_land(anypress):
         press_judge_land = 2
     return press_count_land, press_judge_land
 
+def gpsdetect_land(anyalt):
+    """
+    GPS高度情報による着地判定用
+    引数はどのくらい高度が変化したら判定にするかの閾値
+    """
+    global gps_count_land
+    global gps_judge_land
+    try:
+        gpsdata = get_gps_data()  # GPSデータを取得する関数を仮定
+        Prevalt = gpsdata['altitude']
+        time.sleep(1)  # 1秒待って次の高度の値を読むよ
+        gpsdata = get_gps_data()  # GPSデータを再度取得
+        Latestalt = gpsdata['altitude']
+        deltA = abs(Latestalt - Prevalt)  # 初めにとった高度 - 後にとった高度
+        if 'altitude' not in gpsdata:
+            print("GPS error!")
+            press_count_land = 0
+            press_judge_land = 2
+        elif deltA < anyalt:
+            press_count_land += 1
+            if press_count_land > 5:
+                press_judge_land = 1
+                print("presslandjudge")
+        else:
+            press_count_land = 0
+            press_judge_land = 0
+    except:
+        press_count_land = 0
+        press_judge_land = 2
+    return press_count_land, press_judge_land
+
+
 def handle_interrupt(signal, frame):
     #キーボードの割り込み処理
     print("Interrupted")
