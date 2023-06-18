@@ -180,7 +180,7 @@ if __name__ == '__main__':
              #if press_judge_land == 1:
 #                 print('land detected')
 #                 break
-except KeyboardInterrupt:
+    except KeyboardInterrupt:
         print("Program interrupted")
         sys.exit(0)
 
