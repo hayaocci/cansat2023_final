@@ -96,34 +96,42 @@ def gpsdetect_land(anyalt):
         gps_count_land = 0
         gps_judge_land = 2
     return gps_count_land, gps_judge_land
+    
+def acc_detect_land(anymax):
+    """
+    加速度センサーによる着地判定用
+    引数はどのくらい加速度が変化したら判定にするかの閾値
+    """
+    global acc_count_land
+    global acc_judge_land
+    try:
+        bmx_data = bmx055_read()
+        acc_x, acc_y, acc_z = bmx_data[:3]
+        acceleration = (acc_x ** 2 + acc_y ** 2 + acc_z ** 2) ** 0.5  # 加速度の大きさを計算
+        delta_acceleration = abs(acceleration - prev_acceleration)  # 前回の加速度との変化量
 
+        if delta_acceleration < anymax:
+            acc_count_land += 1
+            if acc_count_land > 5:
+                acc_judge_land = 1
+                print("acclandjudge")
+        else:
+            acc_count_land = 0
+            acc_judge_land = 0
+
+        prev_acceleration = acceleration  # 現在の加速度を保存
+
+    except:
+        acc_count_land = 0
+        acc_judge_land = 2
+
+    return acc_count_land, acc_judge_land
 
 def handle_interrupt(signal, frame):
     #キーボードの割り込み処理
     print("Interrupted")
     sys.exit(0)
     
-def detect_landing(landing_threshold, landing_duration):
-    landing_start_time = None
-
-    while True:
-        bmx_data = bmx055_read()
-        acc_x, acc_y, acc_z = bmx_data[:3]
-
-        # 加速度の変化が一定値以下であるか判定
-        if abs(acc_x) < landing_threshold and abs(acc_y) < landing_threshold:
-            # 着地判定の開始時刻を記録
-            if landing_start_time is None:
-                landing_start_time = time.time()
-            # 着地判定の猶予期間を超えた場合、着地と判断
-            elif time.time() - landing_start_time > landing_duration:
-                print("着地しました")
-                break
-        else:
-            # 加速度が閾値を超える場合、着地判定をリセット
-            landing_start_time = None
-
-        time.sleep(0.01)  # 適宜待機時間を調整
 
 if __name__ == '__main__':
     bme280.bme280_setup()
@@ -158,6 +166,8 @@ if __name__ == '__main__':
         while 1:
             press_count_land, press_judge_land = pressdetect_land(0.1) #閾値0.1
             gps_count_land, gps_judge_land = gpsdetect_land(10) #閾値10
+            acc_count_land, acc_judge_land = acc_detect_land(0.05) # 加速度による着地判定（閾値0.05）
+
             # GPSの高度情報を取得
             utc, lat, lon, sHeight, gHeight = gps_data_read()
             print(f'count{press_count_land}\tjudge{press_judge_land}\count{gps_count_land}\tjudge{gps_judge_land}')
@@ -172,12 +182,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         pass
 
- # BMX055のセンサー値を使った着地判定
-    threshold = 0.1  # 加速度の閾値（適宜調整）
-    duration = 0.5  # 着地とみなす猶予期間（適宜調整）
-    detect_landing(threshold, duration)
 
-    print('finished')
 
 
     # try:
