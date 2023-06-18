@@ -159,7 +159,8 @@ if __name__ == '__main__':
                 print('release detected')
                 break
     except KeyboardInterrupt:
-        pass
+       print("Program interrupted")
+        sys.exit(0)
 
     #####着地判定######
     try:
@@ -180,7 +181,8 @@ if __name__ == '__main__':
 #                 print('land detected')
 #                 break
     except KeyboardInterrupt:
-        pass
+        print("Program interrupted")
+        sys.exit(0)
 
 
 
