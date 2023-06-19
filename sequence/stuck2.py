@@ -1,9 +1,10 @@
 import time
 import datetime
 import random
-from other import print_xbee
+from other import print_im920sl
 
-import xbee
+import im920sl
+import im920sl2
 import motor
 import gps_navigate
 import gps
@@ -28,11 +29,11 @@ def ue_jug():
         z = max(za)
 
         if z >= 7.5:
-            xbee.str_trans('Upward')
+            im920sl2.str_trans('Upward')
             print('上だよ')
             break
         else:
-            xbee.str_trans(f'Upside-down{ue_count}')
+            im920sl2.str_trans(f'Upside-down{ue_count}')
             print(f'下だよ{ue_count}')
             print(f'acc: {z}')
             if ue_count > 2:
@@ -50,10 +51,10 @@ def ue_jug():
 def stuck_jug(lat1, lon1, lat2, lon2, thd=1.0):
     data_stuck = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
     if data_stuck['distance'] <= thd:
-        print_xbee(str(data_stuck['distance']) + '----!!!    stuck   !!!')
+        print_im920sl(str(data_stuck['distance']) + '----!!!    stuck   !!!')
         return False
     else:
-        print_xbee(str(data_stuck['distance']) + '-----not stucked')
+        print_im920sl(str(data_stuck['distance']) + '-----not stucked')
         return True
 
 
@@ -68,41 +69,41 @@ def random(a, b, k):
 
 def stuck_avoid_move(x):
     if x == 0:
-        print_xbee('sutck_avoid_move():0')
+        print_im920sl('sutck_avoid_move():0')
         motor.move(-100, -100, 5)
         motor.move(-60, -60, 3)
     elif x == 1:
-        print_xbee('sutck_avoid_move():1')
+        print_im920sl('sutck_avoid_move():1')
         motor.move(40, -40, 1)
         motor.move(100, 100, 5)
     elif x == 2:
-        print_xbee('sutck_avoid_move():2')
+        print_im920sl('sutck_avoid_move():2')
         motor.move(-100, 100, 2)
         motor.move(100, 100, 5)
 
     elif x == 3:
-        print_xbee('sutck_avoid_move():3')
+        print_im920sl('sutck_avoid_move():3')
         motor.move(100, -100, 2)
         motor.move(100, 100, 5)
 
     elif x == 4:
-        print_xbee('sutck_avoid_move():4')
+        print_im920sl('sutck_avoid_move():4')
         motor.move(40, -40, 1)
         motor.move(-80, -100, 5)
 
     elif x == 5:
-        print_xbee('sutck_avoid_move():5')
+        print_im920sl('sutck_avoid_move():5')
         motor.move(40, -40, 1)
         motor.move(-100, -80, 5)
 
     elif x == 6:
-        print_xbee('sutck_avoid_move():6')
+        print_im920sl('sutck_avoid_move():6')
         motor.move(100, -100, 3)
         motor.move(100, 100, 3)
 
 
 def stuck_avoid():
-    print_xbee('start stuck  avoid')
+    print_im920sl('start stuck  avoid')
     flag = False
     while 1:
         lat_old, lon_old = gps.location()
@@ -146,7 +147,7 @@ def stuck_avoid():
                 break
         if flag:
             break
-    print_xbee('complete stuck avoid')
+    print_im920sl('complete stuck avoid')
 
 
 if __name__ == '__main__':
