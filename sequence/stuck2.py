@@ -65,8 +65,6 @@ def ue_jugkai():
             time.sleep(0.2)
         x = max(xa)
         z = max(za)
-        print(x)
-        print(z)
 
         if z >= 7.5 and x > 0:
             im920sl2.str_trans('Upward')
