@@ -66,7 +66,7 @@ def ue_jugkai():
         x = max(xa)
         z = max(za)
         print(x)
-        print(y)
+        print(z)
 
         if z >= 7.5 and x > 0:
             im920sl2.str_trans('Upward')
