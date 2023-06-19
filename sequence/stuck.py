@@ -13,8 +13,8 @@ import time
 import traceback
 
 import bmx055
-import Motor
-import RunningGPS
+import motor
+import runningGPS
 
 stuck = 0
 oLat = 0
