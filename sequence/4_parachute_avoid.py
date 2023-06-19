@@ -5,14 +5,14 @@
 # そのあとにもう一度パラシュート回避を同じ判定方法で行ってGPS走行に移行する。
 
 import traceback
-import stuck
+import stuck2
 import motor
 import paradetection
 
 
 def parachute_avoidance(flug, goalGAP):
     # --- There is Parachute around rover ---#
-    stuck.ue_jugkai()
+    stuck2.ue_jugkai()
 
     if flug == 1:
         # --- Avoid parachute by back control ---#
