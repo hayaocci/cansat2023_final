@@ -64,7 +64,7 @@ def picture(path, width=320, height=240):
             #camera.capture(filepath)
             
             #追加してみたやつ
-            camera_config = picam2.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (640, 480)}, display="lores")
+            camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (640, 480)}, display="lores")
             camera.configure(camera_config)
             
     # そのファイルに取得した画像を入れる
