@@ -6,7 +6,7 @@ import bmx055
 import motor #motor.move(l,r,t)
 import im920sl
 import calibration
-import stuck
+import stuck2
 import other
 
 def angle_goal(magx_off, magy_off, lon2, lat2):
@@ -59,7 +59,7 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
             ##方向調整が不可能な場合はスタックしたとみなして、もう一度キャリブレーションからスタート##
             other.print_im920sl(
                 "!!!!can't ajdust direction.   start stuck avoid!!!!!")
-            stuck.stuck_avoid()
+            stuck2.stuck_avoid()
             magx_off, magy_off = calibration.cal(40, 40, 30)
             stuck_count = -1
         if stuck_count % 7 == 0:
@@ -87,7 +87,7 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
             print(f'theta = {theta}')
 
         stuck_count += 1
-        stuck.ue_jug()
+        stuck2.ue_jug()
         theta = angle_goal(magx_off, magy_off, lon2, lat2)
         print('Calculated angle_relative: {theta}')
         time.sleep(1)
@@ -103,7 +103,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/cansat2022/CANSAT2
     goal_distance = direction['distance']
     while goal_distance >= thd_distance:
         t_stuck_count = 1
-        stuck.ue_jug()
+        stuck2.ue_jug()
 
         # ------------- calibration -------------#
         # xbee.str_trans('calibration Start')
@@ -126,10 +126,10 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/cansat2022/CANSAT2
 
             if t_stuck_count % 8 == 0:
                 ##↑何秒おきにスタックジャッジするかを決める##
-                if stuck.stuck_jug(lat_old, lon_old, lat_new, lon_new, 1):
+                if stuck2.stuck_jug(lat_old, lon_old, lat_new, lon_new, 1):
                     pass
                 else:
-                    stuck.stuck_avoid()
+                    stuck2.stuck_avoid()
                     pass
                 lat_old, lon_old = gps.location()
 
