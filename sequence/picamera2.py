@@ -3,7 +3,7 @@ import time
 import traceback
 import os
 
-camera = picamera.Picamera2()
+with picamera.Picamera2() as camera
 
 camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (640, 480)}, display="lores")
 camera.configure(camera_config)
