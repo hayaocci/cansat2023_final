@@ -55,10 +55,10 @@ def picture(path, width=320, height=240):
         with picamera.Picamera2() as camera:
             camera.rotation = 90
             # 取得した画像の回転
-            camera.resolution = (width, height)
+            #camera.resolution = (width, height)
             # 取得する画像の解像度を設定→どのような基準で設定するのか
             # 使用するカメラの解像度は静止画解像度で3280×2464
-            filepath = filename(path, 'jpg')
+            #filepath = filename(path, 'jpg')
             # 指定したパスを持つファイルを作成
 
             #camera.capture(filepath)
