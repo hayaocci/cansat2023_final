@@ -1,4 +1,4 @@
-import picamera2 as picamera
+import picamera2
 import time
 import traceback
 import os
@@ -52,7 +52,7 @@ def picture(path, width=320, height=240):
 
     try:
         make_dir(path)
-        with picamera.PiCamera() as camera:
+        with picamera.PiCamera2() as camera:
             camera.rotation = 90
             # 取得した画像の回転
             camera.resolution = (width, height)
