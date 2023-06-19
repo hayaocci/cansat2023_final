@@ -28,7 +28,7 @@ def picture(path, width=320, height=240):
         else:
             print('**Directory is exist**')
     def filename(f, ext):
-        
+        """
         ファイル名に番号をつけるための関数
         引数f:つけたいファイル名
         引数ext:ファイルの拡張子
@@ -49,7 +49,7 @@ def picture(path, width=320, height=240):
             i = i + 1
         f = f + num + "." + ext
         return f
-      '''
+      
     
     try:
         make_dir(path)
