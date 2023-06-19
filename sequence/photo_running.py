@@ -11,7 +11,7 @@ import motor
 import stuck2
 import calibration
 import other
-import gps_running2
+import 7_gps_runnning2
 
 # 写真内の赤色面積で進時間を決める用　調整必要
 area_short = 59.9
@@ -87,13 +87,13 @@ def goal_detection(imgpath: str, G_thd: float):
         if len(contours) > 0:
             radius_frame = ()
             for (i, cnt) in zip(range(0, len(contours)), contours):
-                print_xbee(f'i:{i}')
+                print_im920sl(f'i:{i}')
                 # 赤色検知した部分に最小外接円を書く
                 (x, y), radius = cv2.minEnclosingCircle(cnt)
                 center = (int(x), int(y))
                 radius = int(radius)
                 radius_frame = cv2.circle(img, center, radius, (0, 0, 255), 2)
-                print_xbee(radius_frame)
+                print_im920sl(radius_frame)
                 # 検知した赤色の面積の中で最大のものを探す
                 area = cv2.contourArea(contours[i])
                 if max_area < area:
@@ -157,10 +157,10 @@ def adjustment_mag(strength, t, magx_off, magy_off):
                 adj = strength * -0.25
             else:
                 adj = strength_adj * -0.4
-        print_xbee(f'angle ----- {angle_relative}')
+        print_im920sl(f'angle ----- {angle_relative}')
         print("3#)")
         strength_l, strength_r = strength_adj + adj, -strength_adj - adj
-        print_xbee(f'motor power:\t{strength_l}\t{strength_r}')
+        print_im920sl(f'motor power:\t{strength_l}\t{strength_r}')
         motor.motor_continue(strength_l, strength_r)
         time.sleep(0.1)
         mag_x_old = mag_x
@@ -181,75 +181,75 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
         nogoal_count = 0
         chosei = 0
         while 1:
-            stuck.ue_jug()
+            stuck2.ue_jug()
             path_photo = '/home/cansat2022/CANSAT2022/photo_imageguide/ImageGuide-'
             photoName = take.picture(path_photo)
             goalflug, goalarea, gap, imgname, imgname2 = goal_detection(
                 photoName, 50)
-            print_xbee(
+            print_im920sl(
                 f'goalflug:{goalflug}\tgoalarea:{goalarea}%\tgap:{gap}\timagename:{imgname}\timagename2:{imgname2}')
             other.log(log_photorunning, t_start - time.time(),
                       goalflug, goalarea, gap, imgname, imgname2)
             if auto_count >= 8 and goalarea >= 0.005 and goalarea != 1000 and goalflug == -1:
 
                 ##赤色が見つからなかった時用に##
-                print_xbee("small red found run")
+                print_im920sl("small red found run")
                 print(goalarea)
                 adjustment_mag(40, 1.5, magx_off, magy_off)
                 auto_count = 0
                 
             if goalflug == -1 or goalflug == 1000:
-                print_xbee('Nogoal detected')
+                print_im920sl('Nogoal detected')
                 motor.move(30, 30, 0.1)
                 auto_count += 1
             elif goalarea <= area_long:
                 auto_count = 0
                 if -100 <= gap and gap <= -65:
-                    print_xbee('Turn left')
+                    print_im920sl('Turn left')
                     motor.move(-33, -40, 0.1)
                 elif 65 <= gap and gap <= 100:
-                    print_xbee('Turn right')
+                    print_im920sl('Turn right')
                     motor.move(40, 33, 0.1)
                 else:
-                    print_xbee('Go straight long')
+                    print_im920sl('Go straight long')
                     adjustment_mag(40, 3, magx_off, magy_off)
             elif goalarea <= area_middle:
                 auto_count = 0
                 if -100 <= gap and gap <= -65:
-                    print_xbee('Turn left')
+                    print_im920sl('Turn left')
                     motor.move(-25, -30, 0.1)
                 elif 65 <= gap and gap <= 100:
-                    print_xbee('Turn right')
+                    print_im920sl('Turn right')
                     motor.move(30, 25, 1)
                 else:
-                    print_xbee('Go straight middle')
+                    print_im920sl('Go straight middle')
                     adjustment_mag(40, 1, magx_off, magy_off)
             elif goalarea <= area_short:
                 auto_count = 0
                 if -100 <= gap and gap <= -65:
-                    print_xbee('Turn left')
+                    print_im920sl('Turn left')
                     count_short_l += 1
                     adj_short = 0
                     if count_short_l % 4 == 0: #4の倍数ごとに出力を上げていくっ！
                         adj_short += 3 #モーターの出力+3
-                        print_xbee('#-Power up-#')
+                        print_im920sl('#-Power up-#')
                     motor.move(-20 - adj_short, -20 - adj_short, 0.1)
                 elif 65 <= gap and gap <= 100:
-                    print_xbee('Turn right')
+                    print_im920sl('Turn right')
                     count_short_r += 1
                     if count_short_r % 4 == 0: #4の倍数ごとに出力を上げていくっ！
                         adj_short += 3 #モーターの出力+3
-                        print_xbee('#-Power up-#')
+                        print_im920sl('#-Power up-#')
                     motor.move(20 + adj_short, 20 + adj_short, 0.1)
                 else:
-                    print_xbee('Go stright short')
+                    print_im920sl('Go stright short')
                     adjustment_mag(40, 0.6, magx_off, magy_off)
                     count_short_l = 0
                     count_short_r = 0
                     adj_short = 0
             elif goalarea >= G_thd:
-                print_xbee('###---Goal---###')
-                print_xbee('###---Goal---###')
+                print_im920sl('###---Goal---###')
+                print_im920sl('###---Goal---###')
                 break
 
             # ゴールから離れた場合GPS誘導に移行
@@ -257,13 +257,13 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 direction = calibration.calculate_direction(lon2, lat2)
                 goal_distance = direction['distance']
                 if goal_distance >= thd_distance + 2:
-                    gps_running.drive(lon2, lat2, thd_distance, t_adj_gps,
+                    gps_runnning2.drive(lon2, lat2, thd_distance, t_adj_gps,
                                      logpath='/home/cansat2022/CANSAT2022/log/gpsrunning(image)Log', t_start=0)
     except KeyboardInterrupt:
-        print_xbee('stop')
+        print_im920sl('stop')
     except Exception as e:
         tb = sys.exc_info()[2]
-        print_xbee("message:{0}".format(e.with_traceback(tb)))
+        print_im920sl("message:{0}".format(e.with_traceback(tb)))
 
 
 if __name__ == "__main__":
@@ -276,19 +276,19 @@ if __name__ == "__main__":
         motor.setup()
 
         # calibration
-        print_xbee('##--calibration Start--##\n')
+        print_im920sl('##--calibration Start--##\n')
         magx_off, magy_off = calibration.cal(40, 40, 30)
-        print_xbee(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
-        print_xbee('##--calibration end--##')
+        print_im920sl(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
+        print_im920sl('##--calibration end--##')
 
         # Image Guide
         image_guided_driving(log_photorunning, G_thd, magx_off,
                              magy_off, lon2, lat2, thd_distance=5, t_adj_gps=60)
 
     except KeyboardInterrupt:
-        print_xbee('stop')
-        xbee.off()
+        print_im920sl('stop')
+        im920sl2.off()
     except Exception as e:
-        xbee.off()
+        im920sl2.off()
         tb = sys.exc_info()[2]
-        print_xbee("message:{0}".format(e.with_traceback(tb)))
+        print_im920sl("message:{0}".format(e.with_traceback(tb)))
