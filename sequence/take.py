@@ -1,4 +1,4 @@
-import picamera
+import picamera2
 import time
 import traceback
 import os
