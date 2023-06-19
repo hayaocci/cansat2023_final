@@ -12,3 +12,4 @@ camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, l
             camera.capture_file("sample.jpg")
 
 print("done")
+print("test")
