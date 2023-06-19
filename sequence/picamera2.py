@@ -12,3 +12,4 @@ time.sleep(2)
 camera.capture_file("sample.jpg")
 
 print("done")
+print("yay")
