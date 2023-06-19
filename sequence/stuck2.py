@@ -46,6 +46,51 @@ def ue_jug():
                 motor.move(12, 12, 0.2, False)
             time.sleep(2)
             ue_count += 1
+    
+def ue_jugkai():
+    ue_count = 0
+    """
+    ローバーの状態を確認する関数
+    通常状態：True
+    逆さになってる：False
+    加速度センサZ軸の正負で判定する
+    """
+    while 1:
+        xa = []
+        za = []
+        for i in range(3):
+            accData = bmx055.acc_dataRead()
+            xa.append(accData[0])
+            za.append(accData[2])
+            time.sleep(0.2)
+        x = max(xa)
+        z = max(za)
+
+        if z >= 7.5 and x > 0:
+            im920sl2.str_trans('Upward')
+            print('上だよ')
+            break
+        else:
+            im920sl2.str_trans(f'Upside-down{ue_count}')
+            print(f'下だよ{ue_count}')
+            print(f'acc: {z}')
+            if ue_count > 2:
+                #motor.move(13, -16, 0.1, False)
+                motor.move(85, -85, 0.1, False)
+            elif ue_count > 4:
+                #motor.move(16, -19, 0.1, False)
+                motor.move(90, -90, 0.1, False)
+            elif ue_count > 6:
+                #motor.move(19, -21, 0.1, False)
+                motor.move(95, -95, 0.1, False)
+            elif ue_count > 8:
+                #motor.move(22, -24, 0.1, False)
+                motor.move(99, -99, 0.1, False)
+            else:
+                #motor.move(16, 15, 0.1, False)
+                motor.move(80, -80, 0.1, False)
+            time.sleep(2)
+            ue_count += 1
 
 
 def stuck_jug(lat1, lon1, lat2, lon2, thd=1.0):
