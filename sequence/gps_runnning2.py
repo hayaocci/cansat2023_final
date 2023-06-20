@@ -1,7 +1,7 @@
 import datetime
 import time
 
-import mission
+#import mission
 import gps_navigate
 import gps
 import bmx055
