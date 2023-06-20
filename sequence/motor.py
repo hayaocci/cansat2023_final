@@ -9,7 +9,7 @@ def setup():
     """
     global motor_r, motor_l
     Rpin1, Rpin2 = 5, 6
-    Lpin1, Lpin2 = 10, 9
+    Lpin1, Lpin2 = 23, 18
     motor_r = Motor(Rpin1, Rpin2)
     motor_l = Motor(Lpin1, Lpin2)
 
