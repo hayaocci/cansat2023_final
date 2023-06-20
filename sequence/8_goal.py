@@ -22,8 +22,8 @@ if __name__ == "__main__":
 		while 1:
 			if f == 0:
 				#-----------------get information-----------------#
-				motor.motor(15, 15, 1.0)
-				motor.motor(0, 0, 1.0)
+				motor.move(15, 15, 1.0)
+				motor.move(0, 0, 1.0)
 				goalFlug, goalArea, goalGAP, photoName = goal_detection.GoalDetection(photopath, H_min, H_max, S_thd, goalthd)
 				print("flug", goalFlug, "area", goalArea, "GAP", goalGAP, "photoname", photoName)
 				f = 1
@@ -37,8 +37,8 @@ if __name__ == "__main__":
 					f = 3
 				if f == 3:
 					T = float(input("input Time value "))
-					motor.motor(L, R, T)
-					motor.motor(0, 0, 2)
+					motor.move(L, R, T)
+					motor.move(0, 0, 2)
 					motor.motor_stop()
 					f = 0
 			except KeyboardInterrupt:
