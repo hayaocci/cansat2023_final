@@ -72,7 +72,7 @@ def picture(path, width=320, height=240):
             camera.configure(camera_config)
             camera.start()
             # time.sleep(2)
-            camera.capture_file(path)
+            camera.capture_file(filepath)
             
     except :
         print(traceback.format_exc())
