@@ -127,8 +127,8 @@ def mag_dataRead():
 		try:
 			magData[i] = i2c.read_byte_data(MAG_ADDRESS, MAG_REGISTER_ADDRESS + i)
 		except:
-			pass
-			#print("error")
+			# pass
+			print("error")
 
 	for i in range(3):
 		if i != 2:
