@@ -89,4 +89,5 @@ if __name__ == '__main__':
         print(traceback.format_exc())
     print("finish!")
 
+#解放
 bus.close()
