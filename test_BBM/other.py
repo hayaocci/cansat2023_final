@@ -1,16 +1,14 @@
 import os
 import linecache
+import im920sl
 
-import xbee
 
-
-def print_xbee(word, com=True):
+def print_im920sl(word):
     """
-    printによる出力とxbeeによる送信を一緒に行うための関数
+    printによる出力とIM920slによる送信を一緒に行うための関数
     """
     print(word)
-    if com:
-        xbee.str_trans(word)
+    # IM920sl送信のコードを追加
 
 
 def dir(path):
@@ -103,7 +101,6 @@ def phase(path):
     phase = lastLine[0]
     linecache.clearcache()
     return int(phase)
-
 
 
 if __name__ == "__main__":
