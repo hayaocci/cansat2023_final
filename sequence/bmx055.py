@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from smbus import SMBus
+import smbus
 import time
 
 ACC_ADDRESS = 0x19
@@ -9,7 +9,7 @@ GYR_REGISTER_ADDRESS = 0x02
 MAG_ADDRESS = 0x13
 MAG_REGISTER_ADDRESS = 0x42
 
-i2c = SMBus(1)
+i2c = smbus.SMBus(1)
 
 def bmx055_setup():
 	# --- BMX055ãSetup --- #
