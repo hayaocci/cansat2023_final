@@ -8,7 +8,9 @@ import traceback
 import stuck2
 import motor
 import paradetection
+import smbus
 
+bus = smbus.SMBus(1)
 
 def parachute_avoidance(flug, goalGAP):
     # --- There is Parachute around rover ---#
@@ -86,3 +88,5 @@ if __name__ == '__main__':
     except:
         print(traceback.format_exc())
     print("finish!")
+
+bus.close()
