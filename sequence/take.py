@@ -1,4 +1,5 @@
-import picamera2 as picamera
+# import picamera2 as picamera
+from picamera2 import Picamera2
 import time
 import traceback
 import os
@@ -53,7 +54,9 @@ def picture(path, width=320, height=240):
     
     try:
         make_dir(path)
-        with picamera.Picamera2() as camera:
+        # picam2 =  Picamera2()
+
+        with Picamera2() as camera:
             camera.rotation = 90
             # 取得した画像の回転
             #camera.resolution = (width, height)
@@ -65,23 +68,25 @@ def picture(path, width=320, height=240):
             #camera.capture(filepath)
             
             #追加してみたやつ
-            camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (640, 480)}, display="lores")
+            camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (width, height)}, display="lores")
             camera.configure(camera_config)
             camera.start()
-            time.sleep(2)
-            camera.capture_file("sample.jpg")
+            # time.sleep(2)
+            camera.capture_file(path)
             
-            
-    # そのファイルに取得した画像を入れる
-    except picamera.exc.PiCameraMMALError:
-        filepath = "Null"
-        # パスが切れているときはNULL
-        time.sleep(0.8)
-    except:
+    except :
         print(traceback.format_exc())
-        time.sleep(0.1)
-        filepath = "Null"
-    # そのほかのエラーの時はNULL
+
+    # # そのファイルに取得した画像を入れる
+    # except picamera.exc.PiCameraMMALError:
+    #     filepath = "Null"
+    #     # パスが切れているときはNULL
+    #     time.sleep(0.8)
+    # except:
+    #     print(traceback.format_exc())
+    #     time.sleep(0.1)
+    #     filepath = "Null"
+    # # そのほかのエラーの時はNULL
     return filepath
 
 
