@@ -176,3 +176,4 @@ if __name__ == '__main__':
 	except Exception as e:
 		print()
 		print(e.message)
+i2c.close()
