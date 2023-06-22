@@ -57,22 +57,13 @@ def picture(path, width=320, height=240):
         # picam2 =  Picamera2()
 
         with Picamera2() as camera:
-            camera.rotation = 90
-            # 取得した画像の回転
-            #camera.resolution = (width, height)
-            # 取得する画像の解像度を設定→どのような基準で設定するのか
-            # 使用するカメラの解像度は静止画解像度で3280×2464
-            filepath = filename(path, 'jpg')
-            # 指定したパスを持つファイルを作成
-
-            #camera.capture(filepath)
-            
-            #追加してみたやつ
+            camera.rotation = 90 # カメラの画像回転
+            filepath = filename(path, 'jpg') # カメラのファイル名作成
             camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (width, height)}, display="lores")
             camera.configure(camera_config)
             camera.start()
             # time.sleep(2)
-            camera.capture_file(filepath)
+            camera.capture_file(filepath) # 撮影した画像を保存
             
     except :
         print(traceback.format_exc())
