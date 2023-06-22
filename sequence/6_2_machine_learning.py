@@ -2,6 +2,7 @@ import tensorflow.lite as tflite
 import numpy as np
 from PIL import Image
 import cv2
+import take
 class DetectPeople():
     def __init__(self, model_path,):
         # self.model_path = model_path
@@ -49,8 +50,9 @@ class DetectPeople():
 
 if __name__ == "__main__":
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
-    image_path = 'imgs/hiroyuki.jpg'
-    image_path = 'imgs/saru.jpg'
-    ML_people.predict(image_path)
-
+    # image_path = 'imgs/hiroyuki.jpg'
+    # image_path = 'imgs/saru.jpg'
+    # ML_people.predict(image_path)
+    img_path = take.picture('ML_imgs/image', 320, 240)
+    ML_people.predict(image_path=img_path)
 
