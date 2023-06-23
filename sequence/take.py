@@ -4,6 +4,9 @@ import time
 import traceback
 import os
 
+with picamera.Picamera2() as camera:
+    camera.start_preview('')
+
 
 def picture(path, width=320, height=240):
     """写真を取るための関数"""
