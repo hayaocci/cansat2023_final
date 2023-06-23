@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image
 import cv2
 import take
+import time
 class DetectPeople():
     def __init__(self, model_path,):
         # self.model_path = model_path
@@ -53,6 +54,7 @@ if __name__ == "__main__":
     # image_path = 'imgs/hiroyuki.jpg'
     # image_path = 'imgs/saru.jpg'
     # ML_people.predict(image_path)
-    img_path = take.picture('ML_imgs/image', 320, 240)
-    ML_people.predict(image_path=img_path)
-
+    while 1:
+        img_path = take.picture('ML_imgs/image', 320, 240)
+        ML_people.predict(image_path=img_path)
+        time.sleep(3)
