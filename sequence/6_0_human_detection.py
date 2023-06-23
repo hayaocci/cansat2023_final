@@ -2,6 +2,8 @@ import gps_navigate
 import time
 import traceback
 import take
+import machine_learning
+
 
 #人検出の範囲内にいるかいないかの判定
 
@@ -15,7 +17,7 @@ def distance_human(lat1, lon1, lat2, lon2):
 
     else:
         print("人検出の範囲外にいます")
-        return False
+        
        
 
 
