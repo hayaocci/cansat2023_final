@@ -1,11 +1,6 @@
-import tflite_runtime.interpreter as tflite
-import numpy as np
-from PIL import Image
-import cv2
-import take
 import time
 import gps_navigate
-
+from machine_learning import DetectPeople
 
 
 if __name__ == "__main__":
