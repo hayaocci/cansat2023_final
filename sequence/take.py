@@ -4,7 +4,7 @@ import time
 import traceback
 import logging
 import os
-logging.getLogger('picmaera').setLevel(logging.WARNING)
+logging.getLogger('picmaera2').setLevel(logging.WARNING)
 with picamera.Picamera2() as camera:
     camera.start_preview('')
 
