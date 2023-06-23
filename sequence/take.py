@@ -5,8 +5,8 @@ import traceback
 import logging
 import os
 logging.getLogger('picmaera2').setLevel(logging.WARNING)
-with picamera.Picamera2() as camera:
-    camera.start_preview('')
+
+   
 
 
 def picture(path, width=320, height=240):
@@ -61,6 +61,7 @@ def picture(path, width=320, height=240):
         # picam2 =  Picamera2()
 
         with picamera.Picamera2() as camera:
+            camera.start_preview('')
             camera.rotation = 90 # カメラの画像回転
             filepath = filename(path, 'jpg') # カメラのファイル名作成
             camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (width, height)}, display="lores")
