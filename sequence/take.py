@@ -2,8 +2,9 @@
 import  picamera2 as picamera
 import time
 import traceback
+import logging
 import os
-
+logging.getLogger('picmaera').setLevel(logging.WARNING)
 with picamera.Picamera2() as camera:
     camera.start_preview('')
 
