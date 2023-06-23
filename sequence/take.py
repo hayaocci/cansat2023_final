@@ -1,5 +1,5 @@
 # import picamera2 as picamera
-from picamera2 import Picamera2
+import  picamera2 as picamera
 import time
 import traceback
 import os
@@ -56,7 +56,7 @@ def picture(path, width=320, height=240):
         make_dir(path)
         # picam2 =  Picamera2()
 
-        with Picamera2() as camera:
+        with picamera.Picamera2() as camera:
             camera.rotation = 90 # カメラの画像回転
             filepath = filename(path, 'jpg') # カメラのファイル名作成
             camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (width, height)}, display="lores")
