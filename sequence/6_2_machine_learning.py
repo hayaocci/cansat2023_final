@@ -57,4 +57,4 @@ if __name__ == "__main__":
     while 1:
         img_path = take.picture('ML_imgs/image', 320, 240)
         ML_people.predict(image_path=img_path)
-        time.sleep(3)
+        # time.sleep(3)
