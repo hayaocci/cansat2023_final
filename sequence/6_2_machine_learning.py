@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 import cv2
 import take
-import time
+import time#
 class DetectPeople():
     def __init__(self, model_path,):
         # self.model_path = model_path
