@@ -17,7 +17,7 @@ time.sleep(1)
 
 def parachute_avoidance(flug, goalGAP):
     # --- There is Parachute around rover ---#
-    stuck2.ue_jugkai()
+    stuck2.ue_jug()
 
     if flug == 1:
         # --- Avoid parachute by back control ---#
