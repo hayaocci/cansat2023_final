@@ -11,15 +11,15 @@ import gps
 import bmx055
 import other
 
-
+"""
 def ue_jug():
     ue_count = 0
-    """
-    ローバーの状態を確認する関数
-    通常状態：True
-    逆さになってる：False
-    加速度センサZ軸の正負で判定するよ
-    """
+    
+    #ローバーの状態を確認する関数
+    #通常状態：True
+    #逆さになってる：False
+    #加速度センサZ軸の正負で判定するよ
+    
     while 1:
         za = []
         for i in range(3):
@@ -46,7 +46,9 @@ def ue_jug():
                 motor.move(12, 12, 0.2, False)
             time.sleep(2)
             ue_count += 1
-    
+"""    
+            
+
 def ue_jugkai():
     ue_count = 0
     """
