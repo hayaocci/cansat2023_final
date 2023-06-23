@@ -1,6 +1,7 @@
 import gps_navigate
 import time 
-
+import rotation
+import machine_learning #後で名前直して
 from math import sqrt
 
 def calculate_square_corners(lat1, lon1):#青点の設定
@@ -30,11 +31,18 @@ def calculate_square_corners(lat1, lon1):#青点の設定
 
 
 if __name__ =="__main__":
+
     start_time = time.time()
     threshold = 20 * 60
     elapsed_time = time.time()-start_time
+
+    
+
     if elapsed_time >= threshold:
         print("A")#終了へ行くように変更して
     else:
-        print("B")#6回繰り返すところへ
-        #
+        #print("B")#6回繰り返すところへ
+        for i in range(6):
+            rotation()
+        
+        print("C")#青点に移動するように変更して
