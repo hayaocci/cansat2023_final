@@ -1,4 +1,4 @@
 import gps_navigate
 import time 
 
-if 
+gps_navigate.vincenty
