@@ -12,6 +12,7 @@ MAG_REGISTER_ADDRESS = 0x42
 i2c = smbus.SMBus(1)
 
 def bmx055_setup():
+	print("bmx055_setup")
 	# --- BMX055ãSetup --- #
 	#Initialize ACC
 	try:
@@ -84,6 +85,7 @@ def bmx055_setup():
 		time.sleep(0.1)
 
 def acc_dataRead():
+	print("acc_dataRead")
 	# --- Read Acc Data --- #
 	accData = [0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
@@ -94,7 +96,7 @@ def acc_dataRead():
 		# 	pass
 		# 	print(" Ierror")
 		accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
-		i2c.close() #test
+		#i2c.close() test
  		
 	for i in range(3):
 		value[i] = (accData[2*i+1] * 16) + (int(accData[2*i] & 0xF0) / 16)
@@ -104,6 +106,7 @@ def acc_dataRead():
 	return value
 
 def gyr_dataRead():
+	print("gyr_dataRead")
 	# --- Read Gyro Data --- "
 	gyrData = [0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
@@ -122,6 +125,7 @@ def gyr_dataRead():
 	return value
 
 def mag_dataRead():
+	print("mag_dataRead")
 	# --- Read Mag Data --- #
 	magData = [0, 0, 0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
@@ -145,6 +149,7 @@ def mag_dataRead():
 	return value
 
 def bmx055_read():
+	print("bmx055_read")
 	# --- Read BMX055 Data --- #
 	accx, accy, accz = acc_dataRead()
 	gyrx, gyry, gyrz = gyr_dataRead()
