@@ -1,6 +1,7 @@
 import time
 import gps_navigate
 from machine_learning import DetectPeople
+import take
 
 
 if __name__ == "__main__":
@@ -17,13 +18,14 @@ if __name__ == "__main__":
             # image_path = 'imgs/saru.jpg'
             # ML_people.predict(image_path)
             while 1:
-            img_path = take.picture('ML_imgs/image', 320, 240)
-            ML_people.predict(image_path=img_path)
-            # time.sleep(3)
+                img_path = take.picture('ML_imgs/image', 320, 240)
+                ML_people.predict(image_path=img_path)
+                # time.sleep(3)
 
         else:
             print("人検出の範囲外にいます")
             #人検出の範囲外にいる場合は、人検出の範囲内に入るまで、ループする
+
             return 
 
 
