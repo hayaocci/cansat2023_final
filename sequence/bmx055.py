@@ -104,7 +104,7 @@ def acc_dataRead():
 		value[i] = value[i] if value[i] < 2048 else value[i] - 4096
 		value[i] = value[i] * 0.0098 * 1
 	
-	print("acc_dataRead")
+	#print("acc_dataRead")
 
 	return value
 
