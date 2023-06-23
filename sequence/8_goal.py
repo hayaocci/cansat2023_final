@@ -7,7 +7,7 @@ import take
 import xbee
 from other import print_xbee
 import motor
-import stuck
+import stuck2
 import calibration
 import other
 import gpsrunning
@@ -169,7 +169,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
         adj_short = 0
         auto_count = 0
         while 1:
-            stuck.ue_jug()
+            stuck2.ue_jug()
             path_photo = '/home/pi/Desktop/cansat2021/photo_imageguide/ImageGuide-'
             photoName = take.picture(path_photo)
             goalflug, goalarea, gap, imgname, imgname2 = goal_detection(
