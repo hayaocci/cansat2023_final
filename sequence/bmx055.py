@@ -95,13 +95,16 @@ def acc_dataRead():
 		# except:
 		# 	pass
 		# 	print(" Ierror")
-		accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
+		#accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
+		accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS)
 		#i2c.close() test
  		
 	for i in range(3):
 		value[i] = (accData[2*i+1] * 16) + (int(accData[2*i] & 0xF0) / 16)
 		value[i] = value[i] if value[i] < 2048 else value[i] - 4096
 		value[i] = value[i] * 0.0098 * 1
+	
+	print("acc_dataRead")
 
 	return value
 
