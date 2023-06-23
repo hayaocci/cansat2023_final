@@ -5,6 +5,7 @@ import traceback
 import logging
 import os
 logging.getLogger('picmaera2').setLevel(logging.WARNING)
+os.environ["LIBCAMERA_LOG_LEVELS"] = "3"
 
    
 
