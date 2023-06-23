@@ -12,7 +12,7 @@ import smbus
 import time
 
 #bus = smbus.SMBus(1)
-i2c = smbus.SMBus(1)
+#i2c = smbus.SMBus(1)
 time.sleep(1)
 
 def parachute_avoidance(flug, goalGAP):
@@ -92,4 +92,4 @@ if __name__ == '__main__':
         print(traceback.format_exc())
     print("finish!")
 
-i2c.close()
+#i2c.close()
