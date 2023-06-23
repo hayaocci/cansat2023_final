@@ -1,3 +1,6 @@
+#0623 作成開始　by田口
+#人検知プログラム
+
 import time
 import gps_navigate
 from machine_learning import DetectPeople
@@ -12,7 +15,7 @@ if __name__ == "__main__":
         if data_dist_human['distance'] <= 20:
             print("人検出の範囲内にいます")
             
-            #人検知の処理
+            #人検知の処理(machine_learning.pyからコピペした)
             ML_people = DetectPeople(model_path="model_mobile.tflite" )
             # image_path = 'imgs/hiroyuki.jpg'
             # image_path = 'imgs/saru.jpg'
