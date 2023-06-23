@@ -50,6 +50,7 @@ def ue_jug():
             
 
 def ue_jugkai():
+    return
     ue_count = 0
     """
     ローバーの状態を確認する関数
