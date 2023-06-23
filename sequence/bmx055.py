@@ -97,8 +97,7 @@ def acc_dataRead():
 		# 	print(" Ierror")
 		accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
 		#accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS)
-		#i2c.close() test
- 		time.sleep(3)
+		#i2c.close()
 
 	for i in range(3):
 		value[i] = (accData[2*i+1] * 16) + (int(accData[2*i] & 0xF0) / 16)
