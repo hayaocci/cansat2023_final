@@ -62,7 +62,7 @@ def picture(path, width=320, height=240):
         # picam2 =  Picamera2()
 
         with picamera.Picamera2() as camera:
-            camera.set_logging(camera.ERROR)
+            # camera.set_logging(camera.ERROR)
             camera.start_preview('')
             camera.rotation = 90 # カメラの画像回転
             filepath = filename(path, 'jpg') # カメラのファイル名作成
