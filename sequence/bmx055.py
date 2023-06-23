@@ -184,6 +184,6 @@ if __name__ == '__main__':
 	except KeyboardInterrupt:
 		print()
 	except Exception as e:
-		print()
-		print(e.message)
+		print(e)
+		
 #i2c.close()
