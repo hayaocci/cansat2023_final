@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from smbus import SMBus
+import smbus
 import time
 
 ACC_ADDRESS = 0x19
@@ -9,7 +9,7 @@ GYR_REGISTER_ADDRESS = 0x02
 MAG_ADDRESS = 0x13
 MAG_REGISTER_ADDRESS = 0x42
 
-i2c = SMBus(1)
+i2c = smbus.SMBus(1)
 
 def bmx055_setup():
 	# --- BMX055ãSetup --- #
@@ -88,11 +88,12 @@ def acc_dataRead():
 	accData = [0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
 	for i in range(6):
-		try:
-			accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
-		except:
-			pass
-			#print("error")
+		# try:
+		# 	accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
+		# except:
+		# 	pass
+		# 	print(" Ierror")
+		accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
 
 	for i in range(3):
 		value[i] = (accData[2*i+1] * 16) + (int(accData[2*i] & 0xF0) / 16)
@@ -127,8 +128,8 @@ def mag_dataRead():
 		try:
 			magData[i] = i2c.read_byte_data(MAG_ADDRESS, MAG_REGISTER_ADDRESS + i)
 		except:
-			pass
-			#print("error")
+			# pass
+			print("error")
 
 	for i in range(3):
 		if i != 2:
@@ -176,3 +177,4 @@ if __name__ == '__main__':
 	except Exception as e:
 		print()
 		print(e.message)
+#i2c.close()

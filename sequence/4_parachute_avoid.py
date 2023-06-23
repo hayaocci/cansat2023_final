@@ -10,8 +10,8 @@ import motor
 import paradetection
 import smbus
 
-bus = smbus.SMBus(1)
-
+#bus = smbus.SMBus(1)
+i2c = smbus.SMBus(1)
 def parachute_avoidance(flug, goalGAP):
     # --- There is Parachute around rover ---#
     stuck2.ue_jugkai()
@@ -89,5 +89,4 @@ if __name__ == '__main__':
         print(traceback.format_exc())
     print("finish!")
 
-#解放
-bus.close()
+i2c.close()
