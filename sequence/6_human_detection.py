@@ -1,7 +1,8 @@
 import gps_navigate
 import time 
 import rotation
-import machine_learning #後で名前直して
+import machine_learning 
+import gps_running1
 from math import sqrt
 
 def calculate_square_corners(lon1, lat1):
@@ -40,9 +41,9 @@ if __name__ =="__main__":
     if elapsed_time >= threshold:
         print("A")#終了へ行くように変更して
     else:
-        #print("B")#6回繰り返すところへ
+        #6回繰り返すところへ
         for i in range(6):
             rotation()
         
-        #print("C")#青点に移動するように変更して
-        gps_running1.drive()
+        #青点に移動する
+        gps_running1.drive(lon2,lat2)
