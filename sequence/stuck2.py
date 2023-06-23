@@ -11,7 +11,7 @@ import gps
 import bmx055
 import other
 
-"""
+
 def ue_jug():
     ue_count = 0
     
@@ -46,7 +46,7 @@ def ue_jug():
                 motor.move(12, 12, 0.2, False)
             time.sleep(2)
             ue_count += 1
-"""    
+
             
 
 def ue_jugkai():
