@@ -1,6 +1,7 @@
 #0623 作成開始　by田口
 #人検知プログラム
 
+#モデュールのインポート
 import time
 import gps_navigate
 from machine_learning import DetectPeople
