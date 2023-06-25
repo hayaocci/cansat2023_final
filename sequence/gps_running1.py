@@ -116,6 +116,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
 
         t_cal = time.time()
         lat_old, lon_old = gps.location()
+        print("-------gps走行開始-------")
         while time.time() - t_cal <= t_adj_gps:
             lat1, lon1 = gps.location()
             lat_new, lon_new = lat1, lon1
