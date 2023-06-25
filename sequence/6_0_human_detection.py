@@ -4,8 +4,8 @@
 #モデュールのインポート　（一時敵にコメントアウトしてる）
 import time
 import gps_navigate
-from machine_learning import DetectPeople
-import take
+#from machine_learning import DetectPeople
+#import take
 
 #サンプルデータ
 
@@ -21,22 +21,34 @@ lon2 = 139.9081132
 
 #最後の位置情報をもとに周囲の4つの点の座標を求める
 def get_locations(lat_human, lon_human):
+    #北緯40度における10mあたりの緯度経度の差
+    #緯度は0.3236246秒　経度は0.3242秒
+    #lat_dif = 0.0000323
+    #lon_dif = 0.0000324
+
+    lat_dif = 0.0000090
+    lon_dif = 0.0000117
+    
+    #捜索エリアの1辺の長さ
+    side_length = 20
+
     #周囲の4つの位置を求める
-    lat_n = 
-    lon_n = 
+    #north
+    lat_n = lat_human + lat_dif*(side_length/2)
+    lon_n = lon_human
     #east
-    lat_e =
-    lon_e =
+    lat_e = lat_human
+    lon_e = lon_human - lon_dif*(side_length/2)
     #south
-    lat_s =
-    lon_s =
+    lat_s = lat_human - lat_dif*(side_length/2)
+    lon_s = lon_human
     #west
-    lat_w =
-    lon_w =
+    lat_w = lat_human
+    lon_w = lon_human + lon_dif*(side_length/2)
 
     return lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w
 
-
+print(get_locations)
 
 
 if __name__ == "__main__":
