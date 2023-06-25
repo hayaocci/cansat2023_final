@@ -261,9 +261,11 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                                      logpath='/home/dendenmushi/cansat2023/log/gpsrunning(image)Log', t_start=0)
     except KeyboardInterrupt:
         #print_im920sl('stop')
+        print("A")
     except Exception as e:
         tb = sys.exc_info()[2]
         #print_im920sl("message:{0}".format(e.with_traceback(tb)))
+        print("B")
 
 
 if __name__ == "__main__":
@@ -287,8 +289,9 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         #print_im920sl('stop')
-        im920sl2.off()
+        print('stop')
+        #im920sl2.off()
     except Exception as e:
-        im920sl2.off()
+        #im920sl2.off()
         tb = sys.exc_info()[2]
         #print_im920sl("message:{0}".format(e.with_traceback(tb)))
