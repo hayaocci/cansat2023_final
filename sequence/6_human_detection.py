@@ -54,29 +54,56 @@ def take_and_rotation():
             else:
                 print("捜索続けます")
         rotation()#プログラム要変更
-def move_to_bulearea():
-    gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
-    #gps_running1.drive(lon3_b, lat3_b, thd_distance=10, t_adj_gps=60)
-    #gps_running1.drive(lon4_b, lat4_b, thd_distance=10, t_adj_gps=60)
-    #gps_running1.drive(lon5_b, lat5_b, thd_distance=10, t_adj_gps=60)
+    print("6回撮影しました")
+    print("次のエリアに移動します")
+    count += 1
     
+def move_to_bulearea():
+ 
     data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat2_b,lon2_b)
-    #data_dist_bulearea2 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat3_b,lon3_b)
-    #data_dist_bulearea3 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat4_b,lon4_b)
-    #data_dist_bulearea4 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat5_b,lon5_b)
+    data_dist_bulearea2 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat3_b,lon3_b)
+    data_dist_bulearea3 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat4_b,lon4_b)
+    data_dist_bulearea4 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat5_b,lon5_b)
     
     #青点から5m以内か
-    condition =1
-    while condition == 1:
-        if data_dist_bulearea1['distance']<=5:
-            condition =0
-            print("第j捜索地点到達")
-        move_to_bulearea()
-
-#↑これをbulearea1~4まで繰り返したい
+    if count == 1:
+        condition =1
+        while condition == 1:
+            if data_dist_bulearea1['distance']<=5:
+                condition =0
+                print("第"+count+"エリア到着")
+            gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
+            move_to_bulearea()
+    elif count ==2:
+            condition =1
+            while condition == 1:
+                if data_dist_bulearea2['distance']<=5:
+                    condition =0
+                    print("第"+count+"エリア到着")
+                gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
+                move_to_bulearea()   
+    elif count ==3:
+            condition =1
+            while condition == 1:
+                if data_dist_bulearea3['distance']<=5:
+                    condition =0
+                    print("第"+count+"エリア到着")
+                gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
+                move_to_bulearea()
+    elif count ==4:
+            condition =1
+            while condition == 1:
+                if data_dist_bulearea4['distance']<=5:
+                    condition =0
+                    print("第"+count+"エリア到着")
+                gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
+                move_to_bulearea()
+    else:
+        print("青点エリア捜索終了")             
     
 if __name__ =="__main__":
 
+    count = 0
     start_time = time.time()
     threshold = 20 * 60
     elapsed_time = time.time()-start_time
