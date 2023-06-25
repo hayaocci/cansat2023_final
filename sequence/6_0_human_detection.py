@@ -20,11 +20,12 @@ lon2 = 139.9081132
 
 
 if __name__ == "__main__":
-#人検出の範囲内にいるかいないかの判定
+    #現在位置と最終位置データの距離を得る
     data_distance_human = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
     print(data_distance_human)
 
-    if data_distance_human['distance'] <= 20:
+    #距離が5m以内にいれば人検知モードに入る
+    if data_distance_human['distance'] <= 5:
         print("人検知の範囲内にいます")
         print("人検知モードに入ります")
         ML_people = DetectPeople(model_path="model_mobile.tflite" )
