@@ -2,6 +2,7 @@ import gps_navigate
 import time 
 import rotation
 import machine_learning
+from machine_learning import DetectPeople
 import gps_running1
 import take
 from math import sqrt
@@ -47,6 +48,9 @@ if __name__ =="__main__":
 
     #6回繰り返すところへ
     for i in range(6):
+        img_path = take.picture('ML_imgs/image', 320, 240)
+        ML_people = DetectPeople(model_path="model_mobile.tflite" )
+        ML_people.predict(image_path=img_path)
         result=machine_learning.pro_people()
         #hitoの確率50%かどうか
         if result >=0.50:
