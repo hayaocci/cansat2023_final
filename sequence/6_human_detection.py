@@ -106,7 +106,7 @@ def move_to_bulearea():
 if __name__ =="__main__":
 
     count = 0
-    break_outer_loop = False
+    break_outer_loop =False
     start_time = time.time()
     threshold = 20 * 60
     elapsed_time = time.time()-start_time
