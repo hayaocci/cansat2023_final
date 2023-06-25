@@ -56,6 +56,7 @@ def mosaic(src, ratio):
 
 
 def goal_detection(imgpath: str, G_thd: float):
+
     try:
         img = cv2.imread(imgpath)
         hig, wid, _ = img.shape
@@ -182,7 +183,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
         chosei = 0
         while 1:
             stuck2.ue_jug()
-            path_photo = '/home/cansat2022/CANSAT2022/photo_imageguide/ImageGuide-'
+            path_photo = '/home/cansat2023/photo_imageguide/ImageGuide-'
             photoName = take.picture(path_photo)
             goalflug, goalarea, gap, imgname, imgname2 = goal_detection(
                 photoName, 50)
@@ -272,7 +273,7 @@ if __name__ == "__main__":
         lat2 = 35.9192621
         lon2 = 139.9085065
         G_thd = 60
-        log_photorunning = '/home/cansat2022/CANSAT2022/log/photorunning_practice.txt'
+        log_photorunning = '/home/cansat2023/log/photorunning_practice.txt'
         motor.setup()
 
         # calibration
