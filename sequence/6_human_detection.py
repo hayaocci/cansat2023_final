@@ -63,16 +63,18 @@ if __name__ =="__main__":
         rotation()#プログラム要変更
 
     #青点に移動する
-    gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
-    
-    def distance_bluearea1(lat2_b,lon2_b):#ここちょっと分からん
-        data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat2_b,lon2_b)
-        #青点から5m以内か
-        if data_dist_bulearea1['distance']<=5:
-            print("第2捜索地点到達")
-            #「6回繰り返すところへ」に移動したい
-        else:
-            print("B")#「青点に移動する」にループしたい
+    for j in range (4):
+        gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
+        
+        def distance_bluearea1(lat2_b,lon2_b):#ここちょっと分からん
+            data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat2_b,lon2_b)
+            #青点から5m以内か
+            if data_dist_bulearea1['distance']<=5:
+                print("第2捜索地点到達")
+                print("#６回繰り返すところへ")
+                #「6回繰り返すところへ」に移動したい
+            else:
+                print("次の捜索地点へ")#「青点に移動する」にループしたい
 
     #↑これをbulearea1~4まで繰り返したい
     
