@@ -5,6 +5,7 @@
 import time
 import gps_navigate
 from machine_learning import DetectPeople
+import take
 
 #サンプルデータ
 
