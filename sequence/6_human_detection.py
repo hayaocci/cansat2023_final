@@ -38,7 +38,7 @@ def calculate_square_corners(lon1, lat1):
 
 
 
-def take_and_rotation():
+def take_and_rotation(break_outer_loop):
     for i in range(6):
         img_path = take.picture('ML_imgs/image', 320, 240)
         ML_people = DetectPeople(model_path="model_mobile.tflite" )
@@ -58,8 +58,9 @@ def take_and_rotation():
         rotation()#プログラム要変更
     print("6回撮影しました")
     print("次のエリアに移動します")
+    return break_outer_loop
     
-def move_to_bulearea():
+def move_to_bulearea(count):
  
     data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat2_b,lon2_b)
     data_dist_bulearea2 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat3_b,lon3_b)
@@ -110,12 +111,13 @@ if __name__ =="__main__":
     start_time = time.time()
     threshold = 20 * 60
     elapsed_time = time.time()-start_time
-    lat1 = 35.12345
-    lon1 = 139.67890
+    lat1 = 35.12345 #赤点
+    lon1 = 139.67890 #赤点
 
     lat2_b, lon2_b, lat3_b, lon3_b, lat4_b, lon4_b, lat5_b, lon5_b = calculate_square_corners(lon1, lat1)
 
     for j in range(4):
+        elapsed_time = time.time()-start_time #経過時間の更新
         if break_outer_loop:
             break
         move_to_bulearea()
