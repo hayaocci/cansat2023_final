@@ -48,6 +48,7 @@ def get_locations(lat_human, lon_human):
 
     return lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w
 
+data = get_locations(lat_human, lon_human)
 print(get_locations)
 
 
