@@ -46,10 +46,20 @@ def get_locations(lat_human, lon_human):
     lat_w = lat_human
     lon_w = lon_human + lon_dif*(side_length/2)
 
-    return lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w
+    return {
+        'lat_n':lat_n, 
+        'lon_n':lon_n,
+        'lat_e':lat_e,
+        'lon_e':lon_e,
+        'lat_s':lat_s,
+        'lon_s':lon_s,
+        'lat_w':lat_w,
+        'lon_w':lon_w
+        }
 
-data = get_locations(lat_human, lon_human)
-print(get_locations)
+data_location = get_locations(lat_human, lon_human)
+#4つの青点の緯度経度を表示
+print(data_location)
 
 
 if __name__ == "__main__":
