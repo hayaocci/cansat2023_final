@@ -15,7 +15,7 @@ import motor
 import stuck2
 
 
-path_log = '/home/cansat2023/CANSAT2023/log/calibration.txt'
+path_log = '/home/dendenmushi/cansat2023/sequence'
 
 
 # filecount = len(glob.glob1(path_log, '*' + '.txt'))
