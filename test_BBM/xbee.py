@@ -73,7 +73,7 @@ def off():
 if __name__ == '__main__':
     on()
 
-    img1 ='/home/cansat2022/Desktop/CANSAT2022/dst_panorama/0.jpg'
+    img1 ='/home/dendenmushi/cansat2022/Desktop/CANSAT2022/dst_panorama/0.jpg'
     other.print_xbee("!!!!!!!panorama composition finish!!!!! After 1min send!!!")
     time.sleep(15)
     
@@ -82,6 +82,6 @@ if __name__ == '__main__':
     img_trans(img_string)
     
     # a = input('何送る？')
-    # img1 = "/home/pi/Desktop/cansat2021ver/dst_panorama/"+ a +".jpg"
+    # img1 = "/home/dendenmushi/pi/Desktop/cansat2021ver/dst_panorama/"+ a +".jpg"
     # img_string = image_to_byte(img1)
     # img_trans(img_string)

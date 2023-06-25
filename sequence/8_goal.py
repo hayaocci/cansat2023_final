@@ -63,7 +63,7 @@ def goal_detection(imgpath: str, G_thd: float):
 
         # 最小外接円を描いた写真の保存先
         path_detection = other.filename(
-            '/home/pi/Desktop/Cansat2021ver/detected/Detected-', 'jpg')
+            '/home/dendenmushi/pi/Desktop/Cansat2021ver/detected/Detected-', 'jpg')
 
         red_min = np.array([120, 120, 120], np.uint8)
         red_max = np.array([255, 255, 255], np.uint8)
@@ -170,7 +170,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
         auto_count = 0
         while 1:
             stuck2.ue_jug()
-            path_photo = '/home/pi/Desktop/cansat2021/photo_imageguide/ImageGuide-'
+            path_photo = '/home/dendenmushi/pi/Desktop/cansat2021/photo_imageguide/ImageGuide-'
             photoName = take.picture(path_photo)
             goalflug, goalarea, gap, imgname, imgname2 = goal_detection(
                 photoName, 50)
@@ -246,7 +246,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 goal_distance = direction['distance']
                 if goal_distance >= thd_distance + 2:
                     gpsrunning.drive(lon2, lat2, thd_distance, t_adj_gps,
-                                     logpath='/home/pi/Desktop/Cansat2021ver/log/gpsrunning(image)Log', t_start=0)
+                                     logpath='/home/dendenmushi/pi/Desktop/Cansat2021ver/log/gpsrunning(image)Log', t_start=0)
     except KeyboardInterrupt:
         print_xbee('stop')
     except Exception as e:
@@ -261,7 +261,7 @@ if __name__ == "__main__":
         lat2 = 35.9236093
         lon2 = 139.9118821
         G_thd = 60
-        log_photorunning = '/home/pi/Desktop/Cansat2021ver/log/photorunning_practice.txt'
+        log_photorunning = '/home/dendenmushi/pi/Desktop/Cansat2021ver/log/photorunning_practice.txt'
         motor.setup()
 
         # calibration
