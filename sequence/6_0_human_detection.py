@@ -12,10 +12,30 @@ import take
 #現在位置の情報
 lat1 = 35.9192167
 lon1 = 139.9081152
+lat_human = 35.9192167
+lon_human = 139.9081132
 
 #人検知の情報
 lat2 = 35.9192167
 lon2 = 139.9081132
+
+#最後の位置情報をもとに周囲の4つの点の座標を求める
+def get_locations(lat_human, lon_human):
+    #周囲の4つの位置を求める
+    lat_n = 
+    lon_n = 
+    #east
+    lat_e =
+    lon_e =
+    #south
+    lat_s =
+    lon_s =
+    #west
+    lat_w =
+    lon_w =
+
+    return lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w
+
 
 
 
