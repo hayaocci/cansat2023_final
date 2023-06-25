@@ -4,7 +4,7 @@
 #モデュールのインポート　（一時敵にコメントアウトしてる）
 import time
 import gps_navigate
-#from machine_learning import DetectPeople
+from machine_learning import DetectPeople
 #import take
 
 #サンプルデータ
@@ -23,8 +23,13 @@ if __name__ == "__main__":
     if data_distance_human['distance'] <= 20:
         print("人検知の範囲内にいます")
         print("人検知モードに入ります")
-
-
+        ML_people = DetectPeople(model_path="model_mobile.tflite" )
+        # image_path = 'imgs/hiroyuki.jpg'
+        # image_path = 'imgs/saru.jpg'
+        # ML_people.predict(image_path)
+        while 1:
+            img_path = take.picture('ML_imgs/image', 320, 240)
+            ML_people.predict(image_path=img_path)
 
 
     else:
