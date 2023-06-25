@@ -34,19 +34,11 @@ def calculate_square_corners(lon1, lat1):
 
 
 
-if __name__ =="__main__":
-
-    start_time = time.time()
-    threshold = 20 * 60
-    elapsed_time = time.time()-start_time
-
-    lat1 = 35.12345
-    lon1 = 139.67890
-
-    lat2_b, lon2_b, lat3_b, lon3_b, lat4_b, lon4_b, lat5_b, lon5_b = calculate_square_corners(lon1, lat1)
 
 
-    #6回繰り返すところへ
+
+
+def take_and_rotation():
     for i in range(6):
         img_path = take.picture('ML_imgs/image', 320, 240)
         ML_people = DetectPeople(model_path="model_mobile.tflite" )
@@ -61,21 +53,35 @@ if __name__ =="__main__":
             else:
                 print("捜索続けます")
         rotation()#プログラム要変更
-
-    #青点に移動する
+def move_to_bulearea():
     for j in range (4):
         gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
         
         def distance_bluearea1(lat2_b,lon2_b):#ここちょっと分からん
             data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat2_b,lon2_b)
             #青点から5m以内か
+            condition =1
+            while condition == 1
             if data_dist_bulearea1['distance']<=5:
+                condition =0
                 print("第2捜索地点到達")
-                print("#６回繰り返すところへ")
+                take_and_rotation()
                 #「6回繰り返すところへ」に移動したい
             else:
+               
                 print("次の捜索地点へ")#「青点に移動する」にループしたい
 
     #↑これをbulearea1~4まで繰り返したい
     
+if __name__ =="__main__":
 
+    start_time = time.time()
+    threshold = 20 * 60
+    elapsed_time = time.time()-start_time
+    lat1 = 35.12345
+    lon1 = 139.67890
+
+    lat2_b, lon2_b, lat3_b, lon3_b, lat4_b, lon4_b, lat5_b, lon5_b = calculate_square_corners(lon1, lat1)
+
+    take_and_rotation()
+    move_to_bulearea()
