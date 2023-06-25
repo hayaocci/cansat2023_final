@@ -10,11 +10,11 @@ from machine_learning import DetectPeople
 
 #現在位置の情報
 lat1 = 35.9192167
-lon1 = 139.9081122
+lon1 = 139.9081152
 
 #人検知の情報
-lat2 = 35.9182190
-lon2 = 139.9181130
+lat2 = 35.9192167
+lon2 = 139.9081132
 
 
 
