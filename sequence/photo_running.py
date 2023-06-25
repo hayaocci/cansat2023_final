@@ -187,8 +187,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
             photoName = take.picture(path_photo)
             goalflug, goalarea, gap, imgname, imgname2 = goal_detection(
                 photoName, 50)
-            #print_im920sl(
-                f'goalflug:{goalflug}\tgoalarea:{goalarea}%\tgap:{gap}\timagename:{imgname}\timagename2:{imgname2}')
+            #print_im920sl(f'goalflug:{goalflug}\tgoalarea:{goalarea}%\tgap:{gap}\timagename:{imgname}\timagename2:{imgname2}')
             other.log(log_photorunning, t_start - time.time(),
                       goalflug, goalarea, gap, imgname, imgname2)
             if auto_count >= 8 and goalarea >= 0.005 and goalarea != 1000 and goalflug == -1:
