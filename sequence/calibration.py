@@ -150,7 +150,7 @@ def calculate_offset(magdata):
     magz_off = (magz_max + magz_min) / 2
 
     # --- save offset --- #
-    other.log('/home/cansat2023/CANSAT2023/log/calibrationLog.txt',
+    other.log('/home/dendenmushi/cansat2023/sequence/calibrationLog.txt',
               datetime.datetime.now(), magx_off, magy_off)
 
     return magx_array, magy_array, magz_array, magx_off, magy_off, magz_off
