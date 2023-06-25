@@ -10,7 +10,7 @@ import motor
 import stuck2
 import calibration
 import other
-import gpsrunning
+import gps_running
 
 # 写真内の赤色面積で進時間を決める用　調整必要
 area_short = 59.9

@@ -11,7 +11,7 @@ import motor
 import stuck2
 import calibration
 import other
-import 7_gps_runnning2
+import gps_running1
 
 # 写真内の赤色面積で進時間を決める用　調整必要
 area_short = 59.9
@@ -64,7 +64,7 @@ def goal_detection(imgpath: str, G_thd: float):
 
         # 最小外接円を描いた写真の保存先
         path_detection = other.filename(
-            '/home/cansat2022/CANSAT2022/detected/Detected-', 'jpg')
+            '/home/cansat2023/sequence/Detected-', 'jpg')
 
         red_min = np.array([120, 120, 120], np.uint8) #赤色検知最小値
         red_max = np.array([255, 255, 255], np.uint8) #赤色検知最大値
