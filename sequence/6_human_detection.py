@@ -46,32 +46,34 @@ def take_and_rotation():
         result=machine_learning.pro_people()
         #hitoの確率50%かどうか
         if result >=0.50:
-            print("A")#対象に近づいて終了へ
+            print("遭難者発見")
+            break
         else:
             if elapsed_time >= threshold:#20分経ったか
-             print("A")#終了へ行くように変更して
+                break
             else:
                 print("捜索続けます")
         rotation()#プログラム要変更
 def move_to_bulearea():
-    for j in range (4):
-        gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
-        
-        def distance_bluearea1(lat2_b,lon2_b):#ここちょっと分からん
-            data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat2_b,lon2_b)
-            #青点から5m以内か
-            condition =1
-            while condition == 1
-            if data_dist_bulearea1['distance']<=5:
-                condition =0
-                print("第2捜索地点到達")
-                take_and_rotation()
-                #「6回繰り返すところへ」に移動したい
-            else:
-               
-                print("次の捜索地点へ")#「青点に移動する」にループしたい
+    gps_running1.drive(lon2_b, lat2_b, thd_distance=10, t_adj_gps=60)
+    #gps_running1.drive(lon3_b, lat3_b, thd_distance=10, t_adj_gps=60)
+    #gps_running1.drive(lon4_b, lat4_b, thd_distance=10, t_adj_gps=60)
+    #gps_running1.drive(lon5_b, lat5_b, thd_distance=10, t_adj_gps=60)
+    
+    data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat2_b,lon2_b)
+    #data_dist_bulearea2 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat3_b,lon3_b)
+    #data_dist_bulearea3 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat4_b,lon4_b)
+    #data_dist_bulearea4 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat5_b,lon5_b)
+    
+    #青点から5m以内か
+    condition =1
+    while condition == 1:
+        if data_dist_bulearea1['distance']<=5:
+            condition =0
+            print("第j捜索地点到達")
+        move_to_bulearea()
 
-    #↑これをbulearea1~4まで繰り返したい
+#↑これをbulearea1~4まで繰り返したい
     
 if __name__ =="__main__":
 
@@ -83,5 +85,5 @@ if __name__ =="__main__":
 
     lat2_b, lon2_b, lat3_b, lon3_b, lat4_b, lon4_b, lat5_b, lon5_b = calculate_square_corners(lon1, lat1)
 
-    take_and_rotation()
     move_to_bulearea()
+    take_and_rotation()
