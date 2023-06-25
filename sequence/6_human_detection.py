@@ -38,6 +38,7 @@ def calculate_square_corners(lon1, lat1):
 
 
 
+
 def take_and_rotation(break_outer_loop):
     for i in range(6):
         img_path = take.picture('ML_imgs/image', 320, 240)
