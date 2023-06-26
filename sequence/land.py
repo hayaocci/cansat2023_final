@@ -29,6 +29,8 @@ def pressdetect_land(thd_press_land):
         else:
             press_count_land = 0
             press_judge_land = 0
+    except KeyboardInterrupt:
+        print('pressdetect_land_Interrupt')
     except:
         press_count_land = 0
         press_judge_land = 2
