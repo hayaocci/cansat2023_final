@@ -1,6 +1,6 @@
 import time
 import bme280
-from other import print
+#from other import print
 
 def pressdetect_release(thd_press_release, t_delta_release):
     '''
