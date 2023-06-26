@@ -5,6 +5,7 @@ import machine_learning
 from machine_learning import DetectPeople
 import gps_running1
 import take
+import gps
 from math import sqrt
 
 #chatGPTさんより青点の設定
@@ -42,9 +43,9 @@ def calculate_square_corners(lon1, lat1):
 def take_and_rotation(break_outer_loop):
     for i in range(6):
         img_path = take.picture('ML_imgs/image', 320, 240)
-        ML_people = DetectPeople(model_path="model_mobile.tflite" )
-        ML_people.predict(image_path=img_path)
-        result=machine_learning.pro_people()
+        
+        result = ML_people.predict(image_path=img_path)
+        # result=machine_learning.pro_people()
         #hitoの確率50%かどうか
         if result >=0.50:
             print("遭難者発見")
@@ -56,7 +57,7 @@ def take_and_rotation(break_outer_loop):
                 break
             else:
                 print("捜索続けます")
-        rotation()#プログラム要変更
+        rotation()#プログラム要変更 # motor.motor_move(10, -10, 0.5)
     print("6回撮影しました")
     print("次のエリアに移動します")
     return break_outer_loop
@@ -114,6 +115,7 @@ if __name__ =="__main__":
     elapsed_time = time.time()-start_time
     lat1 = 35.12345 #赤点
     lon1 = 139.67890 #赤点
+    ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     lat2_b, lon2_b, lat3_b, lon3_b, lat4_b, lon4_b, lat5_b, lon5_b = calculate_square_corners(lon1, lat1)
 
@@ -121,6 +123,7 @@ if __name__ =="__main__":
         elapsed_time = time.time()-start_time #経過時間の更新
         if break_outer_loop:
             break
+        lat_now, lon_now = gps.location()
         move_to_bulearea()
         take_and_rotation()
     
