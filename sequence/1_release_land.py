@@ -82,17 +82,18 @@ def gpsdetect_land(anyalt):
         deltA = abs(Latestalt - Prevalt)  # 初めにとった高度 - 後にとった高度
         if 'altitude' not in gpsdata:
             print("GPS error!")
-            gps_count_land = 0
-            gps_judge_land = 2
+            press_count_land = 0
+            press_judge_land = 2
         elif deltA < anyalt:
-            gps_count_land += 1
-            if gps_count_land > 5:
-                gps_judge_land = 1
-                print("gpslandjudge")
+            press_count_land += 1
+            if press_count_land > 5:
+                press_judge_land = 1
+                print("presslandjudge")
         else:
-            gps_count_land = 0
-            gps_judge_land = 0
+            press_count_land = 0
+            press_judge_land = 0
     except:
+<<<<<<< HEAD
         gps_count_land = 0
         gps_judge_land = 2
     return gps_count_land, gps_judge_land
@@ -109,6 +110,11 @@ def acc_detect_land(anymax):
         acc_x, acc_y, acc_z = bmx_data[:3]
         acceleration = (acc_x ** 2 + acc_y ** 2 + acc_z ** 2) ** 0.5  # 加速度の大きさを計算
         delta_acceleration = abs(acceleration - prev_acceleration)  # 前回の加速度との変化量
+=======
+        press_count_land = 0
+        press_judge_land = 2
+    return press_count_land, press_judge_land
+>>>>>>> parent of ba4812f (Update 1_release_land.py)
 
         if delta_acceleration < anymax:
             acc_count_land += 1
@@ -143,8 +149,6 @@ if __name__ == '__main__':
     #着地判定用
     press_count_land = 0
     press_judge_land = 0
-    gps_count_land = 0
-    gps_judge_land = 0
 
     #キーボードの割り込みのシグナルハンドラを設定
     signal.signal(signal.SIGINT, handle_interrupt)
