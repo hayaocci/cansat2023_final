@@ -89,12 +89,14 @@ def goal_detection(imgpath: str, G_thd: float):
             radius_frame = ()
             for (i, cnt) in zip(range(0, len(contours)), contours):
                 #print_im920sl(f'i:{i}')
+                print(f'i:{i}')
                 # 赤色検知した部分に最小外接円を書く
                 (x, y), radius = cv2.minEnclosingCircle(cnt)
                 center = (int(x), int(y))
                 radius = int(radius)
                 radius_frame = cv2.circle(img, center, radius, (0, 0, 255), 2)
                 #print_im920sl(radius_frame)
+                print(radius_frame)
                 # 検知した赤色の面積の中で最大のものを探す
                 area = cv2.contourArea(contours[i])
                 if max_area < area:
@@ -159,9 +161,11 @@ def adjustment_mag(strength, t, magx_off, magy_off):
             else:
                 adj = strength_adj * -0.4
         #print_im920sl(f'angle ----- {angle_relative}')
+        print(f'angle ----- {angle_relative}')
         print("3#)")
         strength_l, strength_r = strength_adj + adj, -strength_adj - adj
         #print_im920sl(f'motor power:\t{strength_l}\t{strength_r}')
+        print(f'motor power:\t{strength_l}\t{strength_r}')
         motor.motor_continue(strength_l, strength_r)
         time.sleep(0.1)
         mag_x_old = mag_x
@@ -188,61 +192,75 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
             goalflug, goalarea, gap, imgname, imgname2 = goal_detection(
                 photoName, 50)
             #print_im920sl(f'goalflug:{goalflug}\tgoalarea:{goalarea}%\tgap:{gap}\timagename:{imgname}\timagename2:{imgname2}')
+            print(f'goalflug:{goalflug}\tgoalarea:{goalarea}%\tgap:{gap}\timagename:{imgname}\timagename2:{imgname2}')
             other.log(log_photorunning, t_start - time.time(),
                       goalflug, goalarea, gap, imgname, imgname2)
             if auto_count >= 8 and goalarea >= 0.005 and goalarea != 1000 and goalflug == -1:
 
                 ##赤色が見つからなかった時用に##
                 #print_im920sl("small red found run")
+                print("small red found run")
                 print(goalarea)
                 adjustment_mag(40, 1.5, magx_off, magy_off)
                 auto_count = 0
                 
             if goalflug == -1 or goalflug == 1000:
                 #print_im920sl('Nogoal detected')
+                print('Nogoal detected')
                 motor.move(30, 30, 0.1)
                 auto_count += 1
             elif goalarea <= area_long:
                 auto_count = 0
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
+                    print('Turn left')
                     motor.move(-33, -40, 0.1)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
+                    print('Turn right')
                     motor.move(40, 33, 0.1)
                 else:
                     #print_im920sl('Go straight long')
+                    print('Go straight long')
                     adjustment_mag(40, 3, magx_off, magy_off)
             elif goalarea <= area_middle:
                 auto_count = 0
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
+                    print('Turn left')
                     motor.move(-25, -30, 0.1)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
+                    print('Turn right')
                     motor.move(30, 25, 1)
                 else:
                     #print_im920sl('Go straight middle')
+                    print('Go straight middle')
                     adjustment_mag(40, 1, magx_off, magy_off)
             elif goalarea <= area_short:
                 auto_count = 0
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
+                    print('Turn left')
                     count_short_l += 1
                     adj_short = 0
                     if count_short_l % 4 == 0: #4の倍数ごとに出力を上げていくっ！
                         adj_short += 3 #モーターの出力+3
                         #print_im920sl('#-Power up-#')
+                        print('#-Power up-#')
                     motor.move(-20 - adj_short, -20 - adj_short, 0.1)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
+                    print('Turn right')
                     count_short_r += 1
                     if count_short_r % 4 == 0: #4の倍数ごとに出力を上げていくっ！
                         adj_short += 3 #モーターの出力+3
                         #print_im920sl('#-Power up-#')
+                        print('#-Power up-#')
                     motor.move(20 + adj_short, 20 + adj_short, 0.1)
                 else:
                     #print_im920sl('Go stright short')
+                    print('Go stright short')
                     adjustment_mag(40, 0.6, magx_off, magy_off)
                     count_short_l = 0
                     count_short_r = 0
