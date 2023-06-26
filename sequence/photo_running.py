@@ -11,7 +11,7 @@ import motor
 import stuck2
 import calibration
 import other
-#import gps_running1
+import gps_running1
 
 # 写真内の赤色面積で進時間を決める用　調整必要
 area_short = 59.9
@@ -257,7 +257,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 direction = calibration.calculate_direction(lon2, lat2)
                 goal_distance = direction['distance']
                 if goal_distance >= thd_distance + 2:
-                    gps_runnning2.drive(lon2, lat2, thd_distance, t_adj_gps,
+                    gps_running1.drive(lon2, lat2, thd_distance, t_adj_gps,
                                      logpath='/home/dendenmushi/cansat2023/log/gpsrunning(image)Log', t_start=0)
     except KeyboardInterrupt:
         #print_im920sl('stop')
