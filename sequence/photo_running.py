@@ -271,8 +271,11 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
 if __name__ == "__main__":
     try:
         # Initialize
-        lat2 = 35.9192621
-        lon2 = 139.9085065
+        #lat2 = 35.9192621
+        #lon2 = 139.9085065
+        lat2 = 35.91818718
+        lot2 = 139.90814829
+
         G_thd = 60
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
         motor.setup()
