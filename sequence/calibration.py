@@ -16,7 +16,7 @@ import motor
 import stuck2
 
 
-path_log = '/home/dendenmushi/dendenmushi/cansat2023/sequence/calibration.txt'
+path_log = '/home/dendenmushi/cansat2023/sequence/calibration.txt'
 
 
 # filecount = len(glob.glob1(path_log, '*' + '.txt'))
@@ -151,7 +151,7 @@ def calculate_offset(magdata):
     magz_off = (magz_max + magz_min) / 2
 
     # --- save offset --- #
-    other.log('/home/dendenmushi/dendenmushi/cansat2023/sequence/calibrationLog.txt',
+    other.log('/home/dendenmushi/cansat2023/sequence/calibrationLog.txt',
               datetime.datetime.now(), magx_off, magy_off)
 
     return magx_array, magy_array, magz_array, magx_off, magy_off, magz_off

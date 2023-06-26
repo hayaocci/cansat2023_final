@@ -54,7 +54,7 @@ def log(path, *data):
 
     # for log outside of git management
     rfd = path.rfind('/')
-    path_backup = '/home/dendenmushi/dendenmushi/cansat2023/sequence/log' + path[rfd:]
+    path_backup = '/home/dendenmushi/cansat2023/sequence/log' + path[rfd:]
     with open(path_backup, "a") as f:
         for i in range(len(data)):
             if isinstance(data[i], list):
@@ -105,6 +105,6 @@ def phase(path):
 
 if __name__ == "__main__":
     import time
-    path = '/home/dendenmushi/dendenmushi/cansat2023/sequence/log3/phaseLog'
+    path = '/home/dendenmushi/cansat2023/sequence/log3/phaseLog'
     print(dir(path))
     log(path, time.time())

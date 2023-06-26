@@ -1,6 +1,6 @@
 import gps_navigate
 import time 
-import rotation
+#import rotation
 import machine_learning
 from machine_learning import DetectPeople
 import gps_running1
