@@ -292,8 +292,12 @@ if __name__ == "__main__":
         # Initialize
         #lat2 = 35.9192621
         #lon2 = 139.9085065
-        lat2 = 35.91818718
-        lon2 = 139.90814829
+        #lat2 = 35.91818718
+        #lon2 = 139.90814829
+
+        #12号館前
+        lat2 = 35.91896917
+        lon2 = 139.90859362
 
         G_thd = 60
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'

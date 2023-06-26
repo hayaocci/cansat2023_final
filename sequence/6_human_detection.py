@@ -115,8 +115,13 @@ if __name__ =="__main__":
     start_time = time.time()
     threshold = 20 * 60
     elapsed_time = time.time()-start_time
-    lat1 = 35.12345 #赤点
-    lon1 = 139.67890 #赤点
+    #lat1 = 35.12345 #赤点
+    #lon1 = 139.67890 #赤点
+
+    #12号館前
+    lat1 = 35.91896917
+    lon1 = 139.90859362
+
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     lat2_b, lon2_b, lat3_b, lon3_b, lat4_b, lon4_b, lat5_b, lon5_b = calculate_square_corners(lon1, lat1)
