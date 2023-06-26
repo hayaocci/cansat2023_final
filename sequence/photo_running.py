@@ -250,6 +250,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
             elif goalarea >= G_thd:
                 #print_im920sl('###---Goal---###')
                 #print_im920sl('###---Goal---###')
+                print("Goal")
                 break
 
             # ゴールから離れた場合GPS誘導に移行
