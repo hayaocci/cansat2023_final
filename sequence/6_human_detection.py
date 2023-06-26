@@ -7,6 +7,7 @@ import gps_running1
 import take
 import gps
 from math import sqrt
+import motor
 
 #chatGPTさんより青点の設定
 #lon1,lat1は赤点の位置
@@ -57,7 +58,8 @@ def take_and_rotation(break_outer_loop):
                 break
             else:
                 print("捜索続けます")
-        rotation()#プログラム要変更 # motor.motor_move(10, -10, 0.5)
+        #rotation() 
+        motor.motor_move(10, -10, 0.5)
     print("6回撮影しました")
     print("次のエリアに移動します")
     return break_outer_loop
