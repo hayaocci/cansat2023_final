@@ -43,11 +43,16 @@ if __name__ == "__main__":
     t_delta_release = 3
     bme280.bme280_setup()
     bme280.bme280_calib_param()
+    press_d = 0
 
-    while True:
+    while press_d <= 3:
         press_count_release, press_judge_release = pressdetect_release(thd_press_release, t_delta_release)
         print(f'count:{pressreleasecount}\tjudge{pressreleasejudge}')
         if pressreleasejudge == 1:
             print('Press')
+            press_d = press_d + 1
+            
         else:
             print('unfulfilled')
+    
+    print('##--released--##')
