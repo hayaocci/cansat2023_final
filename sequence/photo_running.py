@@ -4,7 +4,7 @@ import sys
 import numpy as np
 
 import take
-import im920sl2
+#import im920sl2
 import bmx055
 #from other import #print_im920sl
 import motor
