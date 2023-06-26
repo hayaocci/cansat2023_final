@@ -29,6 +29,7 @@ def pressdetect_release(thd_press_release, t_delta_release):
             press_judge_release = 0
     except KeyboardInterrupt:
         print('pressdetect_release_Interrupt')
+        exit()
     except:
         press_count_release = 0
         press_judge_release = 2
