@@ -46,22 +46,25 @@ def get_locations(lat_human, lon_human):
     lat_dif = 0.0000090
     lon_dif = 0.0000117
     
-    #捜索エリアの1辺の長さ
-    side_length = 20
+    #捜索範囲の四角形の一辺の長さ
+    side_length = 40
+
+    #赤点から青点までの距離 red to blue distance
+    rtb_distance = (side_length/4)*sqrt(2) 
 
     #周囲の4つの位置を求める
     #north
-    lat_n = lat_human + lat_dif*(side_length/2)
+    lat_n = lat_human + lat_dif*(rtb_distance/2)
     lon_n = lon_human
     #east
     lat_e = lat_human
-    lon_e = lon_human - lon_dif*(side_length/2)
+    lon_e = lon_human - lon_dif*(rtb_distance/2)
     #south
-    lat_s = lat_human - lat_dif*(side_length/2)
+    lat_s = lat_human - lat_dif*(rtb_distance/2)
     lon_s = lon_human
     #west
     lat_w = lat_human
-    lon_w = lon_human + lon_dif*(side_length/2)
+    lon_w = lon_human + lon_dif*(rtb_distance/2)
 
     return {
         'lat_n':lat_n, 
