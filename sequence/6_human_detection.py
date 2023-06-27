@@ -36,8 +36,10 @@ def calculate_square_corners(lon1, lat1):
     return lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w
 '''
 
-#最後の位置情報をもとに周囲の4つの点の座標を求める
+
 def get_locations(lat_human, lon_human):
+#最後の位置情報をもとに周囲の4つの点の座標を求める
+
     #北緯40度における10mあたりの緯度経度の差
     #緯度は0.3236246秒　経度は0.3242秒
     #lat_dif = 0.0000323
