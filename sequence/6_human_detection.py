@@ -81,9 +81,13 @@ def get_locations(lat_human, lon_human):
 
 def take_and_rotation(break_outer_loop):
     for i in range(6):
+
+        #撮影
         img_path = take.picture('ML_imgs/image', 320, 240)
         
+        #モデルの読み込み
         result = ML_people.predict(image_path=img_path)
+
         # result=machine_learning.pro_people()
         #hitoの確率50%かどうか
         if result >=0.50:
