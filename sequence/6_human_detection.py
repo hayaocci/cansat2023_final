@@ -89,15 +89,16 @@ def take_and_rotation(break_outer_loop, human_judge_count):
 
         # hitoの確率50%かどうか
         if result >= 0.50:
-            print("遭難者発見")
+            human_judge_count += 1
             # 追加の写真を撮影
-            for j in range(2):
+            for h in range(2):
                 additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
                 additional_result = ML_people.predict(image_path=additional_img_path)
                 if additional_result >= 0.50:
                     human_judge_count += 1
                     if human_judge_count >= 3:
                         break_outer_loop = True
+                        print("遭難者発見")
                         break
             if break_outer_loop:
                 break
