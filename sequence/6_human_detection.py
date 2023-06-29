@@ -79,7 +79,7 @@ def get_locations(lat_human, lon_human):
         'lon_w':lon_w
         }
 
-def take_and_rotation(break_outer_loop):
+def take_and_rotation(break_outer_loop,human_judge_count):
     for i in range(6):
 
         #撮影
@@ -93,6 +93,7 @@ def take_and_rotation(break_outer_loop):
         if result >=0.50:
             print("遭難者発見")
             break_outer_loop = True
+            human_judge_count=1
             break
         else:
             if elapsed_time >= threshold:#20分経ったか
@@ -104,7 +105,7 @@ def take_and_rotation(break_outer_loop):
         motor.motor_move(10, -10, 0.5)#調整必要
     print("6回撮影しました")
     print("次のエリアに移動します")
-    return break_outer_loop
+    return break_outer_loop,human_judge_count
     
 def move_to_bulearea(count):
  
@@ -153,6 +154,7 @@ def move_to_bulearea(count):
 if __name__ =="__main__":
 
     count = 0
+    human_judge_count=0
     break_outer_loop =False
     start_time = time.time()
     threshold = 20 * 60
@@ -168,11 +170,38 @@ if __name__ =="__main__":
 
     lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = get_locations(lat_human, lon_human)
 
-    for j in range(4):
-        elapsed_time = time.time()-start_time #経過時間の更新
-        if break_outer_loop:
+    #まずはメインエリアを捜索
+    for k in range(6):
+
+        #撮影
+        img_path = take.picture('ML_imgs/image', 320, 240)
+        
+        #モデルの読み込み
+        result = ML_people.predict(image_path=img_path)
+
+        # result=machine_learning.pro_people()
+        #hitoの確率50%かどうか
+        if result >=0.50:
+            print("遭難者発見")
+            human_judge_count=1
             break
-        lat_now, lon_now = gps.location()
-        move_to_bulearea()
-        take_and_rotation()
+        else:
+            if elapsed_time >= threshold:#20分経ったか
+                break
+            else:
+                print("捜索続けます")
+        motor.motor_move(10, -10, 0.5)#調整必要
+
+    if human_judge_count==0:
+        print ("青点エリア捜索に移行")
+        for j in range(4):#4地点について行うよ
+            elapsed_time = time.time()-start_time #経過時間の更新
+            if break_outer_loop:
+                break
+            lat_now, lon_now = gps.location()
+            move_to_bulearea()
+            take_and_rotation()
+    
+    
+
     
