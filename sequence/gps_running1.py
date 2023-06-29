@@ -94,7 +94,7 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
     other.print_im920sl(f'theta = {theta} \t rotation finished!!!')
 
 
-def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/cansat2022/CANSAT2022/log/gpsrunningLog', t_start=0):
+def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt', t_start=0):
     """
     GPS走行の関数
     統合する場合はprintをXbee.str_transに変更，other.saveLogのコメントアウトを外す
@@ -116,6 +116,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/cansat2022/CANSAT2
 
         t_cal = time.time()
         lat_old, lon_old = gps.location()
+        print("-------gps走行開始-------")
         while time.time() - t_cal <= t_adj_gps:
             lat1, lon1 = gps.location()
             lat_new, lon_new = lat1, lon1
@@ -210,8 +211,17 @@ if __name__ == '__main__':
     #lon2 = 139.9114077
     #lat2 = 35.9184282 シダックス
     #lon2 = 139.9111039シダックス
-    lat2 = 35.9240087
-    lon2 = 139.9113212
+    #lat2 = 35.9240087
+    #lon2 = 139.9113212
+    
+    #生協入口
+    #lat2 = 35.91818718
+    #lon2 = 139.90814829
+
+    #12号館前
+    lat2 = 35.91896917
+    lon2 = 139.90859362
+
     gps.open_gps()
     bmx055.bmx055_setup()
     motor.setup()
