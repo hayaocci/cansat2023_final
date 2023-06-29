@@ -93,8 +93,9 @@ def take_and_rotation(break_outer_loop,human_judge_count):
         if result >=0.50:
             print("遭難者発見")
             break_outer_loop = True
-            human_judge_count=1
-            break
+            human_judge_count += 1
+            if human_judge_count >= 3:
+                break
         else:
             if elapsed_time >= threshold:#20分経ったか
                 break_outer_loop = True
