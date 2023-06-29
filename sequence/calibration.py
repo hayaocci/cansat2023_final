@@ -1,4 +1,5 @@
-# --- must be installed module ---#import numpy as np
+# --- must be installed module ---#
+import numpy as np
 import math
 import time
 import traceback
@@ -15,12 +16,12 @@ import motor
 import stuck2
 
 
-path_log = '/home/cansat2023/CANSAT2023/log/calibration.txt'
+path_log = '/home/dendenmushi/cansat2023/sequence/calibration.txt'
 
 
 # filecount = len(glob.glob1(path_log, '*' + '.txt'))
 
-# Calibration_rotate_controlLog = '/home/pi/log/Calibration_rotate_controlLog.txt'
+# Calibration_rotate_controlLog = '/home/dendenmushi/pi/log/Calibration_rotate_controlLog.txt'
 
 
 def get_data():
@@ -150,7 +151,7 @@ def calculate_offset(magdata):
     magz_off = (magz_max + magz_min) / 2
 
     # --- save offset --- #
-    other.log('/home/cansat2023/CANSAT2023/log/calibrationLog.txt',
+    other.log('/home/dendenmushi/cansat2023/sequence/calibrationLog.txt',
               datetime.datetime.now(), magx_off, magy_off)
 
     return magx_array, magy_array, magz_array, magx_off, magy_off, magz_off
@@ -201,10 +202,10 @@ def calculate_direction(lon2, lat2):
 
 
 if __name__ == "__main__":
-    an = int(input("aaaaaa"))
+    #an = int(input("aaaaaa"))
     motor.setup()
     bmx055.bmx055_setup()
-    magdata =magdata_matrix(an, -an, 1000)
+    magdata =magdata_matrix(10, -10, 1000)
 
 
     # try:

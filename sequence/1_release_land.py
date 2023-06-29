@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/cansat2023/sequence/bme280')  
+sys.path.append('/home/dendenmushi/cansat2023/sequence/bme280')  
 import time
 import signal
 
@@ -82,16 +82,16 @@ def gpsdetect_land(anyalt):
         deltA = abs(Latestalt - Prevalt)  # 初めにとった高度 - 後にとった高度
         if 'altitude' not in gpsdata:
             print("GPS error!")
-            gps_count_land = 0
-            gps_judge_land = 2
+            press_count_land = 0
+            press_judge_land = 2
         elif deltA < anyalt:
-            gps_count_land += 1
-            if gps_count_land > 5:
-                gps_judge_land = 1
-                print("gpslandjudge")
+            press_count_land += 1
+            if press_count_land > 5:
+                press_judge_land = 1
+                print("presslandjudge")
         else:
-            gps_count_land = 0
-            gps_judge_land = 0
+            press_count_land = 0
+            press_judge_land = 0
     except:
         gps_count_land = 0
         gps_judge_land = 2
@@ -143,8 +143,6 @@ if __name__ == '__main__':
     #着地判定用
     press_count_land = 0
     press_judge_land = 0
-    gps_count_land = 0
-    gps_judge_land = 0
 
     #キーボードの割り込みのシグナルハンドラを設定
     signal.signal(signal.SIGINT, handle_interrupt)

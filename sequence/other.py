@@ -43,7 +43,7 @@ def log(path, *data):
     後半はgit管理外でログ作成用(git操作間違えてもログを残すため)
     """
     make_dir(path)
-    with open(path, 'a') as f:
+    with open(path, mode='a') as f:
         for i in range(len(data)):
             if isinstance(data[i], list):
                 for j in range(len(data[i])):
@@ -54,7 +54,7 @@ def log(path, *data):
 
     # for log outside of git management
     rfd = path.rfind('/')
-    path_backup = '/home/cansat2022/CANSAT2022/log' + path[rfd:]
+    path_backup = '/home/dendenmushi/cansat2023/sequence/log' + path[rfd:]
     with open(path_backup, "a") as f:
         for i in range(len(data)):
             if isinstance(data[i], list):
@@ -105,6 +105,6 @@ def phase(path):
 
 if __name__ == "__main__":
     import time
-    path = '/home/cansat2022/CANSAT2022/log3/phaseLog'
+    path = '/home/dendenmushi/cansat2023/sequence/log3/phaseLog'
     print(dir(path))
     log(path, time.time())

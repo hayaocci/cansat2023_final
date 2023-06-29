@@ -11,23 +11,23 @@ import other
 dateTime = datetime.datetime.now()
 
 # variable for log
-log_phase = other.filename('/home/pi/Desktop/cansat2021/log/phaseLog', 'txt')
+log_phase = other.filename('/home/dendenmushi/pi/Desktop/cansat2021/log/phaseLog', 'txt')
 log_release = other.filename(
-    '/home/pi/Desktop/cansat2021/log/releaselog', 'txt')
+    '/home/dendenmushi/pi/Desktop/cansat2021/log/releaselog', 'txt')
 log_landing = other.filename(
-    '/home/pi/Desktop/cansat2021/log/landingLog', 'txt')
+    '/home/dendenmushi/pi/Desktop/cansat2021/log/landingLog', 'txt')
 log_melting = other.filename(
-    '/home/pi/Desktop/cansat2021/log/meltingLog', 'txt')
+    '/home/dendenmushi/pi/Desktop/cansat2021/log/meltingLog', 'txt')
 log_paraavoidance = other.filename(
-    '/home/pi/Desktop/cansat2021/log/paraAvoidanceLog', 'txt')
+    '/home/dendenmushi/pi/Desktop/cansat2021/log/paraAvoidanceLog', 'txt')
 log_panoramashooting = other.filename(
-    '/home/pi/Desktop/cansat2021/log/panoramaLog', 'txt')
+    '/home/dendenmushi/pi/Desktop/cansat2021/log/panoramaLog', 'txt')
 log_gpsrunning = other.filename(
-    '/home/pi/Desktop/cansat2021/log/gpsrunningLog', 'txt')
+    '/home/dendenmushi/pi/Desktop/cansat2021/log/gpsrunningLog', 'txt')
 log_photorunning = other.filename(
-    '/home/pi/Desktop/cansat2021/log/photorunning', 'txt')
+    '/home/dendenmushi/pi/Desktop/cansat2021/log/photorunning', 'txt')
 log_panoramacom = other.filename(
-    '/home/pi/Desktop/cansat2021/log/panoramacomLog', 'txt')
+    '/home/dendenmushi/pi/Desktop/cansat2021/log/panoramacomLog', 'txt')
 
 def setup():
     global phase
