@@ -122,7 +122,7 @@ def move_to_bulearea(count):
                 print("第"+count+"エリア到着")
                 condition =0
             print("第"+count+"エリア外です")
-            gps_running1.drive(lon_n, lat_n, thd_distance=10, t_adj_gps=60)
+            gps_running1.drive(lon_n, lat_n, thd_distance=10, t_adj_gps=60)#60秒もいるのか？
     elif count == 2:
         condition =1
         while condition == 1:
