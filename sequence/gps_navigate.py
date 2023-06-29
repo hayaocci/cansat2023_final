@@ -30,7 +30,6 @@ Vincenty法(逆解法)
 :param ellipsoid: 楕円体
 :return: 距離と方位角
 '''
-
 def vincenty_inverse(lat1, lon1, lat2, lon2, ellipsoid=None):
     #0.0表示防ぐためになくした　by大島　08/07
     # 差異が無ければ0.0を返す

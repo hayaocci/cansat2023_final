@@ -1,7 +1,0 @@
--2.1278326511383057	1	94.55832851080247	0.20833333333333334	/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0000.jpg	/home/dendenmushi/cansat2023/sequence/Detected-0000.jpg	
--3.4868061542510986	0	1.2077787422839505	17.604166666666668	/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0001.jpg	/home/dendenmushi/cansat2023/sequence/Detected-0001.jpg	
--7.545533657073975	0	1.261646412037037	0.20833333333333334	/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0002.jpg	/home/dendenmushi/cansat2023/sequence/Detected-0002.jpg	
--13.221880435943604	0	9.395640432098766	41.354166666666664	/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0003.jpg	/home/dendenmushi/cansat2023/sequence/Detected-0003.jpg	
--18.1998348236084	0	15.199074074074073	60.3125	/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0004.jpg	/home/dendenmushi/cansat2023/sequence/Detected-0004.jpg	
--22.03447914123535	1	57.34485918209876	28.958333333333336	/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0005.jpg	/home/dendenmushi/cansat2023/sequence/Detected-0005.jpg	
--25.911484956741333	1	88.22923900462963	6.5625	/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0006.jpg	/home/dendenmushi/cansat2023/sequence/Detected-0006.jpg	

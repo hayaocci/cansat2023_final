@@ -8,16 +8,11 @@ import traceback
 import stuck2
 import motor
 import paradetection
-import smbus
-import time
 
-#bus = smbus.SMBus(1)
-#i2c = smbus.SMBus(1)
-time.sleep(1)
 
 def parachute_avoidance(flug, goalGAP):
     # --- There is Parachute around rover ---#
-    stuck2.ue_jug()
+    stuck2.ue_jugkai()
 
     if flug == 1:
         # --- Avoid parachute by back control ---#
@@ -91,5 +86,3 @@ if __name__ == '__main__':
     except:
         print(traceback.format_exc())
     print("finish!")
-
-#i2c.close()

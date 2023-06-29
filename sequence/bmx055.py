@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import smbus
+from smbus import SMBus
 import time
 
 ACC_ADDRESS = 0x19
@@ -9,10 +9,9 @@ GYR_REGISTER_ADDRESS = 0x02
 MAG_ADDRESS = 0x13
 MAG_REGISTER_ADDRESS = 0x42
 
-i2c = smbus.SMBus(1)
+i2c = SMBus(1)
 
 def bmx055_setup():
-	print("bmx055_setup")
 	# --- BMX055ãSetup --- #
 	#Initialize ACC
 	try:
@@ -85,7 +84,6 @@ def bmx055_setup():
 		time.sleep(0.1)
 
 def acc_dataRead():
-	print("acc_dataRead")
 	# --- Read Acc Data --- #
 	accData = [0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
@@ -94,22 +92,16 @@ def acc_dataRead():
 			accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
 		except:
 			pass
-			print(" acc_data_read_error")
-		# accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
-		#accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS)
-		#i2c.close()
+			#print("error")
 
 	for i in range(3):
 		value[i] = (accData[2*i+1] * 16) + (int(accData[2*i] & 0xF0) / 16)
 		value[i] = value[i] if value[i] < 2048 else value[i] - 4096
 		value[i] = value[i] * 0.0098 * 1
-	
-	#print("acc_dataRead")
 
 	return value
 
 def gyr_dataRead():
-	print("gyr_dataRead")
 	# --- Read Gyro Data --- "
 	gyrData = [0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
@@ -118,7 +110,7 @@ def gyr_dataRead():
 			gyrData[i] = i2c.read_byte_data(GYR_ADDRESS, GYR_REGISTER_ADDRESS+i)
 		except:
 			pass
-			print("gyr_data_read_error")
+			#print("error")
 
 	for i in range(3):
 		value[i] = (gyrData[2*i+1] * 256) + gyrData[i]
@@ -128,7 +120,6 @@ def gyr_dataRead():
 	return value
 
 def mag_dataRead():
-	print("mag_dataRead")
 	# --- Read Mag Data --- #
 	magData = [0, 0, 0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
@@ -136,8 +127,8 @@ def mag_dataRead():
 		try:
 			magData[i] = i2c.read_byte_data(MAG_ADDRESS, MAG_REGISTER_ADDRESS + i)
 		except:
-			# pass
-			print("mag_data_read_error")
+			pass
+			#print("error")
 
 	for i in range(3):
 		if i != 2:
@@ -152,7 +143,6 @@ def mag_dataRead():
 	return value
 
 def bmx055_read():
-	print("bmx055_read")
 	# --- Read BMX055 Data --- #
 	accx, accy, accz = acc_dataRead()
 	gyrx, gyry, gyrz = gyr_dataRead()
@@ -184,6 +174,5 @@ if __name__ == '__main__':
 	except KeyboardInterrupt:
 		print()
 	except Exception as e:
-		print(e)
-		
-#i2c.close()
+		print()
+		print(e.message)
