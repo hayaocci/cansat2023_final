@@ -101,7 +101,7 @@ def take_and_rotation(break_outer_loop):
             else:
                 print("捜索続けます")
         #rotation() 
-        motor.motor_move(10, -10, 0.5)
+        motor.motor_move(10, -10, 0.5)#調整必要
     print("6回撮影しました")
     print("次のエリアに移動します")
     return break_outer_loop
