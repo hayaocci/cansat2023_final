@@ -97,7 +97,7 @@ def move(strength_l, strength_r, t_moving, ue=False):
     ueは機体が逆さまかどうか判断するのをmotor関数内で行うかどうか(True/False)
     """
     if ue:
-        stuck.ue_jug()
+        stuck2.ue_jug()
     motor_move(strength_l, strength_r, t_moving)
     if abs(strength_l) == abs(strength_r) and strength_l * strength_r < 0:
         motor_stop(0.1)
