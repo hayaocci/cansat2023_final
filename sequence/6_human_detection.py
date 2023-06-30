@@ -188,16 +188,27 @@ if __name__ =="__main__":
 
         # result=machine_learning.pro_people()
         #hitoの確率50%かどうか
-        if result >=0.50:
-            print("遭難者発見")
-            human_judge_count=1
-            break
+        if result >= 0.50:
+            human_judge_count += 1
+            # 追加の写真を撮影
+            for h in range(2):
+                additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
+                additional_result = ML_people.predict(image_path=additional_img_path)
+                if additional_result >= 0.50:
+                    human_judge_count += 1
+                    if human_judge_count >= 3:
+                        break_outer_loop = True
+                        print("遭難者発見")
+                        break
+            if break_outer_loop:
+                break
         else:
-            if elapsed_time >= threshold:#20分経ったか
+            if elapsed_time >= threshold:  # 20分経ったか
+                break_outer_loop = True
                 break
             else:
                 print("捜索続けます")
-        motor.motor_move(10, -10, 0.5)#調整必要
+        motor.motor_move(10, -10, 0.5)  # 調整必要
 
     if human_judge_count==0:
         print ("青点エリア捜索に移行")
