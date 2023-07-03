@@ -8,8 +8,11 @@ import take
 import gps
 from math import sqrt
 import motor
+import bmx055
 
 motor.setup()#試しに追加
+gps.open_gps()
+bmx055.bmx055_setup()
 '''
 #chatGPTさんより青点の設定
 #lon1,lat1は赤点の位置
