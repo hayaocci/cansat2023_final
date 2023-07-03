@@ -174,8 +174,12 @@ if __name__ =="__main__":
     #lon1 = 139.67890 #赤点
 
     #12号館前
-    lat_human = 35.91896917
-    lon_human = 139.90859362
+    #lat_human = 35.91896917
+    #lon_human = 139.90859362
+
+    #グランドのゴール前
+    lat_human = 35.923914
+    lon_human = 139.912223
 
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
