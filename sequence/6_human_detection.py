@@ -9,6 +9,7 @@ import gps
 from math import sqrt
 import motor
 
+motor.setup()#試しに追加
 '''
 #chatGPTさんより青点の設定
 #lon1,lat1は赤点の位置
