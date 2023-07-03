@@ -208,7 +208,7 @@ if __name__ =="__main__":
                 break
             else:
                 print("捜索続けます")
-        motor.motor_move(10, -10, 0.5)  # 調整必要
+        motor.motor_move(1, -1, 0.5)  # 調整必要
 
     if human_judge_count==0:
         print ("青点エリア捜索に移行")
