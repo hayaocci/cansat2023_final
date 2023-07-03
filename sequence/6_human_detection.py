@@ -108,7 +108,7 @@ def take_and_rotation(break_outer_loop, human_judge_count):
                 break
             else:
                 print("捜索続けます")
-        motor.motor_move(10, -10, 0.5)  # 調整必要
+        motor.motor_move(1, -1, 0.5)  # 調整必要
     print("6回撮影しました")
     print("次のエリアに移動します")
     return break_outer_loop, human_judge_count
