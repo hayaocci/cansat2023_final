@@ -101,12 +101,12 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
 
         stuck_count += 1
         stuck2.ue_jug()
-        '''
+        
     
         print('Calculated angle_relative: {theta}')
         time.sleep(1)
     other.print_im920sl(f'theta = {theta} \t rotation finished!!!')
-
+    '''
 
 def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt', t_start=0):
     """
