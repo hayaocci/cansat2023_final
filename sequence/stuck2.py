@@ -37,7 +37,7 @@ def ue_jug():
             print(f'下だよ{ue_count}')
             print(f'acc: {z}')
             if ue_count >= 2 and ue_count < 4:
-                motor.move(30, 30, 0.08, False)
+                motor.move(40, 40, 0.08, False)
             elif ue_count >= 4 and ue_count < 6:
                 motor.move(70, 70, 0.08, False)
             elif ue_count >= 6 and ue_count < 8:
