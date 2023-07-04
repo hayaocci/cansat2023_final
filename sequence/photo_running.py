@@ -300,8 +300,11 @@ if __name__ == "__main__":
         #lon2 = 139.90859362
 
         #グランドのゴール前
-        lat2 = 35.923914
-        lon2 = 139.912223
+        #lat2 = 35.923914
+        #lon2 = 139.912223
+
+        lat2 = 35.9243426
+        lon2 = 139.9112739
 
         G_thd = 60
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'

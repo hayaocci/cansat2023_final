@@ -3,7 +3,7 @@ import pigpio
 
 pi = pigpio.pi()
 
-meltPin = 22
+meltPin = 4
 
 def down(t_melt = 4.0):
 	"""
