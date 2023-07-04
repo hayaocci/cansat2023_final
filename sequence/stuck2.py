@@ -152,6 +152,7 @@ def stuck_avoid_move(x):
 
 def stuck_avoid():
     print_im920sl('start stuck  avoid')
+    print('start stuck  avoid')
     flag = False
     while 1:
         lat_old, lon_old = gps.location()
@@ -196,6 +197,7 @@ def stuck_avoid():
         if flag:
             break
     print_im920sl('complete stuck avoid')
+    print('complete stuck avoid')
 
 
 if __name__ == '__main__':
