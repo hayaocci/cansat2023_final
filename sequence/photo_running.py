@@ -303,8 +303,12 @@ if __name__ == "__main__":
         #lat2 = 35.923914
         #lon2 = 139.912223
 
-        lat2 = 35.9243426
-        lon2 = 139.9112739
+        #lat2 = 35.9243426
+        #lon2 = 139.9112739
+
+        #中庭の芝生
+        lat2 = 35.91817415
+        lon2 = 139.90825559
 
         G_thd = 60
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
@@ -318,7 +322,7 @@ if __name__ == "__main__":
 
         # Image Guide
         image_guided_driving(log_photorunning, G_thd, magx_off,
-                             magy_off, lon2, lat2, thd_distance=5, t_adj_gps=60)
+                             magy_off, lon2, lat2, thd_distance=5, t_adj_gps=10)
 
     except KeyboardInterrupt:
         #print_im920sl('stop')
