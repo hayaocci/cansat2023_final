@@ -36,11 +36,11 @@ def ue_jug():
             im920sl2.str_trans(f'Upside-down{ue_count}')
             print(f'下だよ{ue_count}')
             print(f'acc: {z}')
-            if ue_count > 2:
+            if ue_count >= 2 and ue_count < 4:
                 motor.move(30, 30, 0.08, False)
-            elif ue_count > 4:
+            elif ue_count >= 4 and ue_count < 6:
                 motor.move(70, 70, 0.08, False)
-            elif ue_count > 6:
+            elif ue_count >= 6 and ue_count < 8:
                 motor.move(100, 100, 0.5, False)
             else:
                 motor.move(12, 12, 1, False)
@@ -99,9 +99,11 @@ def ue_jugkai():
 def stuck_jug(lat1, lon1, lat2, lon2, thd=1.0):
     data_stuck = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
     if data_stuck['distance'] <= thd:
+        print(str(data_stuck['distance']) + '----!!!    stuck   !!!')
         print_im920sl(str(data_stuck['distance']) + '----!!!    stuck   !!!')
         return False
     else:
+        print(str(data_stuck['distance']) + '-----not stucked')
         print_im920sl(str(data_stuck['distance']) + '-----not stucked')
         return True
 
