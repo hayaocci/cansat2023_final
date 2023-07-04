@@ -28,7 +28,7 @@ def ue_jug():
             time.sleep(0.2)
         z = max(za)
         
-        if z > 7.5:
+        if z > 3:
             im920sl2.str_trans('Upward')
             print('上だよ')
             break
