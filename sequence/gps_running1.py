@@ -224,7 +224,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     time.sleep(0.04)
             t_stuck_count += 1
             other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start, lat1, lon1, direction['distance'], theta #angle_relative#)
+                      t_start, lat1, lon1, direction['distance'], theta) #angle_relative#)
             motor.deceleration(strength_l, strength_r)
             time.sleep(2)
             lat_new, lon_new = gps.location()
