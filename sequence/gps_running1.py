@@ -59,7 +59,9 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
         
         theta = angle_goal(magx_off, magy_off, lon2, lat2)
 
-        print('Calculated angle_relative: {theta}')
+        #print('Calculated angle_relative: {theta}')
+        print('Calculated angle_relative')
+        print(f'theta = {theta}')
         time.sleep(0.03)
 
     print("-----adjust_direction finished!!!------")
