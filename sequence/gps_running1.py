@@ -37,18 +37,20 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
     print('ゴールとの角度theta = ' + str(theta) + '---回転調整開始！')
     stuck2.ue_jug()
     an = 40
-    if 45 < theta <= 180 :
-        motor.motor_continue(an, -an)
-    elif -180 < theta < -45:
-        motor.motor_continue(-an, an)
-    elif 0 <= theta <= 45:
-        motor.deceleration(an, -an)
-    elif -45 <= theta <= 0:
-        motor.motor_continue(-an, an)
 
-    theta = angle_goal(magx_off, magy_off, lon2, lat2)
-    print('Calculated angle_relative: {theta}')
-    time.sleep(0.03)
+    while 45 < theta <= 180 or -180 < theta < -45:
+        if 45 < theta <= 180 :
+            motor.motor_continue(an, -an)
+        elif -180 < theta < -45:
+            motor.motor_continue(-an, an)
+        elif 0 <= theta <= 45:
+            motor.deceleration(an, -an)
+        elif -45 <= theta <= 0:
+            motor.motor_continue(-an, an)
+
+        theta = angle_goal(magx_off, magy_off, lon2, lat2)
+        print('Calculated angle_relative: {theta}')
+        time.sleep(0.03)
 
     stuck_count = 1
     t_small = 0.1
@@ -119,8 +121,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
 
         t_cal = time.time()
         lat_old, lon_old = gps.location()
+        print("-------gps走行開始-------")
         while time.time() - t_cal <= t_adj_gps:
-            print("-------gps走行開始-------")
             lat1, lon1 = gps.location()
             lat_new, lon_new = lat1, lon1
             direction = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
