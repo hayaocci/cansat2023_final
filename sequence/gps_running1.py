@@ -163,6 +163,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                 break
             else:
                 for _ in range(25):
+                    print("25回ループの部分")
                     
                     magdata = bmx055.mag_dataRead()
                     mag_x = magdata[0]
@@ -219,7 +220,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                             adj = -30
                     print(f'angle ----- {theta}')
                     strength_l, strength_r = 60 + adj, -70 - adj
-                    motor.motor_continue(strength_l, strength_r)
+                    #motor.motor_continue(strength_l, strength_r)
+                    motor.move(strength_l, strength_r, 0.2)
                     time.sleep(0.04)
             t_stuck_count += 1
             other.log(logpath, datetime.datetime.now(), time.time() -
