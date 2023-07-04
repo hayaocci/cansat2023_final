@@ -37,13 +37,13 @@ def ue_jug():
             print(f'下だよ{ue_count}')
             print(f'acc: {z}')
             if ue_count > 2:
-                motor.move(30, 30, 0.008, False)
+                motor.move(30, 30, 0.08, False)
             elif ue_count > 4:
-                motor.move(70, 70, 0.008, False)
+                motor.move(70, 70, 0.08, False)
             elif ue_count > 6:
-                motor.move(100, 100, 0.05, False)
+                motor.move(100, 100, 0.5, False)
             else:
-                motor.move(12, 12, 0.2, False)
+                motor.move(12, 12, 1, False)
             time.sleep(2)
             ue_count += 1
 
@@ -159,7 +159,7 @@ def stuck_avoid():
         for i in range(7):
             stuck_avoid_move(i)
             lat_new, lon_new = gps.location()
-            bool_stuck = stuck_jug(lat_old, lon_old, lat_new, lon_new, 1)
+            bool_stuck = stuck_jug(lat_old, lon_old, lat_new, lon_new, 0.5)
             if bool_stuck == True:
                 flag = True
                 break
@@ -169,7 +169,7 @@ def stuck_avoid():
         for i in range(7):
             stuck_avoid_move(7 - i)
             lat_new, lon_new = gps.location()
-            bool_stuck = stuck_jug(lat_old, lon_old, lat_new, lon_new, 1)
+            bool_stuck = stuck_jug(lat_old, lon_old, lat_new, lon_new, 0.5)
             if bool_stuck == False:
                 # if i == 1 or i == 4 or i == 5:
                 #     print('スタックもう一度引っかからないように避ける')
@@ -184,7 +184,7 @@ def stuck_avoid():
         for i in range(7):
             stuck_avoid_move(random[i])
             lat_new, lon_new = gps.location()
-            bool_stuck = stuck_jug(lat_old, lon_old, lat_new, lon_new, 1)
+            bool_stuck = stuck_jug(lat_old, lon_old, lat_new, lon_new, 0.5)
             if bool_stuck == False:
                 # if i == 1 or i == 4 or i == 5:
                 #     print('スタックもう一度引っかからないように避ける')
