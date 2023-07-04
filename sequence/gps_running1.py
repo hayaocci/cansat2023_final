@@ -36,7 +36,7 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
 
     print('ゴールとの角度theta = ' + str(theta) + '---回転調整開始！')
     stuck2.ue_jug()
-    an = 30
+    an = 40
     if 45 < theta <= 180 :
         motor.motor_continue(an, -an)
     elif -180 < theta < -45:
@@ -51,9 +51,9 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
     time.sleep(0.03)
 
     stuck_count = 1
-    t_small = 0.5
-    t_big = 1
-    force = 20
+    t_small = 0.1
+    t_big = 0.2
+    force = 40
     while 30 < theta <= 180 or -180 < theta < -30:
         if stuck_count >= 16:
             ##方向調整が不可能な場合はスタックしたとみなして、もう一度キャリブレーションからスタート##
@@ -241,4 +241,4 @@ if __name__ == '__main__':
     bmx055.bmx055_setup()
     motor.setup()
 
-    drive(lon2, lat2, thd_distance=10, t_adj_gps=10)
+    drive(lon2, lat2, thd_distance=5, t_adj_gps=10)
