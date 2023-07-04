@@ -181,8 +181,12 @@ if __name__ =="__main__":
     #lat_human = 35.923914
     #lon_human = 139.912223
 
-    lat_human = 35.9243467
-    lon_human = 139.9113996
+    #lat_human = 35.9243467
+    #lon_human = 139.9113996
+
+    #中庭の芝生
+    lat_human = 35.91817415
+    lon_human = 139.90825559
 
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 

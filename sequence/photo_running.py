@@ -303,8 +303,12 @@ if __name__ == "__main__":
         #lat2 = 35.923914
         #lon2 = 139.912223
 
-        lat2 = 35.9243426
-        lon2 = 139.9112739
+        #lat2 = 35.9243426
+        #lon2 = 139.9112739
+
+        #中庭の芝生
+        lat2 = 35.91817415
+        lon2 = 139.90825559
 
         G_thd = 60
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
