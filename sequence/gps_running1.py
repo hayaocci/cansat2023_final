@@ -110,6 +110,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         # ------------- calibration -------------#
         # xbee.str_trans('calibration Start')
         other.print_im920sl('##--calibration Start--##\n')
+        print("------calibration Start------")
         magx_off, magy_off = calibration.cal(40, 40, 30)
         print(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
 
