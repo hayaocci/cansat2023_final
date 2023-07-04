@@ -133,8 +133,10 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         print(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
         print("------calibration finished------")
 
+        '''
         theta = angle_goal(magx_off, magy_off, lon2, lat2)
         adjust_direction(theta, magx_off, magy_off, lon2, lat2)
+        '''
 
         t_cal = time.time()
         lat_old, lon_old = gps.location()
@@ -161,17 +163,24 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                 break
             else:
                 for _ in range(25):
+                    '''
                     magdata = bmx055.mag_dataRead()
                     mag_x = magdata[0]
                     mag_y = magdata[1]
+                    '''
 
+                    theta = angle_goal(magx_off, magy_off, lon2, lat2)
+                    adjust_direction(theta, magx_off, magy_off, lon2, lat2)
+                    '''
                     theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
                     angle_relative = azimuth - theta
+
                     if angle_relative >= 0:
                         angle_relative = angle_relative if angle_relative <= 180 else angle_relative - 360
                     else:
                         angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
                     theta = angle_relative
+                    '''
                     adj_r = 0
                     # if theta >= 0:
                     #     if theta <= 8:
@@ -215,7 +224,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     time.sleep(0.04)
             t_stuck_count += 1
             other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start, lat1, lon1, direction['distance'], angle_relative)
+                      t_start, lat1, lon1, direction['distance'], theta #angle_relative#)
             motor.deceleration(strength_l, strength_r)
             time.sleep(2)
             lat_new, lon_new = gps.location()
