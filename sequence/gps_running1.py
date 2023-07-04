@@ -53,7 +53,7 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
     stuck_count = 1
     t_small = 0.5
     t_big = 1
-    force = 40
+    force = 20
     while 30 < theta <= 180 or -180 < theta < -30:
         if stuck_count >= 16:
             ##方向調整が不可能な場合はスタックしたとみなして、もう一度キャリブレーションからスタート##
@@ -68,21 +68,21 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
         if 30 <= theta <= 60:
             other.print_im920sl(
                 f'theta = {theta}\t---rotation_ver1 (stuck:{stuck_count})')
-            motor.move(force, force, t_small)
+            motor.move(force, -force, t_small)
 
         elif 60 < theta <= 180:
             other.print_im920sl(
                 f'theta = {theta}\t---rotation_ver2 (stuck:{stuck_count})')
-            motor.move(force, force, t_big)
+            motor.move(force, -force, t_big)
 
         elif -60 <= theta <= -30:
             other.print_im920sl(
                 f'theta = {theta}\t---rotation_ver3 (stuck:{stuck_count})')
-            motor.move(-force, -force, t_small)
+            motor.move(-force, force, t_small)
         elif -180 < theta < -60:
             other.print_im920sl(
                 f'theta = {theta}\t---rotation_ver4 (stuck:{stuck_count})')
-            motor.move(-force, -force, t_big)
+            motor.move(-force, force, t_big)
         else:
             print(f'theta = {theta}')
 
