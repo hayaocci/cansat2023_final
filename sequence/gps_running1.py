@@ -125,7 +125,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
             other.print_im920sl(
                 f'lat: {lat1}\tlon: {lon1}\tdistance: {goal_distance}\tazimuth: {azimuth}\n')
 
-            if t_stuck_count % 8 == 0:
+            if t_stuck_count % 25 == 0:
                 ##↑何秒おきにスタックジャッジするかを決める##
                 if stuck2.stuck_jug(lat_old, lon_old, lat_new, lon_new, 1):
                     pass
