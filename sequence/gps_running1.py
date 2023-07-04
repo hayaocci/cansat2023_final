@@ -51,8 +51,8 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
     # time.sleep(0.03)
 
     stuck_count = 1
-    t_small = 0.1
-    t_big = 0.2
+    t_small = 0.5
+    t_big = 1
     force = 25
     while 30 < theta <= 180 or -180 < theta < -30:
         if stuck_count >= 16:
