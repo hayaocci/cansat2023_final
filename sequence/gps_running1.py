@@ -43,7 +43,7 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
     t_middle = 0.2
     t_long = 0.4
 
-    while 15 < theta <= 180 or -180 < theta < -15:
+    while 45 < theta <= 180 or -180 < theta < -45:
         if 90 < theta <= 180 :
             motor.move(an, -an, t_long)
         elif -180 < theta < -90:
@@ -251,8 +251,11 @@ if __name__ == '__main__':
     #lon2 = 139.9114187
 
     #中庭の芝生
-    lat2 = 35.91817415
-    lon2 = 139.90825559
+    #lat2 = 35.91817415
+    #lon2 = 139.90825559
+
+    lat2 = 35.9189778
+    lon2 = 139.9071493 
 
     gps.open_gps()
     bmx055.bmx055_setup()
