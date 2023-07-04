@@ -44,17 +44,17 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
     t_long = 0.4
 
     while 15 < theta <= 180 or -180 < theta < -15:
-        if 45 < theta <= 180 :
+        if 90 < theta <= 180 :
             motor.move(an, -an, t_long)
-        elif -180 < theta < -45:
+        elif -180 < theta < -90:
             motor.move(-an, an, t_long)
-        elif 15 <= theta <= 30:
+        elif 45 <= theta <= 90:
             motor.move(an, -an, t_middle)
-        elif -45 <= theta <= -30:
+        elif -90 <= theta <= -45:
             motor.move(-an, an, t_middle)
-        elif 0 <= theta <= 30:
+        elif 15 <= theta <= 45:
             motor.move(an, -an, t_short)
-        elif -30 <= theta <= -15:
+        elif -45 <= theta <= -15:
             motor.move(-an, an, t_short)
         
         theta = angle_goal(magx_off, magy_off, lon2, lat2)
@@ -133,8 +133,9 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
 
         t_cal = time.time()
         lat_old, lon_old = gps.location()
-        print("-------gps走行開始-------")
+        #print("-------gps走行開始-------")
         while time.time() - t_cal <= t_adj_gps:
+            print("-------gps走行-------")
             lat1, lon1 = gps.location()
             lat_new, lon_new = lat1, lon1
             direction = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
