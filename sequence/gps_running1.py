@@ -101,6 +101,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
     """
     direction = calibration.calculate_direction(lon2, lat2)
     goal_distance = direction['distance']
+
+    # ------------- 上向き判定 -------------#
     while goal_distance >= thd_distance:
         t_stuck_count = 1
         stuck2.ue_jug()
