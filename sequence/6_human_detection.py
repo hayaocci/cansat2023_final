@@ -228,8 +228,8 @@ if __name__ =="__main__":
             if break_outer_loop:
                 break
             lat_now, lon_now = gps.location()
-            move_to_bulearea()
-            take_and_rotation()
+            move_to_bulearea(count)
+            take_and_rotation(break_outer_loop, human_judge_count)
     
     
 
