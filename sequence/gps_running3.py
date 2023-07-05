@@ -82,7 +82,8 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
 
     print("-----角度調整終了。お疲れ様でした。------")
 
-def drive()
+def drive():
+    
 
 
 if __name__ == '__main__':
