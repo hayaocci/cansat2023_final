@@ -212,26 +212,26 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     #         adj = -30
                     if theta >= 0:
                         if theta <= 15:
-                            pwr_r = 33
-                            pwr_l = 35
-                        elif theta <= 90:
+                            pwr_l = 33
                             pwr_r = 35
-                            pwr_l = 40
+                        elif theta <= 90:
+                            pwr_l = 35
+                            pwr_r = 40
                         else:
-                            pwr_r = 30
-                            pwr_l = 40
+                            pwr_l = 30
+                            pwr_r = 40
                     else:
                         if theta >= -15:
-                            pwr_r = 35
-                            pwr_l = 33
-                        elif theta >= -90:
-                            pwr_r = 40
                             pwr_l = 35
+                            pwr_r = 33
+                        elif theta >= -90:
+                            pwr_l = 40
+                            pwr_r = 35
                         else:
-                            pwr_r = 40
-                            pwr_l = 30
+                            pwr_l = 40
+                            pwr_r = 30
                     print(f'angle ----- {theta}')
-                    strength_l, strength_r = pwr_l ,pwr_r
+                    strength_l, strength_r = pwr_r ,pwr_l
                     #motor.motor_continue(strength_l, strength_r)
                     motor.motor_continue(strength_l, strength_r)
                     time.sleep(0.04)
@@ -289,4 +289,4 @@ if __name__ == '__main__':
     bmx055.bmx055_setup()
     motor.setup()
 
-    drive(lon2, lat2, thd_distance=10, t_adj_gps=10)
+    drive(lon2, lat2, thd_distance=10, t_adj_gps=100)
