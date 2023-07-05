@@ -214,6 +214,7 @@ if __name__ == "__main__":
         magx, magy, magz = get_data_offset(magx_off, magy_off, 0)
         angle_ = angle(magx, magy, magx_off, magy_off)
         print(angle_)
+        time.sleep(0.5)
         
     # try:
     #     r = float(input('右の出力は？'))
