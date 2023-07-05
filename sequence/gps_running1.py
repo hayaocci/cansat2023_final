@@ -45,17 +45,17 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
 
     while 45 < theta <= 180 or -180 < theta < -45:
         if 90 < theta <= 180 :
-            motor.move(an, -an, t_long)
-        elif -180 < theta < -90:
             motor.move(-an, an, t_long)
+        elif -180 < theta < -90:
+            motor.move(an, -an, t_long)
         elif 45 <= theta <= 90:
-            motor.move(an, -an, t_middle)
-        elif -90 <= theta <= -45:
             motor.move(-an, an, t_middle)
+        elif -90 <= theta <= -45:
+            motor.move(an, -an, t_middle)
         elif 15 <= theta <= 45:
-            motor.move(an, -an, t_short)
-        elif -45 <= theta <= -15:
             motor.move(-an, an, t_short)
+        elif -45 <= theta <= -15:
+            motor.move(an, -an, t_short)
         
         theta = angle_goal(magx_off, magy_off, lon2, lat2)
 
@@ -226,7 +226,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                         else:
                             adj = -15
                     print(f'angle ----- {theta}')
-                    strength_l, strength_r = 70 + adj ,70 - adj - adj_r
+                    strength_l, strength_r = 30 + adj ,30 - adj - adj_r
                     #motor.motor_continue(strength_l, strength_r)
                     motor.motor_continue(strength_l, strength_r)
                     time.sleep(0.04)
