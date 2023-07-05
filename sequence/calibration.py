@@ -95,7 +95,7 @@ def magdata_matrix_hand():
         magdata = np.array([[magx, magy, magz]])
         for i in range(60):
             print('少し回転')
-            time.sleep(0.1)
+            time.sleep(0.05)
             print(f'{i + 1}回目')
             magx, magy, magz = get_data()
             # --- multi dimention matrix ---#
@@ -215,7 +215,7 @@ if __name__ == "__main__":
     # print(type(magx_off))
     while 1:
         # magx, magy, magz = get_data_offset(magx_off, magy_off, 0)
-        magx, magy, magz = bmx055.bmx055_read()
+        magx, magy, magz = bmx055.mag_dataRead()
         angle_ = angle(magx, magy, magx_off, magy_off)
         print(angle_)
         time.sleep(0.5)
