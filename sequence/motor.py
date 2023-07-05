@@ -8,8 +8,8 @@ def setup():
     motorを使うときに必要な初期化を行う関数
     """
     global motor_r, motor_l
-    Rpin1, Rpin2 = 5, 6
-    Lpin1, Lpin2 = 23, 18
+    Rpin1, Rpin2 = 23, 18
+    Lpin1, Lpin2 = 5, 6
     motor_r = Motor(Rpin1, Rpin2)
     motor_l = Motor(Lpin1, Lpin2)
 
