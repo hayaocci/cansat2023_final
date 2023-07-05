@@ -172,6 +172,10 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     print("----------mag_x, mag_yの読み取り値----------")
                     print(mag_x, mag_y)
 
+                    magx, magy, magz = calibration.get_data()
+                    print('********calibartion.get_data***********')
+                    print(magx,magy,magz)
+
                     #theta = angle_goal(magx_off, magy_off, lon2, lat2)
                     #adjust_direction(theta, magx_off, magy_off, lon2, lat2)
                     
