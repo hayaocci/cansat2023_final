@@ -76,8 +76,8 @@ def magdata_matrix(l, r, n):
             # --- multi dimention matrix ---#
             magdata = np.append(magdata, np.array(
                 [[magx, magy, magz]]), axis=0)
-            time.sleep(0.03)
-            #time.sleep(0.1)
+            #time.sleep(0.03)
+            time.sleep(0.1)
         motor.deceleration(l, r)
     except KeyboardInterrupt:
         print('Interrupt')
@@ -207,7 +207,11 @@ if __name__ == "__main__":
     n = int(input("motor？"))
     motor.setup()
     bmx055.bmx055_setup()
-    magdata =magdata_matrix(n, -n, 30)
+    magx_off, magy_off = cal(n, -n, 40)
+    while 1:
+        magx, magy, magz = get_data_offset(magx_off, magy_off, 0)
+        angle = angle(magx, magy, magx_off, magy_off)
+        print(f'{angle=}')
 
 
     # try:
