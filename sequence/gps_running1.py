@@ -8,6 +8,7 @@ import im920sl
 import calibration
 import stuck2
 import other
+import send
 
 def angle_goal(magx_off, magy_off, lon2, lat2):
     """
@@ -65,7 +66,7 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
         time.sleep(0.03)
 
     print("-----adjust_direction finished!!!------")
-
+    send.send_data("TXDU 0001,C2")
     '''
     stuck_count = 1
     t_small = 0.1
@@ -144,6 +145,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         while time.time() - t_cal <= t_adj_gps:
             print("-------gps走行-------")
             lat1, lon1 = gps.location()
+            send.send_data("TXDU 0001,F0" + str(lat1) + "0")
+            send.send_data("TXDU 0001,F1" + str(lon1))
             lat_new, lon_new = lat1, lon1
             direction = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
             azimuth, goal_distance = direction["azimuth1"], direction["distance"]
@@ -250,6 +253,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
 
 
 if __name__ == '__main__':
+    send.send_data("TXDU 0001,C0")
     # lat2 = 35.918548
     # lon2 = 139.908896
     # lat2 = 35.9234892
