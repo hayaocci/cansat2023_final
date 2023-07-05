@@ -239,8 +239,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
             t_stuck_count += 1
             other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start, lat1, lon1, direction['distance'], angle_relative)
-            motor.deceleration(strength_l, strength_r)
-            time.sleep(2)
+            #motor.deceleration(strength_l, strength_r)
+            #time.sleep(2)
             lat_new, lon_new = gps.location()
             print("whileの最下行")
 
@@ -278,12 +278,12 @@ if __name__ == '__main__':
     #lon2 = 139.9114187
 
     #中庭の芝生
-    #lat2 = 35.91817415
-    #lon2 = 139.90825559
+    lat2 = 35.91817415
+    lon2 = 139.90825559
 
     #実験棟の前
-    lat2 = 35.9189778
-    lon2 = 139.9071493 
+    #lat2 = 35.9189778
+    #lon2 = 139.9071493 
 
     gps.open_gps()
     bmx055.bmx055_setup()
