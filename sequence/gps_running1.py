@@ -230,6 +230,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
             motor.deceleration(strength_l, strength_r)
             time.sleep(2)
             lat_new, lon_new = gps.location()
+            print("whileの最下行")
 
         direction = calibration.calculate_direction(lon2, lat2)
         goal_distance = direction['distance']
