@@ -212,8 +212,8 @@ if __name__ == "__main__":
     print(type(magx_off))
     while 1:
         magx, magy, magz = get_data_offset(magx_off, magy_off, 0)
-        angle = angle(magx, magy, magx_off, magy_off)
-        print(angle)
+        angle_ = angle(magx, magy, magx_off, magy_off)
+        print(angle_)
         
     # try:
     #     r = float(input('右の出力は？'))
