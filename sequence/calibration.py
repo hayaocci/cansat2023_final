@@ -208,6 +208,8 @@ if __name__ == "__main__":
     motor.setup()
     bmx055.bmx055_setup()
     magx_off, magy_off = cal(n, -n, 40)
+    print(magx_off, magy_off)
+    print(type(magx_off))
     while 1:
         magx, magy, magz = get_data_offset(magx_off, magy_off, 0)
         angle = angle(magx, magy, magx_off, magy_off)
