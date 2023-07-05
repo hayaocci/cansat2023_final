@@ -211,22 +211,26 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     #         adj = -30
                     if theta >= 0:
                         if theta <= 15:
-                            adj = 0
+                            pwr_r = 33
+                            pwr_l = 35
                         elif theta <= 90:
-                            adj = 10
-                            adj_r = 5
+                            pwr_r = 35
+                            pwr_l = 40
                         else:
-                            adj = 15
-                            adj_r = 5
+                            pwr_r = 30
+                            pwr_l = 40
                     else:
                         if theta >= -15:
-                            adj = 0
+                            pwr_r = 35
+                            pwr_l = 33
                         elif theta >= -90:
-                            adj = -10
+                            pwr_r = 40
+                            pwr_l = 35
                         else:
-                            adj = -15
+                            pwr_r = 40
+                            pwr_l = 30
                     print(f'angle ----- {theta}')
-                    strength_l, strength_r = 30 + adj ,30 +  adj
+                    strength_l, strength_r = pwr_l ,pwr_r
                     #motor.motor_continue(strength_l, strength_r)
                     motor.motor_continue(strength_l, strength_r)
                     time.sleep(0.04)
