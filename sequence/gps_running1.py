@@ -219,12 +219,11 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                         else:
                             adj = -30
                     print(f'angle ----- {theta}')
-                    strength_l, strength_r = adj,- adj
+                    strength_l, strength_r = 70 + adj ,70 - adj - adj_r
                     #motor.motor_continue(strength_l, strength_r)
-                    motor.move(strength_l, strength_r, 0.2)
-                    motor.move(50,50,2)
-                    time.sleep(0.04)
-                    #time.sleep(0.4)
+                    motor.motor_continue(strength_l, strength_r)
+                    #time.sleep(0.04)
+                    time.sleep(0.4)
             t_stuck_count += 1
             other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start, lat1, lon1, direction['distance'], angle_relative)
