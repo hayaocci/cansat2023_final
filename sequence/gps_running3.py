@@ -82,65 +82,10 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
 
     print("-----角度調整終了。お疲れ様でした。------")
 
-    '''
-    stuck_count = 1
-    t_small = 0.1
-    t_big = 0.2
-    force = 40
-    while 30 < theta <= 180 or -180 < theta < -30:
-        if stuck_count >= 16:
-            ##方向調整が不可能な場合はスタックしたとみなして、もう一度キャリブレーションからスタート##
-            other.print_im920sl(
-                "!!!!can't ajdust direction.   start stuck avoid!!!!!")
-            stuck2.stuck_avoid()
-            magx_off, magy_off = calibration.cal(40, 40, 30)
-            stuck_count = -1
-        if stuck_count % 7 == 0:
-            other.print_im920sl('Increase output')
-            force += 10
-        if 30 <= theta <= 60:
-            other.print_im920sl(
-                f'theta = {theta}\t---rotation_ver1 (stuck:{stuck_count})')
-            motor.move(force, -force, t_small)
-
-        elif 60 < theta <= 180:
-            other.print_im920sl(
-                f'theta = {theta}\t---rotation_ver2 (stuck:{stuck_count})')
-            motor.move(force, -force, t_big)
-
-        elif -60 <= theta <= -30:
-            other.print_im920sl(
-                f'theta = {theta}\t---rotation_ver3 (stuck:{stuck_count})')
-            motor.move(-force, force, t_small)
-        elif -180 < theta < -60:
-            other.print_im920sl(
-                f'theta = {theta}\t---rotation_ver4 (stuck:{stuck_count})')
-            motor.move(-force, force, t_big)
-        else:
-            print(f'theta = {theta}')
-
-        stuck_count += 1
-        stuck2.ue_jug()
-        
-    
-        print('Calculated angle_relative: {theta}')
-        time.sleep(1)
-    other.print_im920sl(f'theta = {theta} \t rotation finished!!!')
-    '''
 def drive()
 
 
 if __name__ == '__main__':
-    # lat2 = 35.918548
-    # lon2 = 139.908896
-    # lat2 = 35.9234892
-    # lon2 = 139.9118744
-    #lat2 = 35.9240057
-    #lon2 = 139.9114077
-    #lat2 = 35.9184282 シダックス
-    #lon2 = 139.9111039シダックス
-    #lat2 = 35.9240087
-    #lon2 = 139.9113212
     
     #生協入口
     #lat2 = 35.91818718
