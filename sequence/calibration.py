@@ -167,21 +167,22 @@ def cal(l, r, n):
 def angle(magx, magy, magx_off=0, magy_off=0):
     if magy - magy_off == 0:
         magy += 0.000001
-    θ = math.degrees(math.atan((magy - magy_off) / (magx - magx_off)))
+    theta = math.degrees(math.atan((magy - magy_off) / (magx - magx_off)))
 
     if magx - magx_off > 0 and magy - magy_off > 0:  # First quadrant
-        pass  # 0 <= θ <= 90
+        pass  # 0 <= theta <= 90
     elif magx - magx_off < 0 and magy - magy_off > 0:  # Second quadrant
-        θ = 180 + θ  # 90 <= θ <= 180
+        theta = 180 + theta  # 90 <= theta <= 180
     elif magx - magx_off < 0 and magy - magy_off < 0:  # Third quadrant
-        θ = θ + 180  # 180 <= θ <= 270
+        theta = theta + 180  # 180 <= theta <= 270
     elif magx - magx_off > 0 and magy - magy_off < 0:  # Fourth quadrant
-        θ = 360 + θ  # 270 <= θ <= 360
+        theta = 360 + theta  # 270 <= theta <= 360
 
-    θ += 180 #センサの傾きを考慮する場合？？
-    if 360 <= θ <= 450:
-        θ -= 360
-    return θ
+    theta += 180 #センサの傾きを考慮する場合？？
+    theta  = theta % 360
+    # if 360 <= theta <= 450:
+    #     theta -= 360
+    return theta
 
 
 def calculate_direction(lon2, lat2):
