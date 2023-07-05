@@ -206,7 +206,7 @@ if __name__ == "__main__":
     #an = int(input("aaaaaa"))
     motor.setup()
     bmx055.bmx055_setup()
-    magdata =magdata_matrix(40, -40, 30)
+    magdata =magdata_matrix(15, -15, 30)
 
 
     # try:
