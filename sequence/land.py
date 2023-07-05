@@ -42,7 +42,7 @@ def pressdetect_land(thd_press_land):
 
 if __name__ == "__main__":
     print("Start")
-    send.send_data("TXDU 0001.0000")
+    send.send_data("TXDU 0001,0000")
 
     bme280.bme280_setup()
     bme280.bme280_calib_param()
@@ -56,10 +56,10 @@ if __name__ == "__main__":
         print(f'count:{landcount}\tjudge:{presslandjudge}')
         if presslandjudge == 1:
             print('Press')
-            send.send_data("TXDU 0001.1000")
+            send.send_data("TXDU 0001,1000")
             print('##--landed--##')
-            send.send_data("TXDU 0001.1111")
+            send.send_data("TXDU 0001,1111")
             break
         else:
             print('Press unfulfilled')
-            send.send_data("TXDU 0001.0001")
+            send.send_data("TXDU 0001,0001")
