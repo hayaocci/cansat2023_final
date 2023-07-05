@@ -163,7 +163,7 @@ def cal(l, r, n):
     _, _, _, magx_off, magy_off, _ = calculate_offset(magdata)
     return magx_off, magy_off
 
-
+#ちゃんと北をむいてる確認する
 def angle(magx, magy, magx_off=0, magy_off=0):
     if magy - magy_off == 0:
         magy += 0.000001
