@@ -169,6 +169,9 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     mag_x = magdata[0]
                     mag_y = magdata[1]
 
+                    print("----------mag_x, mag_yの読み取り値----------")
+                    print(mag_x, mag_y)
+
                     #theta = angle_goal(magx_off, magy_off, lon2, lat2)
                     #adjust_direction(theta, magx_off, magy_off, lon2, lat2)
                     
