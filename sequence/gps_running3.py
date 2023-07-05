@@ -78,11 +78,11 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
             an = pwr_2
 
         #print('Calculated angle_relative: {theta}')
-        print('Calculated angle_relative')
+        print('-----調整後の相対角度-----')
         print(f'theta = {theta}')
         time.sleep(0.03)
 
-    print("-----adjust_direction finished!!!------")
+    print("-----角度調整終了。お疲れ様でした。------")
 
     '''
     stuck_count = 1
