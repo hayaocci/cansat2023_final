@@ -147,6 +147,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
             lat1, lon1 = gps.location()
             send.send_data("TXDU 0001,F0" + str(lat1) + "0")
             send.send_data("TXDU 0001,F1" + str(lon1))
+            print(lat1, lon1)
             lat_new, lon_new = lat1, lon1
             direction = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
             azimuth, goal_distance = direction["azimuth1"], direction["distance"]
