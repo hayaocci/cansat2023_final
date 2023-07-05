@@ -135,9 +135,14 @@ def mag_dataRead():
 	for i in range(8):
 		try:
 			magData[i] = i2c.read_byte_data(MAG_ADDRESS, MAG_REGISTER_ADDRESS + i)
-		except:
-			# pass
-			print("mag_data_read_error")
+		
+		# except:
+		# 	# pass
+		# 	print("mag_data_read_error")
+		except Exception as e:
+			print(e)
+			import traceback
+			traceback.print_exc()
 
 	for i in range(3):
 		if i != 2:
