@@ -207,7 +207,7 @@ if __name__ == "__main__":
     n = int(input("motor？"))
     motor.setup()
     bmx055.bmx055_setup()
-    magx_off, magy_off = cal(n, -n, 40)
+    magx_off, magy_off = cal(n, -n, 200)
     print(magx_off, magy_off)
     print(type(magx_off))
     while 1:
