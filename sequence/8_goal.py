@@ -301,7 +301,7 @@ if __name__ == "__main__":
 		print(traceback.format_exc())
 =======
     try:
-        bmc050.bmc050_error()
+        bmx055.bmx055_error()
         # Initialize
         lat2 = 35.9236093
         lon2 = 139.9118821
