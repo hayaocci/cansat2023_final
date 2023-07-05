@@ -77,7 +77,7 @@ def magdata_matrix(l, r, n):
             magdata = np.append(magdata, np.array(
                 [[magx, magy, magz]]), axis=0)
             #time.sleep(0.03)
-            time.sleep(0.01)
+            time.sleep(0.1)
         motor.deceleration(l, r)
     except KeyboardInterrupt:
         print('Interrupt')
