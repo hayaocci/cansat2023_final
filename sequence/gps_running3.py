@@ -32,9 +32,7 @@ def angle_goal(magx_off, magy_off, lon2, lat2):
 
 
 def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
-    """
-    方向調整
-    """
+#---------------方向調整---------------#
 
     theta = angle_goal(magx_off, magy_off, lon2, lat2)
 
