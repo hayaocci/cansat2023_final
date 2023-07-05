@@ -203,11 +203,14 @@ def calculate_direction(lon2, lat2):
 
 
 if __name__ == "__main__":
-    #an = int(input("aaaaaa"))
-    n = int(input("motor？"))
-    motor.setup()
-    bmx055.bmx055_setup()
-    magx_off, magy_off = cal(n, -n, 200)
+    
+    # n = int(input("motor？"))
+    # motor.setup()
+    # bmx055.bmx055_setup()
+    # magx_off, magy_off = cal(n, -n, 200)
+
+    magdata = magdata_matrix_hand()
+    _, _, _, magx_off, magy_off, _ = calculate_offset(magdata)
     # print(magx_off, magy_off)
     # print(type(magx_off))
     while 1:
