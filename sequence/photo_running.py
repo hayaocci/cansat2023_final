@@ -214,29 +214,31 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
                     print('Turn left')
-                    motor.move(20, 40, 0.1)
+                    motor.move(-30, 30, 0.2)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
-                    motor.move(40, 20, 0.1)
+                    motor.move(30, -30, 0.2)
                 else:
                     #print_im920sl('Go straight long')
                     print('Go straight long')
-                    adjustment_mag(40, 3, magx_off, magy_off)
+                    motor.move(30, 30, 0.3)
+                    #adjustment_mag(40, 3, magx_off, magy_off)
             elif goalarea <= area_middle:
                 auto_count = 0
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
                     print('Turn left')
-                    motor.move(5, 30, 0.1)
+                    motor.move(-30, 30, 0.1)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
-                    motor.move(30, 5, 1)
+                    motor.move(30, -30, 1)
                 else:
                     #print_im920sl('Go straight middle')
                     print('Go straight middle')
-                    adjustment_mag(40, 1, magx_off, magy_off)
+                    motor.move(25, 25, 0.2)
+                    #adjustment_mag(40, 1, magx_off, magy_off)
             elif goalarea <= area_short:
                 auto_count = 0
                 if -100 <= gap and gap <= -65:
