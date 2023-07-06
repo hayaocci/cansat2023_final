@@ -1,17 +1,20 @@
 import release
 import land
 import melt
-import 
+import parachute_avoid
+import paradetection
 import time
 import bme280
 import pigpio
 import send
+import motor
+import traceback
 
 
 if __name__  == "__main__":
 
     ###-------release judge -------###
-    print("release judge start")
+    print("START: Release judge")
     thd_press_release = 0.1
     pressreleasecount = 0
     pressreleasejudge = 0
@@ -29,10 +32,11 @@ if __name__  == "__main__":
             break
         else:
             print('unfulfilled')
-    send.send_data("TXDU 0001.A002")
+
+    send.send_data("TXDU 0001.AAAA")
 
     ###-------land judge -------###
-    print("Start")
+    print("START: Land judge")
     send.send_data("TXDU 0001,B000")
 
     #bme280.bme280_setup()
@@ -49,25 +53,56 @@ if __name__  == "__main__":
             print('Press')
             send.send_data("TXDU 0001,B002")
             print('##--landed--##')
-            send.send_data("TXDU 0001,BBBB")
             break
         else:
             print('Press unfulfilled')
             send.send_data("TXDU 0001,B001")
-    
+
+    send.send_data("TXDU 0001,BBBB")
     ###-------melt-------###
 
+    print("START: Melt")
     pi = pigpio.pi()
 
     meltPin = 4
-        try:
-            melt.down()
-            send.send_data("TXDU 0001,C001")
-        except:
-            pi.write(meltPin, 0)
+    try:
+        melt.down()
+        send.send_data("TXDU 0001,C001")
+    except:
+        pi.write(meltPin, 0)
     
-    send.send_data("TXDU 0001,B001")
+    send.send_data("TXDU 0001,CCCC")
     ###------paraavo-------###
+    try:
+        motor.setup()
+
+        print("START: Parachute avoidance")
+
+        flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320, 240,
+                                                                  200, 10, 120, 1)
+        print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
+        print("paradetection phase success")
+        count_paraavo = 0
+        while count_paraavo < 3:
+            flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320,
+                                                                      240, 200, 10, 120, 1)
+            print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
+            parachute_avoid.parachute_avoidance(flug, gap)
+            print(flug)
+            if flug == -1 or flug == 0:
+                count_paraavo += 1
+                print(count_paraavo)
+
+        print("パラシュート回避完了")
+
+    except KeyboardInterrupt:
+        print("emergency!")
+
+    except:
+        print(traceback.format_exc())
+    print("finish!")
+
+    send.send_data("TXDU 0001,DDDD")
 
     
 
