@@ -189,7 +189,7 @@ if __name__ =="__main__":
     #lat_human = 35.91817415
     #lon_human = 139.90825559
 
-    ML_people = DetectPeople(model_path="model_mobile.tflite" )
+    ML_people = DetectPeople(model_path="model_mobile2.tflite" )
 
     lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = get_locations(lat_human, lon_human)
 
