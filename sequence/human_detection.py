@@ -204,7 +204,7 @@ if __name__ =="__main__":
     #中庭の芝生
     lat_human = 35.91817415
     lon_human = 139.90825559
-    
+
     lat_n = 0
     lon_n = 0
     lat_e = 0
@@ -241,7 +241,7 @@ if __name__ =="__main__":
                         break_outer_loop = True
                         print("遭難者発見")
                         break
-            if break_outer_loop:
+            if break_outer_loop == False:
                 human_judge_count = 0
                 break
         else:
@@ -251,14 +251,14 @@ if __name__ =="__main__":
             else:
                 print("捜索続けます")
         motor.move(30, -30, 0.2)  # 調整必要
-        print("6回撮影しました")
-        print("次のエリアに移動します")
+    print("6回撮影しました")
+    print("次のエリアに移動します")
 
     if human_judge_count==0:
         print ("青点エリア捜索に移行")
         for j in range(4):#4地点について行うよ
             elapsed_time = time.time()-start_time #経過時間の更新
-            if break_outer_loop:
+            if break_outer_loop == False:
                 break
             lat_now, lon_now = gps.location()
             move_to_bulearea(count)
