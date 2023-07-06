@@ -65,7 +65,7 @@ def goal_detection(imgpath: str, G_thd: float):
 
         # 最小外接円を描いた写真の保存先
         path_detection = other.filename(
-            '/home/dendenmushi/cansat2023/sequence/photo_imageguide_detected/Detected-', 'jpg')
+            '/home/dendenmushi/cansat2023/sequence/photo_imageguide/photo_imageguide_detected/Detected-', 'jpg')
 
         red_min = np.array([120, 120, 120], np.uint8) #赤色検知最小値
         red_max = np.array([255, 255, 255], np.uint8) #赤色検知最大値
