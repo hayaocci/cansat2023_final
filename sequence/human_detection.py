@@ -203,18 +203,8 @@ if __name__ =="__main__":
     lat_human = 35.91817415
     lon_human = 139.90825559
 
-    lat_n = 0
-    lon_n = 0
-    lat_e = 0
-    lon_e = 0
-    lat_s = 0
-    lon_s = 0
-    lat_w = 0
-    lon_w = 0
+    #人検知に使用するモデルの読み込み
     ML_people = DetectPeople(model_path="model_mobile2.tflite" )
-
-    #lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = get_locations(lat_human, lon_human)
-    blue_loc = get_locations(lat_human, lon_human)
 
     #まずはメインエリアを捜索
     for k in range(12):
