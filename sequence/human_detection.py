@@ -73,27 +73,15 @@ def get_locations(lat_human, lon_human):
     lon_w = lon_human + lon_dif*(rtb_distance/2)
 
     return {
-        lat_n,
-        lon_n,
-        lat_e,
-        lon_e,
-        lat_s,
-        lon_s,
-        lat_w,
-        lon_w
+        'lat_n':lat_n,
+        'lat_n':lon_n,
+        'lat_e':lat_e,
+        'lon_e':lon_e,
+        'lat_s':lat_s,
+        'lon_s':lon_s,
+        'lat_w':lat_w,
+        'lat_w':lon_w
         }
-'''
-     return {
-	 lat_n,
-	 lon_n,
-	 lat_e,
-	 lon_e,
-	 lat_s,
-	 lon_s,
-	 lat_w,
-	 lon_w
-	 }
-'''
 
 def take_and_rotation(break_outer_loop, human_judge_count):
     for i in range(12):
