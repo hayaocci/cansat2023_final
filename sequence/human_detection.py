@@ -114,7 +114,7 @@ def take_and_rotation(break_outer_loop, human_judge_count):
             else:
                 print("捜索続けます")
         motor.move(30, -30, 0.2)  # 調整必要
-    print("6回撮影しました")
+    print("12回撮影しました")
     print("次のエリアに移動します")
     return break_outer_loop, human_judge_count
 
@@ -217,40 +217,43 @@ if __name__ =="__main__":
     blue_loc = get_locations(lat_human, lon_human)
 
     #まずはメインエリアを捜索
+  
     for k in range(12):
+        if break_outer_loop == False:
+            #撮影
+            img_path = take.picture('ML_imgs/image', 320, 240)
+            
+            #モデルの読み込み
+            result = ML_people.predict(image_path=img_path)
 
-        #撮影
-        img_path = take.picture('ML_imgs/image', 320, 240)
-        
-        #モデルの読み込み
-        result = ML_people.predict(image_path=img_path)
-
-        # result=machine_learning.pro_people()
-        #hitoの確率50%かどうか
-        if result >= 0.50:
-            human_judge_count += 1
-            # 追加の写真を撮影
-            for h in range(2):
-                additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
-                additional_result = ML_people.predict(image_path=additional_img_path)
-                if additional_result >= 0.50:
-                    human_judge_count += 1
-                    if human_judge_count >= 3:
-                        break_outer_loop = True
-                        print("遭難者発見")
-                        break
-            if break_outer_loop == False:
-                human_judge_count = 0
-                break
-        else:
-            if elapsed_time >= threshold:  # 20分経ったか
-                break_outer_loop = True
-                break
+            #hitoの確率50%かどうか
+            if result >= 0.50:
+                human_judge_count += 1
+                # 追加の写真を撮影
+                for h in range(2):
+                    additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
+                    additional_result = ML_people.predict(image_path=additional_img_path)
+                    if additional_result >= 0.50:
+                        human_judge_count += 1
+                        if human_judge_count >= 3:
+                            break_outer_loop = True
+                            print("遭難者発見")
+                            break
+                    else:
+                        human_judge_count = 0
             else:
-                print("捜索続けます")
-        motor.move(30, -30, 0.2)  # 調整必要
-    print("6回撮影しました")
-    print("次のエリアに移動します")
+                if elapsed_time >= threshold:  # 20分経ったか
+                    break_outer_loop = True
+                    break
+                else:
+                    print("捜索続けます")
+            motor.move(30, -30, 0.2)  # 調整必要
+        else:
+            break
+    if human_judge_count == 0:
+        print("12回撮影しました")
+        print("次のエリアに移動します")
+
 
     if human_judge_count==0:
         print ("青点エリア捜索に移行")
