@@ -157,13 +157,13 @@ def adjustment_mag(strength, t, magx_off, magy_off):
             if angle_relative >= -15:
                 adj = 0
             elif angle_relative >= -90:
-                adj = strength * -0.25
+                adj = strength * 0.25
             else:
-                adj = strength_adj * -0.4
+                adj = strength_adj * 0.4
         #print_im920sl(f'angle ----- {angle_relative}')
         print(f'angle ----- {angle_relative}')
         print("3#)")
-        strength_l, strength_r = strength_adj + adj, -strength_adj - adj
+        strength_l, strength_r = strength_adj + adj, strength_adj + adj
         #print_im920sl(f'motor power:\t{strength_l}\t{strength_r}')
         print(f'motor power:\t{strength_l}\t{strength_r}')
         motor.motor_continue(strength_l, strength_r)
@@ -172,7 +172,7 @@ def adjustment_mag(strength, t, magx_off, magy_off):
         mag_y_old = mag_y
         theta_old = calibration.angle(mag_x_old, mag_y_old, magx_off, magy_off)
     print("123")
-    strength_l, strength_r = 20, -20
+    strength_l, strength_r = 20, 20
     motor.deceleration(strength_l, strength_r)
 
 
@@ -207,18 +207,18 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
             if goalflug == -1 or goalflug == 1000:
                 #print_im920sl('Nogoal detected')
                 print('Nogoal detected')
-                motor.move(30, 30, 0.1)
+                motor.move(30, -30, 0.1)
                 auto_count += 1
             elif goalarea <= area_long:
                 auto_count = 0
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
                     print('Turn left')
-                    motor.move(33, 40, 0.1)
+                    motor.move(20, 40, 0.1)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
-                    motor.move(40, 33, 0.1)
+                    motor.move(40, 20, 0.1)
                 else:
                     #print_im920sl('Go straight long')
                     print('Go straight long')
@@ -228,11 +228,11 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
                     print('Turn left')
-                    motor.move(25, 30, 0.1)
+                    motor.move(5, 30, 0.1)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
-                    motor.move(30, 25, 1)
+                    motor.move(30, 5, 1)
                 else:
                     #print_im920sl('Go straight middle')
                     print('Go straight middle')
@@ -300,8 +300,8 @@ if __name__ == "__main__":
         #lon2 = 139.90859362
 
         #グランドのゴール前
-        lat2 = 35.923914
-        lon2 = 139.912223
+        lat2 = 35.9239389
+        lon2 = 139.9122408
 
         #lat2 = 35.9243426
         #lon2 = 139.9112739
@@ -316,7 +316,7 @@ if __name__ == "__main__":
 
         # calibration
         #print_im920sl('##--calibration Start--##\n')
-        magx_off, magy_off = calibration.cal(40, 40, 30)
+        magx_off, magy_off = calibration.cal(40,-40, 30)
         #print_im920sl(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
         #print_im920sl('##--calibration end--##')
 

@@ -73,15 +73,27 @@ def get_locations(lat_human, lon_human):
     lon_w = lon_human + lon_dif*(rtb_distance/2)
 
     return {
-        'lat_n':lat_n, 
-        'lon_n':lon_n,
-        'lat_e':lat_e,
-        'lon_e':lon_e,
-        'lat_s':lat_s,
-        'lon_s':lon_s,
-        'lat_w':lat_w,
-        'lon_w':lon_w
+        lat_n,
+        lon_n,
+        lat_e,
+        lon_e,
+        lat_s,
+        lon_s,
+        lat_w,
+        lon_w
         }
+'''
+     return {
+	 lat_n,
+	 lon_n,
+	 lat_e,
+	 lon_e,
+	 lat_s,
+	 lon_s,
+	 lat_w,
+	 lon_w
+	 }
+'''
 
 def take_and_rotation(break_outer_loop, human_judge_count):
     for i in range(6):
@@ -188,10 +200,18 @@ if __name__ =="__main__":
     #中庭の芝生
     #lat_human = 35.91817415
     #lon_human = 139.90825559
-
+    lat_n = 0
+    lon_n = 0
+    lat_e = 0
+    lon_e = 0
+    lat_s = 0
+    lon_s = 0
+    lat_w = 0
+    lon_w = 0
     ML_people = DetectPeople(model_path="model_mobile2.tflite" )
 
-    lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = get_locations(lat_human, lon_human)
+    #lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = get_locations(lat_human, lon_human)
+    get_locations(lat_human, lon_human)
 
     #まずはメインエリアを捜索
     for k in range(6):

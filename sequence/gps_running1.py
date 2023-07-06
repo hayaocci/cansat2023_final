@@ -280,8 +280,8 @@ if __name__ == '__main__':
     #lon2 = 139.90859362
 
     #グランドのゴール前
-    lat2 = 35.923914
-    lon2 = 139.912223
+    lat2 = 35.9239389
+    lon2 = 139.9122408
 
     #狭いグランドのほう
     #lat2 = 35.9243874
@@ -299,4 +299,4 @@ if __name__ == '__main__':
     bmx055.bmx055_setup()
     motor.setup()
 
-    drive(lon2, lat2, thd_distance=10, t_adj_gps=100)
+    drive(lon2, lat2, thd_distance=5, t_adj_gps=40)
