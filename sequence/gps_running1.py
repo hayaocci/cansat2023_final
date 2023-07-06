@@ -146,10 +146,10 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
             print("-------gps走行-------")
             lat1, lon1 = gps.location()
             lat1, lon1 = gps.location()
-            lat_str = "{:.10f}".format(lat1)  # 緯度を10桁に整形
-            lon_str = "{:.11f}".format(lon1)  # 経度を11桁に整形
+            lat_str = "{:.8f}".format(lat1)  # 緯度を小数点以下8桁に整形
+            lon_str = "{:.8f}".format(lon1)  # 経度を小数点以下8桁に整形
             send.send_data("TXDU 0001,F0" + lat_str)
-            send.send_data("TXDU 0001,F1" + lon_str +"0")
+            send.send_data("TXDU 0001,F1" + lon_str)
             # send.send_data("TXDU 0001,F0" + str(lat1) + "0")
             # send.send_data("TXDU 0001,F1" + str(lon1))
             print(lat1, lon1)
