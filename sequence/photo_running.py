@@ -185,7 +185,6 @@ def adjustment_mag(strength, t, magx_off, magy_off):
     strength_l, strength_r = 20, 20
     motor.deceleration(strength_l, strength_r)
 
-
 def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2, thd_distance, t_adj_gps, gpsrun=False):
     try:
         t_start = time.time()
