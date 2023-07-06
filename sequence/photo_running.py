@@ -241,29 +241,32 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                     #adjustment_mag(40, 1, magx_off, magy_off)
             elif goalarea <= area_short:
                 auto_count = 0
+                count_short_l = 1
+                count_short_r = 1
+                adj_short = 0
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
                     print('Turn left')
-                    count_short_l += 1
-                    adj_short = 0
                     if count_short_l % 4 == 0: #4の倍数ごとに出力を上げていくっ！
                         adj_short += 3 #モーターの出力+3
                         #print_im920sl('#-Power up-#')
                         print('#-Power up-#')
-                    motor.move(15 +  adj_short, 20 - adj_short, 0.1)
+                    motor.move(-(20 + adj_short), 20 + adj_short, 0.2)
+                    count_short_l = += 1
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
-                    count_short_r += 1
                     if count_short_r % 4 == 0: #4の倍数ごとに出力を上げていくっ！
                         adj_short += 3 #モーターの出力+3
                         #print_im920sl('#-Power up-#')
                         print('#-Power up-#')
-                    motor.move(20 + adj_short, 15 + adj_short, 0.1)
+                    motor.move(20 + adj_short, -(20 + adj_short), 0.2)
+                    count_short_r = += 1
                 else:
                     #print_im920sl('Go stright short')
                     print('Go stright short')
-                    adjustment_mag(40, 0.6, magx_off, magy_off)
+                    motor.move(20, 20, 0.1)
+                    #adjustment_mag(40, 0.6, magx_off, magy_off)
                     count_short_l = 0
                     count_short_r = 0
                     adj_short = 0
