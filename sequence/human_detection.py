@@ -119,13 +119,23 @@ def take_and_rotation(break_outer_loop, human_judge_count):
     return break_outer_loop, human_judge_count
 
     
-def move_to_bulearea(count):
+def move_to_bulearea(count, lat_human, lon_human):
  
     # data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_n,lon_n)
     # data_dist_bulearea2 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_e,lon_e)
     # data_dist_bulearea3 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_s,lon_s)
     # data_dist_bulearea4 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_w,lon_w)
     
+    blue_loc = get_locations(lat_human, lon_human)
+    lat_n = blue_loc['lat_n']
+    lon_n = blue_loc['lon_n']
+    lat_e = blue_loc['lat_e']
+    lon_e = blue_loc['lon_e']
+    lat_s = blue_loc['lat_s']
+    lon_s = blue_loc['lon_s']
+    lat_w = blue_loc['lat_w']
+    lon_w = blue_loc['lon_w']
+
     count += 1
     #青点から5m以内か
     if count == 1:
@@ -135,7 +145,7 @@ def move_to_bulearea(count):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_n, lat_n, thd_distance=5, t_adj_gps=10)#60秒もいるのか？
+        gps_running1.drive(lon_n, lat_n, thd_distance=5, t_adj_gps=5)#60秒もいるのか？
         print("第1エリアです")
     elif count == 2:
         # condition =1
@@ -144,7 +154,7 @@ def move_to_bulearea(count):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_e, lat_e, thd_distance=5, t_adj_gps=10) 
+        gps_running1.drive(lon_e, lat_e, thd_distance=5, t_adj_gps=5) 
         print("第2エリアです")  
     elif count == 3:
         # condition =1
@@ -153,7 +163,7 @@ def move_to_bulearea(count):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_s, lat_s, thd_distance=5, t_adj_gps=10)
+        gps_running1.drive(lon_s, lat_s, thd_distance=5, t_adj_gps=5)
         print("第3エリアです")
     elif count == 4:
         # condition =1
@@ -162,7 +172,7 @@ def move_to_bulearea(count):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_w, lat_w, thd_distance=5, t_adj_gps=10)
+        gps_running1.drive(lon_w, lat_w, thd_distance=5, t_adj_gps=5)
         print("第4エリアです")
     else:
         print("青点エリア捜索終了")             
@@ -204,7 +214,7 @@ if __name__ =="__main__":
     ML_people = DetectPeople(model_path="model_mobile2.tflite" )
 
     #lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = get_locations(lat_human, lon_human)
-    get_locations(lat_human, lon_human)
+    blue_loc = get_locations(lat_human, lon_human)
 
     #まずはメインエリアを捜索
     for k in range(12):
@@ -249,7 +259,7 @@ if __name__ =="__main__":
             if break_outer_loop == False:
                 break
             lat_now, lon_now = gps.location()
-            move_to_bulearea(count)
+            move_to_bulearea(count, lat_human, lon_human)
             take_and_rotation(break_outer_loop, human_judge_count)
     
     
