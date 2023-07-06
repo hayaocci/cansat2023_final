@@ -113,7 +113,7 @@ def take_and_rotation(break_outer_loop, human_judge_count):
                 break
             else:
                 print("捜索続けます")
-        motor.move(50, -50, 0.5)  # 調整必要
+        motor.move(30, -30, 0.2)  # 調整必要
     print("6回撮影しました")
     print("次のエリアに移動します")
     return break_outer_loop, human_judge_count
@@ -179,15 +179,15 @@ if __name__ =="__main__":
     #lon_human = 139.90859362
 
     #グランドのゴール前
-    #lat_human = 35.923914
-    #lon_human = 139.912223
+    lat_human = 35.923914
+    lon_human = 139.912223
 
     #lat_human = 35.9243467
     #lon_human = 139.9113996
 
     #中庭の芝生
-    lat_human = 35.91817415
-    lon_human = 139.90825559
+    #lat_human = 35.91817415
+    #lon_human = 139.90825559
 
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
@@ -225,7 +225,7 @@ if __name__ =="__main__":
                 break
             else:
                 print("捜索続けます")
-        motor.move(50, -50, 0.5)  # 調整必要
+        motor.move(30, -30, 0.2)  # 調整必要
 
     if human_judge_count==0:
         print ("青点エリア捜索に移行")

@@ -214,7 +214,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
                     print('Turn left')
-                    motor.move(-33, -40, 0.1)
+                    motor.move(33, 40, 0.1)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
@@ -228,7 +228,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 if -100 <= gap and gap <= -65:
                     #print_im920sl('Turn left')
                     print('Turn left')
-                    motor.move(-25, -30, 0.1)
+                    motor.move(25, 30, 0.1)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
@@ -248,7 +248,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                         adj_short += 3 #モーターの出力+3
                         #print_im920sl('#-Power up-#')
                         print('#-Power up-#')
-                    motor.move(-20 - adj_short, -20 - adj_short, 0.1)
+                    motor.move(15 +  adj_short, 20 - adj_short, 0.1)
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
@@ -257,7 +257,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                         adj_short += 3 #モーターの出力+3
                         #print_im920sl('#-Power up-#')
                         print('#-Power up-#')
-                    motor.move(20 + adj_short, 20 + adj_short, 0.1)
+                    motor.move(20 + adj_short, 15 + adj_short, 0.1)
                 else:
                     #print_im920sl('Go stright short')
                     print('Go stright short')
@@ -300,15 +300,15 @@ if __name__ == "__main__":
         #lon2 = 139.90859362
 
         #グランドのゴール前
-        #lat2 = 35.923914
-        #lon2 = 139.912223
+        lat2 = 35.923914
+        lon2 = 139.912223
 
         #lat2 = 35.9243426
         #lon2 = 139.9112739
 
         #中庭の芝生
-        lat2 = 35.91817415
-        lon2 = 139.90825559
+        #lat2 = 35.91817415
+        #lon2 = 139.90825559
 
         G_thd = 60
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
