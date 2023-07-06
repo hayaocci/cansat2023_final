@@ -96,7 +96,7 @@ def get_locations(lat_human, lon_human):
 '''
 
 def take_and_rotation(break_outer_loop, human_judge_count):
-    for i in range(6):
+    for i in range(12):
         # 撮影
         img_path = take.picture('ML_imgs/image', 320, 240)
 
@@ -133,45 +133,49 @@ def take_and_rotation(break_outer_loop, human_judge_count):
     
 def move_to_bulearea(count):
  
-    data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_n,lon_n)
-    data_dist_bulearea2 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_e,lon_e)
-    data_dist_bulearea3 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_s,lon_s)
-    data_dist_bulearea4 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_w,lon_w)
+    # data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_n,lon_n)
+    # data_dist_bulearea2 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_e,lon_e)
+    # data_dist_bulearea3 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_s,lon_s)
+    # data_dist_bulearea4 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_w,lon_w)
     
     count += 1
     #青点から5m以内か
     if count == 1:
-        condition =1
-        while condition == 1:
-            if data_dist_bulearea1['distance']<=5:
-                print("第"+count+"エリア到着")
-                condition =0
-            print("第"+count+"エリア外です")
-            gps_running1.drive(lon_n, lat_n, thd_distance=10, t_adj_gps=60)#60秒もいるのか？
+        # condition =1
+        # while condition == 1:
+        #     if data_dist_bulearea1['distance']<=5:
+        #         print("第"+count+"エリア到着")
+        #         condition =0
+        #     print("第"+count+"エリア外です")
+        gps_running1.drive(lon_n, lat_n, thd_distance=5, t_adj_gps=10)#60秒もいるのか？
+        print("第1エリアです")
     elif count == 2:
-        condition =1
-        while condition == 1:
-            if data_dist_bulearea2['distance']<=5:
-                print("第"+count+"エリア到着")
-                condition =0
-            print("第"+count+"エリア外です")
-            gps_running1.drive(lon_e, lat_e, thd_distance=10, t_adj_gps=60)   
+        # condition =1
+        # while condition == 1:
+        #     if data_dist_bulearea2['distance']<=5:
+        #         print("第"+count+"エリア到着")
+        #         condition =0
+        #     print("第"+count+"エリア外です")
+        gps_running1.drive(lon_e, lat_e, thd_distance=5, t_adj_gps=10) 
+        print("第2エリアです")  
     elif count == 3:
-        condition =1
-        while condition == 1:
-            if data_dist_bulearea3['distance']<=5:
-                print("第"+count+"エリア到着")
-                condition =0
-            print("第"+count+"エリア外です")
-            gps_running1.drive(lon_s, lat_s, thd_distance=10, t_adj_gps=60)
+        # condition =1
+        # while condition == 1:
+        #     if data_dist_bulearea3['distance']<=5:
+        #         print("第"+count+"エリア到着")
+        #         condition =0
+        #     print("第"+count+"エリア外です")
+        gps_running1.drive(lon_s, lat_s, thd_distance=5, t_adj_gps=10)
+        print("第3エリアです")
     elif count == 4:
-        condition =1
-        while condition == 1:
-            if data_dist_bulearea4['distance']<=5:
-                print("第"+count+"エリア到着")
-                condition =0
-            print("第"+count+"エリア外です")
-            gps_running1.drive(lon_w, lat_w, thd_distance=10, t_adj_gps=60)
+        # condition =1
+        # while condition == 1:
+        #     if data_dist_bulearea4['distance']<=5:
+        #         print("第"+count+"エリア到着")
+        #         condition =0
+        #     print("第"+count+"エリア外です")
+        gps_running1.drive(lon_w, lat_w, thd_distance=5, t_adj_gps=10)
+        print("第4エリアです")
     else:
         print("青点エリア捜索終了")             
     
@@ -214,7 +218,7 @@ if __name__ =="__main__":
     get_locations(lat_human, lon_human)
 
     #まずはメインエリアを捜索
-    for k in range(6):
+    for k in range(12):
 
         #撮影
         img_path = take.picture('ML_imgs/image', 320, 240)
@@ -246,6 +250,8 @@ if __name__ =="__main__":
             else:
                 print("捜索続けます")
         motor.move(30, -30, 0.2)  # 調整必要
+        print("6回撮影しました")
+        print("次のエリアに移動します")
 
     if human_judge_count==0:
         print ("青点エリア捜索に移行")
