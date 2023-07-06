@@ -146,27 +146,37 @@ def adjustment_mag(strength, t, magx_off, magy_off):
             angle_relative = angle_relative if angle_relative <= 180 else angle_relative - 360
         else:
             angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
-        if angle_relative >= 0:
+        if angle_relative >= 10:
             if angle_relative <= 15:
                 adj = 0
             elif angle_relative <= 90:
                 adj = strength_adj * 0.25
             else:
                 adj = strength_adj * 0.4
-        else:
+            #モータの出力調整
+            strength_l, strength_r, t_motor_output = -(strength_adj + adj), strength_adj + adj, 0.1
+            print("右回転しまーす笑")
+        elif angle_relative <= -10:
             if angle_relative >= -15:
                 adj = 0
             elif angle_relative >= -90:
                 adj = strength * 0.25
             else:
                 adj = strength_adj * 0.4
+            #モータの出力調整
+            strength_l, strength_r, t_motor_output = strength_adj + adj, -(strength_adj + adj), 0.1
+            print("左回転しなさいっ！")
+        else:
+            #直進させる
+            strength_l, strength_r, t_motor_output = 30, 30, 0.5
+            print("直進しまっせ")
         #print_im920sl(f'angle ----- {angle_relative}')
         print(f'angle ----- {angle_relative}')
         print("3#)")
-        strength_l, strength_r = strength_adj + adj, strength_adj + adj
+        strength_l, strength_r = strength_adj + adj, -(strength_adj + adj)
         #print_im920sl(f'motor power:\t{strength_l}\t{strength_r}')
         print(f'motor power:\t{strength_l}\t{strength_r}')
-        motor.motor_continue(strength_l, strength_r)
+        motor.move(strength_l, strength_r, t_motor_output)
         time.sleep(0.1)
         mag_x_old = mag_x
         mag_y_old = mag_y
@@ -174,7 +184,6 @@ def adjustment_mag(strength, t, magx_off, magy_off):
     print("123")
     strength_l, strength_r = 20, 20
     motor.deceleration(strength_l, strength_r)
-
 
 def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2, thd_distance, t_adj_gps, gpsrun=False):
     try:
