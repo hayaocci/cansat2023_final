@@ -59,6 +59,7 @@ if __name__  == "__main__":
             send.send_data("TXDU 0001,B001")
 
     send.send_data("TXDU 0001,BBBB")
+    '''''
     ###-------melt-------###
 
     print("START: Melt")
@@ -104,5 +105,5 @@ if __name__  == "__main__":
 
     send.send_data("TXDU 0001,DDDD")
 
-    
+    '''''
 
