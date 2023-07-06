@@ -33,6 +33,7 @@ if __name__  == "__main__":
         else:
             print('unfulfilled')
 
+    print("release finish!!!")
     send.send_data("TXDU 0001.AAAA")
 
     ###-------land judge -------###
@@ -57,9 +58,9 @@ if __name__  == "__main__":
         else:
             print('Press unfulfilled')
             send.send_data("TXDU 0001,B001")
-
+    print("land finish!!!")
     send.send_data("TXDU 0001,BBBB")
-    '''''
+
     ###-------melt-------###
 
     print("START: Melt")
@@ -71,7 +72,7 @@ if __name__  == "__main__":
         send.send_data("TXDU 0001,C001")
     except:
         pi.write(meltPin, 0)
-    
+    print("melt finish!!!")
     send.send_data("TXDU 0001,CCCC")
     ###------paraavo-------###
     try:
@@ -101,9 +102,9 @@ if __name__  == "__main__":
 
     except:
         print(traceback.format_exc())
-    print("finish!")
-
+        
+    print("paraavo finish!!!")
     send.send_data("TXDU 0001,DDDD")
 
-    '''''
+
 
