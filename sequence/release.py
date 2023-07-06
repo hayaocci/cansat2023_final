@@ -49,7 +49,7 @@ if __name__ == "__main__":
     while True:
         press_count_release, press_judge_release = pressdetect_release(thd_press_release, t_delta_release)
         print(f'count:{pressreleasecount}\tjudge{pressreleasejudge}')
-        if press_count_release  >= 3:
+        if press_count_release  > 3:
             print('Press')
             send.send_data("TXDU 0001.0001")
             break
