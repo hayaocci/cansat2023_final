@@ -117,9 +117,9 @@ def take_and_rotation(break_outer_loop, human_judge_count):
             motor.move(30, -30, 0.2)  # 調整必要
         else:
             break
-
-    print("12回撮影しました")
-    print("次のエリアに移動します")
+    if break_outer_loop == False:
+        print("12回撮影しました")
+        print("次のエリアに移動します")
     return break_outer_loop, human_judge_count
 
     
@@ -254,7 +254,7 @@ if __name__ =="__main__":
         print ("青点エリア捜索に移行")
         for j in range(4):#4地点について行うよ
             elapsed_time = time.time()-start_time #経過時間の更新
-            if break_outer_loop == False:
+            if break_outer_loop == True:
                 break
             lat_now, lon_now = gps.location()
             move_to_bulearea(count, lat_human, lon_human)
