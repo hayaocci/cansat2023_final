@@ -74,13 +74,13 @@ def get_locations(lat_human, lon_human):
 
     return {
         'lat_n':lat_n,
-        'lat_n':lon_n,
+        'lon_n':lon_n,
         'lat_e':lat_e,
         'lon_e':lon_e,
         'lat_s':lat_s,
         'lon_s':lon_s,
         'lat_w':lat_w,
-        'lat_w':lon_w
+        'lon_w':lon_w
         }
 
 def take_and_rotation(break_outer_loop, human_judge_count):
