@@ -65,11 +65,11 @@ def picture(path, width=320, height=240):
         with picamera.Picamera2() as camera:
             # camera.set_logging(camera.ERROR)
             camera.start_preview('')
-            camera.rotation = 180 # カメラの画像回転
             filepath = filename(path, 'jpg') # カメラのファイル名作成
             camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (width, height)}, display="lores")
             camera.configure(camera_config)
             camera.start()
+            camera.rotation = 180 # カメラの画像回転
             # time.sleep(2)
             camera.capture_file(filepath) # 撮影した画像を保存
             
