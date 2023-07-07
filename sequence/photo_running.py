@@ -154,7 +154,7 @@ def adjustment_mag(strength, t, magx_off, magy_off):
             else:
                 adj = strength_adj * 0.4
             #モータの出力調整
-            strength_l, strength_r, t_motor_output = -(strength_adj + adj), strength_adj + adj, 0.1
+            strength_l, strength_r, t_motor_output = strength_adj + adj, -(strength_adj + adj), 0.1
             print("右回転しまーす笑")
         elif angle_relative <= -10:
             if angle_relative >= -15:
@@ -164,7 +164,7 @@ def adjustment_mag(strength, t, magx_off, magy_off):
             else:
                 adj = strength_adj * 0.4
             #モータの出力調整
-            strength_l, strength_r, t_motor_output = strength_adj + adj, -(strength_adj + adj), 0.1
+            strength_l, strength_r, t_motor_output = -(strength_adj + adj), strength_adj + adj, 0.1
             print("左回転しなさいっ！")
         else:
             #直進させる
@@ -173,7 +173,7 @@ def adjustment_mag(strength, t, magx_off, magy_off):
         #print_im920sl(f'angle ----- {angle_relative}')
         print(f'angle ----- {angle_relative}')
         print("3#)")
-        strength_l, strength_r = strength_adj + adj, -(strength_adj + adj)
+        #strength_l, strength_r = strength_adj + adj, -(strength_adj + adj)
         #print_im920sl(f'motor power:\t{strength_l}\t{strength_r}')
         print(f'motor power:\t{strength_l}\t{strength_r}')
         motor.move(strength_l, strength_r, t_motor_output)
@@ -261,7 +261,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                         #print_im920sl('#-Power up-#')
                         print('#-Power up-#')
                     motor.move(-(20 + adj_short), 20 + adj_short, 0.2)
-                    count_short_l = += 1
+                    count_short_l += 1
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
@@ -270,7 +270,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                         #print_im920sl('#-Power up-#')
                         print('#-Power up-#')
                     motor.move(20 + adj_short, -(20 + adj_short), 0.2)
-                    count_short_r = += 1
+                    count_short_r += 1
                 else:
                     #print_im920sl('Go stright short')
                     print('Go stright short')
