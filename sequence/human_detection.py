@@ -261,6 +261,7 @@ if __name__ =="__main__":
             take_and_rotation(break_outer_loop, human_judge_count)
 
     print("human detection finish!!!")
+    #
     
     
 
