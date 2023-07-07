@@ -212,7 +212,7 @@ if __name__ =="__main__":
 
     #まずはメインエリアを捜索
   
-    for k in range(12):
+    for k in range(24):
         if break_outer_loop == False:
             human_judge_count = 0
             #撮影
@@ -221,14 +221,14 @@ if __name__ =="__main__":
             #モデルの読み込み
             result = ML_people.predict(image_path=img_path)
 
-            #hitoの確率50%かどうか
-            if result >= 0.50:
+            #hitoの確率30%かどうか
+            if result >= 0.30:
                 human_judge_count += 1
                 # 追加の写真を撮影
                 for h in range(2):
                     additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
                     additional_result = ML_people.predict(image_path=additional_img_path)
-                    if additional_result >= 0.50:
+                    if additional_result >= 0.30:
                         human_judge_count += 1
                         if human_judge_count >= 3:
                             break_outer_loop = True
@@ -242,11 +242,11 @@ if __name__ =="__main__":
                     break
                 else:
                     print("捜索続けます")
-            motor.move(30, -30, 0.2)  # 調整必要
+            motor.move(20, -20, 0.2)  # 調整必要
         else:
             break
     if break_outer_loop == False:
-        print("12回撮影しました")
+        print("24回撮影しました")
         print("次のエリアに移動します")
 
 
