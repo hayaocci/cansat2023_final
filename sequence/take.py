@@ -3,6 +3,7 @@ import  picamera2 as picamera
 import time
 import traceback
 import logging
+import os
 from PIL import Image
 
 logging.getLogger('picmaera2').setLevel(logging.WARNING)
