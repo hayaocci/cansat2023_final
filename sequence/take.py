@@ -5,6 +5,7 @@ import traceback
 import logging
 import os
 from PIL import Image
+import cv2
 
 logging.getLogger('picmaera2').setLevel(logging.WARNING)
 os.environ["LIBCAMERA_LOG_LEVELS"] = "3"
@@ -76,7 +77,7 @@ def picture(path, width=320, height=240):
 
             #画像を読み込んで回転させる
             image = Image.open(filepath)
-            rotated_image = image.rotate(90)
+            rotated_image = image.rotate(90, expand=True)
             rotated_image.save(filepath)
             
     except :
