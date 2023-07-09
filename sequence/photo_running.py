@@ -196,7 +196,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
         chosei = 0
         while 1:
             stuck2.ue_jug()
-            path_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
+            path_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/all/ImageGuide-'
             photoName = take.picture(path_photo)
             goalflug, goalarea, gap, imgname, imgname2 = goal_detection(
                 photoName, 50)
