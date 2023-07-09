@@ -231,7 +231,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 else:
                     #print_im920sl('Go straight long')
                     print('Go straight long')
-                    motor.move(50, 50, 0.5)
+                    motor.move(50, 50, 0.3)
                     #adjustment_mag(40, 3, magx_off, magy_off)
             elif goalarea <= area_middle:
                 auto_count = 0
@@ -246,7 +246,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 else:
                     #print_im920sl('Go straight middle')
                     print('Go straight middle')
-                    motor.move(35, 35, 0.5)
+                    motor.move(35, 35, 0.3)
                     #adjustment_mag(40, 1, magx_off, magy_off)
             elif goalarea <= area_short:
                 auto_count = 0
