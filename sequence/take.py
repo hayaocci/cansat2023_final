@@ -4,6 +4,7 @@ import time
 import traceback
 import logging
 import os
+from PIL import Image
 
 logging.getLogger('picmaera2').setLevel(logging.WARNING)
 os.environ["LIBCAMERA_LOG_LEVELS"] = "3"
@@ -69,9 +70,14 @@ def picture(path, width=320, height=240):
             camera_config = camera.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (width, height)}, display="lores")
             camera.configure(camera_config)
             camera.start()
-            camera.rotation = 90 # カメラの画像回転
+            #camera.rotation = 90 # カメラの画像回転
             # time.sleep(2)
             camera.capture_file(filepath) # 撮影した画像を保存
+
+            #画像を読み込んで回転させる
+            image = Image.open(filepath)
+            rotated_image = image.rotated(90)
+            rotated_image.save(filepath)
             
     except :
         print(traceback.format_exc())
