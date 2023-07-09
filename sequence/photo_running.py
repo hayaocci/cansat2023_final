@@ -67,7 +67,7 @@ def goal_detection(imgpath: str, G_thd: float):
         path_detection = other.filename(
             '/home/dendenmushi/cansat2023/sequence/photo_imageguide/photo_imageguide_detected/Detected-', 'jpg')
 
-        red_min = np.array([120, 120, 120], np.uint8) #赤色検知最小値
+        red_min = np.array([115, 115, 115], np.uint8) #赤色検知最小値
         red_max = np.array([255, 255, 255], np.uint8) #赤色検知最大値
         mask = cv2.inRange(img_hsv, red_min, red_max)
 
@@ -168,7 +168,7 @@ def adjustment_mag(strength, t, magx_off, magy_off):
             print("左回転しなさいっ！")
         else:
             #直進させる
-            strength_l, strength_r, t_motor_output = 30, 30, 0.5
+            strength_l, strength_r, t_motor_output = 35, 35, 1
             print("直進しまっせ")
         #print_im920sl(f'angle ----- {angle_relative}')
         print(f'angle ----- {angle_relative}')
@@ -216,7 +216,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
             if goalflug == -1 or goalflug == 1000:
                 #print_im920sl('Nogoal detected')
                 print('Nogoal detected')
-                motor.move(30, -30, 0.1)
+                motor.move(35, -35, 0.1)
                 auto_count += 1
             elif goalarea <= area_long:
                 auto_count = 0
@@ -231,7 +231,7 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 else:
                     #print_im920sl('Go straight long')
                     print('Go straight long')
-                    motor.move(30, 30, 0.3)
+                    motor.move(50, 50, 0.5)
                     #adjustment_mag(40, 3, magx_off, magy_off)
             elif goalarea <= area_middle:
                 auto_count = 0
@@ -242,11 +242,11 @@ def image_guided_driving(log_photorunning, G_thd, magx_off, magy_off, lon2, lat2
                 elif 65 <= gap and gap <= 100:
                     #print_im920sl('Turn right')
                     print('Turn right')
-                    motor.move(30, -30, 1)
+                    motor.move(30, -30, 0.1)
                 else:
                     #print_im920sl('Go straight middle')
                     print('Go straight middle')
-                    motor.move(25, 25, 0.2)
+                    motor.move(35, 35, 0.5)
                     #adjustment_mag(40, 1, magx_off, magy_off)
             elif goalarea <= area_short:
                 auto_count = 0
@@ -324,7 +324,7 @@ if __name__ == "__main__":
         lat2 = 35.91817415
         lon2 = 139.90825559
 
-        G_thd = 60
+        G_thd = 40
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
         motor.setup()
 
