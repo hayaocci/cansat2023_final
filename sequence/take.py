@@ -76,7 +76,7 @@ def picture(path, width=320, height=240):
 
             #画像を読み込んで回転させる
             image = Image.open(filepath)
-            rotated_image = image.rotated(90)
+            rotated_image = image.rotate(90)
             rotated_image.save(filepath)
             
     except :
