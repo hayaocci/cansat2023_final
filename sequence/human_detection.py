@@ -224,13 +224,11 @@ if __name__ =="__main__":
 
             #hitoの確率30%かどうか
             if result >= 0.80:
-            if result >= 0.80:
                 human_judge_count += 1
                 # 追加の写真を撮影
                 for h in range(2):
                     additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
                     additional_result = ML_people.predict(image_path=additional_img_path)
-                    if additional_result >= 0.80:
                     if additional_result >= 0.80:
                         human_judge_count += 1
                         if human_judge_count >= 3:
