@@ -89,14 +89,14 @@ def goal_detection(imgpath: str, G_thd: float):
             radius_frame = ()
             for (i, cnt) in zip(range(0, len(contours)), contours):
                 #print_im920sl(f'i:{i}')
-                print(f'i:{i}')
+                #print(f'i:{i}')
                 # 赤色検知した部分に最小外接円を書く
                 (x, y), radius = cv2.minEnclosingCircle(cnt)
                 center = (int(x), int(y))
                 radius = int(radius)
                 radius_frame = cv2.circle(img, center, radius, (0, 0, 255), 2)
                 #print_im920sl(radius_frame)
-                print(radius_frame)
+                #print(radius_frame)
                 # 検知した赤色の面積の中で最大のものを探す
                 area = cv2.contourArea(contours[i])
                 if max_area < area:
