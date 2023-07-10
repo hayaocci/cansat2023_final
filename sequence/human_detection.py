@@ -10,8 +10,12 @@ from math import sqrt
 import motor
 import bmx055
 
-human_judge_count=0
-break_outer_loop =False
+#グローバル変数として宣言
+global human_judge_count
+global break_outer_loop
+human_judge_count = 0
+break_outer_loop = False
+
 motor.setup()#試しに追加
 gps.open_gps()
 bmx055.bmx055_setup()
@@ -85,7 +89,10 @@ def get_locations(lat_human, lon_human):
         'lon_w':lon_w
         }
 
-def take_and_rotation(break_outer_loop, human_judge_count):
+def take_and_rotation():
+
+    # global human_judge_count
+    # global break_outer_loop
     for i in range(24):
         if break_outer_loop == False:
             human_judge_count = 0
@@ -186,11 +193,11 @@ def move_to_bulearea(count, lat_human, lon_human):
     else:
         print("青点エリア捜索終了")             
     
+if __name__ == "__main__":
 
-def main():
     count = 0
-    global human_judge_count
-    global break_outer_loop
+    # human_judge_count = 0
+    # break_outer_loop = False
     start_time = time.time()
     threshold = 20 * 60
     elapsed_time = time.time()-start_time
@@ -270,13 +277,10 @@ def main():
                 lat_now, lon_now = gps.location()
                 count += 1
                 move_to_bulearea(count, lat_human, lon_human)
-                take_and_rotation(break_outer_loop, human_judge_count)
+                take_and_rotation()
 
     print("human detection finish!!!")
     
 
-if __name__ == "__main__":
-
-    main()
 
     
