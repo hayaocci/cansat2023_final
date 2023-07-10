@@ -16,7 +16,7 @@ def signal_handler(signal, frame):
 
 def setSerial(mybaudrate = 19200):
 	# --- Configutation of serial.Serial --- #
-	#global com
+	global com
 	com = serial.Serial(
 		port	 = portnumber,
 		baudrate = mybaudrate,
@@ -380,6 +380,15 @@ def Rprm(mybaudrate = 19200):
 
 	com.readline()
 	com.close()
+	
+
+def testsend():
+	com.flushInput()
+	com.write(b'TXDU 0001,'+ "ABCD" +  b'\r\n')
+	com.flushOutput()
+	text = com.readline().strip()
+	print("テスト送信 : TXDU 0001,ABCD" )
+	print("受信 : " + text )
 
 
 
@@ -406,21 +415,3 @@ if __name__ == '__main__':
             pass
     elif check == 2:
         pass
-
-
-	
-	# pi=pigpio.pi()
-	# pi.set_mode(22,pigpio.OUTPUT)
-	# pi.write(22,1)
-	# while 1:
-	# 	print("P" + str(i))
-	# 	data = Send("P" + str(i))
-	# 	#print(data)
-	# 	#if data == b'OK\r\n':
-	# 		#print("OK")
-	# 	i = i + 1
-	# 	#time.sleep(0.5)
-	# 	if i == 10:
-	# 		i = 0
-	# 	time.sleep(1)
-	# #Reception()
