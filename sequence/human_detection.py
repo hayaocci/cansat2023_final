@@ -143,7 +143,6 @@ def move_to_bulearea(count, lat_human, lon_human):
     lat_w = blue_loc['lat_w']
     lon_w = blue_loc['lon_w']
 
-    count += 1
     print(count)
     #青点から5m以内か
     if count == 1:
@@ -267,6 +266,7 @@ if __name__ =="__main__":
                 break
             else:
                 lat_now, lon_now = gps.location()
+                count += 1
                 move_to_bulearea(count, lat_human, lon_human)
                 take_and_rotation(break_outer_loop, human_judge_count)
 
