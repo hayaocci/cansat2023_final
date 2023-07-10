@@ -16,7 +16,7 @@ def signal_handler(signal, frame):
 
 def setSerial(mybaudrate = 19200):
 	# --- Configutation of serial.Serial --- #
-	#global com
+	global com
 	com = serial.Serial(
 		port	 = portnumber,
 		baudrate = mybaudrate,
