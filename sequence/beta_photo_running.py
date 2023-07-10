@@ -104,44 +104,49 @@ def detect_goal():
     return area_ratio, angle
 
 def image_guided_driving(angle, area_ratio):
+    try:
+        while area_ratio == 0:
+            print("ゴールが見つかりません。回転します。")
+            motor.move(40, -40, 0.1)
+            motor.stop(0.1)
+            area_ratio, angle = detect_goal()
+        print("ゴールを捉えました。ゴールへ向かいます。")
+        
+        while area_ratio < 80:
+            #cansatの真正面にゴールがないとき
+            while angle != 3:
+                if angle == 1:
+                    motor.move(-20, 20, 0.5)
+                elif angle == 2:
+                    motor.move(-20, 20, 0,3)
+                elif angle == 4:
+                    motor.move(20, -20, 0.3)
+                elif angle == 5:
+                    motor.move(20, -20, 0.5)
+                
+                area_ratio, angle = detect_goal()
 
-    while area_ratio == 0:
-        print("ゴールが見つかりません。回転します。")
-        motor.move(40, -40, 0.1)
-        motor.stop(0.1)
-        area_ratio, angle = detect_goal()
-    print("ゴールを捉えました。ゴールへ向かいます。")
-    
-    while area_ratio < 80:
-        #cansatの真正面にゴールがないとき
-        while angle != 3:
-            if angle == 1:
-                motor.move(-20, 20, 0.5)
-            elif angle == 2:
-                motor.move(-20, 20, 0,3)
-            elif angle == 4:
-                motor.move(20, -20, 0.3)
-            elif angle == 5:
-                motor.move(20, -20, 0.5)
+            #cansatの真正面にゴールがあるとき
+            if 60 < area_ratio <= 80:
+                t_running = 0.5
+            elif 40 < area_ratio <= 60:
+                t_running = 0.3
+            elif 0 < area_ratio <= 40:
+                t_running = 0.1
             
+            motor.move(30, 30, t_running)
+            motor.decelaration(10, 10)
+            motor.motor_stop(1)
+
             area_ratio, angle = detect_goal()
 
-        #cansatの真正面にゴールがあるとき
-        if 60 < area_ratio <= 80:
-            t_running = 0.5
-        elif 40 < area_ratio <= 60:
-            t_running = 0.3
-        elif 0 < area_ratio <= 40:
-            t_running = 0.1
+        print("目的地周辺に到着しました。案内を終了します。")
+        print("お疲れさまでした。")
         
-        motor.move(30, 30, t_running)
-        motor.decelaration(10, 10)
-        motor.motor_stop(1)
-
-        area_ratio, angle = detect_goal()
-
-    print("目的地周辺に到着しました。案内を終了します。")
-    print("お疲れさまでした。")
+    except KeyboardInterrupt:
+        print("stop")
+    except Exception as e:
+        tb = sys.exc_info()[2]
 
 
 if __name__ == "__main__":
