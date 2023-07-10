@@ -28,7 +28,7 @@ def detect_red(small_img):
 
     masked_img = cv2.bitwise_and(small_img, small_img, mask=mask)
     
-    return mask, masked_img
+    return mask
 
 #赤色の重心を求める
 def get_center(mask, original_img):
@@ -96,7 +96,7 @@ def detect_goal():
     #画像を圧縮
     small_img = mosaic(original_img, ratio=0.1)
     
-    mask, masked_img = detect_red(small_img)
+    mask = detect_red(small_img)
 
     original_img, max_contour, cx, cy = get_center(mask, original_img)
 
