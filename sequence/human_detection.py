@@ -94,8 +94,8 @@ def take_and_rotation():
     # global human_judge_count
     # global break_outer_loop
 
-    #for i in range(6):
-    for i in range(24):
+    for i in range(6):
+    #for i in range(24):
         if break_outer_loop == False:
             human_judge_count = 0
             # 撮影
@@ -215,23 +215,23 @@ if __name__ == "__main__":
     # lon_human = 139.912223
 
     #グランドの中央
-    lat_human = 35.9243068
-    lon_human = 139.9124594
+    #lat_human = 35.9243068
+    #lon_human = 139.9124594
 
     #lat_human = 35.9243467
     #lon_human = 139.9113996
 
     #中庭の芝生
-    # lat_human = 35.91817415
-    # lon_human = 139.90825559
+    lat_human = 35.91817415
+    lon_human = 139.90825559
 
     #人検知に使用するモデルの読み込み
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     #まずはメインエリアを捜索
 
-    #for k in range(6):
-    for k in range(24):
+    for k in range(6):
+    #for k in range(24):
         if break_outer_loop == False:
             human_judge_count = 0
             #撮影
