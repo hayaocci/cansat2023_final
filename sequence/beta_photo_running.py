@@ -32,29 +32,25 @@ def detect_red(small_img):
 
 #赤色の重心を求める
 def get_center(mask, original_img):
-    try:
-        contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        
-        #最大の輪郭を抽出
-        max_contour = max(contours, key = cv2.contourArea)
-
-        #最大輪郭の重心を求める
-        # 重心の計算
-        m = cv2.moments(max_contour)
-        cx,cy= m['m10']/m['m00'] , m['m01']/m['m00']
-        print(f"Weight Center = ({cx}, {cy})")
-        # 座標を四捨五入
-        cx, cy = round(cx), round(cy)
-        # 重心位置に x印を書く
-        cv2.line(original_img, (cx-5,cy-5), (cx+5,cy+5), (0, 255, 0), 2)
-        cv2.line(original_img, (cx+5,cy-5), (cx-5,cy+5), (0, 255, 0), 2)
-
-        cv2.drawContours(original_img, [max_contour], -1, (0, 255, 0), thickness=2)
-
-        return original_img, max_contour, cx, cy
+    contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
-    except ValueError:
-        print("ゴールが見つかりません。一度おねんねしてください。")
+    #最大の輪郭を抽出
+    max_contour = max(contours, key = cv2.contourArea)
+
+    #最大輪郭の重心を求める
+    # 重心の計算
+    m = cv2.moments(max_contour)
+    cx,cy= m['m10']/m['m00'] , m['m01']/m['m00']
+    print(f"Weight Center = ({cx}, {cy})")
+    # 座標を四捨五入
+    cx, cy = round(cx), round(cy)
+    # 重心位置に x印を書く
+    cv2.line(original_img, (cx-5,cy-5), (cx+5,cy+5), (0, 255, 0), 2)
+    cv2.line(original_img, (cx+5,cy-5), (cx-5,cy+5), (0, 255, 0), 2)
+
+    cv2.drawContours(original_img, [max_contour], -1, (0, 255, 0), thickness=2)
+
+    return original_img, max_contour, cx, cy
 
 def get_area(max_contour, original_img):
     #輪郭の面積を計算
