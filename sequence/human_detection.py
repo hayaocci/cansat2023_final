@@ -10,6 +10,8 @@ from math import sqrt
 import motor
 import bmx055
 
+human_judge_count=0
+break_outer_loop =False
 motor.setup()#試しに追加
 gps.open_gps()
 bmx055.bmx055_setup()
@@ -184,11 +186,11 @@ def move_to_bulearea(count, lat_human, lon_human):
     else:
         print("青点エリア捜索終了")             
     
-if __name__ =="__main__":
 
+def main():
     count = 0
-    human_judge_count=0
-    break_outer_loop =False
+    global human_judge_count
+    global break_outer_loop
     start_time = time.time()
     threshold = 20 * 60
     elapsed_time = time.time()-start_time
@@ -272,6 +274,9 @@ if __name__ =="__main__":
 
     print("human detection finish!!!")
     
-    
+
+if __name__ == "__main__":
+
+    main()
 
     
