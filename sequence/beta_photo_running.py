@@ -73,6 +73,7 @@ def get_area(max_contour, original_img):
     return area_ratio
 
 def get_angle(cx, cy, original_img):
+    angle_beta = 0
     #重心から現在位置とゴールの相対角度を大まかに計算
     img_width = original_img.shape[1]
     quat_width = img_width / 5
@@ -165,6 +166,7 @@ def image_guided_driving(area_ratio, angle_beta):
 
 if __name__ == "__main__":
     try:
+        angle_beta = 0
         motor.setup()
         area_ratio, angle_beta = detect_goal()
         image_guided_driving(area_ratio, angle_beta)
