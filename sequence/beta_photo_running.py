@@ -116,6 +116,7 @@ def detect_goal():
     return area_ratio, angle_beta
 
 def image_guided_driving(area_ratio, angle_beta):
+    t_running = 0
     area_ratio, angle_beta = detect_goal()
 
     try:
