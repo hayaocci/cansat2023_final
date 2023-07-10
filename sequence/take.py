@@ -4,7 +4,7 @@ import time
 import traceback
 import logging
 import os
-from PIL import Image
+#from PIL import Image
 import cv2
 
 logging.getLogger('picmaera2').setLevel(logging.WARNING)
@@ -36,6 +36,7 @@ def picture(path, width=320, height=240):
             print('******Directory is maked******')
         else:
             print('**Directory is exist**')
+            
     def filename(f, ext):
         """
         ファイル名に番号をつけるための関数
@@ -76,9 +77,14 @@ def picture(path, width=320, height=240):
             camera.capture_file(filepath) # 撮影した画像を保存
 
             #画像を読み込んで回転させる
-            image = Image.open(filepath)
-            rotated_image = image.rotate(90, expand=True)
-            rotated_image.save(filepath)
+            image = cv2.imread(filepath)
+            image = cv2.resize(image, (width, height))
+            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+            cv2.imwrite(filepath, image)
+
+            # image = Image.open(filepath)
+            # rotated_image = image.rotate(90, expand=True)
+            # rotated_image.save(filepath)
             
     except :
         print(traceback.format_exc())
