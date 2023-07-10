@@ -110,7 +110,6 @@ def image_guided_driving(area_ratio, angle):
         while area_ratio == 0:
             print("ゴールが見つかりません。回転します。")
             motor.move(40, -40, 0.1)
-            motor.stop(0.1)
             area_ratio, angle = detect_goal()
         print("ゴールを捉えました。ゴールへ向かいます。")
         
@@ -141,7 +140,6 @@ def image_guided_driving(area_ratio, angle):
                 t_running = 0.1
             
             motor.move(30, 30, t_running)
-            motor.motor_stop(1)
 
             area_ratio, angle = detect_goal()
 
