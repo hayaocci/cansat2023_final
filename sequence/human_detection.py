@@ -56,7 +56,10 @@ def get_locations(lat_human, lon_human):
     #lon_dif = 0.0000324
 
     lat_dif = 0.0000090
-    lon_dif = 0.0000117
+    lon_dif = 0.0000110
+
+    #北緯40度における10mあたりの緯度経度の差
+    #lon_dif = 0.0000117
     
     #捜索範囲の四角形の一辺の長さ
     side_length = 40
