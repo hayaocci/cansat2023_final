@@ -146,8 +146,10 @@ def image_guided_driving(angle, area_ratio):
 
 if __name__ == "__main__":
     try:
+        motor.setup()
         area_ratio, angle = detect_goal()
         image_guided_driving(angle, area_ratio)
+
     except KeyboardInterrupt:
         print("stop")
     except Exception as e:
