@@ -32,34 +32,44 @@ def detect_red(small_img):
 
 #赤色の重心を求める
 def get_center(mask, original_img):
-    contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    try:
+        contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        #最大の輪郭を抽出
+        max_contour = max(contours, key = cv2.contourArea)
+
+        #最大輪郭の重心を求める
+        # 重心の計算
+        m = cv2.moments(max_contour)
+        cx,cy= m['m10']/m['m00'] , m['m01']/m['m00']
+        print(f"Weight Center = ({cx}, {cy})")
+        # 座標を四捨五入
+        cx, cy = round(cx), round(cy)
+        # 重心位置に x印を書く
+        cv2.line(original_img, (cx-5,cy-5), (cx+5,cy+5), (0, 255, 0), 2)
+        cv2.line(original_img, (cx+5,cy-5), (cx-5,cy+5), (0, 255, 0), 2)
+
+        cv2.drawContours(original_img, [max_contour], -1, (0, 255, 0), thickness=2)
+
+    except:
+        max_contour = 0
+        cx = 0
+        cy = 0
     
-    #最大の輪郭を抽出
-    max_contour = max(contours, key = cv2.contourArea)
-
-    #最大輪郭の重心を求める
-    # 重心の計算
-    m = cv2.moments(max_contour)
-    cx,cy= m['m10']/m['m00'] , m['m01']/m['m00']
-    print(f"Weight Center = ({cx}, {cy})")
-    # 座標を四捨五入
-    cx, cy = round(cx), round(cy)
-    # 重心位置に x印を書く
-    cv2.line(original_img, (cx-5,cy-5), (cx+5,cy+5), (0, 255, 0), 2)
-    cv2.line(original_img, (cx+5,cy-5), (cx-5,cy+5), (0, 255, 0), 2)
-
-    cv2.drawContours(original_img, [max_contour], -1, (0, 255, 0), thickness=2)
-
     return original_img, max_contour, cx, cy
 
 def get_area(max_contour, original_img):
-    #輪郭の面積を計算
-    area = cv2.contourArea(max_contour)
-    img_area = original_img.shape[0] * original_img.shape[1] #画像の縦横の積
-    area_ratio = area / img_area * 100 #面積の割合を計算
-    if area_ratio < 1.0:
-        area_ratio = 0.0
-    print(f"Area ratio = {area_ratio:.1f}%")
+    try:
+        #輪郭の面積を計算
+        area = cv2.contourArea(max_contour)
+        img_area = original_img.shape[0] * original_img.shape[1] #画像の縦横の積
+        area_ratio = area / img_area * 100 #面積の割合を計算
+        if area_ratio < 1.0:
+            area_ratio = 0.0
+        print(f"Area ratio = {area_ratio:.1f}%")
+    except:
+        area_ratio = 0
+
     return area_ratio
 
 def get_angle(cx, cy, original_img):
