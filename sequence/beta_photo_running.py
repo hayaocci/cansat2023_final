@@ -114,7 +114,7 @@ def image_guided_driving(angle, area_ratio):
     
     while area_ratio < 80:
         #cansatの真正面にゴールがないとき
-        while angle =! 3:
+        while angle != 3:
             if angle == 1:
                 motor.move(-20, 20, 0.5)
             elif angle == 2:
