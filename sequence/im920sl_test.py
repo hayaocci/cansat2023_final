@@ -384,23 +384,28 @@ def Rprm(mybaudrate = 19200):
 
 
 if __name__ == '__main__':
-    print("無線の初期設定")
+    print("固有IDの読みだし")
     Rdid()
     Rrid()
+    testsend()
     check = int(input("次に進んでいいですか？ 1→OK 2→NG"))
 
     if check == 1:
+        print("無線チャンネルの設定")
         Stch()
         Rdch()
+        testsend()
         check = int(input("次に進んでいいですか？ 1→OK 2→NG"))
 
         if check == 1:
+            print("無線モードの設定")
             Strt()
             Rdrt()
+            testsend()
         else:
             pass
     elif check == 2:
-        print("終了")
+        pass
 
 
 	
