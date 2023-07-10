@@ -30,7 +30,7 @@ def detect_red(small_img):
     return mask, masked_img
 
 #赤色の重心を求める
-def get_center(mask):
+def get_center(mask, original_img):
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
     #最大の輪郭を抽出
@@ -51,7 +51,7 @@ def get_center(mask):
 
     return original_img, max_contour, cx, cy
 
-def get_area(max_contour):
+def get_area(max_contour, original_img):
     #輪郭の面積を計算
     area = cv2.contourArea(max_contour)
     img_area = original_img.shape[0] * original_img.shape[1] #画像の縦横の積
@@ -61,7 +61,7 @@ def get_area(max_contour):
     print(f"Area ratio = {area_ratio:.1f}%")
     return area_ratio
 
-def get_angle(cx, cy):
+def get_angle(cx, cy, original_img):
     #重心から現在位置とゴールの相対角度を大まかに計算
     img_width = original_img.shape[1]
     quat_width = img_width / 5
@@ -84,8 +84,8 @@ def get_angle(cx, cy):
 
 def goal_detection():
     #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
-    original_img = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
-    photoname = take.picture(original_img)
+    path_all_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
+    photoname = take.picture(path_all_photo)
     original_img = cv2.imread(photoname)
 
     #画像を圧縮
@@ -93,13 +93,13 @@ def goal_detection():
     
     mask, masked_img = detect_red(small_img)
 
-    original_img, max_contour, cx, cy = get_center(mask)
+    original_img, max_contour, cx, cy = get_center(mask, original_img)
 
     #赤が占める割合を求める
-    area_ratio = get_area(max_contour)
+    area_ratio = get_area(max_contour, original_img)
 
     #重心から現在位置とゴールの相対角度を大まかに計算
-    angle = get_angle(cx, cy)
+    angle = get_angle(cx, cy, original_img)
 
     return area_ratio, angle
 
@@ -142,13 +142,9 @@ def image_guided_driving(angle, area_ratio):
 
     print("目的地周辺に到着しました。案内を終了します。")
     print("お疲れさまでした。")
-    
-    exit()
 
 
 if __name__ == "__main__":
-
-
     try:
         area_ratio, angle = goal_detection()
         image_guided_driving(angle, area_ratio)
