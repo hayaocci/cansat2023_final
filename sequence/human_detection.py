@@ -93,6 +93,8 @@ def take_and_rotation():
 
     # global human_judge_count
     # global break_outer_loop
+
+    #for i in range(6):
     for i in range(24):
         if break_outer_loop == False:
             human_judge_count = 0
@@ -227,7 +229,8 @@ if __name__ == "__main__":
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     #まずはメインエリアを捜索
-  
+
+    #for k in range(6):
     for k in range(24):
         if break_outer_loop == False:
             human_judge_count = 0
