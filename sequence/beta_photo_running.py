@@ -69,19 +69,19 @@ def get_angle(cx, cy, original_img):
     x0, x1, x2, x3, x4, x5 = 0, quat_width, quat_width*2, quat_width*3, quat_width*4, quat_width*5
 
     if x0 < cx <x1:
-        angle = 1
+        angle_beta = 1
     elif x1 < cx < x2:
-        angle = 2
+        angle_beta = 2
     elif x2 < cx < x3:
-        angle = 3
+        angle_beta = 3
     elif x3 < cx < x4:
-        angle = 4
+        angle_beta = 4
     elif x4 < cx < x5:
-        angle = 5
+        angle_beta = 5
     
-    print("angle = ", angle)
+    print("angle_beta = ", angle_beta)
 
-    return angle
+    return angle_beta
 
 def detect_goal():
     #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
@@ -100,35 +100,35 @@ def detect_goal():
     area_ratio = get_area(max_contour, original_img)
 
     #重心から現在位置とゴールの相対角度を大まかに計算
-    angle = get_angle(cx, cy, original_img)
+    angle_beta = get_angle(cx, cy, original_img)
 
-    return area_ratio, angle
+    return area_ratio, angle_beta
 
-def image_guided_driving(area_ratio, angle):
-    area_ratio, angle = detect_goal()
+def image_guided_driving(area_ratio, angle_beta):
+    area_ratio, angle_beta = detect_goal()
 
     try:
         while area_ratio == 0:
             print("ゴールが見つかりません。回転します。")
             motor.move(40, -40, 0.1)
-            area_ratio, angle = detect_goal()
+            area_ratio, angle_beta = detect_goal()
         print("ゴールを捉えました。ゴールへ向かいます。")
         
-        area_ratio, angle = detect_goal()
+        area_ratio, angle_beta = detect_goal()
 
         while 0 < area_ratio < 80:
             #cansatの真正面にゴールがないとき
-            while angle != 3:
-                if angle == 1:
+            while angle_beta != 3:
+                if angle_beta == 1:
                     motor.move(-20, 20, 0.5)
-                elif angle == 2:
+                elif angle_beta == 2:
                     motor.move(-20, 20, 0,3)
-                elif angle == 4:
+                elif angle_beta == 4:
                     motor.move(20, -20, 0.3)
-                elif angle == 5:
+                elif angle_beta == 5:
                     motor.move(20, -20, 0.5)
                 
-                area_ratio, angle = detect_goal()
+                area_ratio, angle_beta = detect_goal()
 
             print("正面にゴールがあります。直進します。")
 
@@ -142,7 +142,7 @@ def image_guided_driving(area_ratio, angle):
             
             motor.move(30, 30, t_running)
 
-            area_ratio, angle = detect_goal()
+            area_ratio, angle_beta = detect_goal()
 
         print("目的地周辺に到着しました。案内を終了します。")
         print("お疲れさまでした。")
@@ -156,8 +156,8 @@ def image_guided_driving(area_ratio, angle):
 if __name__ == "__main__":
     try:
         motor.setup()
-        area_ratio, angle = detect_goal()
-        image_guided_driving(area_ratio, angle)
+        area_ratio, angle_beta = detect_goal()
+        image_guided_driving(area_ratio, angle_beta)
 
     except KeyboardInterrupt:
         print("stop")
