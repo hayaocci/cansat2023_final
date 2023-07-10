@@ -148,8 +148,8 @@ def image_guided_driving(area_ratio, angle):
 
     except KeyboardInterrupt:
         print("stop")
-    except Exception as e:
-        tb = sys.exc_info()[2]
+    # except Exception as e:
+    #     tb = sys.exc_info()[2]
 
 
 if __name__ == "__main__":
@@ -160,5 +160,5 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         print("stop")
-    except Exception as e:
-        tb = sys.exc_info()[2]
+    # except Exception as e:
+    #     tb = sys.exc_info()[2]
