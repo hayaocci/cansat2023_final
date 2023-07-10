@@ -67,9 +67,21 @@ def goal_detection(imgpath: str, G_thd: float):
         path_detection = other.filename(
             '/home/dendenmushi/cansat2023/sequence/photo_imageguide/detected/Detected-', 'jpg')
 
-        red_min = np.array([120, 120, 120], np.uint8) #赤色検知最小値
-        red_max = np.array([255, 255, 255], np.uint8) #赤色検知最大値
-        mask = cv2.inRange(img_hsv, red_min, red_max)
+        #赤色マスク1
+        red_min = np.array([0, 64, 0], np.uint8) #赤色検知最小値
+        red_max = np.array([30, 255, 255], np.uint8) #赤色検知最大値
+        mask1 = cv2.inRange(img_hsv, red_min, red_max)
+
+        #赤色マスク2
+        red_min = np.array([150, 64, 0], np.uint8) #赤色検知最小値
+        red_max = np.array([179, 255, 255], np.uint8) #赤色検知最大値
+        mask2 = cv2.inRange(img_hsv, red_min, red_max)
+        
+        mask = mask1 + mask2
+
+        # red_min = np.array([120, 120, 120], np.uint8) #赤色検知最小値
+        # red_max = np.array([255, 255, 255], np.uint8) #赤色検知最大値
+        # mask = cv2.inRange(img_hsv, red_min, red_max)
 
         #red_min = np.array([0, 150, 70], np.uint8) #赤色検知最小値
         #red_max = np.array([15, 255, 255], np.uint8) #赤色検知最大値
