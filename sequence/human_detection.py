@@ -11,12 +11,12 @@ import motor
 import bmx055
 
 #グローバル変数として宣言
-global human_judge_count
-global break_outer_loop
-human_judge_count = 0
-break_outer_loop = False
+# global human_judge_count
+# global break_outer_loop
+# human_judge_count = 0
+# break_outer_loop = False
 
-motor.setup()#試しに追加
+motor.setup()
 gps.open_gps()
 bmx055.bmx055_setup()
 '''
@@ -92,10 +92,8 @@ def get_locations(lat_human, lon_human):
         'lon_w':lon_w
         }
 
-def take_and_rotation():
+def take_and_rotation(human_judge_count, break_outer_loop):
 
-    # global human_judge_count
-    # global break_outer_loop
 
     for i in range(6):
     #for i in range(24):
@@ -137,7 +135,7 @@ def take_and_rotation():
     if break_outer_loop == False:
         print("24回撮影しました")
         print("次のエリアに移動します")
-    return break_outer_loop, human_judge_count
+    return human_judge_count , break_outer_loop
 
     
 def move_to_bulearea(count, lat_human, lon_human):
@@ -201,8 +199,8 @@ def move_to_bulearea(count, lat_human, lon_human):
 if __name__ == "__main__":
 
     count = 0
-    # human_judge_count = 0
-    # break_outer_loop = False
+    human_judge_count = 0
+    break_outer_loop = False
     start_time = time.time()
     threshold = 20 * 60
     elapsed_time = time.time()-start_time
@@ -283,7 +281,7 @@ if __name__ == "__main__":
                 lat_now, lon_now = gps.location()
                 count += 1
                 move_to_bulearea(count, lat_human, lon_human)
-                take_and_rotation()
+                human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop)
 
     print("human detection finish!!!")
     
