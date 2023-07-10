@@ -213,7 +213,7 @@ if __name__ =="__main__":
     # lon_human = 139.90825559
 
     #人検知に使用するモデルの読み込み
-    ML_people = DetectPeople(model_path="model_mobile2.tflite" )
+    ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     #まずはメインエリアを捜索
   
