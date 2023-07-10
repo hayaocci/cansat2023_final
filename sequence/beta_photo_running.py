@@ -82,7 +82,7 @@ def get_angle(cx, cy, original_img):
 
     return angle
 
-def goal_detection():
+def detect_goal():
     #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
     path_all_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
     photoname = take.picture(path_all_photo)
@@ -109,7 +109,7 @@ def image_guided_driving(angle, area_ratio):
         print("ゴールが見つかりません。回転します。")
         motor.move(40, -40, 0.1)
         motor.stop(0.1)
-        area_ratio, angle = goal_detection()
+        area_ratio, angle = detect_goal()
     print("ゴールを捉えました。ゴールへ向かいます。")
     
     while area_ratio < 80:
@@ -124,7 +124,7 @@ def image_guided_driving(angle, area_ratio):
             elif angle == 5:
                 motor.move(20, -20, 0.5)
             
-            area_ratio, angle = goal_detection()
+            area_ratio, angle = detect_goal()
 
         #cansatの真正面にゴールがあるとき
         if 60 < area_ratio <= 80:
@@ -138,7 +138,7 @@ def image_guided_driving(angle, area_ratio):
         motor.decelaration(10, 10)
         motor.motor_stop(1)
 
-        area_ratio, angle = goal_detection()
+        area_ratio, angle = detect_goal()
 
     print("目的地周辺に到着しました。案内を終了します。")
     print("お疲れさまでした。")
@@ -146,7 +146,7 @@ def image_guided_driving(angle, area_ratio):
 
 if __name__ == "__main__":
     try:
-        area_ratio, angle = goal_detection()
+        area_ratio, angle = detect_goal()
         image_guided_driving(angle, area_ratio)
     except KeyboardInterrupt:
         print("stop")
