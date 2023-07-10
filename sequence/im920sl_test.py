@@ -194,7 +194,7 @@ def Rdrs(mybaudrate = 19200):
 	com.write(b'RDRS' + b'\r\n')
 	com.flushOutput()
 	print('信号強度:' + str(com.readline().strip()))
-	#com.readline()
+	com.readline()
 	com.close()
 
 def read(mybaudrate=19200):
@@ -383,6 +383,7 @@ def Rprm(mybaudrate = 19200):
 	
 
 def testsend():
+	global com
 	com.flushInput()
 	com.write(b'TXDU 0001,'+ "ABCD" +  b'\r\n')
 	com.flushOutput()
