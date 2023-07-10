@@ -41,22 +41,22 @@ def get_center(mask, original_img):
         #最大輪郭の重心を求める
         # 重心の計算
         m = cv2.moments(max_contour)
-        wx,wy= m['m10']/m['m00'] , m['m01']/m['m00']
-        print(f"Weight Center = ({wx}, {wy})")
+        p,q= m['m10']/m['m00'] , m['m01']/m['m00']
+        print(f"Weight Center = ({p}, {q})")
         # 座標を四捨五入
-        wx, wy = round(wx), round(wy)
+        p, q = round(p), round(q)
         # 重心位置に x印を書く
-        cv2.line(original_img, (wx-5,wy-5), (wx+5,wy+5), (0, 255, 0), 2)
-        cv2.line(original_img, (wx+5,wy-5), (wx-5,wy+5), (0, 255, 0), 2)
+        cv2.line(original_img, (p-5,q-5), (p+5,q+5), (0, 255, 0), 2)
+        cv2.line(original_img, (p+5,q-5), (p-5,q+5), (0, 255, 0), 2)
 
         cv2.drawContours(original_img, [max_contour], -1, (0, 255, 0), thickness=2)
 
     except:
         max_contour = 0
-        wx = 0
-        wy = 0
+        p = 0
+        q = 0
     
-    return original_img, max_contour, wx, wy
+    return original_img, max_contour, p, q
 
 def get_area(max_contour, original_img):
     try:
@@ -72,22 +72,22 @@ def get_area(max_contour, original_img):
 
     return area_ratio
 
-def get_angle(wx, wy, original_img):
+def get_angle(p, q, original_img):
     angle_beta = 0
     #重心から現在位置とゴールの相対角度を大まかに計算
     img_width = original_img.shape[1]
     quat_width = img_width / 5
     x0, x1, x2, x3, x4, x5 = 0, quat_width, quat_width*2, quat_width*3, quat_width*4, quat_width*5
 
-    if x0 < wx <x1:
+    if x0 < p <x1:
         angle_beta = 1
-    elif x1 < wx < x2:
+    elif x1 < p < x2:
         angle_beta = 2
-    elif x2 < wx < x3:
+    elif x2 < p < x3:
         angle_beta = 3
-    elif x3 < wx < x4:
+    elif x3 < p < x4:
         angle_beta = 4
-    elif x4 < wx < x5:
+    elif x4 < p < x5:
         angle_beta = 5
     
     print("angle_beta = ", angle_beta)
@@ -105,13 +105,13 @@ def detect_goal():
     
     mask = detect_red(small_img)
 
-    original_img, max_contour, wx, wy = get_center(mask, original_img)
+    original_img, max_contour, p, q = get_center(mask, original_img)
 
     #赤が占める割合を求める
     area_ratio = get_area(max_contour, original_img)
 
     #重心から現在位置とゴールの相対角度を大まかに計算
-    angle_beta = get_angle(wx, wy, original_img)
+    angle_beta = get_angle(p, q, original_img)
 
     return area_ratio, angle_beta
 
