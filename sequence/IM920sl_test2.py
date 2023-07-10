@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+
+import serial
+import binascii
+import signal
+import sys
+import platform
+import pigpio
+import time
+portnumber = '/dev/ttyAMA0'
+
 def testsend():
 	com.flushInput()
 	setspeed = input("何する？")
