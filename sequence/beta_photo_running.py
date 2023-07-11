@@ -3,6 +3,7 @@ import cv2
 import motor
 import take
 import sys
+import gps_navigate
 
 #細かいノイズを除去するために画像を圧縮
 def mosaic(original_img, ratio=0.1):
@@ -166,6 +167,7 @@ def image_guided_driving(area_ratio, angle_beta):
 
 
 if __name__ == "__main__":
+
     try:
         angle_beta = 0
         motor.setup()
