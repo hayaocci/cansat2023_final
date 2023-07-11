@@ -79,14 +79,8 @@ def get_angle(cx, cy, original_img):
     quat_width = img_width / 5
     x0, x1, x2, x3, x4, x5 = 0, quat_width, quat_width*2, quat_width*3, quat_width*4, quat_width*5
 
-    #ダミー用に設定
-    x8 = 0
-    x9 = 1
-
     if x0 < cx <x1:
         angle_beta = 1
-    elif x8 < cx < x9:
-        print("get_angleの中のダミー")
     elif x1 < cx < x2:
         angle_beta = 2
     elif x2 < cx < x3:
@@ -140,7 +134,6 @@ def image_guided_driving(area_ratio, angle_beta):
                 if angle_beta == 1:
                     motor.move(-20, 20, 0.5)
                 elif angle_beta == 2:
-                    print("image_guided_drivingの中のangle_beta == 20")
                     motor.move(-20, 20, 0.3)
                 elif angle_beta == 4:
                     motor.move(20, -20, 0.3)
