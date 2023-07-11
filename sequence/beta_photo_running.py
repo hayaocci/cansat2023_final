@@ -97,7 +97,7 @@ def get_angle(cx, cy, original_img):
 def detect_goal():
     #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
     path_all_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
-    path_detected_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/detected/detected-'
+    path_detected_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/detected/detected_img.jpg'
     photoname = take.picture(path_all_photo)
     original_img = cv2.imread(photoname)
 
@@ -114,7 +114,7 @@ def detect_goal():
     #重心から現在位置とゴールの相対角度を大まかに計算
     angle = get_angle(cx, cy, original_img)
 
-    #画像を保存
+    #ゴールを検出した場合に画像を保存
     if area_ratio != 0:
         cv2.imwrite(path_detected_photo, original_img)
 
