@@ -123,6 +123,7 @@ def image_guided_driving(area_ratio, angle_beta):
     try:
         while 1:
             if area_ratio == 100:
+                print("while 1 から抜け出します。")
                 break
 
             while area_ratio == 0:
@@ -131,12 +132,14 @@ def image_guided_driving(area_ratio, angle_beta):
                 area_ratio, angle_beta = detect_goal()
             else:
                 if area_ratio == 100:
+                    print("while area_ratio == 0から抜け出します。")
                     break
                 print("ゴールを捉えました。ゴールへ向かいます。")
                 area_ratio, angle_beta = detect_goal()
 
                 while 0 < area_ratio < 100:
                     if area_ratio == 100:
+                        print("while 0 < area_ratio < 100から抜け出します。")
                         break
 
                     #cansatの真正面にゴールがないとき
