@@ -170,11 +170,11 @@ def image_guided_driving(area_ratio, angle_beta, thd_distance_flag, lat2, lon2):
 
                         #cansatの真正面にゴールがあるとき
                         pwr_l, pwr_r = 30, 30
-                        if area_ratio == 100:
+                        if area_ratio >= 90:
                             print("目的地周辺に到着しました。案内を終了します。")
                             print("お疲れさまでした。")
                             break
-                        elif 80 < area_ratio < 100:
+                        elif 80 < area_ratio < 90:
                             t_running = 0.1
                             pwr_l, pwr_r = 20, 20
                         elif 60 < area_ratio <= 80:
