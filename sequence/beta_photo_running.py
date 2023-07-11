@@ -41,22 +41,22 @@ def get_center(mask, original_img):
         #最大輪郭の重心を求める
         # 重心の計算
         m = cv2.moments(max_contour)
-        p,q= m['m10']/m['m00'] , m['m01']/m['m00']
-        print(f"Weight Center = ({p}, {q})")
+        cx,cy= m['m10']/m['m00'] , m['m01']/m['m00']
+        print(f"Weight Center = ({cx}, {cy})")
         # 座標を四捨五入
-        p, q = round(p), round(q)
+        cx, cy = round(cx), round(cy)
         # 重心位置に x印を書く
-        cv2.line(original_img, (p-5,q-5), (p+5,q+5), (0, 255, 0), 2)
-        cv2.line(original_img, (p+5,q-5), (p-5,q+5), (0, 255, 0), 2)
+        cv2.line(original_img, (cx-5,cy-5), (cx+5,cy+5), (0, 255, 0), 2)
+        cv2.line(original_img, (cx+5,cy-5), (cx-5,cy+5), (0, 255, 0), 2)
 
         cv2.drawContours(original_img, [max_contour], -1, (0, 255, 0), thickness=2)
 
     except:
         max_contour = 0
-        p = 0
-        q = 0
+        cx = 0
+        cy = 0
     
-    return original_img, max_contour, p, q
+    return original_img, max_contour, cx, cy
 
 def get_area(max_contour, original_img):
     try:
@@ -72,23 +72,24 @@ def get_area(max_contour, original_img):
 
     return area_ratio
 
-def get_angle(p, q, original_img):
+def get_angle(cx, cy, original_img):
     angle_beta = 0
     #重心から現在位置とゴールの相対角度を大まかに計算
     img_width = original_img.shape[1]
     quat_width = img_width / 5
     x0, x1, x2, x3, x4, x5 = 0, quat_width, quat_width*2, quat_width*3, quat_width*4, quat_width*5
 
-    if x0 < p <x1:
-        angle_beta = 1
-    elif x1 < p < x2:
-        angle_beta = 2
-    elif x2 < p < x3:
-        angle_beta = 3
-    elif x3 < p < x4:
-        angle_beta = 4
-    elif x4 < p < x5:
-        angle_beta = 5
+    if x0 < cx <x1:
+        angle_beta = 10
+    elif x1 < cx < x2:
+        angle_beta = 20
+        print("get_angleのなか")
+    elif x2 < cx < x3:
+        angle_beta = 30
+    elif x3 < cx < x4:
+        angle_beta = 40
+    elif x4 < cx < x5:
+        angle_beta = 50
     
     print("angle_beta = ", angle_beta)
 
@@ -105,13 +106,13 @@ def detect_goal():
     
     mask = detect_red(small_img)
 
-    original_img, max_contour, p, q = get_center(mask, original_img)
+    original_img, max_contour, cx, cy = get_center(mask, original_img)
 
     #赤が占める割合を求める
     area_ratio = get_area(max_contour, original_img)
 
     #重心から現在位置とゴールの相対角度を大まかに計算
-    angle_beta = get_angle(p, q, original_img)
+    angle_beta = get_angle(cx, cy, original_img)
 
     return area_ratio, angle_beta
 
@@ -130,14 +131,15 @@ def image_guided_driving(area_ratio, angle_beta):
 
         while 0 < area_ratio < 80:
             #cansatの真正面にゴールがないとき
-            while angle_beta != 3:
-                if angle_beta == 1:
+            while angle_beta != 30:
+                if angle_beta == 10:
                     motor.move(-20, 20, 0.5)
-                elif angle_beta == 2:
+                elif angle_beta == 20:
+                    print("image_guided_drivingの中のangle_beta == 20")
                     motor.move(-20, 20, 0,3)
-                elif angle_beta == 4:
+                elif angle_beta == 40:
                     motor.move(20, -20, 0.3)
-                elif angle_beta == 5:
+                elif angle_beta == 50:
                     motor.move(20, -20, 0.5)
                 
                 area_ratio, angle_beta = detect_goal()
