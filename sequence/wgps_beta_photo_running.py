@@ -118,6 +118,10 @@ def detect_goal():
     #重心から現在位置とゴールの相対角度を大まかに計算
     angle = get_angle(cx, cy, original_img)
 
+    #画像を保存
+    if area_ratio != 0:
+        cv2.imwrite(path_detected_photo, original_img)
+
     return area_ratio, angle
 
 def image_guided_driving(area_ratio, angle, thd_distance_flag, lat2, lon2):
@@ -172,6 +176,7 @@ def image_guided_driving(area_ratio, angle, thd_distance_flag, lat2, lon2):
                                 motor.move(20, -20, 0.5)
                             elif area_ratio == 0:
                                 lost_goal = 1
+                                break
                             
                             area_ratio, angle = detect_goal()
 
