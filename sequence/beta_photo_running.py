@@ -79,17 +79,22 @@ def get_angle(cx, cy, original_img):
     quat_width = img_width / 5
     x0, x1, x2, x3, x4, x5 = 0, quat_width, quat_width*2, quat_width*3, quat_width*4, quat_width*5
 
+    #ダミー用に設定
+    x8 = 0
+    x9 = 1
+
     if x0 < cx <x1:
-        angle_beta = 10
+        angle_beta = 1
+    elif x8 < cx < x9:
+        print("get_angleの中のダミー")
     elif x1 < cx < x2:
-        angle_beta = 20
-        print("get_angleのなか")
+        angle_beta = 2
     elif x2 < cx < x3:
-        angle_beta = 30
+        angle_beta = 3
     elif x3 < cx < x4:
-        angle_beta = 40
+        angle_beta = 4
     elif x4 < cx < x5:
-        angle_beta = 50
+        angle_beta = 5
     
     print("angle_beta = ", angle_beta)
 
@@ -131,15 +136,15 @@ def image_guided_driving(area_ratio, angle_beta):
 
         while 0 < area_ratio < 80:
             #cansatの真正面にゴールがないとき
-            while angle_beta != 30:
-                if angle_beta == 10:
+            while angle_beta != 3:
+                if angle_beta == 1:
                     motor.move(-20, 20, 0.5)
-                elif angle_beta == 20:
+                elif angle_beta == 2:
                     print("image_guided_drivingの中のangle_beta == 20")
                     motor.move(-20, 20, 0,3)
-                elif angle_beta == 40:
+                elif angle_beta == 4:
                     motor.move(20, -20, 0.3)
-                elif angle_beta == 50:
+                elif angle_beta == 5:
                     motor.move(20, -20, 0.5)
                 
                 area_ratio, angle_beta = detect_goal()
