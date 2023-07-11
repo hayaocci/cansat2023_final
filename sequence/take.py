@@ -79,7 +79,7 @@ def picture(path, width=320, height=240):
             #画像を読み込んで回転させる
             image = cv2.imread(filepath)
             image = cv2.resize(image, (width, height))
-            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+            image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
             cv2.imwrite(filepath, image)
 
             # image = Image.open(filepath)
