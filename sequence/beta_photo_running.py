@@ -132,7 +132,7 @@ def image_guided_driving(area_ratio, angle):
             #----------赤色検知モードの動作条件を満たしているかどうかを判定----------#
             while area_ratio == 0:
                 print("ゴールが見つかりません。回転します。")
-                motor.move(20, -20, 0.1)
+                motor.move(30, -30, 0.1)
                 area_ratio, angle = detect_goal()
             else:
                 if area_ratio >= 90:
@@ -148,13 +148,13 @@ def image_guided_driving(area_ratio, angle):
                     #cansatの真正面にゴールがないとき
                     while angle != 3:
                         if angle == 1:
-                            motor.move(-20, 20, 0.5)
+                            motor.move(-30, 30, 0.5)
                         elif angle == 2:
-                            motor.move(-20, 20, 0.3)
+                            motor.move(-30, 30, 0.3)
                         elif angle == 4:
-                            motor.move(20, -20, 0.3)
+                            motor.move(30, -30, 0.3)
                         elif angle == 5:
-                            motor.move(20, -20, 0.5)
+                            motor.move(30, -30, 0.5)
                         elif area_ratio == 0:
                             lost_goal = 1
                             break
@@ -167,13 +167,13 @@ def image_guided_driving(area_ratio, angle):
                     print("正面にゴールがあります。直進します。")
 
                     #cansatの真正面にゴールがあるとき
-                    pwr_l, pwr_r = 20, 20
+                    pwr_l, pwr_r = 30, 30
                     if area_ratio >= 90:
                         print("ゴール判定1")
                         break
                     elif 80 < area_ratio < 90:
                         t_running = 0.1
-                        pwr_l, pwr_r = 15, 15
+                        pwr_l, pwr_r = 25, 25
                     elif 60 < area_ratio <= 80:
                         t_running = 0.1
                     elif 40 < area_ratio <= 60:
