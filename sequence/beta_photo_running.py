@@ -158,11 +158,14 @@ def image_guided_driving(area_ratio, angle_beta):
                     print("正面にゴールがあります。直進します。")
 
                     #cansatの真正面にゴールがあるとき
+                    pwr_l, pwr_r = 30, 30
                     if area_ratio == 100:
                         print("目的地周辺に到着しました。案内を終了します。")
                         print("お疲れさまでした。")
                         break
-                    
+                    elif 80 < area_ratio < 100:
+                        t_running = 0.1
+                        pwr_l, pwr_r = 20, 20
                     elif 60 < area_ratio <= 80:
                         t_running = 0.1
                     elif 40 < area_ratio <= 60:
@@ -170,7 +173,7 @@ def image_guided_driving(area_ratio, angle_beta):
                     elif 0 < area_ratio <= 40:
                         t_running = 0.4
                     
-                    motor.move(30, 30, t_running)
+                    motor.move(pwr_l, pwr_r, t_running)
                     area_ratio, angle_beta = detect_goal()
 
                 else:
