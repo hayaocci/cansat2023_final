@@ -78,26 +78,26 @@ def get_area(max_contour, original_img):
     return area_ratio
 
 def get_angle(cx, cy, original_img):
-    angle_beta = 0
+    angle = 0
     #重心から現在位置とゴールの相対角度を大まかに計算
     img_width = original_img.shape[1]
     quat_width = img_width / 5
     x0, x1, x2, x3, x4, x5 = 0, quat_width, quat_width*2, quat_width*3, quat_width*4, quat_width*5
 
     if x0 < cx <x1:
-        angle_beta = 1
+        angle = 1
     elif x1 < cx < x2:
-        angle_beta = 2
+        angle = 2
     elif x2 < cx < x3:
-        angle_beta = 3
+        angle = 3
     elif x3 < cx < x4:
-        angle_beta = 4
+        angle = 4
     elif x4 < cx < x5:
-        angle_beta = 5
+        angle = 5
     
-    print("angle_beta = ", angle_beta)
+    print("angle = ", angle)
 
-    return angle_beta
+    return angle
 
 def detect_goal():
     #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
@@ -116,14 +116,11 @@ def detect_goal():
     area_ratio = get_area(max_contour, original_img)
 
     #重心から現在位置とゴールの相対角度を大まかに計算
-    angle_beta = get_angle(cx, cy, original_img)
+    angle = get_angle(cx, cy, original_img)
 
-    return area_ratio, angle_beta
+    return area_ratio, angle
 
-def image_guided_driving(area_ratio, angle_beta, thd_distance_flag, lat2, lon2):
-    
-    #赤色検知モードに必要な情報の読み込み
-    t_running = 0
+def image_guided_driving(area_ratio, angle, thd_distance_flag, lat2, lon2):
 
     #赤色検知モードの範囲内にいるかどうかを判定
     lat1, lon1 = gps.location()
@@ -137,48 +134,46 @@ def image_guided_driving(area_ratio, angle_beta, thd_distance_flag, lat2, lon2):
 
     try:
         while 1:
-            
+            if area_ratio >= 90:
+                print("ゴール判定4")
+                break
             #----------赤色検知モードの動作条件を満たしているかどうかを判定----------#
             while distance_flag <= thd_distance_flag:
                 print("赤色検知モードに入ります。")
-                area_ratio, angle_beta = detect_goal()
+                area_ratio, angle = detect_goal()
                 if area_ratio >= 90:
-                    print("while  から抜け出します。")
+                    print("ゴール判定3")
                     break
 
                 while area_ratio == 0:
                     print("ゴールが見つかりません。回転します。")
-                    motor.move(40, -40, 0.1)
-                    area_ratio, angle_beta = detect_goal()
+                    motor.move(20, -20, 0.1)
+                    area_ratio, angle = detect_goal()
                 else:
                     if area_ratio >= 90:
-                        print("while area_ratio == 0から抜け出します。")
+                        print("ゴール判定2")
                         break
                     print("ゴールを捉えました。ゴールへ向かいます。")
-                    area_ratio, angle_beta = detect_goal()
+                    area_ratio, angle = detect_goal()
 
                     while 0 < area_ratio < 90:
-                        if area_ratio >= 90:
-                            print("while 0 < area_ratio < 90から抜け出します。")
-                            break
-                        
                         #lost_goalの初期化
                         lost_goal = 0
 
                         #cansatの真正面にゴールがないとき
-                        while angle_beta != 3:
-                            if angle_beta == 1:
+                        while angle != 3:
+                            if angle == 1:
                                 motor.move(-20, 20, 0.5)
-                            elif angle_beta == 2:
+                            elif angle == 2:
                                 motor.move(-20, 20, 0.3)
-                            elif angle_beta == 4:
+                            elif angle == 4:
                                 motor.move(20, -20, 0.3)
-                            elif angle_beta == 5:
+                            elif angle == 5:
                                 motor.move(20, -20, 0.5)
                             elif area_ratio == 0:
                                 lost_goal = 1
                             
-                            area_ratio, angle_beta = detect_goal()
+                            area_ratio, angle = detect_goal()
 
                         if lost_goal == 1:
                             break
@@ -188,8 +183,7 @@ def image_guided_driving(area_ratio, angle_beta, thd_distance_flag, lat2, lon2):
                         #cansatの真正面にゴールがあるとき
                         pwr_l, pwr_r = 30, 30
                         if area_ratio >= 90:
-                            print("目的地周辺に到着しました。案内を終了します。")
-                            print("お疲れさまでした。")
+                            print("ゴール判定1")
                             break
                         elif 80 < area_ratio < 90:
                             t_running = 0.1
@@ -202,7 +196,7 @@ def image_guided_driving(area_ratio, angle_beta, thd_distance_flag, lat2, lon2):
                             t_running = 0.4
                         
                         motor.move(pwr_l, pwr_r, t_running)
-                        area_ratio, angle_beta = detect_goal()
+                        area_ratio, angle = detect_goal()
 
                     else: 
                         #area_ratio が90以上のときゴールを発見したのでループを抜ける
@@ -218,6 +212,9 @@ def image_guided_driving(area_ratio, angle_beta, thd_distance_flag, lat2, lon2):
                 distance_azimuth,  = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
                 distance_flag = distance_azimuth['distance']
                 print("ゴールまでの距離は", distance_flag, "です。")
+
+        print("目的地周辺に到着しました。案内を終了します。")
+        print("お疲れさまでした。")
 
     except KeyboardInterrupt:
         print("stop")
@@ -246,12 +243,15 @@ if __name__ == "__main__":
     bmx055.bmx055_setup()
     motor.setup()
 
+    angle = 0
+    t_running = 0
+
 
     try:
-        angle_beta = 0
+        angle = 0
         motor.setup()
-        area_ratio, angle_beta = detect_goal()
-        image_guided_driving(area_ratio, angle_beta)
+        area_ratio, angle = detect_goal()
+        image_guided_driving(area_ratio, angle)
 
     except KeyboardInterrupt:
         print("stop")
