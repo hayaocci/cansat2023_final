@@ -122,7 +122,7 @@ def image_guided_driving(area_ratio, angle_beta):
 
     try:
         while 1:
-            if area_ratio == 100:
+            if area_ratio >= 90:
                 print("while 1 から抜け出します。")
                 break
 
@@ -131,16 +131,19 @@ def image_guided_driving(area_ratio, angle_beta):
                 motor.move(40, -40, 0.1)
                 area_ratio, angle_beta = detect_goal()
             else:
-                if area_ratio == 100:
+                if area_ratio >= 90:
                     print("while area_ratio == 0から抜け出します。")
                     break
                 print("ゴールを捉えました。ゴールへ向かいます。")
                 area_ratio, angle_beta = detect_goal()
 
-                while 0 < area_ratio < 100:
-                    if area_ratio == 100:
-                        print("while 0 < area_ratio < 100から抜け出します。")
+                while 0 < area_ratio < 90:
+                    if area_ratio >= 90:
+                        print("while 0 < area_ratio < 90から抜け出します。")
                         break
+                    
+                    #lost_goalの初期化
+                    lost_goal = 0
 
                     #cansatの真正面にゴールがないとき
                     while angle_beta != 3:
@@ -152,8 +155,13 @@ def image_guided_driving(area_ratio, angle_beta):
                             motor.move(20, -20, 0.3)
                         elif angle_beta == 5:
                             motor.move(20, -20, 0.5)
+                        elif area_ratio == 0:
+                            lost_goal = 1
                         
                         area_ratio, angle_beta = detect_goal()
+
+                    if lost_goal == 1:
+                        break
 
                     print("正面にゴールがあります。直進します。")
 
@@ -176,13 +184,11 @@ def image_guided_driving(area_ratio, angle_beta):
                     motor.move(pwr_l, pwr_r, t_running)
                     area_ratio, angle_beta = detect_goal()
 
-                else:
+                else: 
+                    #area_ratio が90以上のときゴールを発見したのでループを抜ける
+                    if area_ratio != 0:
+                        break
                     print("ゴールを見失いました。ゴールを捉えるまで回転します。")
-
-            
-        
-
-        print("ゴールしてループから抜け出せました。停止します。")
 
     except KeyboardInterrupt:
         print("stop")
