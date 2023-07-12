@@ -4,6 +4,7 @@ import motor
 import take
 import sys
 import gps_navigate
+import datetime
 
 #細かいノイズを除去するために画像を圧縮
 def mosaic(original_img, ratio=0.1):
@@ -119,8 +120,9 @@ def detect_goal():
 
     #ゴールを検出した場合に画像を保存
     if area_ratio != 0:
+        dt_now = datetime.datetime.now()
         print("photo saved")
-        cv2.imwrite("detected_img.jpg", original_img)
+        cv2.imwrite("detected_img_" + str(dt_now) + ".jpg", original_img)
 
     return area_ratio, angle
 
