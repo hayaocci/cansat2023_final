@@ -5,6 +5,7 @@ import take
 import sys
 import gps_navigate
 import datetime
+import save_photo
 
 #細かいノイズを除去するために画像を圧縮
 def mosaic(original_img, ratio=0.1):
@@ -99,7 +100,7 @@ def get_angle(cx, cy, original_img):
 def detect_goal():
     #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
     path_all_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
-    path_detected_photo = './photo_imageguide/detected/detected_img.jpg'
+    path_detected_photo = './photo_imageguide/detected'
     photoname = take.picture(path_all_photo)
     original_img = cv2.imread(photoname)
 
@@ -120,10 +121,8 @@ def detect_goal():
 
     #ゴールを検出した場合に画像を保存
     if area_ratio != 0:
-        dt_now = datetime.datetime.now()
-        area_ratio_name = int(area_ratio)
-        print("photo saved")
-        cv2.imwrite("./photo_imageguide/detected/detected_img_" + str(dt_now.strftime('%Y%m%d_%H%M%S')) + "_" + str(area_ratio_name) + ".jpg", original_img)
+        area_ratio = int(area_ratio)
+        save_photo.save_img(path_detected_photo, 'detected_' + str(area_ratio) , original_img)
 
     return area_ratio, angle
 

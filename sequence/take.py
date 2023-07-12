@@ -69,7 +69,7 @@ def picture(path, width=320, height=240):
             # camera.set_logging(camera.ERROR)
             camera.start_preview('')
             filepath = filename(path, 'jpg') # カメラのファイル名作成
-            camera_config = camera.create_still_configuration(main={"size": (640, 480)}, lores={"size": (width, height)}, display="lores")
+            camera_config = camera.create_still_configuration(main={"size": (1080, 1920)}, lores={"size": (width, height)}, display="lores")
             camera.configure(camera_config)
             camera.start()
             #camera.rotation = 90 # カメラの画像回転
