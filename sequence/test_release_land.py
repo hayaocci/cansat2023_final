@@ -19,11 +19,16 @@ if __name__  == "__main__":
     # pressreleasecount = 0
     # pressreleasejudge = 0
     t_delta_release = 10
+
+    #タイムアウトを20分に設定
+    timeout_release = time.time()+(20*60)
+    
     bme280.bme280_setup()
     bme280.bme280_calib_param()
     # press_d = 0
 
-    while True:
+    #while True:
+    while time.time() < timeout_release:
         press_count_release, press_judge_release = release.pressdetect_release(thd_press_release, t_delta_release)
         print(f'count:{press_count_release}\tjudge:{press_judge_release}')
         if press_count_release  > 3:
@@ -46,7 +51,11 @@ if __name__  == "__main__":
     landcount = 0
     pressdata = [0.0, 0.0, 0.0, 0.0]
 
-    while True:
+    #タイムアウトを20分に設定
+    timeout_land = time.time() + (20*60)
+
+    #while True:
+    while time.time() < timeout_land:
         presslandjudge = 0
         landcount, presslandjudge = land.pressdetect_land(0.1)
         print(f'count:{landcount}\tjudge:{presslandjudge}')

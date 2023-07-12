@@ -28,11 +28,14 @@ if __name__=='__main__':
     # pressreleasecount = 0
     # pressreleasejudge = 0
     t_delta_release = 10
+    #タイムアウトを20分に設定
+    timeout_release = time.time()+(20*60)
     bme280.bme280_setup()
     bme280.bme280_calib_param()
     # press_d = 0
 
-    while True:
+    #while True:
+    while time.time() < timeout_release:
         press_count_release, press_judge_release = release.pressdetect_release(thd_press_release, t_delta_release)
         print(f'count:{press_count_release}\tjudge:{press_judge_release}')
         if press_count_release  > 3:
@@ -53,8 +56,10 @@ if __name__=='__main__':
 
     landcount = 0
     pressdata = [0.0, 0.0, 0.0, 0.0]
-
-    while True:
+    #タイムアウトを20分に設定
+    timeout_land = time.time() + (20*60)
+    #while True:
+    while time.time() < timeout_land:
         presslandjudge = 0
         landcount, presslandjudge = land.pressdetect_land(0.1)
         print(f'count:{landcount}\tjudge:{presslandjudge}')
@@ -235,3 +240,34 @@ if __name__=='__main__':
     print(f'-----distance: {goal_distance}-----')
     print("finish!")
 ######--------------goal--------------######
+    try:
+        #グランドのゴール前
+        lat2 = 35.9239389
+        lon2 = 139.9122408
+
+        #中庭の芝生
+        # lat2 = 35.91817415
+        # lon2 = 139.90825559
+
+        G_thd = 40
+        log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
+        motor.setup()
+
+        # calibration
+        #print_im920sl('##--calibration Start--##\n')
+        magx_off, magy_off = calibration.cal(40,-40, 30)
+        #print_im920sl(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
+        #print_im920sl('##--calibration end--##')
+
+        # Image Guide
+        photo_running.image_guided_driving(log_photorunning, G_thd, magx_off,
+                             magy_off, lon2, lat2, thd_distance=5, t_adj_gps=10)
+
+    except KeyboardInterrupt:
+        #print_im920sl('stop')
+        print('stop')
+        #im920sl2.off()
+    except Exception as e:
+        #im920sl2.off()
+        tb = sys.exc_info()[2]
+        #print_im920sl("message:{0}".format(e.with_traceback(tb)))
