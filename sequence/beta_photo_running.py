@@ -148,13 +148,13 @@ def image_guided_driving(area_ratio, angle):
                     #cansatの真正面にゴールがないとき
                     while angle != 3:
                         if angle == 1:
-                            motor.move(-30, 30, 0.2)
+                            motor.move(-25, 25, 0.2)
                         elif angle == 2:
-                            motor.move(-30, 30, 0.1)
+                            motor.move(-25, 25, 0.1)
                         elif angle == 4:
-                            motor.move(30, -30, 0.1)
+                            motor.move(25, -25, 0.1)
                         elif angle == 5:
-                            motor.move(30, -30, 0.2)
+                            motor.move(25, -25, 0.2)
                         elif area_ratio == 0:
                             lost_goal = 1
                             break
