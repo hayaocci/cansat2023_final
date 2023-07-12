@@ -6,7 +6,7 @@ def save_img(img_path, img_name, img):
     #日時の取得
     dt_now = datetime.datetime.now()
     dt_name = str(dt_now.strftime('%Y%m%d_%H%M%S'))
-    final_img_path = img_path + "/" + img_name + dt_name + ".jpg"
+    final_img_path = img_path + "/" + img_name + + '_' + dt_name + ".jpg"
 
     #画像の保存
     cv2.imwrite(final_img_path, img)
