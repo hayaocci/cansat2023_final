@@ -95,8 +95,8 @@ def get_locations(lat_human, lon_human):
 def take_and_rotation(human_judge_count, break_outer_loop):
 
 
-    for i in range(6):
-    #for i in range(24):
+    #for i in range(6):
+    for i in range(24):
         if break_outer_loop == False:
             human_judge_count = 0
             # 撮影
@@ -233,8 +233,8 @@ if __name__ == "__main__":
 
     #まずはメインエリアを捜索
 
-    for k in range(6):
-    #for k in range(24):
+    # for k in range(6):
+    for k in range(24):
         if break_outer_loop == False:
             human_judge_count = 0
             #撮影
@@ -243,7 +243,7 @@ if __name__ == "__main__":
             #モデルの読み込み
             result = ML_people.predict(image_path=img_path)
 
-            #hitoの確率30%かどうか
+            #hitoの確率80%かどうか
             if result >= 0.80:
                 human_judge_count += 1
                 # 追加の写真を撮影
