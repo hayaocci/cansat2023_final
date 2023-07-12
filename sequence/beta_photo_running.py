@@ -29,7 +29,7 @@ def detect_red(small_img):
 
     masked_img = cv2.bitwise_and(small_img, small_img, mask=mask)
     
-    return mask
+    return mask, masked_img
 
 #赤色の重心を求める
 def get_center(mask, original_img):
@@ -51,6 +51,7 @@ def get_center(mask, original_img):
         cv2.line(original_img, (cx+5,cy-5), (cx-5,cy+5), (0, 255, 0), 2)
 
         cv2.drawContours(original_img, [max_contour], -1, (0, 255, 0), thickness=2)
+
     except:
         max_contour = 0
         cx = 0
@@ -97,7 +98,7 @@ def get_angle(cx, cy, original_img):
 def detect_goal():
     #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
     path_all_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
-    path_detected_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/detected/detected_img.jpg'
+    path_detected_photo = 'sequence\\photo_imageguide\\detected\\detected_img.jpg'
     photoname = take.picture(path_all_photo)
     original_img = cv2.imread(photoname)
 
