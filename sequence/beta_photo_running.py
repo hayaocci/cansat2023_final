@@ -121,8 +121,9 @@ def detect_goal():
     #ゴールを検出した場合に画像を保存
     if area_ratio != 0:
         dt_now = datetime.datetime.now()
+        area_ratio_name = int(area_ratio)
         print("photo saved")
-        cv2.imwrite("detected_img_" + str(dt_now) + ".jpg", original_img)
+        cv2.imwrite("./photo_imageguide/detected/detected_img_" + str(dt_now.strftime('%Y%m%d_%H%M%S')) + "_" + str(area_ratio_name) + ".jpg", original_img)
 
     return area_ratio, angle
 
