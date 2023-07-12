@@ -117,6 +117,7 @@ def detect_goal():
 
     #ゴールを検出した場合に画像を保存
     if area_ratio != 0:
+        print("photo saved")
         cv2.imwrite(path_detected_photo, original_img)
 
     return area_ratio, angle
