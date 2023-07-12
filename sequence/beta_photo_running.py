@@ -10,7 +10,7 @@ def mosaic(original_img, ratio=0.1):
     small_img = cv2.resize(original_img, None, fx=ratio, fy=ratio, interpolation=cv2.INTER_NEAREST)
     return cv2.resize(small_img, original_img.shape[:2][::-1], interpolation=cv2.INTER_NEAREST)
 
-#赤色検出
+#赤色検出用のマスクを設定
 def detect_red(small_img):
     # HSV色空間に変換
     hsv_img = cv2.cvtColor(small_img, cv2.COLOR_BGR2HSV)
@@ -29,10 +29,10 @@ def detect_red(small_img):
 
     masked_img = cv2.bitwise_and(small_img, small_img, mask=mask)
     
-    return mask
+    return mask, masked_img
 
 #赤色の重心を求める
-def get_center(mask, original_img):
+def get_center(mask, img):
     try:
         contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
@@ -47,17 +47,17 @@ def get_center(mask, original_img):
         # 座標を四捨五入
         cx, cy = round(cx), round(cy)
         # 重心位置に x印を書く
-        cv2.line(original_img, (cx-5,cy-5), (cx+5,cy+5), (0, 255, 0), 2)
-        cv2.line(original_img, (cx+5,cy-5), (cx-5,cy+5), (0, 255, 0), 2)
+        cv2.line(img, (cx-5,cy-5), (cx+5,cy+5), (0, 255, 0), 2)
+        cv2.line(img, (cx+5,cy-5), (cx-5,cy+5), (0, 255, 0), 2)
 
-        cv2.drawContours(original_img, [max_contour], -1, (0, 255, 0), thickness=2)
+        cv2.drawContours(img, [max_contour], -1, (0, 255, 0), thickness=2)
 
     except:
         max_contour = 0
         cx = 0
         cy = 0
     
-    return original_img, max_contour, cx, cy
+    return img, max_contour, cx, cy
 
 def get_area(max_contour, original_img):
     try:
@@ -105,20 +105,22 @@ def detect_goal():
     #画像を圧縮
     small_img = mosaic(original_img, ratio=0.1)
     
+    #赤色であると認識させる範囲を設定
     mask = detect_red(small_img)
 
-    original_img, max_contour, cx, cy = get_center(mask, original_img)
+    #圧縮した画像から重心と輪郭を求めて、画像に反映
+    draw_img, max_contour, cx, cy = get_center(mask, small_img)
 
     #赤が占める割合を求める
-    area_ratio = get_area(max_contour, original_img)
+    area_ratio = get_area(max_contour, draw_img)
 
     #重心から現在位置とゴールの相対角度を大まかに計算
-    angle = get_angle(cx, cy, original_img)
+    angle = get_angle(cx, cy, draw_img)
 
     #ゴールを検出した場合に画像を保存
     if area_ratio != 0:
         print("photo saved")
-        cv2.imwrite(path_detected_photo, original_img)
+        cv2.imwrite(path_detected_photo, draw_img)
 
     return area_ratio, angle
 
