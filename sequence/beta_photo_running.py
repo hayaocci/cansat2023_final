@@ -122,7 +122,7 @@ def detect_goal():
     if area_ratio != 0:
         dt_now = datetime.datetime.now()
         print("photo saved")
-        cv2.imwrite("detected_img_" + str(dt_now) + ".jpg", original_img)
+        cv2.imwrite("detected_img_" + str(dt_now) + "_" + str(area_ratio) + ".jpg", original_img)
 
     return area_ratio, angle
 
