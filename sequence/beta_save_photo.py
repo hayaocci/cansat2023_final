@@ -2,12 +2,13 @@
 import datetime
 import cv2
 
-dt_now = datetime.datetime.now()
-print(dt_now)
-
-def save_img(save_img_path, img_name, save_img):
+def save_img(img_path, img_name, img):
+    #日時の取得
     dt_now = datetime.datetime.now()
-    final_name = save_img_path + img_name + str(dt_now) + ".jpg"
-    cv2.imwrite(final_name, save_img)
+    dt_name = str(dt_now.strftime('%Y%m%d_%H%M%S'))
+    final_img_path = img_path + img_name + dt_name + ".jpg"
 
-if __name__ == '__main__':
+    #画像の保存
+    cv2.imwrite(final_img_path, img)
+
+    print("photo_saved")
