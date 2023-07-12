@@ -106,21 +106,21 @@ def detect_goal():
     small_img = mosaic(original_img, ratio=0.1)
     
     #赤色であると認識させる範囲を設定
-    mask = detect_red(small_img)
+    mask, masked_img = detect_red(small_img)
 
     #圧縮した画像から重心と輪郭を求めて、画像に反映
-    draw_img, max_contour, cx, cy = get_center(mask, small_img)
+    original_img, max_contour, cx, cy = get_center(mask, small_img)
 
     #赤が占める割合を求める
-    area_ratio = get_area(max_contour, draw_img)
+    area_ratio = get_area(max_contour, original_img)
 
     #重心から現在位置とゴールの相対角度を大まかに計算
-    angle = get_angle(cx, cy, draw_img)
+    angle = get_angle(cx, cy, original_img)
 
     #ゴールを検出した場合に画像を保存
     if area_ratio != 0:
         print("photo saved")
-        cv2.imwrite(path_detected_photo, draw_img)
+        cv2.imwrite("detected_img.jpg", original_img)
 
     return area_ratio, angle
 
