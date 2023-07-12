@@ -167,7 +167,7 @@ def image_guided_driving(area_ratio, angle):
                     print("正面にゴールがあります。直進します。")
 
                     #cansatの真正面にゴールがあるとき
-                    pwr_l, pwr_r = 325, 25
+                    pwr_l, pwr_r = 25, 25
                     if area_ratio >= 90:
                         print("ゴール判定1")
                         break
