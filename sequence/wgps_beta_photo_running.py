@@ -108,7 +108,7 @@ def detect_goal():
     original_img = cv2.imread(photoname)
 
     #画像を圧縮
-    small_img = mosaic(original_img, ratio=0.1)
+    small_img = mosaic(original_img, ratio=0.3)
     
     mask, masked_img = detect_red(small_img)
 
