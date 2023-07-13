@@ -127,7 +127,7 @@ def detect_goal():
 
     return area_ratio, angle
 
-def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=5):
+def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
 
     #赤色検知モードの範囲内にいるかどうかを判定
     lat1, lon1 = gps.location()
