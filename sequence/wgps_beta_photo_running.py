@@ -33,7 +33,7 @@ def detect_red(small_img):
 
     masked_img = cv2.bitwise_and(small_img, small_img, mask=mask)
     
-    return mask
+    return mask, masked_img
 
 #赤色の重心を求める
 def get_center(mask, original_img):
@@ -102,16 +102,16 @@ def get_angle(cx, cy, original_img):
 def detect_goal():
     #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
     path_all_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
-    path_detected_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/detected/detected_img.jpg'
+    path_detected_photo = './photo_imageguide/detected'
     photoname = take.picture(path_all_photo)
     original_img = cv2.imread(photoname)
 
     #画像を圧縮
     small_img = mosaic(original_img, ratio=0.1)
     
-    mask = detect_red(small_img)
+    mask, masked_img = detect_red(small_img)
 
-    original_img, max_contour, cx, cy = get_center(mask, original_img)
+    original_img, max_contour, cx, cy = get_center(mask, small_img)
 
     #赤が占める割合を求める
     area_ratio = get_area(max_contour, original_img)
@@ -121,7 +121,8 @@ def detect_goal():
 
     #ゴールを検出した場合に画像を保存
     if area_ratio != 0:
-        cv2.imwrite(path_detected_photo, original_img)
+        area_ratio = int(area_ratio)
+        save_photo.save_img(path_detected_photo, 'detected_' + str(area_ratio) , original_img)
 
     return area_ratio, angle
 
