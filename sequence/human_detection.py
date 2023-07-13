@@ -284,7 +284,8 @@ if __name__ == "__main__":
                 count += 1
                 move_to_bulearea(count, lat_human, lon_human)
                 human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop)
-
+                if j ==4 and break_outer_loop == False:
+                    print("おらんやないか、もう帰るわ")
     print("human detection finish!!!")
     
 
