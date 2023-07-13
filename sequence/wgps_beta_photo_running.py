@@ -252,7 +252,7 @@ if __name__ == "__main__":
 
     gps.open_gps()
     bmx055.bmx055_setup()
-    # motor.setup()
+    motor.setup()
 
     angle = 0
     t_running = 0
@@ -260,7 +260,6 @@ if __name__ == "__main__":
 
     try:
         angle = 0
-        motor.setup()
         area_ratio, angle = detect_goal()
         image_guided_driving(area_ratio, angle, lat2, lon2)
 
