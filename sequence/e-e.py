@@ -22,6 +22,16 @@ import calibration
 
 
 if __name__=='__main__':
+
+###----------set up -----------###
+    #グランドの中央
+    lat_human = 35.9243068
+    lon_human = 139.9124594
+
+    #グランドのゴール前
+    lat_goal = 35.923914
+    lon_goal = 139.912223
+ 
 ###-------release judge -------###
     print("START: Release judge")
     thd_press_release = 0.1
@@ -121,34 +131,12 @@ if __name__=='__main__':
 
 ######--------------run1--------------######
     print("START:gps running1")
-    #生協入口
-    #lat2 = 35.91818718
-    #lon2 = 139.90814829
 
-    #12号館前
-    #lat2 = 35.91896917
-    #lon2 = 139.90859362
-
-    #グランドのゴール前
-    #lat2 = 35.923914
-    #lon2 = 139.912223
-
-    #狭いグランドのほう
-    #lat2 = 35.9243874
-    #lon2 = 139.9114187
-
-    #中庭の芝生
-    lat2 = 35.91817415
-    lon2 = 139.90825559
-
-    #実験棟の前
-    #lat2 = 35.9189778
-    #lon2 = 139.9071493 
     gps.open_gps()
     bmx055.bmx055_setup()
     motor.setup()
 
-    goal_distance = gps_running1.drive(lon2, lat2, thd_distance=10, t_adj_gps=100)
+    goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=100)
     print(f'-----distance: {goal_distance}-----')
     print("finish!")
 ######--------------mission--------------######
@@ -158,31 +146,13 @@ if __name__=='__main__':
     start_time = time.time()
     threshold = 20 * 60
     elapsed_time = time.time()-start_time
-    #lat1 = 35.12345 #赤点
-    #lon1 = 139.67890 #赤点
-
-    #12号館前
-    #lat_human = 35.91896917
-    #lon_human = 139.90859362
-
-    #グランドのゴール前
-    #lat_human = 35.923914
-    #lon_human = 139.912223
-
-    #lat_human = 35.9243467
-    #lon_human = 139.9113996
-
-    #中庭の芝生
-    lat_human = 35.91817415
-    lon_human = 139.90825559
 
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = human_detection.get_locations(lat_human, lon_human)
 
     #まずはメインエリアを捜索
-    for k in range(6):
-    #for k in range(24):
+    for k in range(24):
         if break_outer_loop == False:
             human_judge_count = 0
             #撮影
@@ -191,7 +161,7 @@ if __name__=='__main__':
             #モデルの読み込み
             result = ML_people.predict(image_path=img_path)
 
-            #hitoの確率30%かどうか
+            #hitoの確率80%かどうか
             if result >= 0.80:
                 human_judge_count += 1
                 # 追加の写真を撮影
@@ -235,20 +205,11 @@ if __name__=='__main__':
 
     print("human detection finish!!!")
 ######--------------run2--------------######
-    gps_running1.drive(lon2, lat2, thd_distance=10, t_adj_gps=100)
-#lon,latの値変えるだけでよさそう
+    gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=100)
     print(f'-----distance: {goal_distance}-----')
     print("finish!")
 ######--------------goal--------------######
     try:
-        #グランドのゴール前
-        lat2 = 35.9239389
-        lon2 = 139.9122408
-
-        #中庭の芝生
-        # lat2 = 35.91817415
-        # lon2 = 139.90825559
-
         G_thd = 40
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
         motor.setup()
@@ -261,7 +222,7 @@ if __name__=='__main__':
 
         # Image Guide
         photo_running.image_guided_driving(log_photorunning, G_thd, magx_off,
-                             magy_off, lon2, lat2, thd_distance=5, t_adj_gps=10)
+                             magy_off, lon_goal, lat_goal, thd_distance=5, t_adj_gps=10)
 
     except KeyboardInterrupt:
         #print_im920sl('stop')
