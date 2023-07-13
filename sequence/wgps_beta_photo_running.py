@@ -154,7 +154,8 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
 
                 while area_ratio == 0:
                     print("ゴールが見つかりません。回転します。")
-                    motor.move(20, -20, 0.1)
+                    pwr_undetect = 40
+                    motor.move(pwr_undetect, -pwr_undetect, 0.2)
                     area_ratio, angle = detect_goal()
                 else:
                     if area_ratio >= 90:
@@ -169,7 +170,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
 
                         #cansatの真正面にゴールがないとき
                         while angle == 1 or angle == 5:
-                            pwr_adj = 25
+                            pwr_adj = 40
                             if angle == 1:
                                 motor.move(-pwr_adj, pwr_adj, 0.2)
                             # elif angle == 2:
@@ -191,7 +192,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
 
                         #cansatの真正面にゴールがあるとき
                         #angle が2,3,4のとき
-                        pwr = 30
+                        pwr = 35
                         if area_ratio >= 90:
                             print("ゴール判定1")
                             break
@@ -235,8 +236,8 @@ if __name__ == "__main__":
     motor.setup()
 
     #グランドのゴール前
-    lat2 = 35.9239389
-    lon2 = 139.9122408
+    #lat2 = 35.9239389
+    #lon2 = 139.9122408
 
     #狭いグランドのほう
     #lat2 = 35.9243874
