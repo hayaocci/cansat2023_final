@@ -21,12 +21,12 @@ def detect_red(small_img):
     hsv_img = cv2.cvtColor(small_img, cv2.COLOR_BGR2HSV)
     
     # 赤色のHSVの値域1
-    red_min = np.array([0,64,0])
+    red_min = np.array([0,105,100])
     red_max = np.array([30,255,255])
     mask1 = cv2.inRange(hsv_img, red_min, red_max)
     
     # 赤色のHSVの値域2
-    red_min = np.array([150,127,0])
+    red_min = np.array([150,105,100])
     red_max = np.array([179,255,255])
     mask2 = cv2.inRange(hsv_img, red_min, red_max)
     
