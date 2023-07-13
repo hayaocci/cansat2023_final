@@ -8,6 +8,7 @@ import gps
 import bmx055
 import calibration
 import gps_running1
+import save_photo
 
 #細かいノイズを除去するために画像を圧縮
 def mosaic(original_img, ratio=0.1):
@@ -264,5 +265,9 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         print("stop")
+
+    print("目的地周辺に到着しました。案内を終了します。")
+    print("お疲れさまでした。")
+
     # except Exception as e:
     #     tb = sys.exc_info()[2]
