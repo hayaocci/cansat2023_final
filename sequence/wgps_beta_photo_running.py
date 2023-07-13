@@ -131,7 +131,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
 
     #赤色検知モードの範囲内にいるかどうかを判定
     lat1, lon1 = gps.location()
-    distance_azimuth,  = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
+    distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
     distance_flag = distance_azimuth['distance']
     print("ゴールまでの距離は", distance_flag, "です。")
 
@@ -220,7 +220,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
 
                 #GPS誘導後、再度ゴールまでの距離を得る
                 lat1, lon1 = gps.location()
-                distance_azimuth,  = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
+                distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
                 distance_flag = distance_azimuth['distance']
                 print("ゴールまでの距離は", distance_flag, "です。")
 
@@ -244,8 +244,8 @@ if __name__ == "__main__":
     #lon2 = 139.9114187
 
     #中庭の芝生
-    lat2 = 35.91817415
-    lon2 = 139.90825559
+    lat2 = 35.9183424
+    lon2 = 139.9080371
 
     #実験棟の前
     #lat2 = 35.9189778

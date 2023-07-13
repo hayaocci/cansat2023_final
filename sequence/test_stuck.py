@@ -204,4 +204,5 @@ def stuck_avoid():
 
 
 if __name__ == '__main__':
+    motor.setup()
     stuck_avoid()
