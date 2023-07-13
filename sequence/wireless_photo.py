@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
         # 送信データの作成
         data = "TXDU 0001," + encoded_image
-
+        print(encoded_image)
         # データの送信
         send.send_data(data)
         print('写真を送信しました')
