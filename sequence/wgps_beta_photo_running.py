@@ -129,7 +129,6 @@ def detect_goal():
 
 def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
 
-    motor.setup()
     #赤色検知モードの範囲内にいるかどうかを判定
     lat1, lon1 = gps.location()
     distance_azimuth,  = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
@@ -233,6 +232,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
     #     tb = sys.exc_info()[2]
 
 if __name__ == "__main__":
+    motor.setup()
 
     #グランドのゴール前
     lat2 = 35.9239389
@@ -252,11 +252,9 @@ if __name__ == "__main__":
 
     gps.open_gps()
     bmx055.bmx055_setup()
-    motor.setup()
 
     angle = 0
     t_running = 0
-
 
     try:
         angle = 0
