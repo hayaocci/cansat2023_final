@@ -256,8 +256,6 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         direction = calibration.calculate_direction(lon2, lat2)
         goal_distance = direction['distance']
         other.print_im920sl(f'-----distance: {goal_distance}-----')
-        return goal_distance #e-e用に追加してみた　エラー起きたら消して
-
 
 if __name__ == '__main__':
     send.send_data("TXDU 0001,C0")
