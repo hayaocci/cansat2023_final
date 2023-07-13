@@ -166,7 +166,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_n, lat_n, thd_distance=5, t_adj_gps=5)#60秒もいるのか？
+        gps_running1.drive(lon_n, lat_n, thd_distance=1, t_adj_gps=5)#60秒もいるのか？
         print("第1エリアです")
     elif count == 2:
         # condition =1
@@ -175,7 +175,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_e, lat_e, thd_distance=5, t_adj_gps=5) 
+        gps_running1.drive(lon_e, lat_e, thd_distance=1, t_adj_gps=5) 
         print("第2エリアです")  
     elif count == 3:
         # condition =1
@@ -184,7 +184,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_s, lat_s, thd_distance=5, t_adj_gps=5)
+        gps_running1.drive(lon_s, lat_s, thd_distance=1, t_adj_gps=5)
         print("第3エリアです")
     elif count == 4:
         # condition =1
@@ -193,7 +193,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_w, lat_w, thd_distance=5, t_adj_gps=5)
+        gps_running1.drive(lon_w, lat_w, thd_distance=1, t_adj_gps=5)
         print("第4エリアです")
     else:
         print("青点エリア捜索終了")             
