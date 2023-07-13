@@ -8,6 +8,7 @@ import gps
 import bmx055
 import calibration
 import gps_running1
+import save_photo
 
 #細かいノイズを除去するために画像を圧縮
 def mosaic(original_img, ratio=0.1):
@@ -33,7 +34,7 @@ def detect_red(small_img):
 
     masked_img = cv2.bitwise_and(small_img, small_img, mask=mask)
     
-    return mask
+    return mask, masked_img
 
 #赤色の重心を求める
 def get_center(mask, original_img):
@@ -102,16 +103,16 @@ def get_angle(cx, cy, original_img):
 def detect_goal():
     #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
     path_all_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
-    path_detected_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/detected/detected_img.jpg'
+    path_detected_photo = './photo_imageguide/detected'
     photoname = take.picture(path_all_photo)
     original_img = cv2.imread(photoname)
 
     #画像を圧縮
     small_img = mosaic(original_img, ratio=0.1)
     
-    mask = detect_red(small_img)
+    mask, masked_img = detect_red(small_img)
 
-    original_img, max_contour, cx, cy = get_center(mask, original_img)
+    original_img, max_contour, cx, cy = get_center(mask, small_img)
 
     #赤が占める割合を求める
     area_ratio = get_area(max_contour, original_img)
@@ -121,11 +122,12 @@ def detect_goal():
 
     #ゴールを検出した場合に画像を保存
     if area_ratio != 0:
-        cv2.imwrite(path_detected_photo, original_img)
+        area_ratio = int(area_ratio)
+        save_photo.save_img(path_detected_photo, 'detected_' + str(area_ratio) , original_img)
 
     return area_ratio, angle
 
-def image_guided_driving(area_ratio, angle, thd_distance_flag, lat2, lon2):
+def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
 
     #赤色検知モードの範囲内にいるかどうかを判定
     lat1, lon1 = gps.location()
@@ -166,15 +168,16 @@ def image_guided_driving(area_ratio, angle, thd_distance_flag, lat2, lon2):
                         lost_goal = 0
 
                         #cansatの真正面にゴールがないとき
-                        while angle != 3:
+                        while angle == 1 or angle == 5:
+                            pwr_adj = 25
                             if angle == 1:
-                                motor.move(-20, 20, 0.5)
-                            elif angle == 2:
-                                motor.move(-20, 20, 0.3)
-                            elif angle == 4:
-                                motor.move(20, -20, 0.3)
+                                motor.move(-pwr_adj, pwr_adj, 0.2)
+                            # elif angle == 2:
+                            #     motor.move(-pwr_adj, pwr_adj, 0.1)
+                            # elif angle == 4:
+                            #     motor.move(pwr_adj, -pwr_adj, 0.1)
                             elif angle == 5:
-                                motor.move(20, -20, 0.5)
+                                motor.move(pwr_adj, -pwr_adj, 0.2)
                             elif area_ratio == 0:
                                 lost_goal = 1
                                 break
@@ -187,21 +190,22 @@ def image_guided_driving(area_ratio, angle, thd_distance_flag, lat2, lon2):
                         print("正面にゴールがあります。直進します。")
 
                         #cansatの真正面にゴールがあるとき
-                        pwr_l, pwr_r = 30, 30
+                        #angle が2,3,4のとき
+                        pwr = 30
                         if area_ratio >= 90:
                             print("ゴール判定1")
                             break
                         elif 80 < area_ratio < 90:
                             t_running = 0.1
-                            pwr_l, pwr_r = 20, 20
+                            pwr = 25
                         elif 60 < area_ratio <= 80:
-                            t_running = 0.1
+                            t_running = 0.15
                         elif 40 < area_ratio <= 60:
                             t_running = 0.2
                         elif 0 < area_ratio <= 40:
-                            t_running = 0.4
+                            t_running = 0.25
                         
-                        motor.move(pwr_l, pwr_r, t_running)
+                        motor.move(pwr, pwr, t_running)
                         area_ratio, angle = detect_goal()
 
                     else: 
@@ -230,16 +234,16 @@ def image_guided_driving(area_ratio, angle, thd_distance_flag, lat2, lon2):
 if __name__ == "__main__":
 
     #グランドのゴール前
-    #lat2 = 35.9239389
-    #lon2 = 139.9122408
+    lat2 = 35.9239389
+    lon2 = 139.9122408
 
     #狭いグランドのほう
     #lat2 = 35.9243874
     #lon2 = 139.9114187
 
     #中庭の芝生
-    lat2 = 35.91817415
-    lon2 = 139.90825559
+    # lat2 = 35.91817415
+    # lon2 = 139.90825559
 
     #実験棟の前
     #lat2 = 35.9189778
@@ -257,9 +261,13 @@ if __name__ == "__main__":
         angle = 0
         motor.setup()
         area_ratio, angle = detect_goal()
-        image_guided_driving(area_ratio, angle)
+        image_guided_driving(area_ratio, angle, lat2, lon2)
 
     except KeyboardInterrupt:
         print("stop")
+
+    print("目的地周辺に到着しました。案内を終了します。")
+    print("お疲れさまでした。")
+
     # except Exception as e:
     #     tb = sys.exc_info()[2]

@@ -218,15 +218,15 @@ if __name__ == "__main__":
     # lon_human = 139.912223
 
     #グランドの中央
-    #lat_human = 35.9243068
-    #lon_human = 139.9124594
+    lat_human = 35.9243068
+    lon_human = 139.9124594
 
     #lat_human = 35.9243467
     #lon_human = 139.9113996
 
     #中庭の芝生
-    lat_human = 35.91817415
-    lon_human = 139.90825559
+    #lat_human = 35.91817415
+    #lon_human = 139.90825559
 
     #人検知に使用するモデルの読み込み
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
