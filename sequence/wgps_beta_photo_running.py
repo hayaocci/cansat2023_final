@@ -11,7 +11,7 @@ import gps_running1
 import save_photo
 
 #細かいノイズを除去するために画像を圧縮
-def mosaic(original_img, ratio=0.3):
+def mosaic(original_img, ratio):
     small_img = cv2.resize(original_img, None, fx=ratio, fy=ratio, interpolation=cv2.INTER_NEAREST)
     return cv2.resize(small_img, original_img.shape[:2][::-1], interpolation=cv2.INTER_NEAREST)
 
@@ -108,7 +108,7 @@ def detect_goal():
     original_img = cv2.imread(photoname)
 
     #画像を圧縮
-    small_img = mosaic(original_img, ratio=0.3)
+    small_img = mosaic(original_img, 0.3)
     
     mask, masked_img = detect_red(small_img)
 
