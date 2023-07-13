@@ -348,7 +348,7 @@ if __name__ == "__main__":
 
         # Image Guide
         image_guided_driving(log_photorunning, G_thd, magx_off,
-                             magy_off, lon2, lat2, thd_distance=5, t_adj_gps=10)
+                             magy_off, lon2, lat2, thd_distance=1, t_adj_gps=10)
 
     except KeyboardInterrupt:
         #print_im920sl('stop')
