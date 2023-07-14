@@ -127,7 +127,8 @@ def detect_goal():
 
     return area_ratio, angle
 
-def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
+def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_distance_flag=10):
+    #thd_full_red = 0mゴールと判断するときの赤色が画像を占める割合の閾値
 
     #赤色検知モードの範囲内にいるかどうかを判定
     lat1, lon1 = gps.location()
@@ -141,14 +142,14 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
 
     try:
         while 1:
-            if area_ratio >= 90:
+            if area_ratio >= thd_full_red:
                 print("ゴール判定4")
                 break
             #----------赤色検知モードの動作条件を満たしているかどうかを判定----------#
             while distance_flag <= thd_distance_flag:
                 print("赤色検知モードに入ります。")
                 area_ratio, angle = detect_goal()
-                if area_ratio >= 90:
+                if area_ratio >= thd_full_red:
                     print("ゴール判定3")
                     break
 
@@ -158,13 +159,13 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
                     motor.move(pwr_undetect, -pwr_undetect, 0.2)
                     area_ratio, angle = detect_goal()
                 else:
-                    if area_ratio >= 90:
+                    if area_ratio >= thd_full_red:
                         print("ゴール判定2")
                         break
                     print("ゴールを捉えました。ゴールへ向かいます。")
                     area_ratio, angle = detect_goal()
 
-                    while 0 < area_ratio < 90:
+                    while 0 < area_ratio < thd_full_red:
                         #lost_goalの初期化
                         lost_goal = 0
 
@@ -193,10 +194,10 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
                         #cansatの真正面にゴールがあるとき
                         #angle が2,3,4のとき
                         pwr = 35
-                        if area_ratio >= 90:
+                        if area_ratio >= thd_full_red:
                             print("ゴール判定1")
                             break
-                        elif 80 < area_ratio < 90:
+                        elif 80 < area_ratio < thd_full_red:
                             t_running = 0.1
                             pwr = 25
                         elif 60 < area_ratio <= 80:
@@ -233,8 +234,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_distance_flag=10):
     #     tb = sys.exc_info()[2]
 
 if __name__ == "__main__":
-    motor.setup()
-
+    #実験用の座標
     #グランドのゴール前
     #lat2 = 35.9239389
     #lon2 = 139.9122408
@@ -251,6 +251,8 @@ if __name__ == "__main__":
     #lat2 = 35.9189778
     #lon2 = 139.9071493
 
+    #セットアップ系
+    motor.setup()
     gps.open_gps()
     bmx055.bmx055_setup()
 
