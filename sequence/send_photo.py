@@ -44,7 +44,7 @@ output_filename = "output.txt"  # 保存先のファイル名
 
 start_time = time.time()  # プログラム開始時刻を記録
 
-send.send_data = ("TXDU 0001,wireless_start")
+send.send_data ("TXDU 0001,wireless_start")
 
 # バイナリデータを32バイトずつ表示し、ファイルに保存する
 with open(output_filename, "w") as f:
@@ -53,14 +53,14 @@ with open(output_filename, "w") as f:
         chunk_str = "".join(format(byte, "02X") for byte in chunk)
         #chunk_strにデータがある
         print(chunk_str)
-        send.send_data = ("TXDU 0001," + chunk_str)
+        send.send_data("TXDU 0001," + chunk_str)
         # 表示間隔を待つ
         time.sleep(delay)
 
         # ファイルに書き込む
         f.write(chunk_str + "\n")
 
-send.send_data = ("TXDU 0001,wireless_fin")
+send.send_data ("TXDU 0001,wireless_fin")
 
 end_time = time.time()  # プログラム終了時刻を記録
 execution_time = end_time - start_time  # 実行時間を計算
