@@ -65,11 +65,10 @@ def para_avoid(area_ratio, angle, thd_para_avoid=-1.0, thd_para_count=4):
 
             area_ratio, angle = detect_para()
         else:
-            print("3回確認しました。パラシュートはありません。")
+            print("確認しました。パラシュートはありません。")
             print("直進します。")
+            area_ratio, angle = detect_para()
             break
-    
-    area_ratio, angle = detect_para()
 
     #パラシュートが前方にないことが確認できたので、直進する。
     if area_ratio == 0:
