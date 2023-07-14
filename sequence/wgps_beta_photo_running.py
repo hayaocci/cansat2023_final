@@ -22,11 +22,11 @@ def detect_red(small_img):
     
     # 赤色のHSVの値域1
     red_min = np.array([0,105,100])
-    red_max = np.array([30,255,255])
+    red_max = np.array([10,255,255])
     mask1 = cv2.inRange(hsv_img, red_min, red_max)
     
     # 赤色のHSVの値域2
-    red_min = np.array([150,105,100])
+    red_min = np.array([160,105,100])
     red_max = np.array([179,255,255])
     mask2 = cv2.inRange(hsv_img, red_min, red_max)
     
@@ -70,13 +70,30 @@ def get_area(max_contour, original_img):
         area = cv2.contourArea(max_contour)
         img_area = original_img.shape[0] * original_img.shape[1] #画像の縦横の積
         area_ratio = area / img_area * 100 #面積の割合を計算
-        if area_ratio < 1.0:
+        if area_ratio < 0.1:
             area_ratio = 0.0
         print(f"Area ratio = {area_ratio:.1f}%")
     except:
         area_ratio = 0
 
     return area_ratio
+
+def get_area_test(max_contour, original_img):
+    try:
+        #輪郭の面積を計算
+        area = cv2.contourArea(max_contour)
+        img_area = original_img.shape[0] * original_img.shape[1] #画像の縦横の積
+        area_ratio = area / img_area * 100 #面積の割合を計算
+        # if area_ratio < 1.0:
+        #     area_ratio = 0.0
+        # print(f"Area ratio = {area_ratio:.1f}%")
+        print(f"Area = {area}")
+
+    except:
+        # area_ratio = 0
+        area = 0
+
+    return area
 
 def get_angle(cx, cy, original_img):
     angle = 0
@@ -108,7 +125,7 @@ def detect_goal():
     original_img = cv2.imread(photoname)
 
     #画像を圧縮
-    small_img = mosaic(original_img, 0.3)
+    small_img = mosaic(original_img, 0.8)
     
     mask, masked_img = detect_red(small_img)
 
@@ -121,13 +138,13 @@ def detect_goal():
     angle = get_angle(cx, cy, original_img)
 
     #ゴールを検出した場合に画像を保存
-    if area_ratio != 0:
-        area_ratio = int(area_ratio)
-        save_photo.save_img(path_detected_photo, 'detected', original_img, area_ratio)
+    #if area_ratio != 0:
+    #    area_ratio = int(area_ratio)
+    #    save_photo.save_img(path_detected_photo, 'detected', original_img, area_ratio)
 
     return area_ratio, angle
 
-def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_distance_flag=5):
+def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_distance_flag=10):
     #thd_full_red = 0mゴールと判断するときの赤色が画像を占める割合の閾値
     #thd_distance_flag = 赤色検知モードの範囲の円の半径。ゴールから5mのとき赤色検知モードに入る。
 
@@ -156,8 +173,8 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
 
                 while area_ratio == 0:
                     print("ゴールが見つかりません。回転します。")
-                    pwr_undetect = 40
-                    motor.move(pwr_undetect, -pwr_undetect, 0.2)
+                    pwr_undetect = 25
+                    motor.move(pwr_undetect, -pwr_undetect, 0.15)
                     area_ratio, angle = detect_goal()
                 else:
                     if area_ratio >= thd_full_red:
@@ -172,15 +189,15 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
 
                         #cansatの真正面にゴールがないとき
                         while angle == 1 or angle == 5:
-                            pwr_adj = 40
+                            pwr_adj = 25
                             if angle == 1:
-                                motor.move(-pwr_adj, pwr_adj, 0.2)
+                                motor.move(-pwr_adj, pwr_adj, 0.15)
                             # elif angle == 2:
                             #     motor.move(-pwr_adj, pwr_adj, 0.1)
                             # elif angle == 4:
                             #     motor.move(pwr_adj, -pwr_adj, 0.1)
                             elif angle == 5:
-                                motor.move(pwr_adj, -pwr_adj, 0.2)
+                                motor.move(pwr_adj, -pwr_adj, 0.15)
                             elif area_ratio == 0:
                                 lost_goal = 1
                                 break
@@ -237,16 +254,16 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
 if __name__ == "__main__":
     #実験用の座標
     #グランドのゴール前
-    #lat2 = 35.9239389
-    #lon2 = 139.9122408
+    lat2 = 35.9239389
+    lon2 = 139.9122408
 
     #狭いグランドのほう
     #lat2 = 35.9243874
     #lon2 = 139.9114187
 
     #中庭の芝生
-    lat2 = 35.9183424
-    lon2 = 139.9080371
+    #lat2 = 35.9183424
+    #lon2 = 139.9080371
 
     #実験棟の前
     #lat2 = 35.9189778
