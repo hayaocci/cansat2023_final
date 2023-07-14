@@ -34,7 +34,7 @@ def detect_para():
     
     return area_ratio, angle
 
-def para_avoid(area_ratio, angle, thd_para_avoid=0, thd_para_count=4):
+def para_avoid(area_ratio, angle, thd_para_avoid=0.0, thd_para_count=4):
     #thd_para_avoidはパラシュートがあると判定する割合の閾値
     #thd_para_countはパラシュートがないとき何回確認するかの閾値
     pwr = 30

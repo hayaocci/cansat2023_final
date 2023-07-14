@@ -88,7 +88,8 @@ def get_area_test(max_contour, original_img):
         #     area_ratio = 0.0
         print(f"Area ratio = {area_ratio:.1f}%")
     except:
-        area_ratio = 0
+        #area_ratio = 0
+        pass
 
     return area_ratio
 
