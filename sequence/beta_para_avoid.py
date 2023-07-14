@@ -30,7 +30,7 @@ def detect_para():
     #パラシュートが検出された場合に画像を保存
     if area_ratio != 0:
         area_ratio = int(area_ratio)
-        save_img(path_para_detect, 'para_detected_' + str(area_ratio), para_img)
+        save_img(path_para_detect, 'para_detected_' + str(area_ratio), "a" ,para_img)
     
     return area_ratio, angle
 
