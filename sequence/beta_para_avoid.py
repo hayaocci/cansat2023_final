@@ -14,7 +14,7 @@ def detect_para():
     angle = 0
 
     #画像を圧縮
-    small_img = photo_running.mosaic(para_img, ratio=0.1)
+    small_img = photo_running.mosaic(para_img, ratio=0.8)
 
     #赤色であると認識させる範囲の設定
     mask, masked_img = photo_running.detect_red(small_img)
