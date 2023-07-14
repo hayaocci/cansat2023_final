@@ -80,7 +80,7 @@ def para_avoid(red_area, angle, thd_para_avoid=0, thd_para_count=4):
     pwr_st = 40
     motor.move(pwr_st, pwr_st, 2)
     print("パラシュートは回避できました。")
-    print(str(i) + "回パラシュートがないことを確認しました。")
+    # print(str(i) + "回パラシュートがないことを確認しました。")
 
 if __name__ == '__main__':
     #セットアップ
