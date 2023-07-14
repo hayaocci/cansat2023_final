@@ -48,7 +48,7 @@ def para_avoid(red_area, angle, thd_para_avoid=0, thd_para_count=4):
         while red_area > thd_para_avoid and check_count <= thd_para_count:
             if check_count == thd_para_count:
                 break
-            
+
             if angle == 1:
                 motor.move(pwr, -pwr, 0.2)
             elif angle == 2:
@@ -74,10 +74,10 @@ def para_avoid(red_area, angle, thd_para_avoid=0, thd_para_count=4):
             break
 
     #パラシュートが前方にないことが確認できたので、直進する。
-    if red_area == 0 and check_count == thd_para_count:
-        pwr_st = 40
-        motor.move(pwr_st, pwr_st, 2)
-        print("パラシュートは回避できました。")
+    # if red_area == 0 and check_count == thd_para_count:
+    pwr_st = 40
+    motor.move(pwr_st, pwr_st, 2)
+    print("パラシュートは回避できました。")
 
 if __name__ == '__main__':
     #セットアップ
