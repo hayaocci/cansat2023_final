@@ -14,7 +14,7 @@ def motor_optimization(angle):
     magx_off, magy_off = calibration.cal(40, -40, 40)
 
     #ループに入れてあげるためにangle_difを設定している。
-    angle_dif = 50
+    angle_dif_ratio = 50
 
     #-----モータを最適化する-----#
     while 5 < angle_dif_ratio:
