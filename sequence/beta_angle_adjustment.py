@@ -3,6 +3,7 @@
 import motor
 import calibration
 import bmx055
+import time
 
 def motor_optimization(angle):
     #-----モータを最適化する-----#
@@ -61,6 +62,7 @@ def motor_optimization(angle):
             pwr += 5
 
         opt_count += 1
+        time.sleep(0.04)
     
     return pwr, t_move, opt_count
         
