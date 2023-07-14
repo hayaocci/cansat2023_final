@@ -68,7 +68,7 @@ def para_avoid(red_area, angle, thd_para_avoid=0, thd_para_count=4):
 
             red_area, angle = detect_para()
         else:
-            print("確認しました。パラシュートはありません。")
+            print(str(check_count) + "回確認しました。パラシュートはありません。")
             print("直進します。")
             red_area, angle = detect_para()
             break
@@ -78,7 +78,7 @@ def para_avoid(red_area, angle, thd_para_avoid=0, thd_para_count=4):
     pwr_st = 40
     motor.move(pwr_st, pwr_st, 2)
     print("パラシュートは回避できました。")
-    print("カウント" + str(check_count))
+    print(str(check_count) + "回パラシュートがないことを確認しました。")
 
 if __name__ == '__main__':
     #セットアップ
