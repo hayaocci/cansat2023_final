@@ -45,6 +45,7 @@ output_filename = "output.txt"  # 保存先のファイル名
 start_time = time.time()  # プログラム開始時刻を記録
 
 send.send_data ("TXDU 0001,wireless_start")
+send.send_data (f"TXDU 0001, {data}")
 
 # バイナリデータを32バイトずつ表示し、ファイルに保存する
 with open(output_filename, "w") as f:
