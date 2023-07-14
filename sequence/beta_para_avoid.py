@@ -7,7 +7,7 @@ import motor
 
 def detect_para():
     #画像の撮影
-    path_all_para = './photo_sotrage/para_all/para_detect-'
+    path_all_para = '/home/dendenmushi/cansat2023/sequence/photo_storage/para_all/para_detect-'
     path_para_detect = './photo_storage/para_detected'
     photoname = take.picture(path_all_para)
     para_img = cv2.imread(photoname)
