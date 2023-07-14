@@ -10,7 +10,7 @@ def motor_optimization(angle):
     #-----引数は回転させたい角度-----#
     #各初期値を設定
     pwr = 25
-    t_move = 0.2
+    t_move = 0.1
 
     magx_off, magy_off = calibration.cal(40, -40, 40)
 
@@ -57,11 +57,11 @@ def motor_optimization(angle):
         if cof_opt < 1:
             #オーバー回転
             #t_move = t_move * cof_opt
-            #pwr = pwr * cof_opt
-            pwr -= 2
+            pwr = pwr * cof_opt
+            #pwr -= 2
         elif cof_opt > 1:
             #アンダー回転
-            pwr += 5
+            pwr += 3
 
         opt_count += 1
         time.sleep(1)
