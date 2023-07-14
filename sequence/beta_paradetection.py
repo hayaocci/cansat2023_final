@@ -50,6 +50,9 @@ def para_avoid(area_ratio, angle, thd_para_avoid=3, thd_para_count=4):
                 motor.move(-pwr, pwr, 0.3)
             elif angle == 5:
                 motor.move(-pwr, pwr, 0.2)
+            elif area_ratio == 0:
+                i = 1 + check_count
+                print("パラシュートはありません。確認" + str(i) + "回目です。")
 
             check_count += 1
 
@@ -70,5 +73,3 @@ if __name__ == '__main__':
 
     area_ratio, angle = detect_para()
     para_avoid(area_ratio, angle)
-
-    #処理処理
