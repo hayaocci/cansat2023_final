@@ -23,7 +23,7 @@ def image_file_to_base64(file_path):
 
 
 # 圧縮したい画像のパスと出力先のパスを指定します
-input_image_path = 'test-1.jpg'
+input_image_path = 'photo\photo0003.jpg'
 compressed_image_path = 'compressed_test.jpg'
 
 # 圧縮率を指定します（0から100の範囲の整数）
