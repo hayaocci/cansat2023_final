@@ -27,6 +27,9 @@ def detect_para():
     #重心の位置から現在位置とパラシュートと相対角度を大まかに計算
     angle = photo_running.get_angle(cx, cy, para_img)
 
+    if area_ratio = 0:
+        angle = 0
+
     #パラシュートが検出された場合に画像を保存
     if area_ratio != 0:
         area_ratio = int(area_ratio)
@@ -54,6 +57,7 @@ def para_avoid(area_ratio, angle, thd_para_avoid=-1.0, thd_para_count=4):
                 motor.move(-pwr, pwr, 0.2)
             elif area_ratio == 0:
                 i = 1 + check_count
+
                 print("パラシュートはありません。確認" + str(i) + "回目です。")
 
             check_count += 1
