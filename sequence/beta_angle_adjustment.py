@@ -17,7 +17,14 @@ def motor_optimization(angle):
     angle_dif = 50
 
     #-----モータを最適化する-----#
-    while 5 < angle_dif:
+    while 5 < angle_dif_ratio:
+        #最適化を10回以上したとき
+        if opt_count > 10:
+            print("最適化を20回以上行いました。")
+            t_move += 0.1
+            pwr += 10
+
+
         #最適化を何回したか表示
         opt_count = 0
         print("最適化を" + str(opt_count) + "回行いました。")
@@ -36,22 +43,27 @@ def motor_optimization(angle):
         #回転した角度の計算
         rotated_angle = abs(angle_af - angle_bf)
         angle_dif = abs(angle - rotated_angle)
-        angle_dif_ratio = angle_dif / angle
         print("理想の角度とのずれは" + str(angle_dif) + "度です。")
+
+        #回転した角度の誤差が5%以内になるまでループ
+        angle_dif_ratio = angle_dif / angle * 100
 
         #角度の最適化
         #cof_opt = 理論値 / 実測値
         cof_opt = angle / angle_dif
 
         if cof_opt < 1:
-            pwr += 5
+            #オーバー回転
+            #t_move = t_move * cof_opt
+            pwr = pwr * cof_opt
         elif cof_opt > 1:
-            t_move = t_move * cof_opt
+            #アンダー回転
+            pwr += 5
+
+        opt_count += 1
+    
+    return pwr, t_move, opt_count
         
-
-
-
-
 
 
 if __name__ == "__main__":
@@ -63,4 +75,8 @@ if __name__ == "__main__":
     bmx055.bmx055_setup()
     magx_off, magy_off = calibration.cal(40, -40, 40)
 
-    motor_optimization(a)
+    pwr, t_move, opt_count = motor_optimization(a)
+    print(str(opt_count) + "回目で最適化が終了しました")
+    print("pwr=" + str(pwr))
+    print("t_move=" + str(t_move))
+
