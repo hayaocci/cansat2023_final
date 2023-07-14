@@ -129,7 +129,7 @@ def take_and_rotation(human_judge_count, break_outer_loop):
                 else:
                     print("捜索続けます")
             #motor.move(30, -30, 0.2)  # 芝生の上
-            motor.move(20, -20, 0.2)  #グランド
+            motor.move(30, -30, 0.15)  #グランド
         else:
             break
     if break_outer_loop == False:
@@ -265,7 +265,7 @@ if __name__ == "__main__":
                 else:
                     print("捜索続けます")
             #motor.move(35, -35, 0.2) # 芝生の上
-            motor.move(20, -20, 0.2) #グランド
+            motor.move(30, -30, 0.15) #グランド
         else:
             break
     if break_outer_loop == False:
