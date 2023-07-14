@@ -25,12 +25,11 @@ def detect_para():
     #赤色が占める割合を求める
     area_ratio = photo_running.get_area_test(max_contour, para_img)
 
-    if area_ratio > -1:
-        #重心の位置から現在位置とパラシュートと相対角度を大まかに計算
-        angle = photo_running.get_angle(cx, cy, para_img)
+    #重心の位置から現在位置とパラシュートと相対角度を大まかに計算
+    angle = photo_running.get_angle(cx, cy, para_img)
 
-    # if area_ratio == 0:
-    #     angle = 0
+    if area_ratio == 0:
+        angle = 0
 
     #パラシュートが検出された場合に画像を保存
     if area_ratio != 0:
