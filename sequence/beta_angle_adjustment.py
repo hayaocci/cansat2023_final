@@ -20,14 +20,13 @@ def motor_optimization(angle):
     #-----モータを最適化する-----#
     while 5 < angle_dif_ratio:
         #最適化を10回以上したとき
-        if opt_count > 10:
-            print("最適化を20回以上行いました。")
+        if opt_count > 30:
+            print("最適化を30回以上行いました。")
             t_move += 0.1
             pwr += 10
 
 
         #最適化を何回したか表示
-        opt_count = 0
         print("最適化を" + str(opt_count) + "回行いました。")
 
         #回転前の角度を取得
@@ -56,7 +55,8 @@ def motor_optimization(angle):
         if cof_opt < 1:
             #オーバー回転
             #t_move = t_move * cof_opt
-            pwr = pwr * cof_opt
+            #pwr = pwr * cof_opt
+            pwr -= 2
         elif cof_opt > 1:
             #アンダー回転
             pwr += 5
