@@ -19,6 +19,8 @@ def motor_optimization(angle):
     opt_count = 0
     #-----モータを最適化する-----#
     while 5 < angle_dif_ratio:
+        if pwr >60:
+            pwr = 30
         #最適化を10回以上したとき
         if opt_count > 30:
             print("最適化を30回以上行いました。")
