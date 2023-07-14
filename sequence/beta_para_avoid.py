@@ -23,29 +23,29 @@ def detect_para():
     para_img, max_contour, cx, cy = photo_running.get_center(mask, small_img)
 
     #赤色が占める割合を求める
-    area_ratio = photo_running.get_area_test(max_contour, para_img)
+    red_area = photo_running.get_area_test(max_contour, para_img)
 
     #重心の位置から現在位置とパラシュートと相対角度を大まかに計算
     angle = photo_running.get_angle(cx, cy, para_img)
 
-    if area_ratio == 0:
+    if red_area == 0:
         angle = 0
 
     #パラシュートが検出された場合に画像を保存
-    if area_ratio != 0:
-        area_ratio = int(area_ratio)
-        save_img(path_para_detect, 'para_detected_' + str(area_ratio), "a" ,para_img)
+    if red_area != 0:
+        red_area = int(red_area)
+        save_img(path_para_detect, 'para_detected_' + str(red_area), "a" ,para_img)
     
-    return area_ratio, angle
+    return red_area, angle
 
-def para_avoid(area_ratio, angle, thd_para_avoid=-1.0, thd_para_count=4):
+def para_avoid(red_area, angle, thd_para_avoid=0, thd_para_count=4):
     #thd_para_avoidはパラシュートがあると判定する割合の閾値
     #thd_para_countはパラシュートがないとき何回確認するかの閾値
     pwr = 30
     check_count = 0
     while 1:
-        area_ratio, angle = detect_para()
-        while area_ratio > thd_para_avoid and check_count <= thd_para_count:
+        red_area, angle = detect_para()
+        while red_area > thd_para_avoid and check_count <= thd_para_count:
             if angle == 1:
                 motor.move(pwr, -pwr, 0.2)
             elif angle == 2:
@@ -56,22 +56,22 @@ def para_avoid(area_ratio, angle, thd_para_avoid=-1.0, thd_para_count=4):
                 motor.move(-pwr, pwr, 0.3)
             elif angle == 5:
                 motor.move(-pwr, pwr, 0.2)
-            #elif area_ratio == 0 or angle == 0:
+            #elif red_area == 0 or angle == 0:
             else:
                 i = 1 + check_count
                 print("パラシュートはありません。確認" + str(i) + "回目です。")
 
             check_count += 1
 
-            area_ratio, angle = detect_para()
+            red_area, angle = detect_para()
         else:
             print("確認しました。パラシュートはありません。")
             print("直進します。")
-            area_ratio, angle = detect_para()
+            red_area, angle = detect_para()
             break
 
     #パラシュートが前方にないことが確認できたので、直進する。
-    if area_ratio == 0:
+    if red_area == 0:
         pwr_st = 40
         motor.move(pwr_st, pwr_st, 2)
         print("パラシュートは回避できました。")
@@ -80,5 +80,5 @@ if __name__ == '__main__':
     #セットアップ
     motor.setup()
 
-    area_ratio, angle = detect_para()
-    para_avoid(area_ratio, angle)
+    red_area, angle = detect_para()
+    para_avoid(red_area, angle)
