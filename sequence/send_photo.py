@@ -39,7 +39,7 @@ with open(compressed_image_path, 'rb') as f:
 
 data = compressed_image_binary  # バイナリデータを指定してください
 chunk_size = 16  # 1回に表示するバイト数
-delay = 0.1  # 表示間隔（秒）
+delay = 1  # 表示間隔（秒）
 output_filename = "output.txt"  # 保存先のファイル名
 
 start_time = time.time()  # プログラム開始時刻を記録
@@ -52,7 +52,7 @@ with open(output_filename, "w") as f:
         chunk = data[i:i+chunk_size]
         chunk_str = "".join(format(byte, "02X") for byte in chunk)
         #chunk_strにデータがある
-        #print(chunk_str)
+        print(chunk_str)
         send.send_data = (chunk_str)
         # 表示間隔を待つ
         time.sleep(delay)
