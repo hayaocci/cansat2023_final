@@ -86,7 +86,8 @@ def get_area_test(max_contour, original_img):
         area_ratio = area / img_area * 100 #面積の割合を計算
         # if area_ratio < 1.0:
         #     area_ratio = 0.0
-        print(f"Area ratio = {area_ratio:.1f}%")
+        # print(f"Area ratio = {area_ratio:.1f}%")
+        print(f"Area = {area}")
 
     except:
         # area_ratio = 0
