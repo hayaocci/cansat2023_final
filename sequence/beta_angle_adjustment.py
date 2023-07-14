@@ -9,7 +9,7 @@ def motor_optimization(angle):
     #-----モータを最適化する-----#
     #-----引数は回転させたい角度-----#
     #各初期値を設定
-    pwr = 40
+    pwr = 25
     t_move = 0.2
 
     magx_off, magy_off = calibration.cal(40, -40, 40)
