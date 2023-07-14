@@ -64,7 +64,7 @@ def motor_optimization(angle):
             pwr += 3
 
         opt_count += 1
-        time.sleep(1)
+        time.sleep(3)
     
     return pwr, t_move, opt_count
         
