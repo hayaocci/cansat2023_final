@@ -15,7 +15,7 @@ def motor_optimization(angle):
 
     #ループに入れてあげるためにangle_difを設定している。
     angle_dif_ratio = 50
-
+    opt_count = 0
     #-----モータを最適化する-----#
     while 5 < angle_dif_ratio:
         #最適化を10回以上したとき
