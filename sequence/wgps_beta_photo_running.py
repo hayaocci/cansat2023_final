@@ -78,6 +78,20 @@ def get_area(max_contour, original_img):
 
     return area_ratio
 
+def get_area_test(max_contour, original_img):
+    try:
+        #輪郭の面積を計算
+        area = cv2.contourArea(max_contour)
+        img_area = original_img.shape[0] * original_img.shape[1] #画像の縦横の積
+        area_ratio = area / img_area * 100 #面積の割合を計算
+        # if area_ratio < 1.0:
+        #     area_ratio = 0.0
+        print(f"Area ratio = {area_ratio:.1f}%")
+    except:
+        area_ratio = 0
+
+    return area_ratio
+
 def get_angle(cx, cy, original_img):
     angle = 0
     #重心から現在位置とゴールの相対角度を大まかに計算
