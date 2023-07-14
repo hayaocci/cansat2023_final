@@ -87,10 +87,12 @@ def get_area_test(max_contour, original_img):
         # if area_ratio < 1.0:
         #     area_ratio = 0.0
         print(f"Area ratio = {area_ratio:.1f}%")
+        if area_ratio > -1:
+            angle = 0
     except:
         area_ratio = 0
-
-    return area_ratio
+        angle = 0
+    return area_ratio, angle
 
 def get_angle(cx, cy, original_img):
     angle = 0
