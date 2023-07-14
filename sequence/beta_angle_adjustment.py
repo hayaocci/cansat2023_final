@@ -58,7 +58,7 @@ def motor_optimization(angle):
             #オーバー回転
             #t_move = t_move * cof_opt
             #pwr = pwr * cof_opt
-            #pwr -= 2
+            pwr -= 2
         elif cof_opt > 1:
             #アンダー回転
             pwr += 3
