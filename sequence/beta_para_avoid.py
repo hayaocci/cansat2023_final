@@ -35,11 +35,13 @@ def detect_para():
     return area_ratio, angle
 
 def para_avoid(area_ratio, angle, thd_para_avoid=3, thd_para_count=4):
+    #thd_para_avoidはパラシュートがあると判定する割合の閾値
+    #thd_para_countはパラシュートがないとき何回確認するかの閾値
     pwr = 30
     check_count = 0
     while 1:
         area_ratio, angle = detect_para()
-        while area_ratio > thd_para_avoid and check_count < thd_para_count:
+        while area_ratio > thd_para_avoid and check_count <= thd_para_count:
             if angle == 1:
                 motor.move(pwr, -pwr, 0.2)
             elif angle == 2:
@@ -63,7 +65,7 @@ def para_avoid(area_ratio, angle, thd_para_avoid=3, thd_para_count=4):
             break
 
     #パラシュートが前方にないことが確認できたので、直進する。
-    pwr_st = 30
+    pwr_st = 40
     motor.move(pwr_st, pwr_st, 2)
     print("パラシュートは回避できました。")
 
