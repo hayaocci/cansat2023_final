@@ -43,9 +43,11 @@ def para_avoid(red_area, angle, thd_para_avoid=0, thd_para_count=4):
     #thd_para_countはパラシュートがないとき何回確認するかの閾値
     pwr = 30
     check_count = 0
+
+
     while 1:
         red_area, angle = detect_para()
-        while red_area > thd_para_avoid and check_count <= thd_para_count:
+        while red_area > thd_para_avoid or check_count <= thd_para_count:
             if check_count == thd_para_count:
                 break
 
