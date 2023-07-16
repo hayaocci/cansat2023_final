@@ -38,8 +38,8 @@ with open(compressed_image_path, 'rb') as f:
 
 
 data = compressed_image_binary  # バイナリデータを指定してください
-chunk_size = 8  # 1回に表示するバイト数
-delay = 0.1  # 表示間隔（秒）
+chunk_size = 5  # 1回に表示するバイト数
+delay = 0.5  # 表示間隔（秒）
 output_filename = "output.txt"  # 保存先のファイル名
 
 start_time = time.time()  # プログラム開始時刻を記録

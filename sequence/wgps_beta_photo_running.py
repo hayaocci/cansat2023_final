@@ -111,12 +111,8 @@ def get_angle(cx, cy, original_img):
 
     if x0 < cx <x1:
         angle = 1
-    elif x1 < cx < x2:
+    elif x1 < cx < x4:
         angle = 2
-    elif x2 < cx < x3:
-        angle = 3
-    elif x3 < cx < x4:
-        angle = 4
     elif x4 < cx < x5:
         angle = 5
     
@@ -145,9 +141,9 @@ def detect_goal():
     angle = get_angle(cx, cy, original_img)
 
     #ゴールを検出した場合に画像を保存
-    #if area_ratio != 0:
-    #    area_ratio = int(area_ratio)
-    #    save_photo.save_img(path_detected_photo, 'detected', original_img, area_ratio)
+    if area_ratio != 0:
+        area_ratio = int(area_ratio) #小数点以下を切り捨てる（画像ファイル名にピリオドを使えないため）
+        save_photo.save_img(path_detected_photo, 'detected', str(area_ratio), original_img)
 
     return area_ratio, angle
 
@@ -163,7 +159,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
 
     #赤色検知モードの範囲外にいた場合の処理に必要な情報
     #running_time(GPS誘導を行う時間を)を設定
-    running_time = 5
+    running_time = 2
 
     try:
         while 1:
