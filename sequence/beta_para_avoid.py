@@ -64,7 +64,7 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
 
         #-----周囲を確認する-----#
         pwr_check = 20
-        t_check = 0.3
+        t_check = 0.15
         i = 0
         
         #赤色発見=1 赤色未発見=0
@@ -87,6 +87,7 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
                 #右回転した分だけ左回転する。
                 # for n in range(i+1):
                 #     motor.move(-pwr_check, pwr_check, t_check)
+                i += 1
                 while i != 0:
                     motor.move(-pwr_check, pwr_check, t_check)
                     i -= 1
