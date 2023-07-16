@@ -27,7 +27,7 @@ input_image_path = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/Image
 compressed_image_path = 'compressed_test.jpg'
 
 # 圧縮率を指定します（0から100の範囲の整数）
-compression_quality = 30
+compression_quality = 80
 
 # 画像を圧縮します
 compress_image(input_image_path, compressed_image_path, compression_quality)
@@ -39,7 +39,7 @@ with open(compressed_image_path, 'rb') as f:
 
 data = compressed_image_binary  # バイナリデータを指定してください
 chunk_size = 8  # 1回に表示するバイト数
-delay = 0.3  # 表示間隔（秒）
+delay = 0.1  # 表示間隔（秒）
 output_filename = "output.txt"  # 保存先のファイル名
 
 start_time = time.time()  # プログラム開始時刻を記録
