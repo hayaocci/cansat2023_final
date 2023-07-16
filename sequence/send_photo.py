@@ -23,7 +23,7 @@ def image_file_to_base64(file_path):
 
 
 # 圧縮したい画像のパスと出力先のパスを指定します
-input_image_path = '/home/dendenmushi/cansat2023/sequence/photo/photo0003.jpg'
+input_image_path = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0012.jpg'
 compressed_image_path = 'compressed_test.jpg'
 
 # 圧縮率を指定します（0から100の範囲の整数）
@@ -39,12 +39,12 @@ with open(compressed_image_path, 'rb') as f:
 
 data = compressed_image_binary  # バイナリデータを指定してください
 chunk_size = 8  # 1回に表示するバイト数
-delay = 1  # 表示間隔（秒）
+delay = 0.01  # 表示間隔（秒）
 output_filename = "output.txt"  # 保存先のファイル名
 
 start_time = time.time()  # プログラム開始時刻を記録
 
-send.send_data = ("TXDU 0001,wireless_start")
+send.send_data ("wireless_start")
 
 # バイナリデータを32バイトずつ表示し、ファイルに保存する
 with open(output_filename, "w") as f:
@@ -53,14 +53,14 @@ with open(output_filename, "w") as f:
         chunk_str = "".join(format(byte, "02X") for byte in chunk)
         #chunk_strにデータがある
         print(chunk_str)
-        send.send_data = ("TXDU 0001," + chunk_str)
+        send.send_data(chunk_str)
         # 表示間隔を待つ
         time.sleep(delay)
 
         # ファイルに書き込む
         f.write(chunk_str + "\n")
 
-send.send_data = ("TXDU 0001,wireless_fin")
+send.send_data ("wireless_fin")
 
 end_time = time.time()  # プログラム終了時刻を記録
 execution_time = end_time - start_time  # 実行時間を計算
