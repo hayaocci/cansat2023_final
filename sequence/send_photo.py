@@ -23,11 +23,11 @@ def image_file_to_base64(file_path):
 
 
 # 圧縮したい画像のパスと出力先のパスを指定します
-input_image_path = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0012.jpg'
+input_image_path = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-0013.jpg'
 compressed_image_path = 'compressed_test.jpg'
 
 # 圧縮率を指定します（0から100の範囲の整数）
-compression_quality = 30
+compression_quality = 20
 
 # 画像を圧縮します
 compress_image(input_image_path, compressed_image_path, compression_quality)
@@ -38,7 +38,7 @@ with open(compressed_image_path, 'rb') as f:
 
 
 data = compressed_image_binary  # バイナリデータを指定してください
-chunk_size = 5  # 1回に表示するバイト数
+chunk_size = 8  # 1回に表示するバイト数
 delay = 0.5  # 表示間隔（秒）
 output_filename = "output.txt"  # 保存先のファイル名
 
