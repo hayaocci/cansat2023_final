@@ -72,10 +72,11 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
         f_para = 0
 
         #-----右側を確認する-----#
-        for i in range(check_count):
+        for r in range(check_count):
             print("右回転" + str(i+1) + "回目")
             motor.move(pwr_check, -pwr_check, t_check)
             red_area, angle = detect_para()
+            i += 1
 
             #-----パラシュートを確認した場合-----#
             if red_area != 0:
@@ -84,6 +85,8 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
                 #-----初期位置に戻す-----#
                 print("初期位置に戻します。")
                 #右回転した分だけ左回転する。
+                # for n in range(i+1):
+                #     motor.move(-pwr_check, pwr_check, t_check)
                 while i != 0:
                     motor.move(-pwr_check, pwr_check, t_check)
                     i -= 1
