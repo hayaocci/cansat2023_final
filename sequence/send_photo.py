@@ -27,7 +27,7 @@ input_image_path = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/Image
 compressed_image_path = 'compressed_test.jpg'
 
 # 圧縮率を指定します（0から100の範囲の整数）
-compression_quality = 0
+compression_quality = 30
 
 # 画像を圧縮します
 compress_image(input_image_path, compressed_image_path, compression_quality)
