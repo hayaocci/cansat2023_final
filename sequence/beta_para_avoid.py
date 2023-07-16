@@ -38,53 +38,139 @@ def detect_para():
     
     return red_area, angle
 
-def para_avoid(red_area, angle, thd_para_avoid=0, thd_para_count=4):
-    #thd_para_avoidはパラシュートがあると判定する割合の閾値
-    #thd_para_countはパラシュートがないとき何回確認するかの閾値
-    pwr = 30
-    check_count = 0
+def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4):
+
+    #-----パラメータの設定-----#
+    #-----周囲を確認する-----#
+    pwr_check = 25
+    t_check = 0.15
     i = 0
+    
+    #赤色発見=1 赤色未発見=0
+    #found parachute
+    f_para = 0
 
-    while 1:
-        red_area, angle = detect_para()
-        while red_area > thd_para_avoid and check_count <= thd_para_count:
-            # if check_count == thd_para_count:
-            #     break
+    #直進する
+    pwr_f = 30
+    t_forward = 5
 
+    #読み込み
+    #red_area, angle = detect_para()
+
+    #-----初めて取った写真にパラシュートが映っていなかった場合-----#
+    if red_area == 0:
+        print("パラシュートは前方にありません。")
+        print("念のため周囲を確認します。")
+
+        #-----周囲を確認する-----#
+        pwr_check = 25
+        t_check = 0.15
+        i = 0
+        
+        #赤色発見=1 赤色未発見=0
+        #found parachute
+        f_para = 0
+
+        #-----右側を確認する-----#
+        for i in range(check_count):
+            print("右回転" + str(i+1) + "回目")
+            motor.move(pwr_check, -pwr_check, t_check)
+            red_area, angle = detect_para()
+
+            #-----パラシュートを確認した場合-----#
+            if red_area != 0:
+                print("パラシュートを発見。")
+                f_para = 1
+                #-----初期位置に戻す-----#
+                print("初期位置に戻します。")
+                #右回転した分だけ左回転する。
+                while i != 0:
+                    motor.move(-pwr_check, pwr_check, t_check)
+                    i -= 1
+                break
+            #-----パラシュートを確認できた場合ここでループから抜け出す-----#
+        
+        #-----パラシュートを確認できなかった場合-----#
+        if f_para == 0:
+            #直進する前に角度を調整する。2回だけ左回転する・
+            print("直進する前に角度を調整します。")
+            for a in range(2):
+                print("角度調整" + str(a+1) + "回目（左回転）")
+                motor.move(-pwr_check, pwr_check, t_check)
+    
+    else:
+        #-----初めて取った写真にパラシュートが映っていた場合-----#
+        while red_area > thd_para_avoid:
             if angle == 1:
-                motor.move(pwr, -pwr, 0.2)
+                t_rotate = 0.2
             elif angle == 2:
-                motor.move(pwr, -pwr, 0.3)
+                t_rotate = 0.4
             elif angle == 3:
-                motor.move(pwr, -pwr, 0.4)
-            elif angle == 4:
-                motor.move(-pwr, pwr, 0.3)
-            elif angle == 5:
-                motor.move(-pwr, pwr, 0.2)
-            #elif red_area == 0 or angle == 0:
+                t_rotate = -0.2
+
+            if t_rotate > 0:
+                motor.move(pwr_check, -pwr_check, t_rotate)
             else:
-                i = 1 + check_count
-                print("パラシュートはありません。確認" + str(i) + "回目です。")
+                motor.move(-pwr_check, pwr_check, abs(t_rotate))
 
-            check_count += 1
+            #-----回転後にパラシュートがあるかを確認-----#
+            red_area, angle = detect_para()
 
-            red_area, angle = detect_para()
-        else:
-            print(str(i) + "回確認しました。パラシュートはありません。")
-            print("直進します。")
-            red_area, angle = detect_para()
-            break
+    #-----パラシュート回避完了-----#
 
     #パラシュートが前方にないことが確認できたので、直進する。
-    # if red_area == 0 and check_count == thd_para_count:
-    pwr_st = 30
-    motor.move(pwr_st, pwr_st, 2)
+    print("前方にパラシュートがないことを確認しました。直進します。")
+    motor.move(pwr_f, pwr_f, t_forward)
     print("パラシュートは回避できました。")
-    # print(str(i) + "回パラシュートがないことを確認しました。")
+
+
+
+        # #thd_para_avoidはパラシュートがあると判定する割合の閾値
+        # #thd_para_countはパラシュートがないとき何回確認するかの閾値
+        # pwr = 30
+        # check_count = 0
+        # i = 0
+
+        # while 1:
+        #     red_area, angle = detect_para()
+        #     while red_area > thd_para_avoid and check_count <= thd_para_count:
+        #         # if check_count == thd_para_count:
+        #         #     break
+
+        #         if angle == 1:
+        #             motor.move(pwr, -pwr, 0.2)
+        #         elif angle == 2:
+        #             motor.move(pwr, -pwr, 0.3)
+        #         elif angle == 3:
+        #             motor.move(pwr, -pwr, 0.4)
+        #         elif angle == 4:
+        #             motor.move(-pwr, pwr, 0.3)
+        #         elif angle == 5:
+        #             motor.move(-pwr, pwr, 0.2)
+        #         #elif red_area == 0 or angle == 0:
+        #         else:
+        #             i = 1 + check_count
+        #             print("パラシュートはありません。確認" + str(i) + "回目です。")
+
+        #         check_count += 1
+
+        #         red_area, angle = detect_para()
+        #     else:
+        #         print(str(i) + "回確認しました。パラシュートはありません。")
+        #         print("直進します。")
+        #         red_area, angle = detect_para()
+        #         break
+
+        # #パラシュートが前方にないことが確認できたので、直進する。
+        # # if red_area == 0 and check_count == thd_para_count:
+        # pwr_st = 30
+        # motor.move(pwr_st, pwr_st, 2)
+        # print("パラシュートは回避できました。")
+        # # print(str(i) + "回パラシュートがないことを確認しました。")
 
 if __name__ == '__main__':
     #セットアップ
     motor.setup()
 
     red_area, angle = detect_para()
-    para_avoid(red_area, angle)
+    para_avoid(red_area, angle, check_count=3)
