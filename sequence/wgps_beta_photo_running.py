@@ -21,12 +21,12 @@ def detect_red(small_img):
     hsv_img = cv2.cvtColor(small_img, cv2.COLOR_BGR2HSV)
     
     # 赤色のHSVの値域1
-    red_min = np.array([0,105,100])
-    red_max = np.array([10,255,255])
+    red_min = np.array([0,105,20])
+    red_max = np.array([13,255,255])
     mask1 = cv2.inRange(hsv_img, red_min, red_max)
     
     # 赤色のHSVの値域2
-    red_min = np.array([160,105,100])
+    red_min = np.array([160,105,20])
     red_max = np.array([179,255,255])
     mask2 = cv2.inRange(hsv_img, red_min, red_max)
     
@@ -120,10 +120,10 @@ def get_angle(cx, cy, original_img):
 
     return angle
 
-def detect_goal(lat_goal, lon_goal, thd_dist_goal=10, run_t=2):
+def detect_goal(lat2, lon2, thd_dist_goal=10, run_t=2):
     #-----赤色検知モードの範囲内にいるかどうかを判定-----#
     lat1, lon1 = gps.location()
-    distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat_goal, lon_goal)
+    distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
     dist_flag = distance_azimuth['distance']
     print("ゴールまでの距離は", dist_flag, "です。")
 
@@ -132,7 +132,7 @@ def detect_goal(lat_goal, lon_goal, thd_dist_goal=10, run_t=2):
             print("GPS誘導を行います。")
             gps_running1.drive(lon2, lat2, thd_dist_goal, run_t)
             lat1, lon1 = gps.location()
-            distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat_goal, lon_goal)
+            distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
             dist_flag = distance_azimuth['distance']
 
     #-----赤色検知モードの範囲内にいた場合の処理-----#
@@ -294,7 +294,7 @@ if __name__ == "__main__":
 
     try:
         angle = 0
-        area_ratio, angle = detect_goal()
+        area_ratio, angle = detect_goal(lat2, lon2)
         image_guided_driving(area_ratio, angle, lat2, lon2)
 
     except KeyboardInterrupt:

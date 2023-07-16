@@ -39,7 +39,7 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
 
     print('ゴールとの角度theta = ' + str(theta) + '---回転調整開始！')
     stuck2.ue_jug()
-    an = 20
+    an = 30
     t_short = 0.1
     t_middle = 0.2
     t_long = 0.4
