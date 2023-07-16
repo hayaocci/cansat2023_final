@@ -103,13 +103,17 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
                 motor.move(-pwr_check, pwr_check, t_check)
     
     else:
+        print("パラシュートを前方に発見しました。")
         #-----初めて取った写真にパラシュートが映っていた場合-----#
         while red_area > thd_para_avoid:
             if angle == 1:
+                print("右回転します。")
                 t_rotate = 0.2
             elif angle == 2:
+                print("強く右回転します。")
                 t_rotate = 0.3
             elif angle == 3:
+                print("左回転します。")
                 t_rotate = -0.2
 
             if t_rotate > 0:
