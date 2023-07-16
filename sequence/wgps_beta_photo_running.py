@@ -114,48 +114,64 @@ def get_angle(cx, cy, original_img):
     elif x1 < cx < x4:
         angle = 2
     elif x4 < cx < x5:
-        angle = 5
+        angle = 3
     
     print("angle = ", angle)
 
     return angle
 
-def detect_goal():
-    #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
-    path_all_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
-    path_detected_photo = './photo_imageguide/detected'
-    photoname = take.picture(path_all_photo)
-    original_img = cv2.imread(photoname)
+def detect_goal(lat_goal, lon_goal, thd_dist_goal=10, run_t=2):
+    #-----赤色検知モードの範囲内にいるかどうかを判定-----#
+    lat1, lon1 = gps.location()
+    distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat_goal, lon_goal)
+    dist_flag = distance_azimuth['distance']
+    print("ゴールまでの距離は", dist_flag, "です。")
 
-    #画像を圧縮
-    small_img = mosaic(original_img, 0.8)
-    
-    mask, masked_img = detect_red(small_img)
+    #-----赤色検知モードの範囲外にいた場合の処理-----#
+    while dist_flag > thd_dist_goal:
+            print("GPS誘導を行います。")
+            gps_running1.drive(lon2, lat2, thd_dist_goal, run_t)
+            lat1, lon1 = gps.location()
+            distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat_goal, lon_goal)
+            dist_flag = distance_azimuth['distance']
 
-    original_img, max_contour, cx, cy = get_center(mask, small_img)
+    #-----赤色検知モードの範囲内にいた場合の処理-----#
+    if dist_flag <= thd_dist_goal:
+        #画像の撮影から「角度」と「占める割合」を求めるまでの一連の流れ
+        path_all_photo = '/home/dendenmushi/cansat2023/sequence/photo_imageguide/ImageGuide-'
+        path_detected_photo = './photo_imageguide/detected'
+        photoname = take.picture(path_all_photo)
+        original_img = cv2.imread(photoname)
 
-    #赤が占める割合を求める
-    area_ratio = get_area(max_contour, original_img)
+        #画像を圧縮
+        small_img = mosaic(original_img, 0.8)
+        
+        mask, masked_img = detect_red(small_img)
 
-    #重心から現在位置とゴールの相対角度を大まかに計算
-    angle = get_angle(cx, cy, original_img)
+        original_img, max_contour, cx, cy = get_center(mask, small_img)
 
-    #ゴールを検出した場合に画像を保存
-    if area_ratio != 0:
-        area_ratio = int(area_ratio) #小数点以下を切り捨てる（画像ファイル名にピリオドを使えないため）
-        save_photo.save_img(path_detected_photo, 'detected', str(area_ratio), original_img)
+        #赤が占める割合を求める
+        area_ratio = get_area(max_contour, original_img)
 
+        #重心から現在位置とゴールの相対角度を大まかに計算
+        angle = get_angle(cx, cy, original_img)
+
+        #ゴールを検出した場合に画像を保存
+        if area_ratio != 0:
+            area_ratio = int(area_ratio) #小数点以下を切り捨てる（画像ファイル名にピリオドを使えないため）
+            save_photo.save_img(path_detected_photo, 'detected', str(area_ratio), original_img)
+        
     return area_ratio, angle
 
-def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_distance_flag=10):
+def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dist_goal=10):
     #thd_full_red = 0mゴールと判断するときの赤色が画像を占める割合の閾値
-    #thd_distance_flag = 赤色検知モードの範囲の円の半径。ゴールから5mのとき赤色検知モードに入る。
+    #thd_dist_goal = 赤色検知モードの範囲の円の半径。ゴールから5mのとき赤色検知モードに入る。
 
     #赤色検知モードの範囲内にいるかどうかを判定
     lat1, lon1 = gps.location()
     distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
-    distance_flag = distance_azimuth['distance']
-    print("ゴールまでの距離は", distance_flag, "です。")
+    dist_flag = distance_azimuth['distance']
+    print("ゴールまでの距離は", dist_flag, "です。")
 
     #赤色検知モードの範囲外にいた場合の処理に必要な情報
     #running_time(GPS誘導を行う時間を)を設定
@@ -167,9 +183,9 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
                 print("ゴール判定4")
                 break
             #----------赤色検知モードの動作条件を満たしているかどうかを判定----------#
-            while distance_flag <= thd_distance_flag:
+            while dist_flag <= thd_dist_goal:
                 print("赤色検知モードに入ります。")
-                area_ratio, angle = detect_goal()
+                area_ratio, angle = detect_goal(lat2, lon2)
                 if area_ratio >= thd_full_red:
                     print("ゴール判定3")
                     break
@@ -178,34 +194,30 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
                     print("ゴールが見つかりません。回転します。")
                     pwr_undetect = 25
                     motor.move(pwr_undetect, -pwr_undetect, 0.15)
-                    area_ratio, angle = detect_goal()
+                    area_ratio, angle = detect_goal(lat2, lon2)
                 else:
                     if area_ratio >= thd_full_red:
                         print("ゴール判定2")
                         break
                     print("ゴールを捉えました。ゴールへ向かいます。")
-                    area_ratio, angle = detect_goal()
+                    area_ratio, angle = detect_goal(lat2, lon2)
 
                     while 0 < area_ratio < thd_full_red:
                         #lost_goalの初期化
                         lost_goal = 0
 
                         #cansatの真正面にゴールがないとき
-                        while angle == 1 or angle == 5:
+                        while angle == 1 or angle == 3:
                             pwr_adj = 25
                             if angle == 1:
                                 motor.move(-pwr_adj, pwr_adj, 0.15)
-                            # elif angle == 2:
-                            #     motor.move(-pwr_adj, pwr_adj, 0.1)
-                            # elif angle == 4:
-                            #     motor.move(pwr_adj, -pwr_adj, 0.1)
-                            elif angle == 5:
+                            elif angle == 3:
                                 motor.move(pwr_adj, -pwr_adj, 0.15)
                             elif area_ratio == 0:
                                 lost_goal = 1
                                 break
                             
-                            area_ratio, angle = detect_goal()
+                            area_ratio, angle = detect_goal(lat2, lon2)
 
                         if lost_goal == 1:
                             break
@@ -213,7 +225,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
                         print("正面にゴールがあります。直進します。")
 
                         #cansatの真正面にゴールがあるとき
-                        #angle が2,3,4のとき
+                        #angle が2のとき
                         pwr = 35
                         if area_ratio >= thd_full_red:
                             print("ゴール判定1")
@@ -229,7 +241,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
                             t_running = 0.25
                         
                         motor.move(pwr, pwr, t_running)
-                        area_ratio, angle = detect_goal()
+                        area_ratio, angle = detect_goal(lat2, lon2)
 
                     else: 
                         #area_ratio が90以上のときゴールを発見したのでループを抜ける
@@ -238,13 +250,13 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
                         print("ゴールを見失いました。ゴールを捉えるまで回転します。")
             else:
                 print("ゴールから遠すぎます。GPSによる誘導を開始します。")
-                gps_running1.drive(lon2, lat2, thd_distance_flag, running_time)
+                gps_running1.drive(lon2, lat2, thd_dist_goal, running_time)
 
                 #GPS誘導後、再度ゴールまでの距離を得る
                 lat1, lon1 = gps.location()
                 distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
-                distance_flag = distance_azimuth['distance']
-                print("ゴールまでの距離は", distance_flag, "です。")
+                dist_flag = distance_azimuth['distance']
+                print("ゴールまでの距離は", dist_flag, "です。")
 
         print("目的地周辺に到着しました。案内を終了します。")
         print("お疲れさまでした。")
