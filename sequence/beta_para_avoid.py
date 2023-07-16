@@ -23,7 +23,7 @@ def detect_para():
     para_img, max_contour, cx, cy = photo_running.get_center(mask, small_img)
 
     #赤色が占める割合を求める
-    red_area = photo_running.get_area_test(max_contour, para_img)
+    red_area = photo_running.get_para_area(max_contour, para_img)
 
     #重心の位置から現在位置とパラシュートと相対角度を大まかに計算
     angle = photo_running.get_angle(cx, cy, para_img)
