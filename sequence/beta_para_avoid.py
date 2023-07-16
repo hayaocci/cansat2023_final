@@ -34,7 +34,7 @@ def detect_para():
     #パラシュートが検出された場合に画像を保存
     if red_area != 0:
         red_area = int(red_area)
-        save_img(path_para_detect, 'para_detected_' + str(red_area), "a" ,para_img)
+        save_img(path_para_detect, 'para_detected_', str(red_area), para_img)
     
     return red_area, angle
 
