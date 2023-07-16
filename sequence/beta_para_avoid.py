@@ -177,4 +177,4 @@ if __name__ == '__main__':
     motor.setup()
 
     red_area, angle = detect_para()
-    para_avoid(red_area, angle, check_count=3)
+    para_avoid(red_area, angle, check_count=5)
