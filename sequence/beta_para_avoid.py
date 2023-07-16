@@ -52,7 +52,7 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
 
     #直進する
     pwr_f = 30
-    t_forward = 5
+    t_forward = 1
 
     #読み込み
     #red_area, angle = detect_para()
