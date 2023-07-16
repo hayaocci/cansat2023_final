@@ -78,15 +78,22 @@ def get_area(max_contour, original_img):
 
     return area_ratio
 
-def get_area_test(max_contour, original_img):
+
+#パラシュート回避用の関数
+def get_para_area(max_contour, original_img):
     try:
         #輪郭の面積を計算
         area = cv2.contourArea(max_contour)
         img_area = original_img.shape[0] * original_img.shape[1] #画像の縦横の積
         area_ratio = area / img_area * 100 #面積の割合を計算
+        print(f"Area = {area}")
+        
+
+        # 割合表示すると、小さな赤に反応しないので、赤色面積をそのまま表示する。
         # if area_ratio < 1.0:
         #     area_ratio = 0.0
         # print(f"Area ratio = {area_ratio:.1f}%")
+
         print(f"Area = {area}")
 
     except:
