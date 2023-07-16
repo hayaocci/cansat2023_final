@@ -63,7 +63,7 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
         print("念のため周囲を確認します。")
 
         #-----周囲を確認する-----#
-        pwr_check = 20
+        pwr_check = 25
         t_check = 0.15
         i = 0
         
