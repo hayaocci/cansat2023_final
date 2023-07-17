@@ -18,7 +18,7 @@ bme280.bme280_calib_param()
 motor.setup()
 
 print("wait 20s")
-time.sleep(20)
+#time.sleep(20)
 
 #着地判定
 print("land detect start")
@@ -56,7 +56,7 @@ time.sleep(2)
 
 #-----少しだけ回転させる-----#
 #-----分離機構の扉が下を向いてしまったときように-----#
-motor.move(25, 25, 0.15)
+motor.move(40, 40, 0.05)
 print("rotate finish")
 
 #-----GPSセンサのデータ取得-----#
@@ -135,6 +135,7 @@ try:
             # pass
             print(utc, lat, lon, sHeight, gHeight)
 
+        print("----------")
         time.sleep(1)
 
 except KeyboardInterrupt:
