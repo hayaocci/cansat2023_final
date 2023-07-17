@@ -16,7 +16,7 @@ bme280.bme280_setup()
 bme280.bme280_calib_param()
 
 
-import time.sleep(30)
+time.sleep(30)
 
 #着地判定
 print("land detect start")
