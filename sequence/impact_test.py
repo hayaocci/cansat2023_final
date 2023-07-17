@@ -15,6 +15,7 @@ import motor
 bmx055.bmx055_setup()
 bme280.bme280_setup()
 bme280.bme280_calib_param()
+motor.setup()
 
 print("wait 20s")
 time.sleep(20)
