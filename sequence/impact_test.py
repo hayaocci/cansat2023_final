@@ -15,8 +15,11 @@ bmx055.bmx055_setup()
 bme280.bme280_setup()
 bme280.bme280_calib_param()
 
+
+import time.sleep(30)
+
 #着地判定
-print("Start")
+print("land detect start")
 send.send_data("TXDU 0001,0000")
 
 landcount = 0
