@@ -11,6 +11,8 @@ import smbus
 import logging
 import motor
 
+#着地衝撃試験用プログラム
+
 #使うモジュールのインストール
 bmx055.bmx055_setup()
 bme280.bme280_setup()
