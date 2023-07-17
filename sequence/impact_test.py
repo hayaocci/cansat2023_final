@@ -16,8 +16,8 @@ bmx055.bmx055_setup()
 bme280.bme280_setup()
 bme280.bme280_calib_param()
 
-
-time.sleep(30)
+print("wait 20s")
+time.sleep(20)
 
 #着地判定
 print("land detect start")
