@@ -121,7 +121,7 @@ try:
         print(bmxData)
         print("-----bme280 data-----")
         temp,pres,hum,alt = bme280.bme280_read()
-        print("bme280 data " + str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
+        print(str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
         print("-----gps data-----")
         utc, lat, lon, sHeight, gHeight = gps.read_gps()
         if utc == -1.0:
