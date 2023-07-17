@@ -15,6 +15,7 @@ import motor
 bmx055.bmx055_setup()
 bme280.bme280_setup()
 bme280.bme280_calib_param()
+motor.setup()
 
 print("wait 20s")
 time.sleep(20)
@@ -120,7 +121,7 @@ try:
         print(bmxData)
         print("-----bme280 data-----")
         temp,pres,hum,alt = bme280.bme280_read()
-        print( str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
+        print(str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
         print("-----gps data-----")
         utc, lat, lon, sHeight, gHeight = gps.read_gps()
         if utc == -1.0:
