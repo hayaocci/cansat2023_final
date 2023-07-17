@@ -18,7 +18,7 @@ bme280.bme280_calib_param()
 motor.setup()
 
 print("wait 20s")
-#time.sleep(20)
+time.sleep(10)
 
 #着地判定
 print("land detect start")
