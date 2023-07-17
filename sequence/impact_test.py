@@ -9,6 +9,7 @@ import pigpio
 from smbus import SMBus
 import smbus
 import logging
+import motor
 
 #使うモジュールのインストール
 bmx055.bmx055_setup()
@@ -48,6 +49,14 @@ except:
     pi.write(meltPin, 0)
 
 print("melt finish")
+
+
+time.sleep(2)
+
+#-----少しだけ回転させる-----#
+#-----分離機構の扉が下を向いてしまったときように-----#
+motor.move(30, -30, 0.15)
+print("rotate finish")
 
 #-----GPSセンサのデータ取得-----#
 # try:
@@ -110,7 +119,7 @@ try:
         print("bmx055 data " + str(bmxData))
 
         temp,pres,hum,alt = bme280.bme280_read()
-        print(str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
+        print("bme280 data " + str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
 
         utc, lat, lon, sHeight, gHeight = gps.read_gps()
         if utc == -1.0:
