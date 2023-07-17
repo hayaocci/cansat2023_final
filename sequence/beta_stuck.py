@@ -137,4 +137,4 @@ if __name__ == '__main__':
     bmx055.bmx055_setup()
     gps.open_gps()
 
-    running_test(thd_dist=5)
+    running_test(thd_dist=2)
