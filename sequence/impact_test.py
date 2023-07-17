@@ -116,11 +116,12 @@ try:
     t_start = time.time()
     while True:
         bmxData = bmx055.bmx055_read()
-        print("bmx055 data " + str(bmxData))
-
+        print("-----bmx055 data-----")
+        print(bmxData)
+        print("-----bme280 data-----")
         temp,pres,hum,alt = bme280.bme280_read()
         print("bme280 data " + str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
-
+        print("-----gps data-----")
         utc, lat, lon, sHeight, gHeight = gps.read_gps()
         if utc == -1.0:
             if lat == -1.0:
