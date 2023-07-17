@@ -107,7 +107,7 @@ try:
     t_start = time.time()
     while True:
         bmxData = bmx055.bmx055_read()
-        print(bmxData)
+        print("bmx055 data " + str(bmxData))
 
         temp,pres,hum,alt = bme280.bme280_read()
         print(str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
