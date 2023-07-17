@@ -205,4 +205,5 @@ def stuck_avoid():
 
 if __name__ == '__main__':
     motor.setup()
+    gps.open_gps()
     stuck_avoid()
