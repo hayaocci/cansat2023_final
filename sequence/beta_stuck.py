@@ -119,6 +119,7 @@ def stuck_recover():
 def running_test(thd_dist=10):
     print("-----Start Running Test-----")
     while True:
+        upside_down()
         lat_bf, lon_bf = gps.location()
         motor.move(30, 30, 5)
         lat_now, lon_now = gps.location()
