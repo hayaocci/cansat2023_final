@@ -121,7 +121,7 @@ def running_test(thd_dist=10):
     while True:
         upside_down()
         lat_bf, lon_bf = gps.location()
-        motor.move(30, 30, 5)
+        motor.move(30, 30, 15)
         lat_now, lon_now = gps.location()
 
         #モータを前に回して動かしたのにも関わらず、動いていない場合はstuckと判断
@@ -137,4 +137,4 @@ if __name__ == '__main__':
     bmx055.bmx055_setup()
     gps.open_gps()
 
-    running_test(thd_dist=10)
+    running_test(thd_dist=5)
