@@ -32,7 +32,7 @@ def upside_down(pwr=40, pwr_adj=20, t_forward=0.08):
             else:
                 pwr = 12
 
-            #motor forward
+            #move forward
             motor.move(pwr, pwr, t_forward)
             
             time.sleep(2)
@@ -116,12 +116,24 @@ def stuck_recover():
     
     print("Recovered")
 
+def running_test(thd_dist=10):
+    print("-----Start Running Test-----")
+    while True:
+        lat_bf, lon_bf = gps.location()
+        motor.move(30, 30, 5)
+        lat_now, lon_now = gps.location()
+
+        #モータを前に回して動かしたのにも関わらず、動いていない場合はstuckと判断
+        escape = stuck_judge(lat_bf, lon_bf, lat_now, lon_now, thd_dist)
+
+        if escape == False:
+            stuck_recover()
+        else:
+            print("not stuck")
 
 if __name__ == '__main__':
     motor.setup()
     bmx055.bmx055_setup()
-    gps.setup()
+    gps.open_gps()
 
-
-    upside_down()
-    stuck_recover()
+    running_test(thd_dist=10)
