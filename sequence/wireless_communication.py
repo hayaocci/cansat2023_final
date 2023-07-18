@@ -299,8 +299,8 @@ if __name__ == '__main__':
                     lat1, lon1 = location()
                     lat_str = "{:.8f}".format(lat1)  # 緯度を小数点以下8桁に整形
                     lon_str = "{:.8f}".format(lon1)  # 経度を小数点以下8桁に整形
-                    send.send_data("TXDU 0001,F0" + lat_str)
-                    send.send_data("TXDU 0001,F1" + lon_str)
+                    send.send_data("F0 " + lat_str)
+                    send.send_data("F1 " + lon_str)
             time.sleep(1)
     except KeyboardInterrupt:
         close_gps()
