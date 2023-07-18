@@ -112,7 +112,7 @@ if __name__ == '__main__':
         if command == 'a':
             move(10, 30, 2)
         elif command == 'w':
-            move(60, 60, 2)
+            move(40, 40, 2)
         elif command == 'd':
             move(30, 10, 2)
         elif command == 's':
