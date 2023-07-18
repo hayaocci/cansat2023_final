@@ -69,17 +69,17 @@ def get_locations(lat_human, lon_human):
 
     #周囲の4つの位置を求める
     #north
-    lat_n = lat_human + lat_dif*(rtb_distance/2)
+    lat_n = lat_human + lat_dif*(rtb_distance)
     lon_n = lon_human
     #east
     lat_e = lat_human
-    lon_e = lon_human - lon_dif*(rtb_distance/2)
+    lon_e = lon_human - lon_dif*(rtb_distance)
     #south
-    lat_s = lat_human - lat_dif*(rtb_distance/2)
+    lat_s = lat_human - lat_dif*(rtb_distance)
     lon_s = lon_human
     #west
     lat_w = lat_human
-    lon_w = lon_human + lon_dif*(rtb_distance/2)
+    lon_w = lon_human + lon_dif*(rtb_distance)
 
     return {
         'lat_n':lat_n,
