@@ -66,6 +66,8 @@ if __name__=='__main__':
     while time.time() < timeout_release:
         press_count_release, press_judge_release = release.pressdetect_release(thd_press_release, t_delta_release)
         print(f'count:{press_count_release}\tjudge:{press_judge_release}')
+        other.log(log_release, datetime.datetime.now(), time.time() - t_start,
+                          bme280.bme280_read(), press_count_release, press_judge_release)
         if press_count_release  > 3:
             print('Release')
             send.send_data("TXDU 0001.A001")
@@ -100,6 +102,8 @@ if __name__=='__main__':
             break
         else:
             print('Press unfulfilled')
+            other.log(log_landing, datetime.datetime.now(), time.time() - t_start,
+                           bme280.bme280_read())
             send.send_data("TXDU 0001,B001")
 
     send.send_data("TXDU 0001,BBBB")
@@ -116,7 +120,8 @@ if __name__=='__main__':
         send.send_data("TXDU 0001,C001")
     except:
         pi.write(meltPin, 0)
-    
+
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "Melting Finished")
     send.send_data("TXDU 0001,CCCC")
     ###------paraavo-------###
     try:
@@ -135,6 +140,8 @@ if __name__=='__main__':
             flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320,
                                                                       240, 200, 10, 120, 1)
             print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
+            other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
+                      t_start, flug, area, gap, photoname)
             parachute_avoid.parachute_avoidance(flug, gap)
             print(flug)
             if flug == -1 or flug == 0:
