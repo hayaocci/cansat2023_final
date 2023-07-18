@@ -171,6 +171,7 @@ if __name__=='__main__':
 
     goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=100)
     print(f'-----distance: {goal_distance}-----')
+    other.log(log_gpsrunning1, datetime.datetime.now(), time.time() - t_start,  "GPS running1 Finished")
     print("finish!")
 ######--------------mission--------------######
     count = 0
@@ -244,6 +245,7 @@ if __name__=='__main__':
     phase=other.phase(log_phase)
     gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=100)
     print(f'-----distance: {goal_distance}-----')
+    other.log(log_gpsrunning2, datetime.datetime.now(), time.time() - t_start,  "GPS running2 Finished")
     print("finish!")
 ######--------------goal--------------######
     other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
