@@ -5,7 +5,7 @@ def e_power_test(t_move):
     print("-----Start e_power_test-----")
     s_time = time.time()
     while True:
-        motor.move(40, 40, t_move)
+        motor.move(35, 35, t_move)
         elapsed_time = time.time() - s_time
         print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
         time.sleep(10)
