@@ -19,11 +19,27 @@ import paradetection
 from machine_learning import DetectPeople
 import sys
 import calibration
+import other
+import datetime
+
+#variable for log
+log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','txt')
+log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog','txt')
+log_landing=other.filename('/home/dendenmushi/cansat2023/sequence/log/landinglog','txt')
+log_melting=other.filename('/home/dendenmushi/cansat2023/sequence/log/meltinglog','txt')
+log_paraavoidance=other.filename('/home/dendenmushi/cansat2023/sequence/log/paraavoidancelog','txt')
+log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log','txt')
+log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
+log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
 
 
 if __name__=='__main__':
 
 ###----------set up -----------###
+    t_start=time.time()
+    print("START: Setup")
+    other.log(log_phase,'1',"setup phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     #グランドの中央
     lat_human = 35.9243068
     lon_human = 139.9124594
@@ -34,6 +50,8 @@ if __name__=='__main__':
  
 ###-------release judge -------###
     print("START: Release judge")
+    other.log(log_phase,'2',"release phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     thd_press_release = 0.1
     # pressreleasecount = 0
     # pressreleasejudge = 0
@@ -59,6 +77,8 @@ if __name__=='__main__':
 
     ###-------land judge -------###
     print("START: Land judge")
+    other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     send.send_data("TXDU 0001,B000")
 
     #bme280.bme280_setup()
@@ -86,6 +106,8 @@ if __name__=='__main__':
     ###-------melt-------###
 
     print("START: Melt")
+    other.log(log_phase,'4',"melt phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     pi = pigpio.pi()
 
     meltPin = 4
@@ -101,6 +123,8 @@ if __name__=='__main__':
         motor.setup()
 
         print("START: Parachute avoidance")
+        other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
+        phase=other.phase(log_phase)
 
         flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320, 240,
                                                                   200, 10, 120, 1)
@@ -131,6 +155,8 @@ if __name__=='__main__':
 
 ######--------------run1--------------######
     print("START:gps running1")
+    other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
 
     gps.open_gps()
     bmx055.bmx055_setup()
@@ -207,10 +233,14 @@ if __name__=='__main__':
 
     print("human detection finish!!!")
 ######--------------run2--------------######
+    other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=100)
     print(f'-----distance: {goal_distance}-----')
     print("finish!")
 ######--------------goal--------------######
+    other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     try:
         G_thd = 40
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
