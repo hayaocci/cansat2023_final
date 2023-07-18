@@ -77,6 +77,8 @@ if __name__=='__main__':
 
     ###-------land judge -------###
     print("START: Land judge")
+    other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     send.send_data("TXDU 0001,B000")
 
     #bme280.bme280_setup()
@@ -104,6 +106,8 @@ if __name__=='__main__':
     ###-------melt-------###
 
     print("START: Melt")
+    other.log(log_phase,'4',"melt phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     pi = pigpio.pi()
 
     meltPin = 4
@@ -119,6 +123,8 @@ if __name__=='__main__':
         motor.setup()
 
         print("START: Parachute avoidance")
+        other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
+        phase=other.phase(log_phase)
 
         flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320, 240,
                                                                   200, 10, 120, 1)
@@ -149,6 +155,8 @@ if __name__=='__main__':
 
 ######--------------run1--------------######
     print("START:gps running1")
+    other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
 
     gps.open_gps()
     bmx055.bmx055_setup()
@@ -225,10 +233,14 @@ if __name__=='__main__':
 
     print("human detection finish!!!")
 ######--------------run2--------------######
+    other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=100)
     print(f'-----distance: {goal_distance}-----')
     print("finish!")
 ######--------------goal--------------######
+    other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     try:
         G_thd = 40
         log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
