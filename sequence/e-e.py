@@ -19,6 +19,16 @@ import paradetection
 from machine_learning import DetectPeople
 import sys
 import calibration
+import other
+
+#variable for log
+log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog','txt')
+log_landing=other.filename('/home/dendenmushi/cansat2023/sequence/log/landinglog','txt')
+log_melting=other.filename('/home/dendenmushi/cansat2023/sequence/log/meltinglog','txt')
+log_paraavoidance=other.filename('/home/dendenmushi/cansat2023/sequence/log/paraavoidancelog','txt')
+log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log','txt')
+log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
+log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
 
 
 if __name__=='__main__':
