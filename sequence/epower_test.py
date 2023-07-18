@@ -21,4 +21,4 @@ def e_power_test(t_move):
 if __name__ == '__main__':
     motor.setup()
     #2分間走らせて、10秒休憩
-    e_power_test(120)
+    e_power_test(30)
