@@ -20,8 +20,10 @@ from machine_learning import DetectPeople
 import sys
 import calibration
 import other
+import datetime
 
 #variable for log
+log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','txt')
 log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog','txt')
 log_landing=other.filename('/home/dendenmushi/cansat2023/sequence/log/landinglog','txt')
 log_melting=other.filename('/home/dendenmushi/cansat2023/sequence/log/meltinglog','txt')
@@ -34,6 +36,10 @@ log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrun
 if __name__=='__main__':
 
 ###----------set up -----------###
+    t_start=time.time()
+    print("START: Setup")
+    other.log(log_phase,'1',"setup phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     #グランドの中央
     lat_human = 35.9243068
     lon_human = 139.9124594
@@ -44,6 +50,8 @@ if __name__=='__main__':
  
 ###-------release judge -------###
     print("START: Release judge")
+    other.log(log_phase,'2',"release phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     thd_press_release = 0.1
     # pressreleasecount = 0
     # pressreleasejudge = 0
