@@ -96,7 +96,7 @@ def ue_jugkai():
             ue_count += 1
 
 
-def stuck_jug(lat1, lon1, lat2, lon2, thd=1.0):
+def stuck_jug(lat1, lon1, lat2, lon2, thd=3.0):
     data_stuck = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
     if data_stuck['distance'] <= thd:
         print(str(data_stuck['distance']) + '----!!!    stuck   !!!')
