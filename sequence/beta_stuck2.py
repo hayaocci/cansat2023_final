@@ -116,7 +116,7 @@ def stuck_recover():
     
     print("Recovered")
 
-def running_test(thd_dist=1):
+def running_test(thd_dist=3):
     print("-----Start Running Test-----")
     while True:
         upside_down()
