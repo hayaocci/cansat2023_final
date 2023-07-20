@@ -18,7 +18,7 @@ def vib_test():
     #-----3分のマージン-----#
     print("vibration test start")
     print("wait 3mins")
-    time.sleep(180)
+    time.sleep(2)
 
     #-----着地判定-----#
     print("land detect start")
