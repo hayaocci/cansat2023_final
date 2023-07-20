@@ -103,6 +103,7 @@ if __name__ == '__main__':
     bmx055.bmx055_setup()
     bme280.bme280_setup()
     bme280.bme280_calib_param()
+    gps.open_gps()
     motor.setup()
 
     #-----振動試験-----#
