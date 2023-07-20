@@ -62,15 +62,14 @@ def vib_test():
         gps.open_gps()
         t_start = time.time()
         while True:
-            _, bmxData = bmx055.bmx055_read()
+            bmxData = bmx055.bmx055_read()
             print("-----bmx055 data-----")
             print(bmxData)
-            #other.log('./log/vibration_test/vib', bmxData)
             print("-----bme280 data-----")
-            temp,pres,hum,alt = bme280.bme280_read()
-            print(str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
-            #other.log(logpath, )
+            bmeData = bme280.bme280_read()
+            print(bmeData)
             print("-----gps data-----")
+            gpsData = gps.read_gps()
             utc, lat, lon, sHeight, gHeight = gps.read_gps()
             if utc == -1.0:
                 if lat == -1.0:
@@ -86,6 +85,30 @@ def vib_test():
             print("----------")
 
             #ログの保存
+            try:
+                for i in range(len(bmxData)):
+                    if bmxData[i] is None:
+                        bmxData[i] = round(bmxData[i], 4)
+                        bmxData[i] = '{:.4f}'.format(bmxData[i]) #0埋め追加
+
+                for n in range(len(bmeData)):
+                        if bmeData[n] is None:
+                        bmeData[n] = round(bmeData[n], 4)
+                        bmeData[n] = '{:.4f}'.format(bmeData[n]) #0埋め追加
+                
+                for l in range(len(gpsData)):
+                    if gpsData[l] is None:
+                        gpsData[l] = round(gpsData[l], 8)
+                        gpsData[l] = '{:.8f}'.format(gpsData[l])
+
+            except:
+                bmxData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                bmeData = [0.0, 0.0, 0.0, 0.0]
+                gpsData = [0.0, 0.0, 0.0, 0.0, 0.0]
+                
+
+
+
             other.log(logpath, bmxData, temp, pres, hum, alt, utc, lat, lon, sHeight, gHeight)
 
             time.sleep(1)
