@@ -13,10 +13,10 @@ def pressdetect_land(thd_press_land):
     global press_count_land
     global press_judge_land
     try:
-        pressdata, _ = bme280.bme280_read()
+        pressdata = bme280.bme280_read()
         Prevpress = pressdata[1]
         time.sleep(1)
-        pressdata, _ = bme280.bme280_read()
+        pressdata = bme280.bme280_read()
         latestpress = pressdata[1]
         delta_p = abs(latestpress - Prevpress)
         if 0.0 in pressdata:
