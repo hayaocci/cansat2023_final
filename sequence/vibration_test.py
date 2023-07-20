@@ -13,7 +13,7 @@ import melt
 import land
 
 def vib_test():
-    logpath = other.filename('./log/vibration_test/vibration_test_log','txt')
+    logpath = other.filename('./log/vibration_test/vibration_test_log','csv')
 
     #-----3分のマージン-----#
     print("vibration test start")
