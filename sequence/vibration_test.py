@@ -73,7 +73,6 @@ def vib_test():
             temp, press, hum, alt = bme280.bme280_read()
             print(temp, press, hum, alt)
             print("-----gps data-----")
-            gpsData = gps.read_gps()
             utc, lat, lon, sHeight, gHeight = gps.read_gps()
             if utc == -1.0:
                 if lat == -1.0:
@@ -90,32 +89,6 @@ def vib_test():
 
             #ログの保存
             other.log(logpath, accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz, temp, press, hum, alt, utc, lat, lon, sHeight, gHeight)
-
-            # try:
-            #     for i in range(len(bmxData)):
-            #         if bmxData[i] is None:
-            #             #bmxData[i] = round(bmxData[i], 4)
-            #             bmxData[i] = '{:.4f}'.format(bmxData[i]) #0埋め追加
-
-            #     for n in range(len(bmeData)):
-            #             if bmeData[n] is None:
-            #                 #bmeData[n] = round(bmeData[n], 4)
-            #                 bmeData[n] = '{:.4f}'.format(bmeData[n]) #0埋め追加
-                
-            #     for l in range(len(gpsData)):
-            #         if gpsData[l] is None:
-            #             gpsData[l] = round(gpsData[l], 8)
-            #             gpsData[l] = '{:.8f}'.format(gpsData[l])
-
-            # except:
-            #     bmxData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-            #     bmeData = [0.0, 0.0, 0.0, 0.0]
-            #     gpsData = [0.0, 0.0, 0.0, 0.0, 0.0]
-                
-
-
-
-            # other.log(logpath, bmxData, bmeData, gpsData)
 
             time.sleep(1)
 
