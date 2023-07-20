@@ -37,7 +37,7 @@ def pressdetect_land(thd_press_land):
     except:
         press_count_land = 0
         press_judge_land = 2
-    return press_count_land, press_judge_land, delta_p
+    return press_count_land, press_judge_land, delta_p, Prevpress, latestpress
 
 
 if __name__ == "__main__":

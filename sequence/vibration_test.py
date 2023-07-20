@@ -32,8 +32,9 @@ def vib_test():
 
     while True:
         presslandjudge = 0
-        landcount, presslandjudge, delta_p = land.pressdetect_land(0.1)
+        landcount, presslandjudge, delta_p, Prevpress, latestpress= land.pressdetect_land(0.1)
         print(f'count:{landcount}\tjudge:{presslandjudge}')
+        other.log(logpath, Prevpress, latestpress)
         if presslandjudge == 1:
             print('Press')
             send.send_data("TXDU 0001,1000")
