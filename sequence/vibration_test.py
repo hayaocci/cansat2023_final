@@ -88,12 +88,12 @@ def vib_test():
             try:
                 for i in range(len(bmxData)):
                     if bmxData[i] is None:
-                        bmxData[i] = round(bmxData[i], 4)
+                        #bmxData[i] = round(bmxData[i], 4)
                         bmxData[i] = '{:.4f}'.format(bmxData[i]) #0埋め追加
 
                 for n in range(len(bmeData)):
                         if bmeData[n] is None:
-                            bmeData[n] = round(bmeData[n], 4)
+                            #bmeData[n] = round(bmeData[n], 4)
                             bmeData[n] = '{:.4f}'.format(bmeData[n]) #0埋め追加
                 
                 for l in range(len(gpsData)):
