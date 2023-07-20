@@ -9,6 +9,10 @@ import gps
 from math import sqrt
 import motor
 import bmx055
+import other
+import datetime
+
+log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
 
 #グローバル変数として宣言
 # global human_judge_count
@@ -104,7 +108,8 @@ def take_and_rotation(human_judge_count, break_outer_loop):
 
             # モデルの読み込み
             result = ML_people.predict(image_path=img_path)
-
+            other.log(log_humandetect, datetime.datetime.now(), time.time() -
+                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
             # hitoの確率80%かどうか
             if result >= 0.80:
                 human_judge_count += 1
@@ -113,6 +118,8 @@ def take_and_rotation(human_judge_count, break_outer_loop):
                 for j in range(2):
                     additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
                     additional_result = ML_people.predict(image_path=additional_img_path)
+                    other.log(log_humandetect, datetime.datetime.now(), time.time() -
+                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
                     if additional_result >= 0.80:
                         human_judge_count += 1
                         print(human_judge_count)
@@ -199,7 +206,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         print("青点エリア捜索終了")             
     
 if __name__ == "__main__":
-
+    t_start = 0
     count = 0
     human_judge_count = 0
     break_outer_loop = False
@@ -242,7 +249,8 @@ if __name__ == "__main__":
             
             #モデルの読み込み
             result = ML_people.predict(image_path=img_path)
-
+            other.log(log_humandetect, datetime.datetime.now(), time.time() -
+                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
             #hitoの確率80%かどうか
             if result >= 0.80:
                 human_judge_count += 1
@@ -250,6 +258,8 @@ if __name__ == "__main__":
                 for h in range(2):
                     additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
                     additional_result = ML_people.predict(image_path=additional_img_path)
+                    other.log(log_humandetect, datetime.datetime.now(), time.time() -
+                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
                     if additional_result >= 0.80:
                         human_judge_count += 1
                         if human_judge_count >= 3:
