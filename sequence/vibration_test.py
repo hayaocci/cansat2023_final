@@ -18,10 +18,13 @@ def vib_test():
     #-----3分のマージン-----#
     print("vibration test start")
     print("wait 3mins")
-    time.sleep(180)
+    other.log(logpath, "vibration test start")
+    other.log(logpath, "wait 3mins")
+    time.sleep(2)
 
     #-----着地判定-----#
     print("land detect start")
+    other.log(logpath, "land detect start")
     send.send_data("TXDU 0001,0000")
 
     landcount = 0
@@ -35,10 +38,12 @@ def vib_test():
             print('Press')
             send.send_data("TXDU 0001,1000")
             print('##--landed--##')
+            other.log(logpath, 'landed')
             send.send_data("TXDU 0001,1111")
             break
         else:
             print('Press unfulfilled')
+            other.log(logpath, 'Press unfulfilled')
             send.send_data("TXDU 0001,0001")
 
     #-----溶断回路-----#
@@ -90,8 +95,15 @@ def vib_test():
 
             print("----------")
 
+            #-----data send-----#
+            send.send_data("TXDU 0001,wireless check")
+
+
+
             #ログの保存
             other.log(logpath, accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz, temp, press, hum, alt, utc, lat, lon, sHeight, gHeight)
+
+
 
             time.sleep(1)
 
