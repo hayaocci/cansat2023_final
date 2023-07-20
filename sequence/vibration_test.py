@@ -93,8 +93,8 @@ def vib_test():
 
                 for n in range(len(bmeData)):
                         if bmeData[n] is None:
-                        bmeData[n] = round(bmeData[n], 4)
-                        bmeData[n] = '{:.4f}'.format(bmeData[n]) #0埋め追加
+                            bmeData[n] = round(bmeData[n], 4)
+                            bmeData[n] = '{:.4f}'.format(bmeData[n]) #0埋め追加
                 
                 for l in range(len(gpsData)):
                     if gpsData[l] is None:
