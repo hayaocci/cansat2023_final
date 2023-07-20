@@ -156,6 +156,7 @@ def bme280_read():
 		for i in range(len(value)):
 			if value[i] is not None:
 				value[i] = round(value[i], 4)
+				value[i] = '{:.4f}'.format(value[i]) #0埋め追加
 	except:
 		value = [0.0, 0.0, 0.0, 0.0]
 
