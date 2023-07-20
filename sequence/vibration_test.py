@@ -32,7 +32,7 @@ def vib_test():
 
     while True:
         presslandjudge = 0
-        landcount, presslandjudge = land.pressdetect_land(0.1)
+        landcount, presslandjudge, delta_p = land.pressdetect_land(0.1)
         print(f'count:{landcount}\tjudge:{presslandjudge}')
         if presslandjudge == 1:
             print('Press')
@@ -43,7 +43,7 @@ def vib_test():
             break
         else:
             print('Press unfulfilled')
-            other.log(logpath, 'Press unfulfilled')
+            other.log(logpath, delta_p,'Press unfulfilled')
             send.send_data("TXDU 0001,0001")
 
     #-----溶断回路-----#
