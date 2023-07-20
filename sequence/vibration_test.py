@@ -109,7 +109,7 @@ def vib_test():
 
 
 
-            other.log(logpath, bmxData, temp, pres, hum, alt, utc, lat, lon, sHeight, gHeight)
+            other.log(logpath, bmxData, bmeData, gpsData)
 
             time.sleep(1)
 
