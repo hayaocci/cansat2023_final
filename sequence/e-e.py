@@ -175,6 +175,9 @@ if __name__=='__main__':
     other.log(log_gpsrunning1, datetime.datetime.now(), time.time() - t_start,  "GPS running1 Finished")
     print("finish!")
 ######--------------mission--------------######
+    print("START:human detect")
+    other.log(log_phase,'7',"humandetect phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     count = 0
     human_judge_count=0
     break_outer_loop =False
@@ -195,6 +198,8 @@ if __name__=='__main__':
             
             #モデルの読み込み
             result = ML_people.predict(image_path=img_path)
+            other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
+                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
 
             #hitoの確率80%かどうか
             if result >= 0.80:
@@ -203,6 +208,9 @@ if __name__=='__main__':
                 for h in range(2):
                     additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
                     additional_result = ML_people.predict(image_path=additional_img_path)
+                    other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
+                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
+
                     if additional_result >= 0.80:
                         human_judge_count += 1
                         if human_judge_count >= 3:
@@ -237,8 +245,7 @@ if __name__=='__main__':
                 count += 1
                 human_detection.move_to_bulearea(count, lat_human, lon_human)
                 human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop)
-                if j ==4 and break_outer_loop == False:
-                    print("おらんやないか、もう帰るわ")
+
 
     print("human detection finish!!!")
 ######--------------run2--------------######
