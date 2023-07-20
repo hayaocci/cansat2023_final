@@ -95,6 +95,8 @@ if __name__=='__main__':
         presslandjudge = 0
         landcount, presslandjudge = land.pressdetect_land(0.1)
         print(f'count:{landcount}\tjudge:{presslandjudge}')
+        other.log(log_landing, datetime.datetime.now(), time.time() - t_start,
+                           bme280.bme280_read())
         if presslandjudge == 1:
             print('Press')
             send.send_data("TXDU 0001,B002")
@@ -102,8 +104,6 @@ if __name__=='__main__':
             break
         else:
             print('Press unfulfilled')
-            other.log(log_landing, datetime.datetime.now(), time.time() - t_start,
-                           bme280.bme280_read())
             send.send_data("TXDU 0001,B001")
 
     send.send_data("TXDU 0001,BBBB")
@@ -115,6 +115,7 @@ if __name__=='__main__':
     pi = pigpio.pi()
 
     meltPin = 4
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "Melting Start")
     try:
         melt.down()
         send.send_data("TXDU 0001,C001")

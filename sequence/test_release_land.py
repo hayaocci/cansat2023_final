@@ -9,12 +9,26 @@ import pigpio
 import send
 import motor
 import traceback
+import other
+import datetime
 
+#variable for log
+log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','txt')
+log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog','txt')
+log_landing=other.filename('/home/dendenmushi/cansat2023/sequence/log/landinglog','txt')
+log_melting=other.filename('/home/dendenmushi/cansat2023/sequence/log/meltinglog','txt')
+log_paraavoidance=other.filename('/home/dendenmushi/cansat2023/sequence/log/paraavoidancelog','txt')
+# log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log','txt')
+# log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
+# log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
 
 if __name__  == "__main__":
-
+    ###----------set up -----------###
+    t_start=time.time()
     ###-------release judge -------###
     print("START: Release judge")
+    other.log(log_phase,'2',"release phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     thd_press_release = 0.1
     # pressreleasecount = 0
     # pressreleasejudge = 0
@@ -31,6 +45,8 @@ if __name__  == "__main__":
     while time.time() < timeout_release:
         press_count_release, press_judge_release = release.pressdetect_release(thd_press_release, t_delta_release)
         print(f'count:{press_count_release}\tjudge:{press_judge_release}')
+        other.log(log_release, datetime.datetime.now(), time.time() - t_start,
+                          bme280.bme280_read(), press_count_release, press_judge_release)
         if press_count_release  > 3:
             print('Release')
             send.send_data("TXDU 0001.A001")
@@ -43,6 +59,8 @@ if __name__  == "__main__":
 
     ###-------land judge -------###
     print("START: Land judge")
+    other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     send.send_data("TXDU 0001,B000")
 
     #bme280.bme280_setup()
@@ -59,6 +77,8 @@ if __name__  == "__main__":
         presslandjudge = 0
         landcount, presslandjudge = land.pressdetect_land(0.1)
         print(f'count:{landcount}\tjudge:{presslandjudge}')
+        other.log(log_landing, datetime.datetime.now(), time.time() - t_start,
+                           bme280.bme280_read())
         if presslandjudge == 1:
             print('Press')
             send.send_data("TXDU 0001,B002")
@@ -73,21 +93,26 @@ if __name__  == "__main__":
     ###-------melt-------###
 
     print("START: Melt")
+    other.log(log_phase,'4',"melt phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
     pi = pigpio.pi()
 
     meltPin = 4
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "Melting Start")
     try:
         melt.down()
         send.send_data("TXDU 0001,C001")
     except:
         pi.write(meltPin, 0)
     print("melt finish!!!")
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "Melting Finished")
     send.send_data("TXDU 0001,CCCC")
     ###------paraavo-------###
     try:
         motor.setup()
 
         print("START: Parachute avoidance")
+        other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
 
         flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320, 240,
                                                                   200, 10, 120, 1)
@@ -98,6 +123,8 @@ if __name__  == "__main__":
             flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320,
                                                                       240, 200, 10, 120, 1)
             print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
+            other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
+                      t_start, flug, area, gap, photoname)
             parachute_avoid.parachute_avoidance(flug, gap)
             print(flug)
             if flug == -1 or flug == 0:
