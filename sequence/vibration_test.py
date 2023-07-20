@@ -43,6 +43,7 @@ def vib_test():
 
     #-----溶断回路-----#
     print("melt start")
+    other.log(logpath, "melt start")
     meltPin = 4
     try:
         melt.down()
@@ -50,12 +51,14 @@ def vib_test():
         pi.write(meltPin, 0)
 
     print("melt finish")
+    other.log(logpath, "melt finish")
 
     #2秒スリープ
     time.sleep(2)
 
     #-----少しだけ前進-----#
     motor.move(35, 35, 0.05)
+    other.log(logpath, "move forward")
 
     #-----data read-----#
 
