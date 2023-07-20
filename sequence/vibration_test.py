@@ -62,7 +62,7 @@ def vib_test():
         gps.open_gps()
         t_start = time.time()
         while True:
-            bmxData = bmx055.bmx055_read()
+            _, bmxData = bmx055.bmx055_read()
             print("-----bmx055 data-----")
             print(bmxData)
             #other.log('./log/vibration_test/vib', bmxData)
