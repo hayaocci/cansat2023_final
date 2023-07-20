@@ -86,7 +86,7 @@ def vib_test():
             print("----------")
 
             #ログの保存
-            other.log(logpath, "9axis", bmxData, "temp=", temp, "press=, "pres, hum, alt, utc, lat, lon, sHeight, gHeight)
+            other.log(logpath, bmxData, temp, pres, hum, alt, utc, lat, lon, sHeight, gHeight)
 
             time.sleep(1)
 
