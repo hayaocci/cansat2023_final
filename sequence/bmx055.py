@@ -170,15 +170,12 @@ def bmx055_read():
 
 	value = [accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz]
 
-	value_x = [accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz]
-
 	# --- Round Data --- #
 	for i in range(len(value)):
 		if value[i] is not None:
 			value[i] = round(value[i], 4)
-			value_x[i] = '{:.4f}'.format(value[i]) #0埋め追加
 
-	return 	value, value_x
+	return 	value
 
 if __name__ == '__main__':
 	try:

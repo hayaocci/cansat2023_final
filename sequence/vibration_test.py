@@ -58,16 +58,20 @@ def vib_test():
     motor.move(40, 40, 0.05)
 
     #-----data read-----#
+
+    #-----logのヘッダー-----#
+    other.log(logpath, 'accx',  'accy', 'accz', 'gyrx', 'gyry', 'gyrz', 'magx', 'magy', 'magz', 'temp', 'press', 'hum', 'alt', 'utc', 'lat', 'lon', 'sHeight', 'gHeight')
+
     try:
         gps.open_gps()
         t_start = time.time()
         while True:
-            bmxData = bmx055.bmx055_read()
+            accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz  = bmx055.bmx055_read()
             print("-----bmx055 data-----")
-            print(bmxData)
+            print(accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz)
             print("-----bme280 data-----")
-            bmeData = bme280.bme280_read()
-            print(bmeData)
+            temp, press, hum, alt = bme280.bme280_read()
+            print(temp, press, hum, alt)
             print("-----gps data-----")
             gpsData = gps.read_gps()
             utc, lat, lon, sHeight, gHeight = gps.read_gps()
@@ -85,31 +89,33 @@ def vib_test():
             print("----------")
 
             #ログの保存
-            try:
-                for i in range(len(bmxData)):
-                    if bmxData[i] is None:
-                        #bmxData[i] = round(bmxData[i], 4)
-                        bmxData[i] = '{:.4f}'.format(bmxData[i]) #0埋め追加
+            other.log(logpath, accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz, temp, press, hum, alt, utc, lat, lon, sHeight, gHeight)
 
-                for n in range(len(bmeData)):
-                        if bmeData[n] is None:
-                            #bmeData[n] = round(bmeData[n], 4)
-                            bmeData[n] = '{:.4f}'.format(bmeData[n]) #0埋め追加
+            # try:
+            #     for i in range(len(bmxData)):
+            #         if bmxData[i] is None:
+            #             #bmxData[i] = round(bmxData[i], 4)
+            #             bmxData[i] = '{:.4f}'.format(bmxData[i]) #0埋め追加
+
+            #     for n in range(len(bmeData)):
+            #             if bmeData[n] is None:
+            #                 #bmeData[n] = round(bmeData[n], 4)
+            #                 bmeData[n] = '{:.4f}'.format(bmeData[n]) #0埋め追加
                 
-                for l in range(len(gpsData)):
-                    if gpsData[l] is None:
-                        gpsData[l] = round(gpsData[l], 8)
-                        gpsData[l] = '{:.8f}'.format(gpsData[l])
+            #     for l in range(len(gpsData)):
+            #         if gpsData[l] is None:
+            #             gpsData[l] = round(gpsData[l], 8)
+            #             gpsData[l] = '{:.8f}'.format(gpsData[l])
 
-            except:
-                bmxData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-                bmeData = [0.0, 0.0, 0.0, 0.0]
-                gpsData = [0.0, 0.0, 0.0, 0.0, 0.0]
+            # except:
+            #     bmxData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            #     bmeData = [0.0, 0.0, 0.0, 0.0]
+            #     gpsData = [0.0, 0.0, 0.0, 0.0, 0.0]
                 
 
 
 
-            other.log(logpath, bmxData, bmeData, gpsData)
+            # other.log(logpath, bmxData, bmeData, gpsData)
 
             time.sleep(1)
 
