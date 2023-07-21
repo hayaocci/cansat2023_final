@@ -60,10 +60,10 @@ def vib_test():
     other.log(logpath, "melt finish")
 
     #2秒スリープ
-    time.sleep(2)
+    time.sleep(5)
 
     #-----少しだけ前進-----#
-    motor.move(35, 35, 0.05)
+    motor.move(35, 35, 5)
     other.log(logpath, "move forward")
 
     #-----data read-----#
