@@ -7,7 +7,6 @@ import time
 import bme280
 import pigpio
 import send
-import motor
 import traceback
 import other
 import datetime
@@ -150,6 +149,7 @@ if __name__  == "__main__":
 
     #-----praschute avoid-----#
 
+    motor.setup()
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
 
