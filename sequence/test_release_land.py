@@ -12,7 +12,7 @@ import other
 import datetime
 import wgps_beta_photo_running as photo_running
 import cv2
-import save photo as save_img
+import save_photo as save_img
 import take
 import motor
 import beta_para_avoid as para_avoid
