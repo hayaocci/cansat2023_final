@@ -20,7 +20,7 @@ def vib_test():
     print("wait 3mins")
     other.log(logpath, "vibration test start")
     other.log(logpath, "wait 3mins")
-    time.sleep(2)
+    time.sleep(180)
 
     #-----着地判定-----#
     print("land detect start")
