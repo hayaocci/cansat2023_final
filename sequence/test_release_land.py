@@ -40,7 +40,7 @@ if __name__  == "__main__":
     t_delta_release = 0.5
 
     #タイムアウトを10分に設定
-    timeout_release = time.time()+(1*60)
+    timeout_release = time.time()+(0.5*60)
     
     bme280.bme280_setup()
     bme280.bme280_calib_param()
