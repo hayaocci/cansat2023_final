@@ -63,8 +63,10 @@ def vib_test():
     time.sleep(5)
 
     #-----少しだけ前進-----#
-    motor.move(35, 35, 5)
+    motor.move(35, 35, 3)
     other.log(logpath, "move forward")
+
+    time.sleep(5)
 
     #-----data read-----#
 
