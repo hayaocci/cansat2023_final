@@ -80,7 +80,7 @@ if __name__  == "__main__":
     #while True:
     while time.time() < timeout_land:
         presslandjudge = 0
-        landcount, presslandjudge = land.pressdetect_land(0.1)
+        landcount, presslandjudge, delta_p, Prevpress, latestpress = land.pressdetect_land(0.1)
         print(f'count:{landcount}\tjudge:{presslandjudge}')
         other.log(log_landing, datetime.datetime.now(), time.time() - t_start,
                            bme280.bme280_read())
