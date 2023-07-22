@@ -51,7 +51,7 @@ if __name__=='__main__':
     pressdata = [0.0, 0.0, 0.0, 0.0]
     timeout_land = time.time() + (20*60)
     #para
-    motor.setup()
+    # motor.setup()
     #run1
     gps.open_gps()
     bmx055.bmx055_setup()
@@ -146,7 +146,7 @@ if __name__=='__main__':
     send.send_data("TXDU 0001,CCCC")
     ###------paraavo-------###
     try:
-        # motor.setup()
+        motor.setup()
 
         print("START: Parachute avoidance")
         other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
