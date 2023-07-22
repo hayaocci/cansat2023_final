@@ -16,6 +16,7 @@ import save_photo as save_img
 import take
 import motor
 import beta_para_avoid as para_avoid
+import stuck2
 
 #variable for log
 log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','txt')
@@ -146,6 +147,9 @@ if __name__  == "__main__":
         
     # print("paraavo finish!!!")
     # send.send_data("TXDU 0001,DDDD")
+
+    #-----上ジャッジ-----#
+    stuck2.uejug()
 
     #-----スタビの復元まち-----#
     time.sleep(15)
