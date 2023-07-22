@@ -383,19 +383,15 @@ if __name__ == '__main__':
     
     #---------------------画像伝送----------------------------#
     
-    try:
-        photo_name = picture(file_name, 320, 240)
-        print("撮影した写真のファイルパス：", photo_name)
-    except KeyboardInterrupt:
-        print('stop')
-    except:
-        print(8888888888888888888)
-        print(traceback.format_exc())
+    
+    photo_name = picture(file_name, 320, 240)
+    print("撮影した写真のファイルパス：", photo_name)
+
     
     print("写真撮影完了")
     
     # 圧縮したい画像のパスと出力先のパスを指定します
-    input_image_path = file_name
+    input_image_path = photo_name
     compressed_image_path = 'compressed_test.jpg'
     
     # 圧縮率を指定します（0から100の範囲の整数）
