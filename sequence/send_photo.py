@@ -352,7 +352,6 @@ while True:
         lon_sum += lon
         print(lat,lon)
         count = count +1
-            
         if count % num_samples == 0:
             #平均計算
             avg_lat = lat_sum / num_samples
@@ -360,7 +359,12 @@ while True:
             print(avg_lat,avg_lon)
             break
         time.sleep(1)
-
+    except KeyboardInterrupt:
+        close_gps()
+        print("\r\nKeyboard Intruppted, Serial Closed")
+    except:
+        close_gps()
+        print(traceback.format_exc())
 
 # 無線で送信
 send.send_data("human_GPS_start")
