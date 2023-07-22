@@ -4,6 +4,7 @@ import cv2
 from save_photo import save_img
 import take
 import motor
+import time
 
 def detect_para():
     #画像の撮影
@@ -56,6 +57,19 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
 
     #読み込み
     #red_area, angle = detect_para()
+
+    #パラシュートが覆いかぶさっていたとき用の閾値
+    thd_para_covered = 90
+
+    #-----パラシュートが覆いかぶさっていたとき用の処理-----#
+    while red_area > thd_para_covered:
+        print("parachute on top")
+        time.sleep(30)
+        red_area, angle = detect_para()
+
+
+
+
 
     #-----初めて取った写真にパラシュートが映っていなかった場合-----#
     if red_area == 0:
