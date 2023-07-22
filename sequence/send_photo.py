@@ -9,7 +9,7 @@ import numpy as np
 import traceback
 import send
 import cv2
-import take
+from take import picture
 
 RX = 27
 pi = pigpio.pi()
@@ -384,7 +384,8 @@ if __name__ == '__main__':
     #---------------------画像伝送----------------------------#
     
     try:
-        photoName = take.picture(file_name, 320, 240)
+        photo_name = picture(file_name, 320, 240)
+        print("撮影した写真のファイルパス：", photo_name)
     except KeyboardInterrupt:
         print('stop')
     except:
@@ -394,7 +395,7 @@ if __name__ == '__main__':
     print("写真撮影完了")
     
     # 圧縮したい画像のパスと出力先のパスを指定します
-    input_image_path = '/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg'
+    input_image_path = file_name
     compressed_image_path = 'compressed_test.jpg'
     
     # 圧縮率を指定します（0から100の範囲の整数）
