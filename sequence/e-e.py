@@ -31,7 +31,7 @@ log_paraavoidance=other.filename('/home/dendenmushi/cansat2023/sequence/log/para
 log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log','txt')
 log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
 log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
-log_photorunning =other.filename( '/home/dendenmushi/cansat2023/sequence/log/photorunninglog.txt')
+log_photorunning =other.filename( '/home/dendenmushi/cansat2023/sequence/log/photorunninglog','txt')
 
 if __name__=='__main__':
 
