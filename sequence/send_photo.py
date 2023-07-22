@@ -359,12 +359,12 @@ while True:
             print(avg_lat,avg_lon)
             break
         time.sleep(1)
-    except KeyboardInterrupt:
-        close_gps()
-        print("\r\nKeyboard Intruppted, Serial Closed")
-    except:
-        close_gps()
-        print(traceback.format_exc())
+except KeyboardInterrupt:
+    close_gps()
+    print("\r\nKeyboard Intruppted, Serial Closed")
+except:
+    close_gps()
+    print(traceback.format_exc())
 
 # 無線で送信
 send.send_data("human_GPS_start")
