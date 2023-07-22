@@ -22,7 +22,7 @@ log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','t
 log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog','txt')
 log_landing=other.filename('/home/dendenmushi/cansat2023/sequence/log/landinglog','txt')
 log_melting=other.filename('/home/dendenmushi/cansat2023/sequence/log/meltinglog','txt')
-log_paraavoidance=other.filename('/home/dendenmushi/cansat2023/sequence/log/paraavoidancelog','txt')
+log_para=other.filename('/home/dendenmushi/cansat2023/sequence/log/para_avoid_log','txt')
 # log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log','txt')
 # log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
 # log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
@@ -150,8 +150,9 @@ if __name__  == "__main__":
     #-----praschute avoid-----#
 
     motor.setup()
+    other.log(log_para, datetime.datetime.now(), "Parachute avoidance Start")
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
-
+    other.log(log_para, datetime.datetime.now(), "Parachute avoidance Finish")
 
 
