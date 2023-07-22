@@ -72,7 +72,7 @@ if __name__=='__main__':
     thd_press_release = 0.1
     # pressreleasecount = 0
     # pressreleasejudge = 0
-    #t_delta_release = 10
+    t_delta_release = 10
     #タイムアウトを20分に設定
     #timeout_release = time.time()+(0.5*60)
     # bme280.bme280_setup()
