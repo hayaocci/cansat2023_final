@@ -359,6 +359,7 @@ while True:
             avg_lon = lon_sum / num_samples
             print(avg_lat,avg_lon)
             break
+        time.sleep(1)
 
 
 # 無線で送信
