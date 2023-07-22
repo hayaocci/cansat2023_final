@@ -347,11 +347,11 @@ while True:
     else:
         # pass
         print(utc, lat, lon, sHeight, gHeight)
-            lat, lon = location()
-            lat_sum += lat
-            lon_sum += lon
-            print(lat,lon)
-            count = count +1
+        lat, lon = location()
+        lat_sum += lat
+        lon_sum += lon
+        print(lat,lon)
+        count = count +1
             
         if count % num_samples == 0:
             #平均計算
