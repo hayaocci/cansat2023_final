@@ -147,6 +147,9 @@ if __name__  == "__main__":
     # print("paraavo finish!!!")
     # send.send_data("TXDU 0001,DDDD")
 
+    #-----スタビの復元まち-----#
+    time.sleep(15)
+
     #-----praschute avoid-----#
 
     motor.setup()
