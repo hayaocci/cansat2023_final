@@ -59,7 +59,7 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
     #red_area, angle = detect_para()
 
     #パラシュートが覆いかぶさっていたとき用の閾値
-    thd_para_covered = 90
+    thd_para_covered = 69120
 
     #-----パラシュートが覆いかぶさっていたとき用の処理-----#
     while red_area > thd_para_covered:
