@@ -33,7 +33,7 @@ if __name__  == "__main__":
     ###-------release judge -------###
     print("START: Release judge")
     other.log(log_phase,'2',"release phase",datetime.datetime.now(),time.time()-t_start)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     thd_press_release = 0.2
     # pressreleasecount = 0
     # pressreleasejudge = 0
@@ -65,7 +65,7 @@ if __name__  == "__main__":
     ###-------land judge -------###
     print("START: Land judge")
     other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     send.send_data("TXDU 0001,B000")
 
     #bme280.bme280_setup()
@@ -99,7 +99,7 @@ if __name__  == "__main__":
 
     print("START: Melt")
     other.log(log_phase,'4',"melt phase",datetime.datetime.now(),time.time()-t_start)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     pi = pigpio.pi()
 
     meltPin = 4
