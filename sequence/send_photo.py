@@ -329,42 +329,44 @@ def image_file_to_base64(file_path):
 
 #-----------------------------------------------------------------------------------------------------------#
 if __name__ == '__main__':
+
 #---------------------GPS情報送信--------------------------#
-    #gps情報取得
-    
+#gps情報取得
+
     open_gps()
     t_start = time.time()
     count = 0
     while True:
-        utc, lat, lon, sHeight, gHeight = read_gps()
-        if utc == -1.0:
-            if lat == -1.0:
-                print("Reading gps Error")
-                # pass
+        try:
+            utc, lat, lon, sHeight, gHeight = read_gps()
+            if utc == -1.0:
+                if lat == -1.0:
+                    print("Reading gps Error")
+                    # pass
+                else:
+                    # pass
+                    print("Status V")
             else:
                 # pass
-               print("Status V")
-        else:
-            # pass
-            print(utc, lat, lon, sHeight, gHeight)
-            lat, lon = location()
-            lat_sum += lat
-            lon_sum += lon
-            print(lat,lon)
-            count = count +1
-            if count % num_samples == 0:
-                #平均計算
-                avg_lat = lat_sum / num_samples
-                avg_lon = lon_sum / num_samples
-                print(avg_lat,avg_lon)
-                break
-            time.sleep(1)
-    except KeyboardInterrupt:
-        close_gps()
-        print("\r\nKeyboard Intruppted, Serial Closed")
-    except:
-        close_gps()
-        print(traceback.format_exc())
+                print(utc, lat, lon, sHeight, gHeight)
+                lat, lon = location()
+                lat_sum += lat
+                lon_sum += lon
+                print(lat,lon)
+                count = count +1
+                if count % num_samples == 0:
+                    #平均計算
+                    avg_lat = lat_sum / num_samples
+                    avg_lon = lon_sum / num_samples
+                    print(avg_lat,avg_lon)
+                    break
+                time.sleep(1)
+        except KeyboardInterrupt:
+            close_gps()
+            print("\r\nKeyboard Intruppted, Serial Closed")
+        except:
+            close_gps()
+            print(traceback.format_exc())
     
     # 無線で送信
     send.send_data("human_GPS_start")
