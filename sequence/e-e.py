@@ -98,7 +98,7 @@ if __name__=='__main__':
             print('unfulfilled')
     other.log(log_release, "release judge finish")
     send.send_data("TXDU 0001.AAAA")
-
+    print("release finish!!!")
     ###-------land judge -------###
     print("START: Land judge")
     other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start)
@@ -131,6 +131,7 @@ if __name__=='__main__':
             send.send_data("TXDU 0001,B001")
     other.log(log_landing, "land judge finish")
     send.send_data("TXDU 0001,BBBB")
+    print("land finish!!!")
     ###-------melt-------###
 
     print("START: Melt")
@@ -148,6 +149,7 @@ if __name__=='__main__':
 
     other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish")
     send.send_data("TXDU 0001,CCCC")
+    print("melt finish!!!")
     ###------paraavo-------###
     # try:
     #     motor.setup()
@@ -187,13 +189,13 @@ if __name__=='__main__':
     other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
     other.log(log_paraavoidance,"paraavo start")
-    motor.setup()
+    #motor.setup()
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
     other.log(log_paraavoidance,"paraavo finish")
     send.send_data("TXDU 0001,DDDD")
 
-
+    print("paraavo finish!!!")
 ######--------------run1--------------######
     print("START:gps running1")
     other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start)
