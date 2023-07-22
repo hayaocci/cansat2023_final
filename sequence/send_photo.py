@@ -411,6 +411,10 @@ if __name__ == '__main__':
     start_time = time.time()  # プログラム開始時刻を記録
     
     send.send_data ("wireless_start")
+
+    print("写真伝送開始します")
+    time.sleep(1)
+
     
     # バイナリデータを32バイトずつ表示し、ファイルに保存する
     with open(output_filename, "w") as f:
