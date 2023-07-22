@@ -1,6 +1,5 @@
 import time
 from PIL import Image
-import binascii
 import base64
 from jinja2 import Environment, FileSystemLoader
 import math
@@ -17,8 +16,6 @@ chunk_size = 8  # 1回に表示するバイト数
 delay = 0.2  # 表示間隔（秒）
 num_samples = 5 #GPSの平均取る回数
 photo_quality = 50 #伝送する画像の圧縮率
-lat_sum = 0.0
-lon_sum = 0.0
 count = 0
 
 ELLIPSOID_GRS80 = 1  # GRS80
