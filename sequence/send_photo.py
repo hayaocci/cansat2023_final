@@ -9,6 +9,7 @@ import numpy as np
 import traceback
 import send
 import cv2
+import take
 
 RX = 27
 pi = pigpio.pi()
@@ -17,6 +18,8 @@ delay = 0.2  # 表示間隔（秒）
 num_samples = 5 #GPSの平均取る回数
 photo_quality = 50 #伝送する画像の圧縮率
 count = 0
+
+file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg"  # 保存するファイル名を指定
 
 ELLIPSOID_GRS80 = 1  # GRS80
 ELLIPSOID_WGS84 = 2  # WGS84
@@ -380,8 +383,14 @@ if __name__ == '__main__':
     
     #---------------------画像伝送----------------------------#
     
-    file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg"  # 保存するファイル名を指定
-    capture_and_save_photo(file_name)
+    try:
+        photoName = take.picture(file_name, 320, 240)
+    except KeyboardInterrupt:
+        print('stop')
+    except:
+        print(8888888888888888888)
+        print(traceback.format_exc())
+    
     print("写真撮影完了")
     
     # 圧縮したい画像のパスと出力先のパスを指定します
