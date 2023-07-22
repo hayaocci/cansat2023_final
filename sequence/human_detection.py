@@ -96,7 +96,7 @@ def get_locations(lat_human, lon_human):
         'lon_w':lon_w
         }
 
-def take_and_rotation(human_judge_count, break_outer_loop):
+def take_and_rotation(human_judge_count, break_outer_loop,logpath):
 
 
     #for i in range(6):
@@ -108,7 +108,7 @@ def take_and_rotation(human_judge_count, break_outer_loop):
 
             # モデルの読み込み
             result = ML_people.predict(image_path=img_path)
-            other.log(log_humandetect, datetime.datetime.now(), time.time() -
+            other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
             # hitoの確率80%かどうか
             if result >= 0.80:
@@ -118,7 +118,7 @@ def take_and_rotation(human_judge_count, break_outer_loop):
                 for j in range(2):
                     additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
                     additional_result = ML_people.predict(image_path=additional_img_path)
-                    other.log(log_humandetect, datetime.datetime.now(), time.time() -
+                    other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
                     if additional_result >= 0.80:
                         human_judge_count += 1
@@ -293,7 +293,7 @@ if __name__ == "__main__":
                 lat_now, lon_now = gps.location()
                 count += 1
                 move_to_bulearea(count, lat_human, lon_human)
-                human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop)
+                human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath='/home/dendenmushi/cansat2023/sequence/log/humandetectlog')
     print("human detection finish!!!")
     
 

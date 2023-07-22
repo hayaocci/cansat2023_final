@@ -31,7 +31,7 @@ log_paraavoidance=other.filename('/home/dendenmushi/cansat2023/sequence/log/para
 log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log','txt')
 log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
 log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
-
+log_photorunning =other.filename( '/home/dendenmushi/cansat2023/sequence/log/photorunninglog.txt')
 
 if __name__=='__main__':
 
@@ -40,6 +40,23 @@ if __name__=='__main__':
     print("START: Setup")
     other.log(log_phase,'1',"setup phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
+    bme280.bme280_setup()
+    bme280.bme280_calib_param()
+
+    #release
+    thd_press_release = 0.1
+    timeout_release = time.time()+(0.5*60)
+    #land
+    landcount = 0
+    pressdata = [0.0, 0.0, 0.0, 0.0]
+    timeout_land = time.time() + (20*60)
+    #para
+    motor.setup()
+    #run1
+    gps.open_gps()
+    bmx055.bmx055_setup()
+
+
     #グランドの中央
     lat_human = 35.9243068
     lon_human = 139.9124594
@@ -55,13 +72,14 @@ if __name__=='__main__':
     thd_press_release = 0.1
     # pressreleasecount = 0
     # pressreleasejudge = 0
-    t_delta_release = 10
+    #t_delta_release = 10
     #タイムアウトを20分に設定
-    timeout_release = time.time()+(20*60)
-    bme280.bme280_setup()
-    bme280.bme280_calib_param()
+    #timeout_release = time.time()+(0.5*60)
+    # bme280.bme280_setup()
+    # bme280.bme280_calib_param()
     # press_d = 0
 
+    other.log(log_release, "release judge start")
     #while True:
     while time.time() < timeout_release:
         press_count_release, press_judge_release = release.pressdetect_release(thd_press_release, t_delta_release)
@@ -74,7 +92,7 @@ if __name__=='__main__':
             break
         else:
             print('unfulfilled')
-
+    other.log(log_release, "release judge finish")
     send.send_data("TXDU 0001.AAAA")
 
     ###-------land judge -------###
@@ -86,17 +104,19 @@ if __name__=='__main__':
     #bme280.bme280_setup()
     #bme280.bme280_calib_param()
 
-    landcount = 0
-    pressdata = [0.0, 0.0, 0.0, 0.0]
+    # landcount = 0
+    # pressdata = [0.0, 0.0, 0.0, 0.0]
     #タイムアウトを20分に設定
-    timeout_land = time.time() + (20*60)
+    # timeout_land = time.time() + (20*60)
+
+    other.log(log_landing, "land judge start")
     #while True:
     while time.time() < timeout_land:
         presslandjudge = 0
-        landcount, presslandjudge = land.pressdetect_land(0.1)
+        landcount, presslandjudge, delta_p, Prevpress, latestpress = land.pressdetect_land(0.1)
         print(f'count:{landcount}\tjudge:{presslandjudge}')
         other.log(log_landing, datetime.datetime.now(), time.time() - t_start,
-                           bme280.bme280_read())
+                           bme280.bme280_read(),landcount,presslandjudge)
         if presslandjudge == 1:
             print('Press')
             send.send_data("TXDU 0001,B002")
@@ -105,7 +125,7 @@ if __name__=='__main__':
         else:
             print('Press unfulfilled')
             send.send_data("TXDU 0001,B001")
-
+    other.log(log_landing, "land judge finish")
     send.send_data("TXDU 0001,BBBB")
     ###-------melt-------###
 
@@ -115,26 +135,29 @@ if __name__=='__main__':
     pi = pigpio.pi()
 
     meltPin = 4
-    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "Melting Start")
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt start")
     try:
         melt.down()
         send.send_data("TXDU 0001,C001")
     except:
         pi.write(meltPin, 0)
 
-    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "Melting Finished")
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish")
     send.send_data("TXDU 0001,CCCC")
     ###------paraavo-------###
     try:
-        motor.setup()
+        # motor.setup()
 
         print("START: Parachute avoidance")
         other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
         phase=other.phase(log_phase)
+        other.log(log_paraavoidance,"paraavo start")
 
         flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320, 240,
                                                                   200, 10, 120, 1)
         print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
+        other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
+                      t_start, flug, area, gap, photoname)
         print("paradetection phase success")
         count_paraavo = 0
         while count_paraavo < 3:
@@ -142,7 +165,7 @@ if __name__=='__main__':
                                                                       240, 200, 10, 120, 1)
             print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
             other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
-                      t_start, flug, area, gap, photoname)
+                      t_start, flug, area, gap, photoname,count_paraavo)
             parachute_avoid.parachute_avoidance(flug, gap)
             print(flug)
             if flug == -1 or flug == 0:
@@ -157,7 +180,7 @@ if __name__=='__main__':
     except:
         print(traceback.format_exc())
     print("finish!")
-
+    other.log(log_paraavoidance,"paraavo finish")
     send.send_data("TXDU 0001,DDDD")
 
 
@@ -166,13 +189,13 @@ if __name__=='__main__':
     other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
 
-    gps.open_gps()
-    bmx055.bmx055_setup()
-    motor.setup()
-
-    goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=100)
+    # gps.open_gps()
+    # bmx055.bmx055_setup()
+    # motor.setup()
+    other.log(log_gpsrunning1,"run1 start")
+    goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=100,logpath=log_gpsrunning1)
     print(f'-----distance: {goal_distance}-----')
-    other.log(log_gpsrunning1, datetime.datetime.now(), time.time() - t_start,  "GPS running1 Finished")
+    other.log(log_gpsrunning1,"run1 finish")
     print("finish!")
 ######--------------mission--------------######
     print("START:human detect")
@@ -188,7 +211,8 @@ if __name__=='__main__':
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = human_detection.get_locations(lat_human, lon_human)
-
+    
+    other.log(log_humandetect,"humandetect start")
     #まずはメインエリアを捜索
     for k in range(24):
         if break_outer_loop == False:
@@ -244,24 +268,25 @@ if __name__=='__main__':
                 lat_now, lon_now = gps.location()
                 count += 1
                 human_detection.move_to_bulearea(count, lat_human, lon_human)
-                human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop)
+                human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect)
 
-
+    other.log(log_humandetect,"humandetect finish")
     print("human detection finish!!!")
 ######--------------run2--------------######
     other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
-    gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=100)
+    other.log(log_gpsrunning2,"run2 start")
+    gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=100,logpath=log_gpsrunning2)
     print(f'-----distance: {goal_distance}-----')
-    other.log(log_gpsrunning2, datetime.datetime.now(), time.time() - t_start,  "GPS running2 Finished")
+    other.log(log_gpsrunning2,"run2 finish")
     print("finish!")
 ######--------------goal--------------######
     other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
+    other.log(log_photorunning,"photorun start")
     try:
         G_thd = 40
-        log_photorunning = '/home/dendenmushi/cansat2023/log/photorunning_practice.txt'
-        motor.setup()
+        # motor.setup()
 
         # calibration
         #print_im920sl('##--calibration Start--##\n')
@@ -281,3 +306,6 @@ if __name__=='__main__':
         #im920sl2.off()
         tb = sys.exc_info()[2]
         #print_im920sl("message:{0}".format(e.with_traceback(tb)))
+    other.log(log_photorunning,"photorun finish")
+
+    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
