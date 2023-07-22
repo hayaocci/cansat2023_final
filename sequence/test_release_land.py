@@ -149,7 +149,7 @@ if __name__  == "__main__":
     # send.send_data("TXDU 0001,DDDD")
 
     #-----上ジャッジ-----#
-    stuck2.uejug()
+    stuck2.ue_jug()
 
     #-----スタビの復元まち-----#
     time.sleep(15)
