@@ -1,7 +1,7 @@
 import release
 import land
 import melt
-import parachute_avoid
+#import parachute_avoid
 import gps_running1
 import human_detection
 import photo_running
@@ -15,12 +15,16 @@ import pigpio
 import time
 import gps
 import take
-import paradetection
+#import paradetection
 from machine_learning import DetectPeople
 import sys
 import calibration
 import other
 import datetime
+import wgps_beta_photo_running as photo_running
+import cv2
+import save_photo as save_img
+import beta_para_avoid as para_avoid
 
 #variable for log
 log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','txt')
@@ -145,41 +149,47 @@ if __name__=='__main__':
     other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish")
     send.send_data("TXDU 0001,CCCC")
     ###------paraavo-------###
-    try:
-        motor.setup()
+    # try:
+    #     motor.setup()
 
-        print("START: Parachute avoidance")
-        other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
-        phase=other.phase(log_phase)
-        other.log(log_paraavoidance,"paraavo start")
+    #     print("START: Parachute avoidance")
+    #     other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
+    #     phase=other.phase(log_phase)
+    #     other.log(log_paraavoidance,"paraavo start")
 
-        flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320, 240,
-                                                                  200, 10, 120, 1)
-        print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
-        other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
-                      t_start, flug, area, gap, photoname)
-        print("paradetection phase success")
-        count_paraavo = 0
-        while count_paraavo < 3:
-            flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320,
-                                                                      240, 200, 10, 120, 1)
-            print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
-            other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
-                      t_start, flug, area, gap, photoname,count_paraavo)
-            parachute_avoid.parachute_avoidance(flug, gap)
-            print(flug)
-            if flug == -1 or flug == 0:
-                count_paraavo += 1
-                print(count_paraavo)
+    #     flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320, 240,
+    #                                                               200, 10, 120, 1)
+    #     print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
+    #     other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
+    #                   t_start, flug, area, gap, photoname)
+    #     print("paradetection phase success")
+    #     count_paraavo = 0
+    #     while count_paraavo < 3:
+    #         flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320,
+    #                                                                   240, 200, 10, 120, 1)
+    #         print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
+    #         other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
+    #                   t_start, flug, area, gap, photoname,count_paraavo)
+    #         parachute_avoid.parachute_avoidance(flug, gap)
+    #         print(flug)
+    #         if flug == -1 or flug == 0:
+    #             count_paraavo += 1
+    #             print(count_paraavo)
 
-        print("パラシュート回避完了")
+    #     print("パラシュート回避完了")
 
-    except KeyboardInterrupt:
-        print("emergency!")
+    # except KeyboardInterrupt:
+    #     print("emergency!")
 
-    except:
-        print(traceback.format_exc())
-    print("finish!")
+    # except:
+    #     print(traceback.format_exc())
+    # print("finish!")
+    other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
+    other.log(log_paraavoidance,"paraavo start")
+    motor.setup()
+    red_area, angle = para_avoid.detect_para()
+    para_avoid.para_avoid(red_area, angle, check_count=5)
     other.log(log_paraavoidance,"paraavo finish")
     send.send_data("TXDU 0001,DDDD")
 
