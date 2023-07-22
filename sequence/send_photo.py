@@ -347,7 +347,7 @@ while True:
     else:
         # pass
         print(utc, lat, lon, sHeight, gHeight)
-            lat, lon = wireless_communication.location()
+            lat, lon = location()
             lat_sum += lat
             lon_sum += lon
             print(lat,lon)
