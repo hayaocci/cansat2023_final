@@ -328,103 +328,103 @@ def image_file_to_base64(file_path):
 
 
 #-----------------------------------------------------------------------------------------------------------#
-
+if __name__ == '__main__':
 #---------------------GPS情報送信--------------------------#
-#gps情報取得
-
-open_gps()
-t_start = time.time()
-count = 0
-while True:
-    utc, lat, lon, sHeight, gHeight = read_gps()
-    if utc == -1.0:
-        if lat == -1.0:
-            print("Reading gps Error")
-            # pass
+    #gps情報取得
+    
+    open_gps()
+    t_start = time.time()
+    count = 0
+    while True:
+        utc, lat, lon, sHeight, gHeight = read_gps()
+        if utc == -1.0:
+            if lat == -1.0:
+                print("Reading gps Error")
+                # pass
+            else:
+                # pass
+               print("Status V")
         else:
             # pass
-           print("Status V")
-    else:
-        # pass
-        print(utc, lat, lon, sHeight, gHeight)
-        lat, lon = location()
-        lat_sum += lat
-        lon_sum += lon
-        print(lat,lon)
-        count = count +1
-        if count % num_samples == 0:
-            #平均計算
-            avg_lat = lat_sum / num_samples
-            avg_lon = lon_sum / num_samples
-            print(avg_lat,avg_lon)
-            break
-        time.sleep(1)
-except KeyboardInterrupt:
-    close_gps()
-    print("\r\nKeyboard Intruppted, Serial Closed")
-except:
-    close_gps()
-    print(traceback.format_exc())
-
-# 無線で送信
-send.send_data("human_GPS_start")
-print("human_GPS_start")
-time.sleep(delay)
-send.sed_data(avg_lat,avg_lon)
-print(avg_lat,avg_lon)
-time.sleep(delay)
-send.send_data("human_GPS_fin")
-print("human_GPS_fin")
-time.sleep(delay)
-
-
-
-#---------------------画像伝送----------------------------#
-
-file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg"  # 保存するファイル名を指定
-capture_and_save_photo(file_name)
-print("写真撮影完了")
-
-# 圧縮したい画像のパスと出力先のパスを指定します
-input_image_path = '/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg'
-compressed_image_path = 'compressed_test.jpg'
-
-# 圧縮率を指定します（0から100の範囲の整数）
-compression_quality = photo_quality
-
-# 画像を圧縮します
-compress_image(input_image_path, compressed_image_path, compression_quality)
-
-# 圧縮後の画像をバイナリ形式に変換します
-with open(compressed_image_path, 'rb') as f:
-    compressed_image_binary = f.read()
-
-
-data = compressed_image_binary  # バイナリデータを指定してください
-output_filename = "output.txt"  # 保存先のファイル名
-
-start_time = time.time()  # プログラム開始時刻を記録
-
-send.send_data ("wireless_start")
-
-# バイナリデータを32バイトずつ表示し、ファイルに保存する
-with open(output_filename, "w") as f:
-    for i in range(0, len(data), chunk_size):
-        chunk = data[i:i+chunk_size]
-        chunk_str = "".join(format(byte, "02X") for byte in chunk)
-        #chunk_strにデータがある
-        print(chunk_str)
-        send.send_data(chunk_str)
-        # 表示間隔を待つ
-        time.sleep(delay)
-
-        # ファイルに書き込む
-        f.write(chunk_str + "\n")
-
-send.send_data ("wireless_fin")
-
-end_time = time.time()  # プログラム終了時刻を記録
-execution_time = end_time - start_time  # 実行時間を計算
-
-print("実行時間:", execution_time, "秒")
-print("データを", output_filename, "に保存しました。")
+            print(utc, lat, lon, sHeight, gHeight)
+            lat, lon = location()
+            lat_sum += lat
+            lon_sum += lon
+            print(lat,lon)
+            count = count +1
+            if count % num_samples == 0:
+                #平均計算
+                avg_lat = lat_sum / num_samples
+                avg_lon = lon_sum / num_samples
+                print(avg_lat,avg_lon)
+                break
+            time.sleep(1)
+    except KeyboardInterrupt:
+        close_gps()
+        print("\r\nKeyboard Intruppted, Serial Closed")
+    except:
+        close_gps()
+        print(traceback.format_exc())
+    
+    # 無線で送信
+    send.send_data("human_GPS_start")
+    print("human_GPS_start")
+    time.sleep(delay)
+    send.sed_data(avg_lat,avg_lon)
+    print(avg_lat,avg_lon)
+    time.sleep(delay)
+    send.send_data("human_GPS_fin")
+    print("human_GPS_fin")
+    time.sleep(delay)
+    
+    
+    
+    #---------------------画像伝送----------------------------#
+    
+    file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg"  # 保存するファイル名を指定
+    capture_and_save_photo(file_name)
+    print("写真撮影完了")
+    
+    # 圧縮したい画像のパスと出力先のパスを指定します
+    input_image_path = '/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg'
+    compressed_image_path = 'compressed_test.jpg'
+    
+    # 圧縮率を指定します（0から100の範囲の整数）
+    compression_quality = photo_quality
+    
+    # 画像を圧縮します
+    compress_image(input_image_path, compressed_image_path, compression_quality)
+    
+    # 圧縮後の画像をバイナリ形式に変換します
+    with open(compressed_image_path, 'rb') as f:
+        compressed_image_binary = f.read()
+    
+    
+    data = compressed_image_binary  # バイナリデータを指定してください
+    output_filename = "output.txt"  # 保存先のファイル名
+    
+    start_time = time.time()  # プログラム開始時刻を記録
+    
+    send.send_data ("wireless_start")
+    
+    # バイナリデータを32バイトずつ表示し、ファイルに保存する
+    with open(output_filename, "w") as f:
+        for i in range(0, len(data), chunk_size):
+            chunk = data[i:i+chunk_size]
+            chunk_str = "".join(format(byte, "02X") for byte in chunk)
+            #chunk_strにデータがある
+            print(chunk_str)
+            send.send_data(chunk_str)
+            # 表示間隔を待つ
+            time.sleep(delay)
+    
+            # ファイルに書き込む
+            f.write(chunk_str + "\n")
+    
+    send.send_data ("wireless_fin")
+    
+    end_time = time.time()  # プログラム終了時刻を記録
+    execution_time = end_time - start_time  # 実行時間を計算
+    
+    print("実行時間:", execution_time, "秒")
+    print("データを", output_filename, "に保存しました。")
