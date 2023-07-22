@@ -357,7 +357,7 @@ if __name__ == '__main__':
                     avg_lon = lon_sum / num_samples
                     print(avg_lat,avg_lon)
                     break
-                time.sleep(1)
+            time.sleep(1)
         except KeyboardInterrupt:
             close_gps()
             print("\r\nKeyboard Intruppted, Serial Closed")
