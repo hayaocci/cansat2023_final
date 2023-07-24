@@ -146,7 +146,7 @@ def read_gps():
                 Lon = 0.0
 
     value = [utc, Lat, Lon, sHeight, gHeight]
-    print(type(value[1]))
+
     #-----田口追加-----#
     for i in range(len(value)):
         if value[i] is not None:
