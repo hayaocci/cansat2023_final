@@ -14,9 +14,9 @@ from take import picture
 RX = 27
 pi = pigpio.pi()
 chunk_size = 8  # 1回に表示するバイト数
-delay = 0.2  # 表示間隔（秒）
+delay = 1  # 表示間隔（秒）
 num_samples = 5 #GPSの平均取る回数
-photo_quality = 50 #伝送する画像の圧縮率
+photo_quality = 20 #伝送する画像の圧縮率
 count = 0
 
 file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg"  # 保存するファイル名を指定
