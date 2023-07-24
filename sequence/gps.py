@@ -153,9 +153,9 @@ def read_gps():
             value[i] = round(value[i], 8)
             value[i] = '{:.8f}'.format(value[i]) #0埋め
 
-    for i in range(len(value)):
-        if not (isinstance(value[i], int) or isinstance(value[i], float)):
-            value[i] = 0
+    # for i in range(len(value)):
+    #     if not (isinstance(value[i], int) or isinstance(value[i], float)):
+    #         value[i] = 0
     return value
 
 
