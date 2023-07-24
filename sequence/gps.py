@@ -148,10 +148,10 @@ def read_gps():
     value = [utc, Lat, Lon, sHeight, gHeight]
 
     #-----田口追加-----#
-    for i in range(len(value)):
-        if value[i] is not None:
-            value[i] = round(value[i], 8)
-            value[i] = '{:.8f}'.format(value[i]) #0埋め
+    # for i in range(len(value)):
+    #     if value[i] is not None:
+    #         value[i] = round(value[i], 8)
+    #         value[i] = '{:.8f}'.format(value[i]) #0埋め
 
     # for i in range(len(value)):
     #     if not (isinstance(value[i], int) or isinstance(value[i], float)):
