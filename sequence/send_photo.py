@@ -415,11 +415,15 @@ if __name__ == '__main__':
     print("写真伝送開始します")
     time.sleep(1)
 
+    #FECの実装
+    fec = ReedSolomonFEC()  # FECオブジェクトの作成
+    redundant_data = fec.encode(data)  # 冗長データの作成
+
     
     # バイナリデータを32バイトずつ表示し、ファイルに保存する
     with open(output_filename, "w") as f:
-        for i in range(0, len(data), chunk_size):
-            chunk = data[i:i+chunk_size]
+        for i in range(0, len(redundant_data), chunk_size):
+            chunk = redundant_data[i:i+chunk_size]
             chunk_str = "".join(format(byte, "02X") for byte in chunk)
             #chunk_strにデータがある
             print(chunk_str)
