@@ -54,7 +54,7 @@ if __name__=='__main__':
     #land
     landcount = 0
     pressdata = [0.0, 0.0, 0.0, 0.0]
-    timeout_land = time.time() + (0.5*60)
+    # timeout_land = time.time() + (0.5*60)
     #para
     # motor.setup()
     #run1
@@ -119,7 +119,7 @@ if __name__=='__main__':
     # landcount = 0
     # pressdata = [0.0, 0.0, 0.0, 0.0]
     #タイムアウトを20分に設定
-    # timeout_land = time.time() + (20*60)
+    timeout_land = time.time() + (0.5*60)
 
     other.log(log_landing, "land judge start")
     #while True:
@@ -202,7 +202,7 @@ if __name__=='__main__':
     # para_avoid.para_avoid(red_area, angle, check_count=5)
     # other.log(log_paraavoidance,"paraavo finish")
     #-----上ジャッジ-----#
-    motor.setup()
+    # motor.setup()
     stuck2.ue_jug()
 
     #-----スタビの復元まち-----#
