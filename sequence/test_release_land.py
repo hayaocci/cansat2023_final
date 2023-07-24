@@ -35,13 +35,13 @@ if __name__  == "__main__":
     print("START: Release judge")
     other.log(log_phase,'2',"release phase",datetime.datetime.now(),time.time()-t_start)
     #phase=other.phase(log_phase)
-    thd_press_release = 0.2
+    thd_press_release = 0.15
     # pressreleasecount = 0
     # pressreleasejudge = 0
-    t_delta_release = 0.5
+    t_delta_release = 0.6
 
     #タイムアウトを10分に設定
-    timeout_release = time.time()+(0.5*60)
+    timeout_release = time.time()+(5*60)
     
     bme280.bme280_setup()
     bme280.bme280_calib_param()
@@ -53,7 +53,7 @@ if __name__  == "__main__":
         print(f'count:{press_count_release}\tjudge:{press_judge_release}')
         other.log(log_release, datetime.datetime.now(), time.time() - t_start,
                           bme280.bme280_read(), press_count_release, press_judge_release)
-        if press_count_release  > 3:
+        if press_count_release  >= 2:
             print('Release')
             send.send_data("TXDU 0001.A001")
             break
@@ -76,7 +76,7 @@ if __name__  == "__main__":
     pressdata = [0.0, 0.0, 0.0, 0.0]
 
     #タイムアウトを10分に設定
-    timeout_land = time.time() + (10*60)
+    timeout_land = time.time() + (3*60)
 
     #while True:
     while time.time() < timeout_land:
