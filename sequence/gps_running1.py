@@ -39,20 +39,20 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
 
     print('ゴールとの角度theta = ' + str(theta) + '---回転調整開始！')
     stuck2.ue_jug()
-    an = 30
+    an = 25
     t_short = 0.1
     t_middle = 0.2
     t_long = 0.4
 
     while 45 < theta <= 180 or -180 < theta < -45:
         if 90 < theta <= 180 :
-            motor.move(an, -an, t_long)
-        elif -180 < theta < -90:
-            motor.move(-an, an, t_long)
-        elif 45 <= theta <= 90:
             motor.move(an, -an, t_middle)
-        elif -90 <= theta <= -45:
+        elif -180 < theta < -90:
             motor.move(-an, an, t_middle)
+        elif 45 <= theta <= 90:
+            motor.move(an, -an, t_short)
+        elif -90 <= theta <= -45:
+            motor.move(-an, an, t_short)
         elif 15 <= theta <= 45:
             motor.move(an, -an, t_short)
         elif -45 <= theta <= -15:
@@ -220,23 +220,23 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     #         adj = -30
                     if theta >= 0:
                         if theta <= 15:
-                            pwr_r = 33
+                            pwr_r = 40
                             pwr_l = 35
                         elif theta <= 90:
-                            pwr_r = 35
+                            pwr_r = 40
                             pwr_l = 40
                         else:
-                            pwr_r = 30
+                            pwr_r = 35
                             pwr_l = 40
                     else:
                         if theta >= -15:
-                            pwr_r = 35
-                            pwr_l = 33
-                        elif theta >= -90:
                             pwr_r = 40
                             pwr_l = 35
+                        elif theta >= -90:
+                            pwr_r = 45
+                            pwr_l = 35
                         else:
-                            pwr_r = 40
+                            pwr_r = 45
                             pwr_l = 30
                     print(f'angle ----- {theta}')
                     strength_l, strength_r = pwr_l ,pwr_r
@@ -297,5 +297,5 @@ if __name__ == '__main__':
     bmx055.bmx055_setup()
     motor.setup()
 
-    drive(lon2, lat2, thd_distance=1, t_adj_gps=40)
+    drive(lon2, lat2, thd_distance=5, t_adj_gps=40)
 

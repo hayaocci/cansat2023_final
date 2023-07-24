@@ -226,13 +226,15 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
 
                         #cansatの真正面にゴールがあるとき
                         #angle が2のとき
-                        pwr = 35
+                        pwr_l = 25
+                        pwr_r = 30
                         if area_ratio >= thd_full_red:
                             print("ゴール判定1")
                             break
                         elif 80 < area_ratio < thd_full_red:
                             t_running = 0.1
-                            pwr = 25
+                            pwr_l = 25
+                            pwr_r = 30
                         elif 60 < area_ratio <= 80:
                             t_running = 0.15
                         elif 40 < area_ratio <= 60:
@@ -240,7 +242,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
                         elif 0 < area_ratio <= 40:
                             t_running = 0.25
                         
-                        motor.move(pwr, pwr, t_running)
+                        motor.move(pwr_l, pwr_r, t_running)
                         area_ratio, angle = detect_goal(lat2, lon2)
 
                     else: 

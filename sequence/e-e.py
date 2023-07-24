@@ -26,6 +26,7 @@ import wgps_beta_photo_running as photo_running
 import cv2
 import save_photo as save_img
 import beta_para_avoid as para_avoid
+import wgps_beta_photo_running as imgguide
 
 #variable for log
 log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','txt')
@@ -225,7 +226,7 @@ if __name__=='__main__':
     # bmx055.bmx055_setup()
     # motor.setup()
     other.log(log_gpsrunning1,"run1 start")
-    goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=100,logpath=log_gpsrunning1)
+    goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=5, t_adj_gps=60,logpath=log_gpsrunning1)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning1,"run1 finish")
     print("finish!")
@@ -255,7 +256,7 @@ if __name__=='__main__':
             #モデルの読み込み
             result = ML_people.predict(image_path=img_path)
             other.log(log_humandetect, datetime.datetime.now(), time.time() -
-                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
+                      t_start,result,human_judge_count,break_outer_loop,elapsed_time)
 
             #hitoの確率80%かどうか
             if result >= 0.80:
@@ -308,37 +309,23 @@ if __name__=='__main__':
     other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
     other.log(log_gpsrunning2,"run2 start")
-    gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=100,logpath=log_gpsrunning2)
+    gps_running1.drive(lon_goal, lat_goal, thd_distance=5, t_adj_gps=50,logpath=log_gpsrunning2)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning2,"run2 finish")
     print("finish!")
+
 ######--------------goal--------------######
     other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
     other.log(log_photorunning,"photorun start")
     try:
-        G_thd = 40
-        # motor.setup()
+        angle = 0
+        t_running = 0
 
-        # calibration
-        #print_im920sl('##--calibration Start--##\n')
-        magx_off, magy_off = calibration.cal(40,-40, 30)
-        #print_im920sl(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
-        #print_im920sl('##--calibration end--##')
-
-        # Image Guide
-        photo_running.image_guided_driving(log_photorunning, G_thd, magx_off,
-                             magy_off, lon_goal, lat_goal, thd_distance=5, t_adj_gps=10)
-
-    except KeyboardInterrupt:
-        #print_im920sl('stop')
-        print('stop')
-        #im920sl2.off()
-    except Exception as e:
-        #im920sl2.off()
-        tb = sys.exc_info()[2]
-        #print_im920sl("message:{0}".format(e.with_traceback(tb)))
-    other.log(log_photorunning,"photorun finish")
-    print("photorun finish")
-    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
-    print("all complete!")
+        area_ratio, angle = imgguide.detect_goal(lat_goal, lon_goal)
+        imgguide.image_guided_driving(area_ratio, angle, lat_goal, lon_goal)
+    except:
+        other.log(log_photorunning,"photorun finish")
+        print("photorun finish")
+        other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
+        print("all complete!")
