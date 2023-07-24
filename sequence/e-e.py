@@ -5,6 +5,7 @@ import melt
 import gps_running1
 import human_detection
 import photo_running
+import stuck2
 
 import bmx055
 import bme280
@@ -31,7 +32,7 @@ log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','t
 log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog','txt')
 log_landing=other.filename('/home/dendenmushi/cansat2023/sequence/log/landinglog','txt')
 log_melting=other.filename('/home/dendenmushi/cansat2023/sequence/log/meltinglog','txt')
-log_paraavoidance=other.filename('/home/dendenmushi/cansat2023/sequence/log/paraavoidancelog','txt')
+log_para=other.filename('/home/dendenmushi/cansat2023/sequence/log/para_avoid_log','txt')
 log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log','txt')
 log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
 log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
@@ -53,7 +54,7 @@ if __name__=='__main__':
     #land
     landcount = 0
     pressdata = [0.0, 0.0, 0.0, 0.0]
-    timeout_land = time.time() + (20*60)
+    timeout_land = time.time() + (0.5*60)
     #para
     # motor.setup()
     #run1
@@ -186,13 +187,25 @@ if __name__=='__main__':
     # except:
     #     print(traceback.format_exc())
     # print("finish!")
-    other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
-    phase=other.phase(log_phase)
-    other.log(log_paraavoidance,"paraavo start")
-    #motor.setup()
+    # other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
+    # phase=other.phase(log_phase)
+    # other.log(log_paraavoidance,"paraavo start")
+    # #motor.setup()
+    # red_area, angle = para_avoid.detect_para()
+    # para_avoid.para_avoid(red_area, angle, check_count=5)
+    # other.log(log_paraavoidance,"paraavo finish")
+    #-----上ジャッジ-----#
+    motor.setup()
+    stuck2.ue_jug()
+
+    #-----スタビの復元まち-----#
+    time.sleep(15)
+
+    #-----praschute avoid-----#
+    other.log(log_para, datetime.datetime.now(), "Parachute avoidance Start")
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
-    other.log(log_paraavoidance,"paraavo finish")
+    other.log(log_para, datetime.datetime.now(), "Parachute avoidance Finish")
     send.send_data("TXDU 0001,DDDD")
 
     print("paraavo finish!!!")
@@ -244,7 +257,7 @@ if __name__=='__main__':
                 for h in range(2):
                     additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
                     additional_result = ML_people.predict(image_path=additional_img_path)
-                    other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
+                    other.log(log_humandetect, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
 
                     if additional_result >= 0.80:
@@ -319,5 +332,6 @@ if __name__=='__main__':
         tb = sys.exc_info()[2]
         #print_im920sl("message:{0}".format(e.with_traceback(tb)))
     other.log(log_photorunning,"photorun finish")
-
+    print("photorun finish")
     other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
+    print("all complete!")
