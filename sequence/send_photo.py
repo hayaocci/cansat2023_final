@@ -14,7 +14,7 @@ from take import picture
 RX = 27
 pi = pigpio.pi()
 chunk_size = 8   # 1回に表示するバイト数
-delay = 3  # 表示間隔（秒）
+delay = 2   # 表示間隔（秒）
 num_samples = 5 #GPSの平均取る回数
 photo_quality = 20 #伝送する画像の圧縮率
 count = 0
@@ -384,7 +384,7 @@ if __name__ == '__main__':
     #---------------------画像伝送----------------------------#
     
     
-    photo_name = picture(file_name, 320, 240)
+    photo_name = picture(file_name, 80, 60)
     print("撮影した写真のファイルパス：", photo_name)
 
     
