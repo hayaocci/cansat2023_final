@@ -384,7 +384,7 @@ if __name__ == '__main__':
     #---------------------画像伝送----------------------------#
     
     
-    photo_name = picture(file_name, 80, 60)
+    photo_name = picture(file_name, 320, 240)
     print("撮影した写真のファイルパス：", photo_name)
 
     
