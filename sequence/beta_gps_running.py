@@ -133,7 +133,13 @@ def integral_control(theta, theta_array: list):
     #積分係数の設定
     Ki = 0.5
 
+    #thetaの積分処理
     theta_array.append(theta)
+    theta_integral = sum(theta_array)
+
+
+
+    return 
 
 
 
