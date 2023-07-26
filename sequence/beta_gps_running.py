@@ -125,8 +125,16 @@ def proportional_control(theta):
 
     return pwr_l, pwr_r
 
-def integral_control(theta):
-    
+theta_array = []
+
+def integral_control(theta, theta_array: list):
+    #I制御
+
+    #積分係数の設定
+    Ki = 0.5
+
+    theta_array.append(theta)
+
 
 
 def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt', t_start=0):
