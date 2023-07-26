@@ -14,7 +14,7 @@ from take import picture
 
 RX = 27
 pi = pigpio.pi()
-chunk_size = 6   # 1回に表示するバイト数
+chunk_size = 3   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
 delay = 3   # 表示間隔（秒）
 num_samples = 5 #GPSの平均取る回数
 photo_quality = 20 #伝送する画像の圧縮率
