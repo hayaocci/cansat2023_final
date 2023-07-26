@@ -14,11 +14,14 @@ from take import picture
 
 RX = 27
 pi = pigpio.pi()
-chunk_size = 3   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
-delay = 2   # 表示間隔（秒）
-num_samples = 5 #GPSの平均取る回数
-photo_quality = 40 #伝送する画像の圧縮率
+chunk_size = 6   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
+delay = 3   # 表示間隔（秒）
+num_samples = 10 #GPSを読み取る回数
+photo_quality = 20 #伝送する画像の圧縮率
 count = 0
+count_v = 0
+count_error = 0
+id_counter = 1
 
 file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg"  # 保存するファイル名を指定
 
@@ -344,57 +347,70 @@ def resize_image(input_path, output_path, new_width, new_height):
 if __name__ == '__main__':
 
 # #---------------------GPS情報送信--------------------------#
-# #gps情報取得
 
-#     open_gps()
-#     t_start = time.time()
-#     count = 0
-#     while True:
-#         try:
-#             utc, lat, lon, sHeight, gHeight = read_gps()
-#             if utc == -1.0:
-#                 if lat == -1.0:
-#                     print("Reading gps Error")
-#                     # pass
-#                 else:
-#                     # pass
-#                     print("Status V")
-#             else:
-#                 # pass
-#                 print(utc, lat, lon, sHeight, gHeight)
-#                 lat, lon = location()
-#                 lat_sum += lat
-#                 lon_sum += lon
-#                 print(lat,lon)
-#                 count = count +1
-#                 if count % num_samples == 0:
-#                     #平均計算
-#                     avg_lat = lat_sum / num_samples
-#                     avg_lon = lon_sum / num_samples
-#                     print(avg_lat,avg_lon)
-#                     break
-#             time.sleep(1)
-#         except KeyboardInterrupt:
-#             close_gps()
-#             print("\r\nKeyboard Intruppted, Serial Closed")
-#         except:
-#             close_gps()
-#             print(traceback.format_exc())
+ #gps情報取得
+    open_gps()
+    t_start = time.time()
+    count = 0
+    while True:
+        try:
+            utc, lat, lon, sHeight, gHeight = read_gps()
+            if utc == -1.0:
+                if lat == -1.0:
+                    print("Reading gps Error")
+                    count_error = count_error +1
+                    if count_error > num_samples:
+                        break
+                        time.sleep(delay)
+                        send.send_data("Reading gps Error")
+                        print("Reading gps Error")
+                        time.sleep(delay)
+                    # pass
+                else:
+                    # pass
+                    print("Status V")
+                    count_v = count_v + 1
+                    if count_v > num_samples:
+                        break
+                        time.sleep(delay)
+                        send.send_data("Status V")
+                        print("Status V")
+                        time.sleep(delay)
+            else:
+                # pass
+                print(utc, lat, lon, sHeight, gHeight)
+                lat, lon = location()
+                print(lat,lon)
+                count = count +1
+                if count % num_samples == 0:
+                    #平均計算
+                    send_lat = lat
+                    send_lon = lon
+                    print(send_lat,send_lon)
+                    break
+            time.sleep(1)
+        except KeyboardInterrupt:
+            close_gps()
+            print("\r\nKeyboard Intruppted, Serial Closed")
+        except:
+            close_gps()
+            print(traceback.format_exc())
     
-#     # 無線で送信
-#     send.send_data("human_GPS_start")
-#     print("human_GPS_start")
-#     time.sleep(delay)
-#     send.sed_data(avg_lat,avg_lon)
-#     print(avg_lat,avg_lon)
-#     time.sleep(delay)
-#     send.send_data("human_GPS_fin")
-#     print("human_GPS_fin")
-#     time.sleep(delay)
+ # 無線で送信
+    time.sleep(delay)
+    send.send_data("human_GPS_start")
+    print("human_GPS_start")
+    time.sleep(delay)
+    send.sed_data(send_lat,send_lon)
+    print(send_lat,send_lon)
+    time.sleep(delay)
+    send.send_data("human_GPS_fin")
+    print("human_GPS_fin")
+    time.sleep (delay)
+
     
     
-    
-    #---------------------画像伝送----------------------------#
+ #---------------------画像伝送----------------------------#
 
     photo_take = picture(file_name, 320, 240)
     print("撮影した写真のファイルパス：", photo_take)
@@ -402,8 +418,8 @@ if __name__ == '__main__':
     # 入力ファイルパスと出力ファイルパスを指定してリサイズ
     input_file = photo_take    # 入力ファイルのパスを適切に指定してください
     photo_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/send_photo_resize.jpg"  # 出力ファイルのパスを適切に指定してください
-    new_width = 240            # リサイズ後の幅を指定します
-    new_height = 180           # リサイズ後の高さを指定します
+    new_width = 120            # リサイズ後の幅を指定します
+    new_height = 160           # リサイズ後の高さを指定します
 
     # リサイズを実行
     resize_image(input_file, photo_name, new_width, new_height)
@@ -441,16 +457,21 @@ if __name__ == '__main__':
         for i in range(0, len(data), chunk_size):
             chunk = data[i:i+chunk_size]
             chunk_str = "".join(format(byte, "02X") for byte in chunk)
+            
+            # 識別番号とデータを含む行の文字列を作成
+            line_with_id = f"{id_counter}: {chunk_str}"
+
             #chunk_strにデータがある
-            print(chunk_str)
-            send.send_data(chunk_str)
+            print(line_with_id)
+            send.send_data(line_with_id)
             # 表示間隔を待つ
             time.sleep(delay)
     
             # ファイルに書き込む
-            f.write(chunk_str + "\n")
-    
+            f.write(line_with_id + "\n")
+
     send.send_data ("wireless_fin")
+    send.send_data (id_counter)
     
     end_time = time.time()  # プログラム終了時刻を記録
     execution_time = end_time - start_time  # 実行時間を計算
