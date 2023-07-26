@@ -113,148 +113,21 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
     other.print_im920sl(f'theta = {theta} \t rotation finished!!!')
     '''
 
-def proportional_drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt', t_start=0):
-    """
-    GPS走行の関数
-    統合する場合はprintをXbee.str_transに変更，other.saveLogのコメントアウトを外す
-    """
-    direction = calibration.calculate_direction(lon2, lat2)
-    goal_distance = direction['distance']
+def proportional_control(theta):
+    #-----P制御-----#
+    
+    #比例係数の設定
+    Kp = 0.5
 
-    # ------------- 上向き判定 -------------#
-    while goal_distance >= thd_distance:
-        t_stuck_count = 1
-        stuck2.ue_jug()
+    #thetaが正のとき左を向かせる制御
+    pwr_l = -Kp * theta
+    pwr_r = Kp * theta
 
-        # ------------- calibration -------------#
-        # xbee.str_trans('calibration Start')
-        other.print_im920sl('##--calibration Start--##\n')
-        print("------calibration Start------")
-        magx_off, magy_off = calibration.cal(40, -40, 30)
-        print(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
-        print("------calibration finished------")
+    return pwr_l, pwr_r
 
-        
-        theta = angle_goal(magx_off, magy_off, lon2, lat2)
-        adjust_direction(theta, magx_off, magy_off, lon2, lat2)
-        
+def integral_control(theta):
+    
 
-        t_cal = time.time()
-        lat_old, lon_old = gps.location()
-        #print("-------gps走行開始-------")
-        while time.time() - t_cal <= t_adj_gps:
-            print("-------gps走行-------")
-            lat1, lon1 = gps.location()
-            lat_str = "{:.8f}".format(lat1)  # 緯度を小数点以下8桁に整形
-            lon_str = "{:.8f}".format(lon1)  # 経度を小数点以下8桁に整形
-            send.send_data("TXDU 0001,F0" + lat_str)
-            send.send_data("TXDU 0001,F1" + lon_str)
-            # send.send_data("TXDU 0001,F0" + str(lat1) + "0")
-            # send.send_data("TXDU 0001,F1" + str(lon1))
-            print(lat1, lon1)
-            lat_new, lon_new = lat1, lon1
-            direction = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
-            azimuth, goal_distance = direction["azimuth1"], direction["distance"]
-            other.print_im920sl(
-                f'lat: {lat1}\tlon: {lon1}\tdistance: {goal_distance}\tazimuth: {azimuth}\n')
-
-            if t_stuck_count % 25 == 0:
-                ##↑何秒おきにスタックジャッジするかを決める##
-                if stuck2.stuck_jug(lat_old, lon_old, lat_new, lon_new, 1):
-                    pass
-                else:
-                    stuck2.stuck_avoid()
-                    pass
-                lat_old, lon_old = gps.location()
-
-            if goal_distance <= thd_distance:
-                break
-            else:
-                print("ゴーるまでの距離は" + str(goal_distance) + "です")
-                for _ in range(25):
-                    print("25回ループの部分")
-                    
-                    magdata = bmx055.mag_dataRead()
-                    mag_x = magdata[0]
-                    mag_y = magdata[1]
-
-                    print("----------mag_x, mag_yの読み取り値----------")
-                    print(mag_x, mag_y)
-
-                    magx, magy, magz = calibration.get_data()
-                    print('********calibartion.get_data***********')
-                    print(magx,magy,magz)
-
-                    #theta = angle_goal(magx_off, magy_off, lon2, lat2)
-                    #adjust_direction(theta, magx_off, magy_off, lon2, lat2)
-                    
-                    theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-                    angle_relative = azimuth - theta
-
-                    if angle_relative >= 0:
-                        angle_relative = angle_relative if angle_relative <= 180 else angle_relative - 360
-                    else:
-                        angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
-                    theta = angle_relative
-                    
-                    adj_r = 0
-                    # if theta >= 0:
-                    #     if theta <= 8:
-                    #         adj = 0
-                    #     elif theta <= 15:
-                    #         adj = 5
-                    #     elif theta <= 90:
-                    #         adj = 20
-                    #         adj_r = 5
-                    #     else:
-                    #         adj = 30
-                    #         adj_r = 5
-                    # else:
-                    #     if theta >= - 8:
-                    #         adj = 0
-                    #     elif theta >= -15:
-                    #         adj = -10
-                    #     elif theta >= -90:
-                    #         adj = -20
-                    #     else:
-                    #         adj = -30
-                    if theta >= 0:
-                        if theta <= 15:
-                            pwr_r = 40
-                            pwr_l = 35
-                        elif theta <= 90:
-                            pwr_r = 40
-                            pwr_l = 40
-                        else:
-                            pwr_r = 35
-                            pwr_l = 40
-                    else:
-                        if theta >= -15:
-                            pwr_r = 40
-                            pwr_l = 35
-                        elif theta >= -90:
-                            pwr_r = 45
-                            pwr_l = 35
-                        else:
-                            pwr_r = 45
-                            pwr_l = 30
-                    print(f'angle ----- {theta}')
-                    strength_l, strength_r = pwr_l ,pwr_r
-                    #motor.motor_continue(strength_l, strength_r)
-                    motor.motor_continue(strength_l, strength_r)
-                    time.sleep(0.04)
-                    #time.sleep(0.4)
-            t_stuck_count += 1
-            other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start, lat1, lon1, mag_x, direction['distance'], angle_relative)
-            #motor.deceleration(strength_l, strength_r)
-            #time.sleep(2)
-            lat_new, lon_new = gps.location()
-            print("whileの最下行")
-
-        direction = calibration.calculate_direction(lon2, lat2)
-        goal_distance = direction['distance']
-        other.print_im920sl(f'-----distance: {goal_distance}-----')
 
 def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt', t_start=0):
     """
@@ -339,28 +212,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     else:
                         angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
                     theta = angle_relative
-                    
-                    adj_r = 0
-                    # if theta >= 0:
-                    #     if theta <= 8:
-                    #         adj = 0
-                    #     elif theta <= 15:
-                    #         adj = 5
-                    #     elif theta <= 90:
-                    #         adj = 20
-                    #         adj_r = 5
-                    #     else:
-                    #         adj = 30
-                    #         adj_r = 5
-                    # else:
-                    #     if theta >= - 8:
-                    #         adj = 0
-                    #     elif theta >= -15:
-                    #         adj = -10
-                    #     elif theta >= -90:
-                    #         adj = -20
-                    #     else:
-                    #         adj = -30
+
                     if theta >= 0:
                         if theta <= 15:
                             pwr_r = 40
