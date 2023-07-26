@@ -15,9 +15,9 @@ from take import picture
 RX = 27
 pi = pigpio.pi()
 chunk_size = 3   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
-delay = 3   # 表示間隔（秒）
+delay = 2   # 表示間隔（秒）
 num_samples = 5 #GPSの平均取る回数
-photo_quality = 20 #伝送する画像の圧縮率
+photo_quality = 40 #伝送する画像の圧縮率
 count = 0
 
 file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/sendtest_photo.jpg"  # 保存するファイル名を指定
@@ -402,8 +402,8 @@ if __name__ == '__main__':
     # 入力ファイルパスと出力ファイルパスを指定してリサイズ
     input_file = photo_take    # 入力ファイルのパスを適切に指定してください
     photo_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/send_photo_resize.jpg"  # 出力ファイルのパスを適切に指定してください
-    new_width = 80            # リサイズ後の幅を指定します
-    new_height = 60           # リサイズ後の高さを指定します
+    new_width = 240            # リサイズ後の幅を指定します
+    new_height = 180           # リサイズ後の高さを指定します
 
     # リサイズを実行
     resize_image(input_file, photo_name, new_width, new_height)
