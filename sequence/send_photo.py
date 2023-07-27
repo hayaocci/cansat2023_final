@@ -482,7 +482,7 @@ if __name__ == '__main__':
             f.write(line_with_id + "\n")
 
     send.send_data ("wireless_fin")
-    send.send_data ("num="+id_counter)
+    send.send_data("num=" + str(id_counter))
     
     end_time = time.time()  # プログラム終了時刻を記録
     execution_time = end_time - start_time  # 実行時間を計算
