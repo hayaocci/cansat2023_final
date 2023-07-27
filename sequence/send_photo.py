@@ -476,6 +476,7 @@ if __name__ == '__main__':
             send.send_data(line_with_id)
             # 表示間隔を待つ
             time.sleep(delay)
+            id_counter = id_counter +1
     
             # ファイルに書き込む
             f.write(line_with_id + "\n")
