@@ -26,7 +26,8 @@ if __name__ == '__main__':
     while 1:
         text = str(input())
         if text =="A":
-            send_reset
+            print("キルで")
+            send_reset(t_reset = 10)
         else:
             send_data(text)
             print('送信しました')
