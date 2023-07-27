@@ -14,8 +14,8 @@ from take import picture
 
 RX = 27
 pi = pigpio.pi()
-chunk_size = 6   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
-delay = 3   # 表示間隔（秒）
+chunk_size = 3   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
+delay = 3   # 伝送間隔（秒）
 num_samples = 10 #GPSを読み取る回数
 photo_quality = 20 #伝送する画像の圧縮率
 count = 0
@@ -385,6 +385,7 @@ if __name__ == '__main__':
                         time.sleep(delay)
                         send.send_data("human_GPS_fin")
                         print("human_GPS_fin")
+                        time.sleep(delay)
                         break
             else:
                 # pass
@@ -421,6 +422,8 @@ if __name__ == '__main__':
     
     
  #---------------------画像伝送----------------------------#
+   
+    time.sleep(15)
 
     photo_take = picture(file_name, 320, 240)
     print("撮影した写真のファイルパス：", photo_take)
@@ -428,8 +431,8 @@ if __name__ == '__main__':
     # 入力ファイルパスと出力ファイルパスを指定してリサイズ
     input_file = photo_take    # 入力ファイルのパスを適切に指定してください
     photo_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/send_photo_resize.jpg"  # 出力ファイルのパスを適切に指定してください
-    new_width = 120            # リサイズ後の幅を指定します
-    new_height = 160           # リサイズ後の高さを指定します
+    new_width = 60            # リサイズ後の幅を指定します
+    new_height = 80           # リサイズ後の高さを指定します
 
     # リサイズを実行
     resize_image(input_file, photo_name, new_width, new_height)
