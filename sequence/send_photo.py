@@ -14,10 +14,10 @@ from take import picture
 
 RX = 27
 pi = pigpio.pi()
-chunk_size = 3   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
+chunk_size = 4   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
 delay = 3   # 伝送間隔（秒）
 num_samples = 10 #GPSを読み取る回数
-photo_quality = 20 #伝送する画像の圧縮率
+photo_quality = 30 #伝送する画像の圧縮率
 count = 0
 count_v = 0
 count_error = 0

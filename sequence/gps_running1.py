@@ -170,7 +170,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
             if goal_distance <= thd_distance:
                 break
             else:
-                print("ゴーるまでの距離は" + str(goal_distance) + "です")
+                print("ゴールまでの距離は" + str(goal_distance) + "です")
                 for _ in range(25):
                     print("25回ループの部分")
                     
