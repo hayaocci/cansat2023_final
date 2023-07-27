@@ -6,6 +6,7 @@ import gps_running1
 import human_detection
 import photo_running
 import stuck2
+import send_photo
 
 import bmx055
 import bme280
@@ -27,8 +28,6 @@ import cv2
 import save_photo as save_img
 import beta_para_avoid as para_avoid
 import wgps_beta_photo_running as imgguide
-
-import send_photo
 
 #variable for log
 log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','txt')
@@ -304,7 +303,149 @@ if __name__=='__main__':
                 count += 1
                 human_detection.move_to_bulearea(count, lat_human, lon_human)
                 human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect)
+    if human_judge_count==1:
+        t_start = time.time()
+        count = 0
+        while True:
+            try:
+                utc, lat, lon, sHeight, gHeight = send_photo.read_gps()
+                if utc == -1.0:
+                    if lat == -1.0:
+                        print("Reading gps Error")
+                        count_error = count_error +1
+                        if count_error > send_photo.num_samples:
+                            send.send_data("human_GPS_start")
+                            print("human_GPS_start")
+                            time.sleep(send_photo.delay)
+                            send.send_data("Reading gps Error")
+                            print("Reading gps Error")
+                            time.sleep(send_photo.delay)
+                            send.send_data("human_GPS_fin")
+                            print("human_GPS_fin")
+                            time.sleep(send_photo.delay)
+                            break
+                        # pass
+                    else:
+                        # pass
+                        print("Status V")
+                        count_v = count_v + 1
+                        if count_v > send_photo.num_samples:
+                            time.sleep(send_photo.delay)
+                            send.send_data("human_GPS_start")
+                            print("human_GPS_start")
+                            time.sleep(send_photo.delay)
+                            send.send_data("Status V")
+                            print("Status V")
+                            time.sleep(send_photo.delay)
+                            send.send_data("human_GPS_fin")
+                            print("human_GPS_fin")
+                            time.sleep(send_photo.delay)
+                            break
+                else:
+                    # pass
+                    print(utc, lat, lon, sHeight, gHeight)
+                    lat, lon = send_photo.location()
+                    print(lat,lon)
+                    count = count +1
+                    if count % send_photo.num_samples == 0:
+                        send_lat = lat
+                        send_lon = lon
+                        print(send_lat,send_lon)
+                    # 無線で送信
+                        time.sleep(send_photo.delay)
+                        send.send_data("human_GPS_start")
+                        print("human_GPS_start")
+                        time.sleep(send_photo.delay)
+                        send.sed_data(send_lat,send_lon)
+                        print(send_lat,send_lon)
+                        time.sleep(send_photo.delay)
+                        send.send_data("human_GPS_fin")
+                        print("human_GPS_fin")
+                        time.sleep (send_photo.delay)
+                        break
+                time.sleep(1)
+            except KeyboardInterrupt:
+                send_photo.close_gps()
+                print("\r\nKeyboard Intruppted, Serial Closed")
+            except:
+                send_photo.close_gps()
+                print(traceback.format_exc())
+        
 
+
+        
+        
+    #---------------------画像伝送----------------------------#
+    
+        time.sleep(15)
+        file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/send_photo.jpg"  # 保存するファイル名を指定
+        photo_take = take.picture(file_name, 320, 240)
+        print("撮影した写真のファイルパス：", photo_take)
+        
+        # 入力ファイルパスと出力ファイルパスを指定してリサイズ
+        input_file = photo_take    # 入力ファイルのパスを適切に指定してください
+        photo_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/send_photo_resize.jpg"  # 出力ファイルのパスを適切に指定してください
+        new_width = 60            # リサイズ後の幅を指定します
+        new_height = 80           # リサイズ後の高さを指定します
+
+        # リサイズを実行
+        send_photo.resize_image(input_file, photo_name, new_width, new_height)
+        
+        print("写真撮影完了")
+        
+        # 圧縮したい画像のパスと出力先のパスを指定します
+        input_image_path = photo_name
+        compressed_image_path = 'compressed_test.jpg'
+        
+        # 圧縮率を指定します（0から100の範囲の整数）
+        compression_quality = send_photo.photo_quality
+        
+        # 画像を圧縮します
+        send_photo.compress_image(input_image_path, compressed_image_path, compression_quality)
+        
+        # 圧縮後の画像をバイナリ形式に変換します
+        with open(compressed_image_path, 'rb') as f:
+            compressed_image_binary = f.read()
+        
+        
+        data = compressed_image_binary  # バイナリデータを指定してください
+        output_filename = "output.txt"  # 保存先のファイル名
+        
+        start_time = time.time()  # プログラム開始時刻を記録
+        
+        send.send_data ("wireless_start")
+
+        print("写真伝送開始します")
+        time.sleep(1)
+
+        
+        # バイナリデータを32バイトずつ表示し、ファイルに保存する
+        with open(output_filename, "w") as f:
+            for i in range(0, len(data), send_photo.chunk_size):
+                chunk = data[i:i+send_photo.chunk_size]
+                chunk_str = "".join(format(byte, "02X") for byte in chunk)
+                
+                # 識別番号とデータを含む行の文字列を作成
+                line_with_id = f"{id_counter}-{chunk_str}"
+
+                #chunk_strにデータがある
+                print(line_with_id)
+                send.send_data(line_with_id)
+                # 表示間隔を待つ
+                time.sleep(send_photo.delay)
+                id_counter = id_counter +1
+        
+                # ファイルに書き込む
+                f.write(line_with_id + "\n")
+
+        send.send_data ("wireless_fin")
+        send.send_data("num=" + str(id_counter))
+        
+        end_time = time.time()  # プログラム終了時刻を記録
+        execution_time = end_time - start_time  # 実行時間を計算
+        
+        print("実行時間:", execution_time, "秒")
+        print("データを", output_filename, "に保存しました。")            
     other.log(log_humandetect,"humandetect finish")
     print("human detection finish!!!")
 ######--------------run2--------------######
