@@ -360,9 +360,14 @@ if __name__ == '__main__':
                     print("Reading gps Error")
                     count_error = count_error +1
                     if count_error > num_samples:
+                        send.send_data("human_GPS_start")
+                        print("human_GPS_start")
                         time.sleep(delay)
                         send.send_data("Reading gps Error")
                         print("Reading gps Error")
+                        time.sleep(delay)
+                        send.send_data("human_GPS_fin")
+                        print("human_GPS_fin")
                         time.sleep(delay)
                         break
                     # pass
@@ -372,9 +377,14 @@ if __name__ == '__main__':
                     count_v = count_v + 1
                     if count_v > num_samples:
                         time.sleep(delay)
+                        send.send_data("human_GPS_start")
+                        print("human_GPS_start")
+                        time.sleep(delay)
                         send.send_data("Status V")
                         print("Status V")
                         time.sleep(delay)
+                        send.send_data("human_GPS_fin")
+                        print("human_GPS_fin")
                         break
             else:
                 # pass
@@ -386,6 +396,17 @@ if __name__ == '__main__':
                     send_lat = lat
                     send_lon = lon
                     print(send_lat,send_lon)
+                 # 無線で送信
+                    time.sleep(delay)
+                    send.send_data("human_GPS_start")
+                    print("human_GPS_start")
+                    time.sleep(delay)
+                    send.sed_data(send_lat,send_lon)
+                    print(send_lat,send_lon)
+                    time.sleep(delay)
+                    send.send_data("human_GPS_fin")
+                    print("human_GPS_fin")
+                    time.sleep (delay)
                     break
             time.sleep(1)
         except KeyboardInterrupt:
@@ -395,17 +416,7 @@ if __name__ == '__main__':
             close_gps()
             print(traceback.format_exc())
     
- # 無線で送信
-    time.sleep(delay)
-    send.send_data("human_GPS_start")
-    print("human_GPS_start")
-    time.sleep(delay)
-    send.sed_data(send_lat,send_lon)
-    print(send_lat,send_lon)
-    time.sleep(delay)
-    send.send_data("human_GPS_fin")
-    print("human_GPS_fin")
-    time.sleep (delay)
+
 
     
     
