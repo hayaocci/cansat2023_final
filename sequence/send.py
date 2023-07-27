@@ -4,7 +4,6 @@ import pigpio
 
 pi = pigpio.pi()
 sendPin = 22
-count=0
 
 def send_data(data, port='/dev/ttyAMA0', baudrate=19200):
     IM920Serial = serial.Serial(port, baudrate)
