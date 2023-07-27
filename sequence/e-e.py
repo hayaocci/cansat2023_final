@@ -356,16 +356,17 @@ if __name__=='__main__':
                     print(lat,lon)
                     count = count +1
                     if count % num_samples == 0:
-                        send_lat = lat
-                        send_lon = lon
+                        send_lat = "{:.6f}".format(lat)
+                        send_lon = "{:.6f}".format(lon)
                         print(send_lat,send_lon)
                     # 無線で送信
                         time.sleep(delay)
                         send.send_data("human_GPS_start")
                         print("human_GPS_start")
                         time.sleep(delay)
-                        send.send_data(send_lat,send_lon)
-                        print(send_lat,send_lon)
+                        send.send_data(send_lat)
+                        send.send_data(send_lon)
+                        print(lat,lon)
                         time.sleep(delay)
                         send.send_data("human_GPS_fin")
                         print("human_GPS_fin")
