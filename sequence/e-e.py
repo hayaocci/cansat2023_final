@@ -28,6 +28,8 @@ import save_photo as save_img
 import beta_para_avoid as para_avoid
 import wgps_beta_photo_running as imgguide
 
+import send_photo
+
 #variable for log
 log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','txt')
 log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog','txt')
