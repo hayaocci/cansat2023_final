@@ -140,7 +140,9 @@ if __name__=='__main__':
             send.send_data("TXDU 0001,B001")
     other.log(log_landing, "land judge finish")
     send.send_data("TXDU 0001,BBBB")
+    time.sleep(3)
     print("land finish!!!")
+    send.send_reset(t_reset = 5)
     ###-------melt-------###
 
     print("START: Melt")
@@ -230,6 +232,7 @@ if __name__=='__main__':
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning1,"run1 finish")
     print("finish!")
+    send.send_reset(t_reset=5)
 ######--------------mission--------------######
     print("START:human detect")
     other.log(log_phase,'7',"humandetect phase",datetime.datetime.now(),time.time()-t_start)
@@ -451,6 +454,7 @@ if __name__=='__main__':
 
         send.send_data ("wireless_fin")
         send.send_data("num=" + str(id_counter))
+        time.sleep(10)
         
         end_time = time.time()  # プログラム終了時刻を記録
         execution_time = end_time - start_time  # 実行時間を計算
