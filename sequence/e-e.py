@@ -373,10 +373,10 @@ if __name__=='__main__':
                         break
                 time.sleep(1)
             except KeyboardInterrupt:
-                send_photo.close_gps()
+                gps.close_gps()
                 print("\r\nKeyboard Intruppted, Serial Closed")
             except:
-                send_photo.close_gps()
+                gps.close_gps()
                 print(traceback.format_exc())
         
 
