@@ -65,19 +65,19 @@ if __name__=='__main__':
 
     #人の座標
     #グランドの中央
-    lat_human = 35.9243068
-    lon_human = 139.9124594
+    # lat_human = 35.9243068
+    # lon_human = 139.9124594
     #12号館前
-    #lat_human = 35.91896917
-    #lon_human = 139.90859362
+    lat_human = 35.91896917
+    lon_human = 139.90859362
 
     #ゴール座標
     #グランドのゴール前
-    lat_goal = 35.923914
-    lon_goal = 139.912223
+    # lat_goal = 35.923914
+    # lon_goal = 139.912223
     #実験棟の前
-    #lat_goal = 35.9189778
-    #lon_goal = 139.9071493
+    lat_goal = 35.9189778
+    lon_goal = 139.9071493
  
 ###-------release judge -------###
     print("START: Release judge")
