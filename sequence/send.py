@@ -15,11 +15,11 @@ def send_reset(t_reset = 10):
     """
 	無線をリセットするための関数
 	"""
-    pi.write(sendPin, 0)
-    time.sleep(1)
     pi.write(sendPin, 1)
-    time.sleep(t_reset)
+    time.sleep(1)
     pi.write(sendPin, 0)
+    time.sleep(t_reset)
+    pi.write(sendPin, 1)
     time.sleep(1)
 
 if __name__ == '__main__':
