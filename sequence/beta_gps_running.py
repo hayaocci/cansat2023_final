@@ -135,7 +135,7 @@ def integral_control(theta, theta_array: list):
     theta_array.append(theta)
     theta_integral = sum(theta_array)
 
-    manipulated_variable =
+    manipulated_variable = Ki * theta_integral
 
     return manipulated_variable
 
