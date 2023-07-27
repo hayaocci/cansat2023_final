@@ -119,11 +119,9 @@ def proportional_control(theta):
     #比例係数の設定
     Kp = 0.5
 
-    #thetaが正のとき左を向かせる制御
-    pwr_l = -Kp * theta
-    pwr_r = Kp * theta
+    manipulated_variable = Kp * theta
 
-    return pwr_l, pwr_r
+    return manipulated_variable
 
 theta_array = []
 
@@ -137,11 +135,21 @@ def integral_control(theta, theta_array: list):
     theta_array.append(theta)
     theta_integral = sum(theta_array)
 
+    manipulated_variable =
 
+    return manipulated_variable
 
-    return 
+def differential_control(theta):
+    #D制御
 
+    #微分係数の設定
+    Kd = 0.5
 
+    #thetaの微分処理
+
+    manipulated_variable =
+
+    return manipulated_variable
 
 def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt', t_start=0):
     """
