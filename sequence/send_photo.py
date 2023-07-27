@@ -469,7 +469,7 @@ if __name__ == '__main__':
             chunk_str = "".join(format(byte, "02X") for byte in chunk)
             
             # 識別番号とデータを含む行の文字列を作成
-            line_with_id = f"{id_counter}: {chunk_str}"
+            line_with_id = f"{id_counter}-{chunk_str}"
 
             #chunk_strにデータがある
             print(line_with_id)
