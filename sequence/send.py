@@ -26,8 +26,12 @@ if __name__ == '__main__':
     while 1:
         text = str(input())
         if text =="A":
-            print("キルで")
-            send_reset(t_reset = 10)
+            try:
+                print("キルで")
+                send_reset(t_reset = 10)
+            except:
+                pi.write(sendPin, 0)
+
         else:
             send_data(text)
             print('送信しました')
