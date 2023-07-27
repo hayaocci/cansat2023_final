@@ -29,6 +29,7 @@ if __name__ == '__main__':
             try:
                 print("キルで")
                 send_reset(t_reset = 10)
+                print("finish")
             except:
                 pi.write(sendPin, 0)
 
