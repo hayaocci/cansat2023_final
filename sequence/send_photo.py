@@ -360,22 +360,22 @@ if __name__ == '__main__':
                     print("Reading gps Error")
                     count_error = count_error +1
                     if count_error > num_samples:
-                        break
                         time.sleep(delay)
                         send.send_data("Reading gps Error")
                         print("Reading gps Error")
                         time.sleep(delay)
+                        break
                     # pass
                 else:
                     # pass
                     print("Status V")
                     count_v = count_v + 1
                     if count_v > num_samples:
-                        break
                         time.sleep(delay)
                         send.send_data("Status V")
                         print("Status V")
                         time.sleep(delay)
+                        break
             else:
                 # pass
                 print(utc, lat, lon, sHeight, gHeight)
@@ -383,7 +383,6 @@ if __name__ == '__main__':
                 print(lat,lon)
                 count = count +1
                 if count % num_samples == 0:
-                    #平均計算
                     send_lat = lat
                     send_lon = lon
                     print(send_lat,send_lon)
@@ -471,7 +470,7 @@ if __name__ == '__main__':
             f.write(line_with_id + "\n")
 
     send.send_data ("wireless_fin")
-    send.send_data (id_counter)
+    send.send_data ("num="+id_counter)
     
     end_time = time.time()  # プログラム終了時刻を記録
     execution_time = end_time - start_time  # 実行時間を計算
