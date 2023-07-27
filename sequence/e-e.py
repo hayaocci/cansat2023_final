@@ -304,63 +304,72 @@ if __name__=='__main__':
                 human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect)
     if human_judge_count==3:
         t_start = time.time()
+
+        chunk_size = 4   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
+        delay = 3   # 伝送間隔（秒）
+        num_samples = 10 #GPSを読み取る回数
+        photo_quality = 30 #伝送する画像の圧縮率
         count = 0
+        count_v = 0
+        count_error = 0
+        id_counter = 1
+
         while True:
             try:
-                utc, lat, lon, sHeight, gHeight = send_photo.read_gps()
+                utc, lat, lon, sHeight, gHeight = gps.read_gps()
                 if utc == -1.0:
                     if lat == -1.0:
                         print("Reading gps Error")
                         count_error = count_error +1
-                        if count_error > send_photo.num_samples:
+                        if count_error > num_samples:
                             send.send_data("human_GPS_start")
                             print("human_GPS_start")
-                            time.sleep(send_photo.delay)
+                            time.sleep(delay)
                             send.send_data("Reading gps Error")
                             print("Reading gps Error")
-                            time.sleep(send_photo.delay)
+                            time.sleep(delay)
                             send.send_data("human_GPS_fin")
                             print("human_GPS_fin")
-                            time.sleep(send_photo.delay)
+                            time.sleep(delay)
                             break
                         # pass
                     else:
                         # pass
                         print("Status V")
                         count_v = count_v + 1
-                        if count_v > send_photo.num_samples:
-                            time.sleep(send_photo.delay)
+                        if count_v > num_samples:
+                            time.sleep(delay)
                             send.send_data("human_GPS_start")
                             print("human_GPS_start")
-                            time.sleep(send_photo.delay)
+                            time.sleep(delay)
                             send.send_data("Status V")
                             print("Status V")
-                            time.sleep(send_photo.delay)
+                            time.sleep(delay)
                             send.send_data("human_GPS_fin")
                             print("human_GPS_fin")
-                            time.sleep(send_photo.delay)
+                            time.sleep(delay)
                             break
                 else:
                     # pass
                     print(utc, lat, lon, sHeight, gHeight)
-                    lat, lon = send_photo.location()
+                    lat, lon = gps.location()
                     print(lat,lon)
                     count = count +1
-                    if count % send_photo.num_samples == 0:
+                    if count % num_samples == 0:
                         send_lat = lat
                         send_lon = lon
                         print(send_lat,send_lon)
                     # 無線で送信
-                        time.sleep(send_photo.delay)
+                        time.sleep(delay)
                         send.send_data("human_GPS_start")
                         print("human_GPS_start")
-                        time.sleep(send_photo.delay)
+                        time.sleep(delay)
                         send.sed_data(send_lat,send_lon)
                         print(send_lat,send_lon)
-                        time.sleep(send_photo.delay)
+                        time.sleep(delay)
                         send.send_data("human_GPS_fin")
                         print("human_GPS_fin")
-                        time.sleep (send_photo.delay)
+                        time.sleep (delay)
                         break
                 time.sleep(1)
             except KeyboardInterrupt:
@@ -377,7 +386,7 @@ if __name__=='__main__':
     #---------------------画像伝送----------------------------#
     
         time.sleep(15)
-        file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/send_photo.jpg"  # 保存するファイル名を指定
+        file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
         photo_take = take.picture(file_name, 320, 240)
         print("撮影した写真のファイルパス：", photo_take)
         
@@ -397,7 +406,7 @@ if __name__=='__main__':
         compressed_image_path = 'compressed_test.jpg'
         
         # 圧縮率を指定します（0から100の範囲の整数）
-        compression_quality = send_photo.photo_quality
+        compression_quality = photo_quality
         
         # 画像を圧縮します
         send_photo.compress_image(input_image_path, compressed_image_path, compression_quality)
@@ -420,8 +429,8 @@ if __name__=='__main__':
         
         # バイナリデータを32バイトずつ表示し、ファイルに保存する
         with open(output_filename, "w") as f:
-            for i in range(0, len(data), send_photo.chunk_size):
-                chunk = data[i:i+send_photo.chunk_size]
+            for i in range(0, len(data), chunk_size):
+                chunk = data[i:i+chunk_size]
                 chunk_str = "".join(format(byte, "02X") for byte in chunk)
                 
                 # 識別番号とデータを含む行の文字列を作成
@@ -431,7 +440,7 @@ if __name__=='__main__':
                 print(line_with_id)
                 send.send_data(line_with_id)
                 # 表示間隔を待つ
-                time.sleep(send_photo.delay)
+                time.sleep(delay)
                 id_counter = id_counter +1
         
                 # ファイルに書き込む
