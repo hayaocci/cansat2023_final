@@ -67,17 +67,16 @@ if __name__=='__main__':
     #グランドの中央
     # lat_human = 35.9243068
     # lon_human = 139.9124594
-    #12号館前
-    lat_human = 35.91896917
-    lon_human = 139.90859362
-
+    #中庭
+    lat_human =35.918329 
+    lon_human =139.907841
     #ゴール座標
     #グランドのゴール前
     # lat_goal = 35.923914
     # lon_goal = 139.912223
-    #実験棟の前
-    lat_goal = 35.9189778
-    lon_goal = 139.9071493
+    #中庭
+    lat_goal = 35.918329
+    lon_goal = 139.907841
  
 ###-------release judge -------###
     print("START: Release judge")
@@ -303,7 +302,7 @@ if __name__=='__main__':
                 count += 1
                 human_detection.move_to_bulearea(count, lat_human, lon_human)
                 human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect)
-    if human_judge_count==1:
+    if human_judge_count==3:
         t_start = time.time()
         count = 0
         while True:
