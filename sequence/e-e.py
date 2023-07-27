@@ -364,7 +364,7 @@ if __name__=='__main__':
                         send.send_data("human_GPS_start")
                         print("human_GPS_start")
                         time.sleep(delay)
-                        send.sed_data(send_lat,send_lon)
+                        send.send_data(send_lat,send_lon)
                         print(send_lat,send_lon)
                         time.sleep(delay)
                         send.send_data("human_GPS_fin")
