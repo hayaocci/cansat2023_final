@@ -3,7 +3,7 @@ from machine_learning import DetectPeople
 import human_detection
 import take
 import other
-
+import machine_learning
 log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
 
 if __name__=='__main__':
@@ -21,7 +21,7 @@ if __name__=='__main__':
     
    
     #まずはメインエリアを捜索
-    for k in range(24):
+    for k in range(3):
         if break_outer_loop == False:
             human_judge_count = 0
             #撮影
