@@ -96,7 +96,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
     
     #パラメータの設定
     Kp = 0.15
-    Kd = 0.05
+    Kd = 0.1
     Ki = 0.006
     
     print('adjust_direction_north')
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     theta_differential_array = []
 
     #-----要素数10の空配列の作成-----#
-    theta_array = make_theta_array(theta_array, 50)
+    theta_array = make_theta_array(theta_array, 30)
 
     #-----オフセットの取得-----#
     magx_off, magy_off = 0, 0
