@@ -186,7 +186,7 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
                 break
         if bool_com:
             break
-    
+
     motor.motor_stop(1)
 
         
@@ -211,6 +211,14 @@ if __name__ == "__main__":
     #-----PID制御-----#
     adjust_direction_north(180, magx_off, magy_off, theta_array)
 
-    print('adjust complete')
-    #-----直進-----#
-    #motor.move(30, 30, 3)
+    time.sleep(1)
+
+    adjust_direction_north(0, magx_off, magy_off, theta_array)
+
+    time.sleep(1)
+
+    adjust_direction_north(90, magx_off, magy_off, theta_array)
+
+    time.sleep(1)
+
+    adjust_direction_north(270, magx_off, magy_off, theta_array)
