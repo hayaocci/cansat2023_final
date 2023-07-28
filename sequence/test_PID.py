@@ -92,7 +92,7 @@ def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
 
     return m
 
-def adjust_direction_north(magx_off, magy_off, theta_array: list):
+def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
     
     #パラメータの設定
     Kp = 0.3
@@ -112,10 +112,12 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
     theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
     if theta > 180:
         theta = theta - 360
-    
-    print('theta = ' + str(theta))
 
-    theta_array.append(theta)
+    error_theta = target_theta - theta
+    
+    print('theta = ' + str(error_theta))
+
+    theta_array.append(error_theta)
 
     #-----制御処理-----#
     #while abs(theta_array[-1]) > 5:
@@ -125,16 +127,17 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         mag_x = magdata[0]
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-
         if theta > 180:
             theta = theta - 360
 
+        error_theta = target_theta - theta
+
         #-----thetaの値を蓄積する-----#
-        theta_array = latest_theta_array(theta, theta_array)
+        theta_array = latest_theta_array(error_theta, theta_array)
 
         #-----PID制御-----#
         #パラメータが0の場合それは含まれない
-        m = PID_control(theta, theta_array, Kp, Ki, Kd)
+        m = PID_control(error_theta, theta_array, Kp, Ki, Kd)
 
         #-----モータの出力-----#
         # if m >40:
@@ -161,9 +164,10 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         mag_x = magdata[0]
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-
         if theta > 180:
             theta = theta - 360
+
+        error_theta = target_theta - theta
 
         check = 0
         bool_com = True
@@ -199,7 +203,7 @@ if __name__ == "__main__":
     magx_off, magy_off = 0, 0
 
     #-----PID制御-----#
-    adjust_direction_north(magx_off, magy_off, theta_array)
+    adjust_direction_north(180, magx_off, magy_off, theta_array)
 
     print('adjust complete')
     #-----直進-----#
