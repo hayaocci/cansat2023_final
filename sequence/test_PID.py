@@ -162,4 +162,4 @@ if __name__ == "__main__":
     adjust_direction_north(magx_off, magy_off, theta_array)
 
     #-----直進-----#
-    motor.move(30, 30, 3)
+    #motor.move(30, 30, 3)
