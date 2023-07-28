@@ -64,6 +64,7 @@ if __name__=='__main__':
 
     if human_judge_count==0:
         print ("青点エリア捜索に移行")
+        ML_people = DetectPeople(model_path="model_mobile.tflite" )
         for j in range(4):#4地点について行うよ
             elapsed_time = time.time()-start_time #経過時間の更新
             if break_outer_loop == True:
