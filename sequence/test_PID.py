@@ -91,7 +91,7 @@ def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
 
     return m
 
-def adjust_direction_north(magx_off, magy_off, array: list):
+def adjust_direction_north(magx_off, magy_off, theta_array: list):
     
     #パラメータの設定
     Kp = 0.125
@@ -112,6 +112,8 @@ def adjust_direction_north(magx_off, magy_off, array: list):
     
     print('theta = ' + str(theta))
 
+    theta_array.append(theta)
+
     #-----制御処理-----#
     while abs(theta_array[-1]) > 5:
         #-----角度の取得-----#
@@ -121,7 +123,7 @@ def adjust_direction_north(magx_off, magy_off, array: list):
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
         #-----thetaの値を蓄積する-----#
-        theta_array = latest_theta_array(theta, array)
+        theta_array = latest_theta_array(theta, theta_array)
 
         #-----PID制御-----#
         #パラメータが0の場合それは含まれない
