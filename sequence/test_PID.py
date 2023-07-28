@@ -193,7 +193,7 @@ if __name__ == "__main__":
     theta_differential_array = []
 
     #-----要素数10の空配列の作成-----#
-    theta_array = make_theta_array(theta_array, 30)
+    theta_array = make_theta_array(theta_array, 10)
 
     #-----オフセットの取得-----#
     magx_off, magy_off = 0, 0
