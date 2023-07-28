@@ -141,7 +141,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         motor.move(pwr_l, pwr_r, 0.15)
         #motor.move(pwr_l, pwr_r, 0.2)
 
-        time.sleep(0.1)
+        time.sleep(0.2)
 
         #-----角度の取得-----#
         magdata = bmx055.mag_dataRead()
