@@ -95,7 +95,7 @@ def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
 def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
     
     #パラメータの設定
-    Kp = 0.3
+    Kp = 0.1
     Kd = 1.8
     Ki = 0.04
     
