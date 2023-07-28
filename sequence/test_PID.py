@@ -69,7 +69,7 @@ def differential_control(Kd, theta_array: list):
 
     return md
 
-def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
+def PID_control(theta, theta_array: list, Kp=0.1, Ki=0.04, Kd=2.5):
     #-----PID制御-----#
     
     #-----初期設定-----# array_numは積分区間の設定
@@ -93,11 +93,13 @@ def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
     return m
 
 def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
-    
+
     #パラメータの設定
-    Kp = 0
+    Kp = 0.1
     Kd = 2.5
     Ki = 0.04
+
+    count = 0
     
     print('adjust_direction_north')
 
@@ -122,6 +124,12 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
     #-----制御処理-----#
     #while abs(theta_array[-1]) > 5:
     while True:
+
+        if count < 25:
+            Ki = 0
+        else:
+            Ki = 0.04
+
         #-----角度の取得-----#
         magdata = bmx055.mag_dataRead()
         mag_x = magdata[0]
@@ -182,6 +190,8 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
                 break
         if bool_com:
             break
+
+        count += 1
 
     motor.motor_stop(1)
 
