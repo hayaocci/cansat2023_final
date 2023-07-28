@@ -133,10 +133,12 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         m = PID_control(theta, theta_array, Kp, Ki, Kd)
 
         #-----モータの出力-----#
-        if m >40:
-            m = 40
-        elif m < 10:
-            m = 20
+        # if m >40:
+        #     m = 40
+        # elif m < -40:
+
+        m = min(m, 40)
+        m = max(m, -40)
 
         pwr_l = -m
         pwr_r = m
@@ -157,6 +159,8 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
         if theta > 180:
             theta = theta - 360
+
+        
 
 
 if __name__ == "__main__":
