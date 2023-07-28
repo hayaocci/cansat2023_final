@@ -134,6 +134,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         pwr_l = -m
         pwr_r = m
 
+        print('theta = ' + str(theta))
         print('left', pwr_l, 'right', pwr_r)
 
         #-----モータの操作-----#
