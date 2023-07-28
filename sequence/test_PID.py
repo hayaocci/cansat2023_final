@@ -147,7 +147,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         print('left', pwr_l, 'right', pwr_r)
 
         #-----モータの操作-----#
-        motor.motor_move(pwr_l, pwr_r, 0.04)
+        motor.motor_move(pwr_l, pwr_r, 0.01)
         #motor.move(pwr_l, pwr_r, 0.2)
 
         time.sleep(0.04)
@@ -157,8 +157,11 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         mag_x = magdata[0]
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+
         if theta > 180:
             theta = theta - 360
+    
+    motor.motor_stop(0.5)
 
         
 
