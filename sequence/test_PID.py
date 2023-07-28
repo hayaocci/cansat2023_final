@@ -130,7 +130,7 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
             Kd = Kd_
         else:
             Ki = Ki_
-            Kd = 4
+            Kd = 5
 
         #-----角度の取得-----#
         magdata = bmx055.mag_dataRead()
