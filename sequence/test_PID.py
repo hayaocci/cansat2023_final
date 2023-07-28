@@ -134,6 +134,8 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         pwr_l = -m
         pwr_r = m
 
+        print('left', pwr_l, 'right', pwr_r)
+
         #-----モータの操作-----#
         motor.move(pwr_l, pwr_r, 0.15)
         #motor.move(pwr_l, pwr_r, 0.2)
