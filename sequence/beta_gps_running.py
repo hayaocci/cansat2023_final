@@ -203,16 +203,17 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                         angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
                     theta = angle_relative
 
-                    m = test_PID.PID_control(theta, theta_array, Kp=0.5, Ki=0.5, Kd=0.5)
+                    m = test_PID.PID_control(theta, theta_array, Kp=0.125, Ki=0.1, Kd=0.1)
 
-                    if m >= 30
+                    #-----操作量の補正-----#
+                    m = m + 30
 
-
+                    #-----モータの出力-----#
+                    pwr_l = -m
+                    pwr_r = m
 
                     print(f'angle ----- {theta}')
-                    strength_l, strength_r = pwr_l ,pwr_r
-                    #motor.motor_continue(strength_l, strength_r)
-                    motor.motor_continue(strength_l, strength_r)
+                    motor.motor_continue(pwr_l, pwr_r)
                     time.sleep(0.04)
                     #time.sleep(0.4)
             t_stuck_count += 1
