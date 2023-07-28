@@ -118,7 +118,8 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
     theta_array.append(theta)
 
     #-----制御処理-----#
-    while abs(theta_array[-1]) > 5:
+    #while abs(theta_array[-1]) > 5:
+    while True:
         #-----角度の取得-----#
         magdata = bmx055.mag_dataRead()
         mag_x = magdata[0]
@@ -160,6 +161,18 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
 
         if theta > 180:
             theta = theta - 360
+
+        check = 0
+        bool_com = True
+        for i in range(len(theta_array)):
+            if abs(theta_array[i]) > 5:
+                bool_com = False
+                break
+        if bool_com:
+            break
+            
+                
+
     
     motor.motor_stop(1)
 
