@@ -74,4 +74,4 @@ if __name__=='__main__':
                 #lat_now, lon_now = gps.location()
                 count += 1
                 #human_detection.move_to_bulearea(count, lat_human, lon_human)
-                human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect)
+                human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect, model=ML_people)
