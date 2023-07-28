@@ -126,6 +126,9 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
+        if theta > 180:
+            theta = theta - 360
+
         #-----thetaの値を蓄積する-----#
         theta_array = latest_theta_array(theta, theta_array)
 
