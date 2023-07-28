@@ -96,7 +96,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
     
     #パラメータの設定
     Kp = 0.15
-    Kd = 5
+    Kd = 7
     Ki = 0.01
     
     print('adjust_direction_north')
@@ -137,7 +137,6 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         pwr_l = -m
         pwr_r = m
 
-
         print('theta = ' + str(theta))
         print('left', pwr_l, 'right', pwr_r)
 
@@ -145,7 +144,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         motor.move(pwr_l, pwr_r, 0.15)
         #motor.move(pwr_l, pwr_r, 0.2)
 
-        time.sleep(0.2)
+        time.sleep(0.04)
 
         #-----角度の取得-----#
         magdata = bmx055.mag_dataRead()
