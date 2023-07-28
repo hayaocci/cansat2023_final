@@ -108,7 +108,8 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
             img_path = take.picture('ML_imgs/image', 320, 240)
 
             # モデルの読み込み
-            result = ML_people.predict(image_path=img_path)
+            #result = ML_people.predict(image_path=img_path)
+            result = model.predict(image_path=img_path)
             other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
             # hitoの確率80%かどうか
@@ -118,7 +119,8 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                 # 追加の写真を撮影
                 for j in range(2):
                     additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
-                    additional_result = ML_people.predict(image_path=additional_img_path)
+                    #additional_result = ML_people.predict(image_path=additional_img_path)
+                    additional_result = model.predict(image_path=additional_img_path)
                     other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
                     if additional_result >= 0.80:
