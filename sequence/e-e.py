@@ -62,21 +62,24 @@ if __name__=='__main__':
     #run1
     gps.open_gps()
     bmx055.bmx055_setup()
+    #画像伝送
+    latest_picture_path = None
 
     #人の座標
     #グランドの中央
-    lat_human = 35.9243068
-    lon_human = 139.9124594
+    # lat_human = 35.9243068
+    # lon_human = 139.9124594
     #中庭
-    #lat_human =35.918329 
-    #lon_human =139.907841
+    lat_human =35.918329 
+    lon_human =139.907841
+
     #ゴール座標
     #グランドのゴール前
-    lat_goal = 35.923914
-    lon_goal = 139.912223
+    # lat_goal = 35.923914
+    # lon_goal = 139.912223
     #中庭
-    #lat_goal = 35.918329
-    #lon_goal = 139.907841
+    lat_goal = 35.918329
+    lon_goal = 139.907841
  
 ###-------release judge -------###
     print("START: Release judge")
@@ -234,6 +237,7 @@ if __name__=='__main__':
     other.log(log_gpsrunning1,"run1 finish")
     send.send_data("run1 finish")
     print("finish!")
+    motor.motor_stop(1)
     send.send_reset(t_reset=5)
 ######--------------mission--------------######
     print("START:human detect")
@@ -392,12 +396,13 @@ if __name__=='__main__':
     #---------------------画像伝送----------------------------#
     
         time.sleep(15)
-        file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
-        photo_take = take.picture(file_name, 320, 240)
-        print("撮影した写真のファイルパス：", photo_take)
+        file_path = latest_picture_path
+        # file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
+        # photo_take = take.picture(file_name, 320, 240)
+        # print("撮影した写真のファイルパス：", photo_take)
         
         # 入力ファイルパスと出力ファイルパスを指定してリサイズ
-        input_file = photo_take    # 入力ファイルのパスを適切に指定してください
+        input_file = file_path     # 入力ファイルのパスを適切に指定してください
         photo_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/send_photo_resize.jpg"  # 出力ファイルのパスを適切に指定してください
         new_width = 60            # リサイズ後の幅を指定します
         new_height = 80           # リサイズ後の高さを指定します
@@ -475,7 +480,7 @@ if __name__=='__main__':
     other.log(log_gpsrunning2,"run2 finish")
     send.send_data("run2 finish")
     print("finish!")
-
+    motor.motor_stop(1)
 ######--------------goal--------------######
     other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)

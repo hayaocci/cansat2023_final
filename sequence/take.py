@@ -15,6 +15,7 @@ os.environ["LIBCAMERA_LOG_LEVELS"] = "3"
 
 def picture(path, width=320, height=240):
     """写真を取るための関数"""
+    global latest_picture_path
     filepath = None
     def dir(path):
         """
@@ -76,6 +77,7 @@ def picture(path, width=320, height=240):
             #camera.rotation = 90 # カメラの画像回転
             # time.sleep(2)
             camera.capture_file(filepath) # 撮影した画像を保存
+            latest_picture_path=filepath
 
             #画像を読み込んで回転させる
             image = cv2.imread(filepath)
