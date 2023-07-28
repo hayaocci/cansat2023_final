@@ -250,7 +250,7 @@ if __name__ == "__main__":
             #モデルの読み込み
             result = ML_people.predict(image_path=img_path)
             other.log(log_humandetect, datetime.datetime.now(), time.time() -
-                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
+                      t_start,result,0,human_judge_count,break_outer_loop,elapsed_time)
             #hitoの確率80%かどうか
             if result >= 0.80:
                 human_judge_count += 1
