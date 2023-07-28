@@ -122,6 +122,11 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
     direction = calibration.calculate_direction(lon2, lat2)
     goal_distance = direction['distance']
 
+    theta_array = []
+    theta_differential_array = []
+
+    theta_array = test_PID.make_theta_array(theta_array, 25)
+
     # ------------- 上向き判定 -------------#
     while goal_distance >= thd_distance:
         t_stuck_count = 1
@@ -198,7 +203,9 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                         angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
                     theta = angle_relative
 
-                    m = test_PID.PID(theta, theta_array: list, array_num: int=20, Kp=0.5, Ki=0.5, Kd=0.5):
+                    m = test_PID.PID_control(theta, theta_array, Kp=0.5, Ki=0.5, Kd=0.5)
+
+                    if m >= 30
 
 
 

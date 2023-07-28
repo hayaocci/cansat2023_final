@@ -67,11 +67,11 @@ def differential_control(Kd, theta_array: list):
 
     return md
 
-def PID_control(theta, theta_array: list, array_num: int=20, Kp=0.5, Ki=0.5, Kd=0.5):
+def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
     #-----PID制御-----#
     
     #-----初期設定-----# array_numは積分区間の設定
-    array = make_theta_array(array, array_num)
+    #array = make_theta_array(array, array_num)
 
     #-----thetaの値を蓄積する-----#
     theta_array = latest_theta_array(theta, array)
