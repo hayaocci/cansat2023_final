@@ -96,7 +96,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
     
     #パラメータの設定
     Kp = 0.5
-    Kd = 0.2
+    Kd = 0.5
     Ki = 0
     
     print('adjust_direction_north')
