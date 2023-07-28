@@ -97,7 +97,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
     #パラメータの設定
     Kp = 0.15
     Kd = 7
-    Ki = 0.015
+    Ki = 0.01
     
     print('adjust_direction_north')
 
@@ -110,6 +110,8 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
     mag_x = magdata[0]
     mag_y = magdata[1]
     theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+    if theta > 180:
+        theta = theta - 360
     
     print('theta = ' + str(theta))
 
@@ -151,6 +153,8 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         mag_x = magdata[0]
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+        if theta > 180:
+            theta = theta - 360
 
 
 if __name__ == "__main__":
