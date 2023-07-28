@@ -168,7 +168,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         check = 0
         bool_com = True
         for i in range(len(theta_array)):
-            if abs(theta_array[i]) > 10:
+            if abs(theta_array[i]) > 15:
                 bool_com = False
                 break
         if bool_com:
