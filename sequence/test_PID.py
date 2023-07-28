@@ -2,6 +2,7 @@
 import calibration
 import bmx055
 import motor
+import time
 
 #PID制御のテストコード
 
@@ -94,9 +95,9 @@ def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
 def adjust_direction_north(magx_off, magy_off, theta_array: list):
     
     #パラメータの設定
-    Kp = 0.125
-    Kd = 0.1
-    Ki = 0.1
+    Kp = 0.01
+    Kd = 0.02
+    Ki = 0.01
     
     print('adjust_direction_north')
 
@@ -136,6 +137,8 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         #-----モータの操作-----#
         motor.move(pwr_l, pwr_r, 0.15)
         #motor.move(pwr_l, pwr_r, 0.2)
+
+        time.sleep(0.1)
 
         #-----角度の取得-----#
         magdata = bmx055.mag_dataRead()
