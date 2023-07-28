@@ -135,6 +135,8 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         #-----モータの出力-----#
         if m >40:
             m = 40
+        elif m < 10:
+            m = 15
 
         pwr_l = -m
         pwr_r = m
