@@ -114,6 +114,10 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
         theta = theta - 360
 
     error_theta = target_theta - theta
+    if error_theta < -180:
+        error_theta += 360
+    elif error_theta > 180:
+        error_theta -= 360
     
     print('theta = ' + str(error_theta))
 
@@ -127,10 +131,12 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
         mag_x = magdata[0]
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-        if theta > 180:
-            theta = theta - 360
 
         error_theta = target_theta - theta
+        if error_theta < -180:
+            error_theta += 360
+        elif error_theta > 180:
+            error_theta -= 360
 
         #-----thetaの値を蓄積する-----#
         theta_array = latest_theta_array(error_theta, theta_array)
@@ -164,10 +170,13 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
         mag_x = magdata[0]
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-        if theta > 180:
-            theta = theta - 360
 
         error_theta = target_theta - theta
+
+        if error_theta < -180:
+            error_theta += 360
+        elif error_theta > 180:
+            error_theta -= 360
 
         check = 0
         bool_com = True
@@ -177,9 +186,6 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
                 break
         if bool_com:
             break
-            
-                
-
     
     motor.motor_stop(1)
 
