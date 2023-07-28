@@ -103,7 +103,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
 
     #-----キャリブレーション-----#
     print('Start Calibration')
-    magx_off, magy_off = calibration.cal(30, -30, 30)
+    magx_off, magy_off = calibration.cal(30, -30, 40)
 
     #-----角度の取得-----#
     magdata = bmx055.mag_dataRead()
