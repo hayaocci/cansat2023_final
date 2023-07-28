@@ -1,3 +1,8 @@
+#モジュールのインポート
+import calibration
+import bmx055
+import motor
+
 #PID制御のテストコード
 
 theta_array = []
@@ -25,10 +30,7 @@ def latest_theta_array(theta, array:list):
 def proportional_control(Kp, theta_array :list):
     #-----P制御-----#
     
-    #比例係数の設定
-    #Kp = 0.5
-
-    #最新のthetaの値を取得
+    #-----最新のthetaの値を取得-----#
     theta_deviation = theta_array[-1]
 
     mp = Kp * theta_deviation
@@ -62,7 +64,6 @@ def differential_control(Kd, theta_array: list):
     #最新のthetaの微分値を取得
     theta_differential = theta_differential_array[-1]
 
-
     md = Kd * theta_differential
 
     return md
@@ -74,7 +75,7 @@ def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
     #array = make_theta_array(array, array_num)
 
     #-----thetaの値を蓄積する-----#
-    theta_array = latest_theta_array(theta, array)
+    theta_array = latest_theta_array(theta, theta_array)
 
     #-----P制御-----#
     mp = proportional_control(Kp, theta_array)
@@ -90,11 +91,75 @@ def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
 
     return m
 
-if __name__ == "__main__":
-    theta = 0.5
-    m = proportional_control(theta)
-    print(m)
+def adjust_direction_north(magx_off, magy_off, array: list):
+    
+    #パラメータの設定
+    Kp = 0.125
+    Kd = 0.1
+    Ki = 0.1
+    
+    print('adjust_direction_north')
 
-    theta = 0.5
-    m = integral_control(theta, theta_array)
-    print(m)
+    #-----キャリブレーション-----#
+    print('Start Calibration')
+    magx_off, magy_off = calibration.cal(40, -40, 30)
+
+    #-----角度の取得-----#
+    magdata = bmx055.mag_dataRead()
+    mag_x = magdata[0]
+    mag_y = magdata[1]
+    theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+    
+    print('theta = ' + str(theta))
+
+    #-----制御処理-----#
+    while abs(theta_array[-1]) > 5:
+        #-----角度の取得-----#
+        magdata = bmx055.mag_dataRead()
+        mag_x = magdata[0]
+        mag_y = magdata[1]
+        theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+
+        #-----thetaの値を蓄積する-----#
+        theta_array = latest_theta_array(theta, array)
+
+        #-----PID制御-----#
+        #パラメータが0の場合それは含まれない
+        m = PID_control(theta, theta_array, Kp, Ki, Kd)
+
+        #-----モータの出力-----#
+        pwr_l = -m
+        pwr_r = m
+
+        #-----モータの操作-----#
+        motor.move(pwr_l, pwr_r, 0.15)
+        #motor.move(pwr_l, pwr_r, 0.2)
+
+        #-----角度の取得-----#
+        magdata = bmx055.mag_dataRead()
+        mag_x = magdata[0]
+        mag_y = magdata[1]
+        theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+
+
+if __name__ == "__main__":
+
+    #-----セットアップ-----#
+    motor.setup()
+    bmx055.bmx055_setup()
+
+    #-----初期設定-----#
+    theta_array = []
+    theta_differential_array = []
+
+    #-----要素数10の空配列の作成-----#
+    theta_array = make_theta_array(theta_array, 10)
+
+    #-----オフセットの取得-----#
+    magx_off, magy_off = 0, 0
+
+    #-----PID制御-----#
+    adjust_direction_north(magx_off, magy_off, theta_array)
+
+    #-----直進-----#
+    motor.move(30, 30, 3)
