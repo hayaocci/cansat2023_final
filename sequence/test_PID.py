@@ -64,7 +64,6 @@ def differential_control(Kd, theta_array: list):
     #最新のthetaの微分値を取得
     theta_differential = theta_differential_array[-1]
 
-
     md = Kd * theta_differential
 
     return md
@@ -124,15 +123,6 @@ def adjust_direction_north(magx_off, magy_off, array: list):
         #-----thetaの値を蓄積する-----#
         theta_array = latest_theta_array(theta, array)
 
-        # #-----P制御-----#
-        # mp = proportional_control(Kp, theta_array)
-
-        # #-----I制御-----#
-        # mi = integral_control(Ki, theta_array)
-
-        # #-----D制御-----#
-        # md = differential_control(Kd, theta_array)
-
         #-----PID制御-----#
         #パラメータが0の場合それは含まれない
         m = PID_control(theta, theta_array, Kp, Ki, Kd)
@@ -153,6 +143,10 @@ def adjust_direction_north(magx_off, magy_off, array: list):
 
 
 if __name__ == "__main__":
+
+    #-----セットアップ-----#
+    motor.setup()
+    bmx055.bmx055_setup()
 
     #-----初期設定-----#
     theta_array = []
