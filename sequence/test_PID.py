@@ -95,9 +95,9 @@ def PID_control(theta, theta_array: list, Kp=0.5, Ki=0.5, Kd=0.5):
 def adjust_direction_north(magx_off, magy_off, theta_array: list):
     
     #パラメータの設定
-    Kp = 0.01
-    Kd = 0.02
-    Ki = 0.01
+    Kp = 0.15
+    Kd = 0
+    Ki = 0.008
     
     print('adjust_direction_north')
 
@@ -116,7 +116,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
     theta_array.append(theta)
 
     #-----制御処理-----#
-    while abs(theta_array[-1]) > 5:
+    while abs(theta_array[-1]) > 2:
         #-----角度の取得-----#
         magdata = bmx055.mag_dataRead()
         mag_x = magdata[0]
@@ -133,6 +133,8 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         #-----モータの出力-----#
         pwr_l = -m
         pwr_r = m
+
+        print('left', pwr_l, 'right', pwr_r)
 
         #-----モータの操作-----#
         motor.move(pwr_l, pwr_r, 0.15)
@@ -158,7 +160,7 @@ if __name__ == "__main__":
     theta_differential_array = []
 
     #-----要素数10の空配列の作成-----#
-    theta_array = make_theta_array(theta_array, 10)
+    theta_array = make_theta_array(theta_array, 50)
 
     #-----オフセットの取得-----#
     magx_off, magy_off = 0, 0
