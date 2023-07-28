@@ -101,10 +101,6 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
     
     print('adjust_direction_north')
 
-    #-----キャリブレーション-----#
-    print('Start Calibration')
-    magx_off, magy_off = calibration.cal(30, -30, 40)
-
     #-----角度の取得-----#
     magdata = bmx055.mag_dataRead()
     mag_x = magdata[0]
@@ -206,7 +202,9 @@ if __name__ == "__main__":
     theta_array = make_theta_array(theta_array, 5)
 
     #-----オフセットの取得-----#
-    magx_off, magy_off = 0, 0
+    #-----キャリブレーション-----#
+    print('Start Calibration')
+    magx_off, magy_off = calibration.cal(30, -30, 40)
 
     #-----PID制御-----#
     adjust_direction_north(180, magx_off, magy_off, theta_array)
