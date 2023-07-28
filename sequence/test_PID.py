@@ -136,7 +136,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         if m >40:
             m = 40
         elif m < 10:
-            m = 15
+            m = 20
 
         pwr_l = -m
         pwr_r = m
