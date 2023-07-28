@@ -1,7 +1,7 @@
 import time
 from machine_learning import DetectPeople
 import human_detection
-from human_detection import ML_people
+from human_detection import take_and_rotation
 import take
 import other
 import machine_learning
