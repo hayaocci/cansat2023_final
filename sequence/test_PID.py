@@ -120,10 +120,10 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
     #-----制御処理-----#
     while abs(theta_array[-1]) > 5:
         #-----角度の取得-----#
-        # magdata = bmx055.mag_dataRead()
-        # mag_x = magdata[0]
-        # mag_y = magdata[1]
-        # theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+        magdata = bmx055.mag_dataRead()
+        mag_x = magdata[0]
+        mag_y = magdata[1]
+        theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
         #-----thetaの値を蓄積する-----#
         theta_array = latest_theta_array(theta, theta_array)
