@@ -14,6 +14,7 @@ import datetime
 
 log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
 
+
 #グローバル変数として宣言
 # global human_judge_count
 # global break_outer_loop
@@ -98,6 +99,7 @@ def get_locations(lat_human, lon_human):
 
 def take_and_rotation(human_judge_count, break_outer_loop,logpath):
 
+    global ML_people
 
     #for i in range(6):
     for i in range(24):
@@ -236,6 +238,7 @@ if __name__ == "__main__":
     #lon_human = 139.90825559
 
     #人検知に使用するモデルの読み込み
+    global ML_people
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     #まずはメインエリアを捜索
