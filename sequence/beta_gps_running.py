@@ -9,6 +9,7 @@ import calibration
 import stuck2
 import other
 import send
+import test_PID
 
 def angle_goal(magx_off, magy_off, lon2, lat2):
     """
@@ -113,44 +114,6 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
     other.print_im920sl(f'theta = {theta} \t rotation finished!!!')
     '''
 
-def proportional_control(theta):
-    #-----P制御-----#
-    
-    #比例係数の設定
-    Kp = 0.5
-
-    manipulated_variable = Kp * theta
-
-    return manipulated_variable
-
-theta_array = []
-
-def integral_control(theta, theta_array: list):
-    #I制御
-
-    #積分係数の設定
-    Ki = 0.5
-
-    #thetaの積分処理
-    theta_array.append(theta)
-    theta_integral = sum(theta_array)
-
-    manipulated_variable = Ki * theta_integral
-
-    return manipulated_variable
-
-def differential_control(theta):
-    #D制御
-
-    #微分係数の設定
-    Kd = 0.5
-
-    #thetaの微分処理
-
-    manipulated_variable =
-
-    return manipulated_variable
-
 def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt', t_start=0):
     """
     GPS走行の関数
@@ -235,26 +198,10 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                         angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
                     theta = angle_relative
 
-                    if theta >= 0:
-                        if theta <= 15:
-                            pwr_r = 40
-                            pwr_l = 35
-                        elif theta <= 90:
-                            pwr_r = 40
-                            pwr_l = 40
-                        else:
-                            pwr_r = 35
-                            pwr_l = 40
-                    else:
-                        if theta >= -15:
-                            pwr_r = 40
-                            pwr_l = 35
-                        elif theta >= -90:
-                            pwr_r = 45
-                            pwr_l = 35
-                        else:
-                            pwr_r = 45
-                            pwr_l = 30
+                    m = test_PID.PID(theta, theta_array: list, array_num: int=20, Kp=0.5, Ki=0.5, Kd=0.5):
+
+
+
                     print(f'angle ----- {theta}')
                     strength_l, strength_r = pwr_l ,pwr_r
                     #motor.motor_continue(strength_l, strength_r)
