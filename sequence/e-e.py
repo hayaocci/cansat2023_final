@@ -101,18 +101,18 @@ if __name__=='__main__':
                           bme280.bme280_read(), press_count_release, press_judge_release)
         if press_count_release  > 3:
             print('Release')
-            send.send_data("TXDU 0001.A001")
+            send.send_data("Release")
             break
         else:
             print('unfulfilled')
+            send.send_data("judging")
     other.log(log_release, "release judge finish")
-    send.send_data("TXDU 0001.AAAA")
+    send.send_data("release finish")
     print("release finish!!!")
     ###-------land judge -------###
     print("START: Land judge")
     other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
-    send.send_data("TXDU 0001,B000")
 
     #bme280.bme280_setup()
     #bme280.bme280_calib_param()
@@ -132,14 +132,14 @@ if __name__=='__main__':
                            bme280.bme280_read(),landcount,presslandjudge)
         if presslandjudge == 1:
             print('Press')
-            send.send_data("TXDU 0001,B002")
+            send.send_data("landed")
             print('##--landed--##')
             break
         else:
             print('Press unfulfilled')
-            send.send_data("TXDU 0001,B001")
+            send.send_data("judging")
     other.log(log_landing, "land judge finish")
-    send.send_data("TXDU 0001,BBBB")
+    send.send_data("land finish")
     time.sleep(3)
     print("land finish!!!")
     send.send_reset(t_reset = 5)
@@ -154,12 +154,12 @@ if __name__=='__main__':
     other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt start")
     try:
         melt.down()
-        send.send_data("TXDU 0001,C001")
+        send.send_data("melting")
     except:
         pi.write(meltPin, 0)
 
     other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish")
-    send.send_data("TXDU 0001,CCCC")
+    send.send_data("melt finish")
     print("melt finish!!!")
     ###------paraavo-------###
     # try:
@@ -216,7 +216,8 @@ if __name__=='__main__':
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
     other.log(log_para, datetime.datetime.now(), "Parachute avoidance Finish")
-    send.send_data("TXDU 0001,DDDD")
+    send.send_data("paraavo finish")
+    time.sleep(3)
 
     print("paraavo finish!!!")
 ######--------------run1--------------######
@@ -231,6 +232,7 @@ if __name__=='__main__':
     goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=5, t_adj_gps=60,logpath=log_gpsrunning1)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning1,"run1 finish")
+    send.send_data("run1 finish")
     print("finish!")
     send.send_reset(t_reset=5)
 ######--------------mission--------------######
@@ -462,6 +464,7 @@ if __name__=='__main__':
         print("実行時間:", execution_time, "秒")
         print("データを", output_filename, "に保存しました。")            
     other.log(log_humandetect,"humandetect finish")
+    send.send_data("human finish")
     print("human detection finish!!!")
 ######--------------run2--------------######
     other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start)
@@ -470,6 +473,7 @@ if __name__=='__main__':
     gps_running1.drive(lon_goal, lat_goal, thd_distance=5, t_adj_gps=50,logpath=log_gpsrunning2)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning2,"run2 finish")
+    send.send_data("run2 finish")
     print("finish!")
 
 ######--------------goal--------------######
@@ -483,7 +487,8 @@ if __name__=='__main__':
         area_ratio, angle = imgguide.detect_goal(lat_goal, lon_goal)
         imgguide.image_guided_driving(area_ratio, angle, lat_goal, lon_goal)
     except:
-        other.log(log_photorunning,"photorun finish")
-        print("photorun finish")
-        other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
-        print("all complete!")
+        print("stop")
+    other.log(log_photorunning,"photorun finish")
+    print("photorun finish")
+    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
+    print("all complete!")
