@@ -161,7 +161,7 @@ def adjust_direction_north(magx_off, magy_off, theta_array: list):
         if theta > 180:
             theta = theta - 360
     
-    motor.motor_stop(0.5)
+    motor.motor_stop(1)
 
         
 
