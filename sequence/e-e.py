@@ -28,7 +28,7 @@ import cv2
 import save_photo as save_img
 import beta_para_avoid as para_avoid
 import wgps_beta_photo_running as imgguide
-
+from math import sqrt
 #variable for log
 log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog','txt')
 log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog','txt')
@@ -40,6 +40,161 @@ log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humand
 log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
 log_photorunning =other.filename( '/home/dendenmushi/cansat2023/sequence/log/photorunninglog','txt')
 
+def get_locations(lat_human, lon_human):
+#最後の位置情報をもとに周囲の4つの点の座標を求める
+
+    #北緯40度における10mあたりの緯度経度の差
+    #緯度は0.3236246秒　経度は0.3242秒
+    #lat_dif = 0.0000323
+    #lon_dif = 0.0000324
+
+    lat_dif = 0.0000090
+    lon_dif = 0.0000110
+
+    #北緯40度における10mあたりの緯度経度の差
+    #lon_dif = 0.0000117
+    
+    #捜索範囲の四角形の一辺の長さ
+    side_length = 40
+
+    #赤点から青点までの距離 red to blue distance
+    rtb_distance = (side_length/4)*sqrt(2) 
+
+    #周囲の4つの位置を求める
+    #north
+    lat_n = lat_human + lat_dif*(rtb_distance)
+    lon_n = lon_human
+    #east
+    lat_e = lat_human
+    lon_e = lon_human - lon_dif*(rtb_distance)
+    #south
+    lat_s = lat_human - lat_dif*(rtb_distance)
+    lon_s = lon_human
+    #west
+    lat_w = lat_human
+    lon_w = lon_human + lon_dif*(rtb_distance)
+
+    return {
+        'lat_n':lat_n,
+        'lon_n':lon_n,
+        'lat_e':lat_e,
+        'lon_e':lon_e,
+        'lat_s':lat_s,
+        'lon_s':lon_s,
+        'lat_w':lat_w,
+        'lon_w':lon_w
+        }
+
+def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
+
+
+    #for i in range(6):
+    for i in range(24):
+        if break_outer_loop == False:
+            human_judge_count = 0
+            # 撮影
+            img_path = take.picture('ML_imgs/image', 320, 240)
+
+            # モデルの読み込み
+            #result = ML_people.predict(image_path=img_path)
+            result = model.predict(image_path=img_path)
+            other.log(logpath, datetime.datetime.now(), time.time() -
+                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
+            # hitoの確率80%かどうか
+            if result >= 0.80:
+                human_judge_count += 1
+                print(human_judge_count)
+                # 追加の写真を撮影
+                for j in range(2):
+                    additional_img_path = take.picture('ML_imgs/additional_image', 320, 240)
+                    #additional_result = ML_people.predict(image_path=additional_img_path)
+                    additional_result = model.predict(image_path=additional_img_path)
+                    other.log(logpath, datetime.datetime.now(), time.time() -
+                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
+                    if additional_result >= 0.80:
+                        human_judge_count += 1
+                        print(human_judge_count)
+                        if human_judge_count >= 3:
+                            break_outer_loop = True
+                            print("遭難者発見")
+                            break
+                    else:
+                        human_judge_count = 0
+            else:
+                if elapsed_time >= threshold:  # 20分経ったか
+                    break_outer_loop = True
+                    break
+                else:
+                    print("捜索続けます")
+            #motor.move(30, -30, 0.2)  # 芝生の上
+            motor.move(30, -30, 0.15)  #グランド
+        else:
+            break
+    if break_outer_loop == False:
+        print("24回撮影しました")
+        print("次のエリアに移動します")
+    return human_judge_count , break_outer_loop
+
+    
+def move_to_bulearea(count, lat_human, lon_human):
+ 
+    # data_dist_bulearea1 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_n,lon_n)
+    # data_dist_bulearea2 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_e,lon_e)
+    # data_dist_bulearea3 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_s,lon_s)
+    # data_dist_bulearea4 =gps_navigate.vincenty_inverse(lat_now,lon_now,lat_w,lon_w)
+
+    
+    blue_loc = get_locations(lat_human, lon_human)
+    lat_n = blue_loc['lat_n']
+    lon_n = blue_loc['lon_n']
+    lat_e = blue_loc['lat_e']
+    lon_e = blue_loc['lon_e']
+    lat_s = blue_loc['lat_s']
+    lon_s = blue_loc['lon_s']
+    lat_w = blue_loc['lat_w']
+    lon_w = blue_loc['lon_w']
+
+
+    print(count)
+    #青点から5m以内か
+    if count == 1:
+        # condition =1
+        # while condition == 1:
+        #     if data_dist_bulearea1['distance']<=5:
+        #         print("第"+count+"エリア到着")
+        #         condition =0
+        #     print("第"+count+"エリア外です")
+        gps_running1.drive(lon_n, lat_n, thd_distance=3, t_adj_gps=60)#60秒もいるのか？
+        print("第1エリアです")
+    elif count == 2:
+        # condition =1
+        # while condition == 1:
+        #     if data_dist_bulearea2['distance']<=5:
+        #         print("第"+count+"エリア到着")
+        #         condition =0
+        #     print("第"+count+"エリア外です")
+        gps_running1.drive(lon_e, lat_e, thd_distance=3, t_adj_gps=60) 
+        print("第2エリアです")  
+    elif count == 3:
+        # condition =1
+        # while condition == 1:
+        #     if data_dist_bulearea3['distance']<=5:
+        #         print("第"+count+"エリア到着")
+        #         condition =0
+        #     print("第"+count+"エリア外です")
+        gps_running1.drive(lon_s, lat_s, thd_distance=3, t_adj_gps=60)
+        print("第3エリアです")
+    elif count == 4:
+        # condition =1
+        # while condition == 1:
+        #     if data_dist_bulearea4['distance']<=5:
+        #         print("第"+count+"エリア到着")
+        #         condition =0
+        #     print("第"+count+"エリア外です")
+        gps_running1.drive(lon_w, lat_w, thd_distance=3, t_adj_gps=60)
+        print("第4エリアです")
+    else:
+        print("青点エリア捜索終了")
 if __name__=='__main__':
 
 ###----------set up -----------###
@@ -309,8 +464,8 @@ if __name__=='__main__':
             else:
                 lat_now, lon_now = gps.location()
                 count += 1
-                human_detection.move_to_bulearea(count, lat_human, lon_human)
-                human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect, model=ML_people)
+                move_to_bulearea(count, lat_human, lon_human)
+                human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect, model=ML_people)
     if human_judge_count==3:
         motor.move(-20, 20, 0.2)
         t_start = time.time()
