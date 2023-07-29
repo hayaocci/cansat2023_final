@@ -127,7 +127,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                 else:
                     print("捜索続けます")
             #motor.move(30, -30, 0.2)  # 芝生の上
-            motor.move(30, -30, 0.15)  #グランド
+            motor.move(20, -20, 0.25)  #グランド
         else:
             break
     if break_outer_loop == False:
@@ -447,7 +447,7 @@ if __name__=='__main__':
                 else:
                     print("捜索続けます")
             #motor.move(35, -35, 0.2) # 芝生の上
-            motor.move(20, -20, 0.2) #グランド
+            motor.move(20, -20, 0.25) #グランド
         else:
             break
     if break_outer_loop == False:
@@ -467,7 +467,7 @@ if __name__=='__main__':
                 move_to_bulearea(count, lat_human, lon_human)
                 human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect, model=ML_people)
     if human_judge_count==3:
-        motor.move(-20, 20, 0.2)
+        motor.move(-20, 20, 0.25)
         t_start = time.time()
 
         chunk_size = 4   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
