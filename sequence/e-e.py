@@ -63,7 +63,7 @@ if __name__=='__main__':
     gps.open_gps()
     bmx055.bmx055_setup()
     #画像伝送
-    latest_picture_path = None
+    # latest_picture_path = None
 
     #人の座標
     #グランドの中央
@@ -312,6 +312,7 @@ if __name__=='__main__':
                 human_detection.move_to_bulearea(count, lat_human, lon_human)
                 human_judge_count, break_outer_loop = human_detection.take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect, model=ML_people)
     if human_judge_count==3:
+        motor.move(-20, 20, 0.2)
         t_start = time.time()
 
         chunk_size = 4   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
@@ -396,13 +397,13 @@ if __name__=='__main__':
     #---------------------画像伝送----------------------------#
     
         time.sleep(15)
-        file_path = latest_picture_path
-        # file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
-        # photo_take = take.picture(file_name, 320, 240)
-        # print("撮影した写真のファイルパス：", photo_take)
+        #file_path = latest_picture_path
+        file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
+        photo_take = take.picture(file_name, 320, 240)
+        print("撮影した写真のファイルパス：", photo_take)
         
         # 入力ファイルパスと出力ファイルパスを指定してリサイズ
-        input_file = file_path     # 入力ファイルのパスを適切に指定してください
+        input_file = photo_take     # 入力ファイルのパスを適切に指定してください
         photo_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/send_photo_resize.jpg"  # 出力ファイルのパスを適切に指定してください
         new_width = 60            # リサイズ後の幅を指定します
         new_height = 80           # リサイズ後の高さを指定します
