@@ -75,8 +75,8 @@ if __name__=='__main__':
 
     #ゴール座標
     #グランドのゴール前
-    lat_goal = 35.923914
-    lon_goal = 139.912223
+    lat_goal = 35.9242411
+    lon_goal = 139.9120618
     #中庭
     #lat_goal = 35.918329
     #lon_goal = 139.907841
@@ -475,7 +475,7 @@ if __name__=='__main__':
     other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
     other.log(log_gpsrunning2,"run2 start")
-    gps_running1.drive(lon_goal, lat_goal, thd_distance=5, t_adj_gps=50,logpath=log_gpsrunning2)
+    gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=50,logpath=log_gpsrunning2)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning2,"run2 finish")
     send.send_data("run2 finish")
