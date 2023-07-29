@@ -494,7 +494,7 @@ if __name__=='__main__':
             imgguide.image_guided_driving(area_ratio, angle, lat_goal, lon_goal)
             break
         except:
-            print("error")
+            print("restarting photo running")
 
 #------ゴール終了-----#
 
