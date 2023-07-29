@@ -485,14 +485,19 @@ if __name__=='__main__':
     other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
     other.log(log_photorunning,"photorun start")
-    try:
-        angle = 0
-        t_running = 0
+    while True:
+        try:
+            angle = 0
+            t_running = 0
 
-        area_ratio, angle = imgguide.detect_goal(lat_goal, lon_goal)
-        imgguide.image_guided_driving(area_ratio, angle, lat_goal, lon_goal)
-    except:
-        print("stop")
+            area_ratio, angle = imgguide.detect_goal(lat_goal, lon_goal)
+            imgguide.image_guided_driving(area_ratio, angle, lat_goal, lon_goal)
+            break
+        except:
+            print("error")
+
+#------ゴール終了-----#
+
     other.log(log_photorunning,"photorun finish")
     print("photorun finish")
     other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
