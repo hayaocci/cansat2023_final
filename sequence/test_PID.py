@@ -197,7 +197,7 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
 
     motor.motor_stop(1)
 
-def PID_drive(target_theta, magx_off, magy_off, theta_array: list):
+def PID_drive(target_theta, magx_off, magy_off, theta_array: list, loop_num):
 
     #パラメータの設定
     Kp = 0.4
@@ -228,7 +228,7 @@ def PID_drive(target_theta, magx_off, magy_off, theta_array: list):
 
     #-----制御処理-----#
     #while abs(theta_array[-1]) > 5:
-    for _ in range(25):
+    for _ in range(loop_num):
 
         if count < 25:
             Ki = 0
