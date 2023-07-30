@@ -279,7 +279,7 @@ if __name__ == "__main__":
                 else:
                     print("捜索続けます")
             #motor.move(35, -35, 0.2) # 芝生の上
-            motor.move(30, -30, 0.15) #グランド
+            motor.move(25, -25, 0.15) #グランド
         else:
             break
     if break_outer_loop == False:

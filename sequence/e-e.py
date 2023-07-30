@@ -127,7 +127,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                 else:
                     print("捜索続けます")
             #motor.move(30, -30, 0.2)  # 芝生の上
-            motor.move(20, -20, 0.25)  #グランド
+            motor.move(25, -25, 0.15)  #グランド
         else:
             break
     if break_outer_loop == False:
@@ -164,7 +164,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_n, lat_n, thd_distance=5, t_adj_gps=60)#60秒もいるのか？
+        gps_running1.drive(lon_n, lat_n, thd_distance=10, t_adj_gps=60)#60秒もいるのか？
         print("第1エリアです")
     elif count == 2:
         # condition =1
@@ -173,7 +173,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_e, lat_e, thd_distance=5, t_adj_gps=60) 
+        gps_running1.drive(lon_e, lat_e, thd_distance=10, t_adj_gps=60) 
         print("第2エリアです")  
     elif count == 3:
         # condition =1
@@ -182,7 +182,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_s, lat_s, thd_distance=5, t_adj_gps=60)
+        gps_running1.drive(lon_s, lat_s, thd_distance=10, t_adj_gps=60)
         print("第3エリアです")
     elif count == 4:
         # condition =1
@@ -191,7 +191,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_w, lat_w, thd_distance=5, t_adj_gps=60)
+        gps_running1.drive(lon_w, lat_w, thd_distance=10, t_adj_gps=60)
         print("第4エリアです")
     else:
         print("青点エリア捜索終了")
@@ -387,7 +387,7 @@ if __name__=='__main__':
     # bmx055.bmx055_setup()
     # motor.setup()
     other.log(log_gpsrunning1,"run1 start")
-    goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=5, t_adj_gps=60,logpath=log_gpsrunning1)
+    goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=60,logpath=log_gpsrunning1)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning1,"run1 finish")
     send.send_data("run1 finish")
@@ -437,6 +437,8 @@ if __name__=='__main__':
                         if human_judge_count >= 3:
                             break_outer_loop = True
                             print("遭難者発見")
+                            file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
+                            photo_take = take.picture(file_name, 320, 240)
                             break
                     else:
                         human_judge_count = 0
@@ -447,7 +449,7 @@ if __name__=='__main__':
                 else:
                     print("捜索続けます")
             #motor.move(35, -35, 0.2) # 芝生の上
-            motor.move(20, -20, 0.25) #グランド
+            motor.move(25, -25, 0.15) #グランド
         else:
             break
     if break_outer_loop == False:
@@ -467,7 +469,7 @@ if __name__=='__main__':
                 move_to_bulearea(count, lat_human, lon_human)
                 human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect, model=ML_people)
     if human_judge_count==3:
-        motor.move(-20, 20, 0.25)
+        #motor.move(-20, 25, 0.25)
         t_start = time.time()
 
         chunk_size = 4   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
@@ -553,8 +555,8 @@ if __name__=='__main__':
     
         time.sleep(15)
         #file_path = latest_picture_path
-        file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
-        photo_take = take.picture(file_name, 320, 240)
+        #file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
+        #photo_take = take.picture(file_name, 320, 240)
         print("撮影した写真のファイルパス：", photo_take)
         
         # 入力ファイルパスと出力ファイルパスを指定してリサイズ

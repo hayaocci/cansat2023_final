@@ -1,0 +1,4 @@
+photorun start	
+photorun start	
+photorun finish	
+photorun finish	

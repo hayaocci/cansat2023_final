@@ -184,57 +184,48 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                 print("ゴールまでの距離は" + str(goal_distance) + "です")
                 for _ in range(25):
                     print("25回ループの部分")
-                    #-----現在位置の取得-----#
-                    lat1, lon1 = gps.location()
-                    direction = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
-                    target_theta, goal_distance = direction["azimuth1"], direction["distance"]
+                    magdata = bmx055.mag_dataRead()
+                    mag_x = magdata[0]
+                    mag_y = magdata[1]
 
-                    if goal_distance <= thd_distance:
-                        break
+                    print("----------mag_x, mag_yの読み取り値----------")
+                    print(mag_x, mag_y)
+
+                    magx, magy, magz = calibration.get_data()
+                    print('********calibartion.get_data***********')
+                    print(magx,magy,magz)                 
+                    theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+                    angle_relative = azimuth - theta
+
+                    if angle_relative >= 0:
+                        angle_relative = angle_relative if angle_relative <= 180 else angle_relative - 360
                     else:
-                        magdata = bmx055.mag_dataRead()
-                        mag_x = magdata[0]
-                        mag_y = magdata[1]
+                        angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
+                    theta = angle_relative
 
-                        print("----------mag_x, mag_yの読み取り値----------")
-                        print(mag_x, mag_y)
-
-                        magx, magy, magz = calibration.get_data()
-                        print('********calibartion.get_data***********')
-                        print(magx,magy,magz)
-                        
-                        theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-                        angle_relative = azimuth - theta
-
-                        if angle_relative >= 0:
-                            angle_relative = angle_relative if angle_relative <= 180 else angle_relative - 360
+                    if theta >= 0:
+                        if theta <= 15:
+                            pwr_r = 45
+                            pwr_l = 40
+                        elif theta <= 90:
+                            pwr_r = 40
+                            pwr_l = 40
                         else:
-                            angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
-                        theta = angle_relative
-                        
-                        if theta >= 0:
-                            if theta <= 15:
-                                pwr_r = 43
-                                pwr_l = 35
-                            elif theta <= 90:
-                                pwr_r = 43
-                                pwr_l = 40
-                            else:
-                                pwr_r = 38
-                                pwr_l = 40
+                            pwr_r = 35
+                            pwr_l = 40
+                    else:
+                        if theta >= -15:
+                            pwr_r = 45
+                            pwr_l = 40
+                        elif theta >= -90:
+                            pwr_r = 45
+                            pwr_l = 35
                         else:
-                            if theta >= -15:
-                                pwr_r = 43
-                                pwr_l = 35
-                            elif theta >= -90:
-                                pwr_r = 48
-                                pwr_l = 35
-                            else:
-                                pwr_r = 48
-                                pwr_l = 30
-                        print(f'angle ----- {theta}')
-                        strength_l, strength_r = pwr_l ,pwr_r
-                        motor.motor_continue(strength_l, strength_r)
+                            pwr_r = 45
+                            pwr_l = 30
+                    print(f'angle ----- {theta}')
+                    strength_l, strength_r = pwr_l ,pwr_r
+                    motor.motor_continue(strength_l, strength_r)
                     time.sleep(0.04)
 
             t_stuck_count += 1
