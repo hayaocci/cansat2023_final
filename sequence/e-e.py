@@ -119,6 +119,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                             print("遭難者発見")
                             file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
                             photo_take = take.picture(file_name, 320, 240)
+                            print("送信用の写真撮影終了")
                             break
                     else:
                         human_judge_count = 0
@@ -441,6 +442,7 @@ if __name__=='__main__':
                             print("遭難者発見")
                             file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
                             photo_take = take.picture(file_name, 320, 240)
+                            print("送信用の写真撮影終了")
                             break
                     else:
                         human_judge_count = 0
@@ -638,9 +640,11 @@ if __name__=='__main__':
     gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=50,logpath=log_gpsrunning2)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning2,"run2 finish")
-    send.send_data("run2 finish")
+    #send.send_data("run2 finish")
     print("finish!")
     motor.motor_stop(1)
+    send.send_data("run2 finish")
+    time.sleep(10)
 ######--------------goal--------------######
     other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
@@ -660,5 +664,7 @@ if __name__=='__main__':
 
     other.log(log_photorunning,"photorun finish")
     print("photorun finish")
+    send.send_data("all complete!")
+    time.sleep(10)
     other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
     print("all complete!")
