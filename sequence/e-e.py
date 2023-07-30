@@ -99,9 +99,9 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
             #result = ML_people.predict(image_path=img_path)
             result = model.predict(image_path=img_path)
             other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
-            # hitoの確率80%かどうか
-            if result >= 0.80:
+                      t_start,result,0,human_judge_count,break_outer_loop,elapsed_time)
+            # hitoの確率50%かどうか
+            if result >= 0.50:
                 human_judge_count += 1
                 print(human_judge_count)
                 # 追加の写真を撮影
@@ -111,12 +111,14 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                     additional_result = model.predict(image_path=additional_img_path)
                     other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
-                    if additional_result >= 0.80:
+                    if additional_result >= 0.50:
                         human_judge_count += 1
                         print(human_judge_count)
                         if human_judge_count >= 3:
                             break_outer_loop = True
                             print("遭難者発見")
+                            file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
+                            photo_take = take.picture(file_name, 320, 240)
                             break
                     else:
                         human_judge_count = 0
@@ -422,8 +424,8 @@ if __name__=='__main__':
             other.log(log_humandetect, datetime.datetime.now(), time.time() -
                       t_start,result,0,human_judge_count,break_outer_loop,elapsed_time)
 
-            #hitoの確率80%かどうか
-            if result >= 0.80:
+            #hitoの確率50%かどうか
+            if result >= 0.50:
                 human_judge_count += 1
                 # 追加の写真を撮影
                 for h in range(2):
@@ -432,7 +434,7 @@ if __name__=='__main__':
                     other.log(log_humandetect, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
 
-                    if additional_result >= 0.80:
+                    if additional_result >= 0.50:
                         human_judge_count += 1
                         if human_judge_count >= 3:
                             break_outer_loop = True
