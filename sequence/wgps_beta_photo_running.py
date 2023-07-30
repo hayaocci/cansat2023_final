@@ -271,8 +271,8 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
 if __name__ == "__main__":
     #実験用の座標
     #グランドのゴール前
-    lat2 = 35.9239389
-    lon2 = 139.9122408
+    # lat2 = 35.9239389
+    # lon2 = 139.9122408
 
     #狭いグランドのほう
     #lat2 = 35.9243874
@@ -285,6 +285,10 @@ if __name__ == "__main__":
     #実験棟の前
     #lat2 = 35.9189778
     #lon2 = 139.9071493
+
+    #ゴール
+    lat2 = 35.9242411
+    lon2 = 139.9120618
 
     #セットアップ系
     motor.setup()
