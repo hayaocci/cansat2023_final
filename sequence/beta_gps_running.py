@@ -129,7 +129,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     stuck2.stuck_avoid()
                     pass
                 lat_old, lon_old = gps.location()
-            
+
             if goal_distance <= thd_distance:
                 break
             else:
@@ -152,12 +152,12 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                         #-----ゴールに到着したら停止-----#
                         break
                     else:
-                        test_PID.PID_drive(target_theta, magx_off, magy_off, drive_theta_array)
+                        test_PID.PID_drive(target_theta, magx_off, magy_off, drive_theta_array, 25)
 
 
             t_stuck_count += 1
             other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start, lat1, lon1, mag_x, direction['distance'], angle_relative)
+                      t_start, lat1, lon1,  direction['distance'])
             lat_new, lon_new = gps.location()
             print("whileの最下行")
 
