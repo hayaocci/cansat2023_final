@@ -86,8 +86,6 @@ def get_locations(lat_human, lon_human):
         }
 
 def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
-
-
     #for i in range(6):
     for i in range(24):
         if break_outer_loop == False:
