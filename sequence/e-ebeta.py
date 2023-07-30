@@ -91,6 +91,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
     #for i in range(6):
     for i in range(24):
         if break_outer_loop == False:
+            motor.move(25, -25, 0.15)
             human_judge_count = 0
             # 撮影
             img_path = take.picture('ML_imgs/image', 320, 240)
@@ -117,9 +118,9 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                         if human_judge_count >= 3:
                             break_outer_loop = True
                             print("遭難者発見")
-                            file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
-                            photo_take = take.picture(file_name, 320, 240)
-                            print("送信用の写真撮影終了")
+                            # file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
+                            # photo_take = take.picture(file_name, 320, 240)
+                            # print("送信用の写真撮影終了")
                             break
                     else:
                         human_judge_count = 0
@@ -130,7 +131,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                 else:
                     print("捜索続けます")
             #motor.move(30, -30, 0.2)  # 芝生の上
-            motor.move(25, -25, 0.15)  #グランド
+            #motor.move(25, -25, 0.15)  #グランド
         else:
             break
     if break_outer_loop == False:
@@ -441,9 +442,9 @@ if __name__=='__main__':
                         if human_judge_count >= 3:
                             break_outer_loop = True
                             print("遭難者発見")
-                            file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
-                            photo_take = take.picture(file_name, 320, 240)
-                            print("送信用の写真撮影終了")
+                            # file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
+                            # photo_take = take.picture(file_name, 320, 240)
+                            # print("送信用の写真撮影終了")
                             break
                     else:
                         human_judge_count = 0
@@ -560,8 +561,8 @@ if __name__=='__main__':
     
         time.sleep(15)
         #file_path = latest_picture_path
-        #file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
-        #photo_take = take.picture(file_name, 320, 240)
+        file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
+        photo_take = take.picture(file_name, 320, 240)
         print("撮影した写真のファイルパス：", photo_take)
         
         # 入力ファイルパスと出力ファイルパスを指定してリサイズ
