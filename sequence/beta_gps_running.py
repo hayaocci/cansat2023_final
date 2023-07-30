@@ -120,6 +120,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
             other.print_im920sl(
                 f'lat: {lat1}\tlon: {lon1}\tdistance: {goal_distance}\tazimuth: {azimuth}\n')
 
+            #-----スタックしているかチェック-----#
             if t_stuck_count % 25 == 0:
                 ##↑何秒おきにスタックジャッジするかを決める##
                 if stuck2.stuck_jug(lat_old, lon_old, lat_new, lon_new, 1):
@@ -128,7 +129,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     stuck2.stuck_avoid()
                     pass
                 lat_old, lon_old = gps.location()
-
+            
             if goal_distance <= thd_distance:
                 break
             else:
@@ -152,7 +153,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                         break
                     else:
                         test_PID.PID_drive(target_theta, magx_off, magy_off, drive_theta_array)
-                        
+
 
             t_stuck_count += 1
             other.log(logpath, datetime.datetime.now(), time.time() -
