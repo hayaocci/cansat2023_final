@@ -1,8 +1,15 @@
 #モジュールのインポート
+import datetime
+import time
+import gps_navigate
+import gps
 import calibration
 import bmx055
+import stuck2
 import motor
 import time
+import other
+import send
 
 #PID制御のテストコード
 
