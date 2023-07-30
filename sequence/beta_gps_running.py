@@ -68,64 +68,15 @@ def adjust_direction(theta, magx_off, magy_off, lon2, lat2):
 
     print("-----adjust_direction finished!!!------")
     send.send_data("TXDU 0001,C2")
-    '''
-    stuck_count = 1
-    t_small = 0.1
-    t_big = 0.2
-    force = 40
-    while 30 < theta <= 180 or -180 < theta < -30:
-        if stuck_count >= 16:
-            ##方向調整が不可能な場合はスタックしたとみなして、もう一度キャリブレーションからスタート##
-            other.print_im920sl(
-                "!!!!can't ajdust direction.   start stuck avoid!!!!!")
-            stuck2.stuck_avoid()
-            magx_off, magy_off = calibration.cal(40, 40, 30)
-            stuck_count = -1
-        if stuck_count % 7 == 0:
-            other.print_im920sl('Increase output')
-            force += 10
-        if 30 <= theta <= 60:
-            other.print_im920sl(
-                f'theta = {theta}\t---rotation_ver1 (stuck:{stuck_count})')
-            motor.move(force, -force, t_small)
-
-        elif 60 < theta <= 180:
-            other.print_im920sl(
-                f'theta = {theta}\t---rotation_ver2 (stuck:{stuck_count})')
-            motor.move(force, -force, t_big)
-
-        elif -60 <= theta <= -30:
-            other.print_im920sl(
-                f'theta = {theta}\t---rotation_ver3 (stuck:{stuck_count})')
-            motor.move(-force, force, t_small)
-        elif -180 < theta < -60:
-            other.print_im920sl(
-                f'theta = {theta}\t---rotation_ver4 (stuck:{stuck_count})')
-            motor.move(-force, force, t_big)
-        else:
-            print(f'theta = {theta}')
-
-        stuck_count += 1
-        stuck2.ue_jug()
-        
-    
-        print('Calculated angle_relative: {theta}')
-        time.sleep(1)
-    other.print_im920sl(f'theta = {theta} \t rotation finished!!!')
-    '''
 
 def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt', t_start=0):
     """
     GPS走行の関数
-    統合する場合はprintをXbee.str_transに変更，other.saveLogのコメントアウトを外す
+    統合する場合はprintをXbee.str_transに変更 other.saveLogのコメントアウトを外す
     """
     direction = calibration.calculate_direction(lon2, lat2)
     goal_distance = direction['distance']
-
-    theta_array = []
-    theta_differential_array = []
-
-    theta_array = test_PID.make_theta_array(theta_array, 25)
+    goal_theta = direction['azimuth1']
 
     # ------------- 上向き判定 -------------#
     while goal_distance >= thd_distance:
@@ -136,14 +87,19 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         # xbee.str_trans('calibration Start')
         other.print_im920sl('##--calibration Start--##\n')
         print("------calibration Start------")
-        magx_off, magy_off = calibration.cal(40, -40, 30)
+        magx_off, magy_off = calibration.cal(30, -30, 30)
         print(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
         print("------calibration finished------")
 
-        
-        theta = angle_goal(magx_off, magy_off, lon2, lat2)
-        adjust_direction(theta, magx_off, magy_off, lon2, lat2)
-        
+        #-----PID制御による角度調整開始-----#
+        #-----初期設定-----#
+        rotate_theta_array = []
+
+        #-----積分区間の設定-----#
+        rotate_theta_array = test_PID.make_theta_array(rotate_theta_array, 5)
+
+        test_PID.adjust_direction_PID(goal_theta, magx_off, magy_off, rotate_theta_array)
+        #-----PID制御による角度調整終了-----#
 
         t_cal = time.time()
         lat_old, lon_old = gps.location()
@@ -176,51 +132,31 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
             if goal_distance <= thd_distance:
                 break
             else:
-                print("ゴーるまでの距離は" + str(goal_distance) + "です")
+                print("ゴールまでの距離は" + str(goal_distance) + "です")
+                #-----PID制御による走行開始-----#
+                #-----初期設定-----#
+                drive_theta_array = []
+
+                #-----積分区間の設定-----#
+                drive_theta_array = test_PID.make_theta_array(drive_theta_array, 5)
+
                 for _ in range(25):
                     print("25回ループの部分")
-                    
-                    magdata = bmx055.mag_dataRead()
-                    mag_x = magdata[0]
-                    mag_y = magdata[1]
+                    #-----現在位置の取得-----#
+                    lat1, lon1 = gps.location()
+                    direction = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
+                    target_theta, goal_distance = direction["azimuth1"], direction["distance"]
 
-                    print("----------mag_x, mag_yの読み取り値----------")
-                    print(mag_x, mag_y)
-
-                    magx, magy, magz = calibration.get_data()
-                    print('********calibartion.get_data***********')
-                    print(magx,magy,magz)
-
-                    #theta = angle_goal(magx_off, magy_off, lon2, lat2)
-                    #adjust_direction(theta, magx_off, magy_off, lon2, lat2)
-                    
-                    theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-                    angle_relative = azimuth - theta
-
-                    if angle_relative >= 0:
-                        angle_relative = angle_relative if angle_relative <= 180 else angle_relative - 360
+                    if goal_distance <= thd_distance:
+                        #-----ゴールに到着したら停止-----#
+                        break
                     else:
-                        angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
-                    theta = angle_relative
+                        test_PID.PID_drive(target_theta, magx_off, magy_off, drive_theta_array)
+                        
 
-                    m = test_PID.PID_control(theta, theta_array, Kp=0.125, Ki=0.1, Kd=0.1)
-
-                    #-----操作量の補正-----#
-                    m = m + 30
-
-                    #-----モータの出力-----#
-                    pwr_l = -m
-                    pwr_r = m
-
-                    print(f'angle ----- {theta}')
-                    motor.motor_continue(pwr_l, pwr_r)
-                    time.sleep(0.04)
-                    #time.sleep(0.4)
             t_stuck_count += 1
             other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start, lat1, lon1, mag_x, direction['distance'], angle_relative)
-            #motor.deceleration(strength_l, strength_r)
-            #time.sleep(2)
             lat_new, lon_new = gps.location()
             print("whileの最下行")
 

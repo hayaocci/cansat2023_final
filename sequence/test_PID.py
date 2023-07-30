@@ -92,7 +92,7 @@ def PID_control(theta, theta_array: list, Kp=0.1, Ki=0.04, Kd=2.5):
 
     return m
 
-def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
+def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
 
     #パラメータの設定
     Kp = 0.4
@@ -101,7 +101,7 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
 
     count = 0
     
-    print('adjust_direction_north')
+    print('adjust_direction_PID')
 
     #-----角度の取得-----#
     magdata = bmx055.mag_dataRead()
@@ -197,6 +197,111 @@ def adjust_direction_north(target_theta, magx_off, magy_off, theta_array: list):
 
     motor.motor_stop(1)
 
+def PID_drive(target_theta, magx_off, magy_off, theta_array: list):
+
+    #パラメータの設定
+    Kp = 0.4
+    Kd_ = 3
+    Ki_ = 0.03
+
+    count = 0
+    
+    print('PID_drive')
+
+    #-----角度の取得-----#
+    magdata = bmx055.mag_dataRead()
+    mag_x = magdata[0]
+    mag_y = magdata[1]
+    theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+    if theta > 180:
+        theta = theta - 360
+
+    error_theta = target_theta - theta
+    if error_theta < -180:
+        error_theta += 360
+    elif error_theta > 180:
+        error_theta -= 360
+    
+    print('theta = ' + str(error_theta))
+
+    theta_array.append(error_theta)
+
+    #-----制御処理-----#
+    #while abs(theta_array[-1]) > 5:
+    for _ in range(25):
+
+        if count < 25:
+            Ki = 0
+            Kd = Kd_
+        else:
+            Ki = Ki_
+            Kd = 5
+
+        #-----角度の取得-----#
+        magdata = bmx055.mag_dataRead()
+        mag_x = magdata[0]
+        mag_y = magdata[1]
+        theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+
+        error_theta = target_theta - theta
+        if error_theta < -180:
+            error_theta += 360
+        elif error_theta > 180:
+            error_theta -= 360
+
+        #-----thetaの値を蓄積する-----#
+        theta_array = latest_theta_array(error_theta, theta_array)
+
+        #-----PID制御-----#
+        #パラメータが0の場合それは含まれない
+        m = PID_control(error_theta, theta_array, Kp, Ki, Kd)
+
+        #-----モータの出力-----#
+
+        #直進補正分(m=0のとき直進するように設定するため)
+        s = 30
+
+        m = min(m, 15)
+        m = max(m, -15)
+
+        pwr_l = m + s
+        pwr_r = -m + s
+
+        print(f"{error_theta=}")
+        print('left', pwr_l, 'right', pwr_r)
+
+        #-----モータの操作-----#
+        motor.motor_move(pwr_l, pwr_r, 0.01)
+        #motor.move(pwr_l, pwr_r, 0.2)
+
+        time.sleep(0.04)
+
+        #-----角度の取得-----#
+        magdata = bmx055.mag_dataRead()
+        mag_x = magdata[0]
+        mag_y = magdata[1]
+        theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+
+        error_theta = target_theta - theta
+
+        if error_theta < -180:
+            error_theta += 360
+        elif error_theta > 180:
+            error_theta -= 360
+
+    #     check = 0
+    #     bool_com = True
+    #     for i in range(len(theta_array)):
+    #         if abs(theta_array[i]) > 15:
+    #             bool_com = False
+    #             break
+    #     if bool_com:
+    #         break
+
+    #     count += 1
+
+    # motor.motor_stop(1)
+
         
 
 
@@ -219,16 +324,16 @@ if __name__ == "__main__":
     magx_off, magy_off = calibration.cal(30, -30, 40)
 
     #-----PID制御-----#
-    adjust_direction_north(180, magx_off, magy_off, theta_array)
+    adjust_direction_PID(180, magx_off, magy_off, theta_array)
 
     time.sleep(1)
 
-    adjust_direction_north(0, magx_off, magy_off, theta_array)
+    adjust_direction_PID(0, magx_off, magy_off, theta_array)
 
     time.sleep(1)
 
-    adjust_direction_north(90, magx_off, magy_off, theta_array)
+    adjust_direction_PID(90, magx_off, magy_off, theta_array)
 
     time.sleep(1)
 
-    adjust_direction_north(270, magx_off, magy_off, theta_array)
+    adjust_direction_PID(270, magx_off, magy_off, theta_array)
