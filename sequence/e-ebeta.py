@@ -260,7 +260,7 @@ if __name__=='__main__':
         press_count_release, press_judge_release = release.pressdetect_release(thd_press_release, t_delta_release)
         print(f'count:{press_count_release}\tjudge:{press_judge_release}')
         other.log(log_release, datetime.datetime.now(), time.time() - t_start,
-                          bme280.bme280_read(), press_count_release, press_judge_release)
+                          bme280.bme280_read(), press_count_release, press_judge_release,timeout_release-time.time())
         if press_count_release  > 3:
             print('Release')
             send.send_data("Release")
@@ -291,7 +291,7 @@ if __name__=='__main__':
         landcount, presslandjudge, delta_p, Prevpress, latestpress = land.pressdetect_land(0.1)
         print(f'count:{landcount}\tjudge:{presslandjudge}')
         other.log(log_landing, datetime.datetime.now(), time.time() - t_start,
-                           bme280.bme280_read(),landcount,presslandjudge)
+                           bme280.bme280_read(),landcount,presslandjudge,timeout_land-time.time())
         if presslandjudge == 1:
             print('Press')
             send.send_data("landed")
@@ -300,7 +300,8 @@ if __name__=='__main__':
         else:
             print('Press unfulfilled')
             send.send_data("judging")
-    other.log(log_landing, "land judge finish")
+    lat_land, lon_land=gps.location()
+    other.log(log_landing, "land judge finish",lat_land, lon_land)
     send.send_data("land finish")
     time.sleep(3)
     print("land finish!!!")
@@ -319,8 +320,8 @@ if __name__=='__main__':
         send.send_data("melting")
     except:
         pi.write(meltPin, 0)
-
-    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish")
+    lat_melt, lon_melt=gps.location()
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish",lat_melt, lon_melt)
     send.send_data("melt finish")
     print("melt finish!!!")
     ###------paraavo-------###
@@ -376,10 +377,12 @@ if __name__=='__main__':
     #-----praschute avoid-----#
     other.log(log_phase,'5',"paraavo phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
-    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Start")
+    lat_paraavo, lon_paraavo=gps.location()
+    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Start",lat_paraavo, lon_paraavo)
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
-    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Finish")
+    lat_paraavo, lon_paraavo=gps.location()
+    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Finish",lat_paraavo, lon_paraavo)
     send.send_data("paraavo finish")
     time.sleep(3)
 
@@ -563,6 +566,9 @@ if __name__=='__main__':
     #---------------------画像伝送----------------------------#
     
         time.sleep(15)
+        lat_sendphoto,lon_sendphoto=gps.location()
+        other.log(log_humandetect, datetime.datetime.now(), time.time() -
+                      t_start,"画像伝送開始",lat_sendphoto,lon_sendphoto)
         #file_path = latest_picture_path
         file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
         photo_take = take.picture(file_name, 320, 240)
@@ -634,7 +640,10 @@ if __name__=='__main__':
         execution_time = end_time - start_time  # 実行時間を計算
         
         print("実行時間:", execution_time, "秒")
-        print("データを", output_filename, "に保存しました。")            
+        print("データを", output_filename, "に保存しました。")
+        lat_sendphoto,lon_sendphoto=gps.location()
+        other.log(log_humandetect, datetime.datetime.now(), time.time() -
+                      t_start,"画像伝送終了",lat_sendphoto,lon_sendphoto)            
     other.log(log_humandetect,"humandetect finish")
     send.send_data("human finish")
     print("human detection finish!!!")
@@ -653,7 +662,8 @@ if __name__=='__main__':
 ######--------------goal--------------######
     other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
-    other.log(log_photorunning,"photorun start")
+    lat_last, lon_last=gps.location()
+    other.log(log_photorunning,"photorun start",lat_last, lon_last)
     while True:
         try:
             angle = 0
@@ -668,10 +678,10 @@ if __name__=='__main__':
             print("restarting photo running")
 
 #------ゴール終了-----#
-    _, last_lat, last_lon, _, _ =gps.read_gps()
-    other.log(log_photorunning,"photorun finish")
+    last_lat, last_lon=gps.location()
+    other.log(log_photorunning,"photorun finish",last_lat, last_lon)
     print("photorun finish")
     send.send_data("all complete!")
     time.sleep(10)
-    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start,last_lat, last_lon)
+    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
     print("all complete!")
