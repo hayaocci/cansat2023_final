@@ -298,7 +298,7 @@ if __name__ == "__main__":
             if break_outer_loop == True:
                 break
             else:
-                lat_now, lon_now = gps.location()
+                #lat_now, lon_now = gps.location()
                 count += 1
                 #move_to_bulearea(count, lat_human, lon_human)
                 human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath='/home/dendenmushi/cansat2023/sequence/log/humandetectlog')
