@@ -10,7 +10,7 @@ import motor
 import time
 import other
 import send
-
+from collections import deque
 #PID制御のテストコード
 
 theta_array = []

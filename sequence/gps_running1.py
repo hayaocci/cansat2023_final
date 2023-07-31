@@ -133,11 +133,19 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         magx_off, magy_off = calibration.cal(30, -30, 30)
         print(f'magx_off: {magx_off}\tmagy_off: {magy_off}\n')
         print("------calibration finished------")
-
         
         theta = angle_goal(magx_off, magy_off, lon2, lat2)
         adjust_direction(theta, magx_off, magy_off, lon2, lat2)
         
+        #-----角度のログ出力-----#
+        magdata = bmx055.mag_dataRead()
+        mag_x = magdata[0]
+        mag_y = magdata[1]
+
+        rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+
+        
+
 
         t_cal = time.time()
         lat_old, lon_old = gps.location()
