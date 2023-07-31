@@ -216,7 +216,7 @@ if __name__ == "__main__":
     human_judge_count = 0
     break_outer_loop = False
     start_time = time.time()
-    threshold = 20 * 60
+    threshold = 20
     # elapsed_time = time.time()-start_time
     #lat1 = 35.12345 #赤点
     #lon1 = 139.67890 #赤点
