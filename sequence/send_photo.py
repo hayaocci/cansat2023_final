@@ -402,7 +402,9 @@ if __name__ == '__main__':
                     send.send_data("human_GPS_start")
                     print("human_GPS_start")
                     time.sleep(delay)
-                    send.send_data(send_lat,send_lon)
+                    send.send_data(str(send_lat))
+                    time.sleep(10)
+                    send.send_data(str(send_lon))
                     print(send_lat,send_lon)
                     time.sleep(delay)
                     send.send_data("human_GPS_fin")
@@ -488,6 +490,8 @@ if __name__ == '__main__':
 
     send.send_data ("wireless_fin")
     send.send_data("num=" + str(id_counter))
+    print("待ち時間")
+    time.sleep(15)
     
     end_time = time.time()  # プログラム終了時刻を記録
     execution_time = end_time - start_time  # 実行時間を計算
