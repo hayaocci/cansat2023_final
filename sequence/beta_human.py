@@ -101,7 +101,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
 
 
     #for i in range(6):
-    for i in range(24):
+    for i in range(4):
         elapsed_time = time.time()-start_time
         if break_outer_loop == False:
             motor.move(25, -25, 0.15)
@@ -247,7 +247,7 @@ if __name__ == "__main__":
     #まずはメインエリアを捜索
 
     # for k in range(6):
-    for k in range(24):
+    for k in range(4):
         elapsed_time = time.time()-start_time
         if break_outer_loop == False:
             motor.move(25, -25, 0.15) #グランド
@@ -301,7 +301,7 @@ if __name__ == "__main__":
                 #lat_now, lon_now = gps.location()
                 count += 1
                 #move_to_bulearea(count, lat_human, lon_human)
-                human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath='/home/dendenmushi/cansat2023/sequence/log/humandetectlog')
+                human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath='/home/dendenmushi/cansat2023/sequence/log/humandetectlog'model=ML_people)
     print("human detection finish!!!")
     
 
