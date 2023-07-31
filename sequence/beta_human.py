@@ -114,8 +114,8 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
             result = model.predict(image_path=img_path)
             other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start,result,0,human_judge_count,break_outer_loop,elapsed_time)
-            # hitoの確率80%かどうか
-            if result >= 0.80:
+            # hitoの確率50%かどうか
+            if result >= 0.50:
                 human_judge_count += 1
                 print(human_judge_count)
                 # 追加の写真を撮影
@@ -125,7 +125,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                     additional_result = model.predict(image_path=additional_img_path)
                     other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
-                    if additional_result >= 0.80:
+                    if additional_result >= 0.50:
                         human_judge_count += 1
                         print(human_judge_count)
                         if human_judge_count >= 3:
@@ -211,12 +211,12 @@ def move_to_bulearea(count, lat_human, lon_human):
         print("青点エリア捜索終了")             
     
 if __name__ == "__main__":
-    t_start = 0
+    t_start = time.eime()
     count = 0
     human_judge_count = 0
     break_outer_loop = False
     start_time = time.time()
-    threshold = 20
+    threshold = 20*60
     # elapsed_time = time.time()-start_time
     #lat1 = 35.12345 #赤点
     #lon1 = 139.67890 #赤点
@@ -247,7 +247,7 @@ if __name__ == "__main__":
     #まずはメインエリアを捜索
 
     # for k in range(6):
-    for k in range(4):
+    for k in range(24):
         elapsed_time = time.time()-start_time
         if break_outer_loop == False:
             motor.move(25, -25, 0.15) #グランド
@@ -259,8 +259,8 @@ if __name__ == "__main__":
             result = ML_people.predict(image_path=img_path)
             other.log(log_humandetect, datetime.datetime.now(), time.time() -
                       t_start,result,0,human_judge_count,break_outer_loop,elapsed_time)
-            #hitoの確率80%かどうか
-            if result >= 0.80:
+            #hitoの確率50%かどうか
+            if result >= 0.50:
                 human_judge_count += 1
                 # 追加の写真を撮影
                 for h in range(2):
@@ -268,7 +268,7 @@ if __name__ == "__main__":
                     additional_result = ML_people.predict(image_path=additional_img_path)
                     other.log(log_humandetect, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
-                    if additional_result >= 0.80:
+                    if additional_result >= 0.50:
                         human_judge_count += 1
                         if human_judge_count >= 3:
                             break_outer_loop = True
@@ -300,7 +300,7 @@ if __name__ == "__main__":
             else:
                 #lat_now, lon_now = gps.location()
                 count += 1
-                #move_to_bulearea(count, lat_human, lon_human)
+                move_to_bulearea(count, lat_human, lon_human)
                 human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect,model=ML_people)
     print("human detection finish!!!")
     
