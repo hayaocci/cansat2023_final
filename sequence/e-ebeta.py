@@ -88,6 +88,7 @@ def get_locations(lat_human, lon_human):
 def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
     #for i in range(6):
     for i in range(24):
+        elapsed_time = time.time()-start_time
         if break_outer_loop == False:
             motor.move(25, -25, 0.15)
             human_judge_count = 0
@@ -166,7 +167,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_n, lat_n, thd_distance=10, t_adj_gps=60)#60秒もいるのか？
+        gps_running1.drive(lon_n, lat_n, thd_distance=10, t_adj_gps=60,logpath=log_humandetect,t_start=t_start)#60秒もいるのか？
         print("第1エリアです")
     elif count == 2:
         # condition =1
@@ -175,7 +176,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_e, lat_e, thd_distance=10, t_adj_gps=60) 
+        gps_running1.drive(lon_e, lat_e, thd_distance=10, t_adj_gps=60,logpath=log_humandetect,t_start=t_start) 
         print("第2エリアです")  
     elif count == 3:
         # condition =1
@@ -184,7 +185,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_s, lat_s, thd_distance=10, t_adj_gps=60)
+        gps_running1.drive(lon_s, lat_s, thd_distance=10, t_adj_gps=60,logpath=log_humandetect,t_start=t_start)
         print("第3エリアです")
     elif count == 4:
         # condition =1
@@ -193,7 +194,7 @@ def move_to_bulearea(count, lat_human, lon_human):
         #         print("第"+count+"エリア到着")
         #         condition =0
         #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_w, lat_w, thd_distance=10, t_adj_gps=60)
+        gps_running1.drive(lon_w, lat_w, thd_distance=10, t_adj_gps=60,logpath=log_humandetect,t_start=t_start)
         print("第4エリアです")
     else:
         print("青点エリア捜索終了")
@@ -372,10 +373,12 @@ if __name__=='__main__':
     time.sleep(15)
 
     #-----praschute avoid-----#
-    other.log(log_para, datetime.datetime.now(), "Parachute avoidance Start")
+    other.log(log_phase,'5',"paraavo phase",datetime.datetime.now(),time.time()-t_start)
+    phase=other.phase(log_phase)
+    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Start")
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
-    other.log(log_para, datetime.datetime.now(), "Parachute avoidance Finish")
+    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Finish")
     send.send_data("paraavo finish")
     time.sleep(3)
 
@@ -389,7 +392,7 @@ if __name__=='__main__':
     # bmx055.bmx055_setup()
     # motor.setup()
     other.log(log_gpsrunning1,"run1 start")
-    goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=60,logpath=log_gpsrunning1)
+    goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=60,logpath=log_gpsrunning1,t_start=t_start)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning1,"run1 finish")
     send.send_data("run1 finish")
@@ -405,7 +408,7 @@ if __name__=='__main__':
     break_outer_loop =False
     start_time = time.time()
     threshold = 20 * 60
-    elapsed_time = time.time()-start_time
+    # elapsed_time = time.time()-start_time
 
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
@@ -414,6 +417,7 @@ if __name__=='__main__':
     other.log(log_humandetect,"humandetect start")
     #まずはメインエリアを捜索
     for k in range(24):
+        elapsed_time = time.time()-start_time
         if break_outer_loop == False:
             motor.move(25, -25, 0.15)
             human_judge_count = 0
@@ -474,7 +478,7 @@ if __name__=='__main__':
                 human_judge_count, break_outer_loop = take_and_rotation(human_judge_count=human_judge_count, break_outer_loop=break_outer_loop,logpath=log_humandetect, model=ML_people)
     if human_judge_count==3:
         #motor.move(-20, 25, 0.25)
-        t_start = time.time()
+        # t_start = time.time()
 
         chunk_size = 4   # 送る文字数。この数字の2倍の文字数が送られる。1ピクセルの情報は16進数で6文字で表せられるため、6の倍数の文字を送りたい。
         delay = 3   # 伝送間隔（秒）
@@ -637,7 +641,7 @@ if __name__=='__main__':
     other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
     other.log(log_gpsrunning2,"run2 start")
-    gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=50,logpath=log_gpsrunning2)
+    gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=50,logpath=log_gpsrunning2,t_start=t_start)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning2,"run2 finish")
     #send.send_data("run2 finish")

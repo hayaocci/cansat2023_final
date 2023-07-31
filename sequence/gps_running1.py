@@ -143,7 +143,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         mag_y = magdata[1]
 
         rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-
+        other.log(logpath, datetime.datetime.now(), time.time() -
+                      t_start, lat1, lon1, mag_x, rover_azimuth,direction['distance'])
         
 
 
@@ -237,8 +238,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     time.sleep(0.04)
 
             t_stuck_count += 1
-            other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start, lat1, lon1, mag_x, direction['distance'], angle_relative)
+            # other.log(logpath, datetime.datetime.now(), time.time() -
+            #           t_start, lat1, lon1, mag_x, direction['distance'], angle_relative)
             #motor.deceleration(strength_l, strength_r)
             #time.sleep(2)
             lat_new, lon_new = gps.location()
