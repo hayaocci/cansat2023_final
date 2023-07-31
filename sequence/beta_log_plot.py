@@ -8,6 +8,7 @@ def get_map(file_path):
         data = [row for row in reader]
 
         data_2 = [list(x) for x in zip(*data)]
+        data_2_int = [float(v) for v in data_2[0]]
 
     #-----lat, lonの取得-----#
     for _ in range(5):
