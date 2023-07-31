@@ -102,7 +102,9 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
 
     #for i in range(6):
     for i in range(24):
+        elapsed_time = time.time()-start_time
         if break_outer_loop == False:
+            motor.move(25, -25, 0.15)
             human_judge_count = 0
             # 撮影
             img_path = take.picture('ML_imgs/image', 320, 240)
@@ -139,7 +141,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                 else:
                     print("捜索続けます")
             #motor.move(30, -30, 0.2)  # 芝生の上
-            motor.move(30, -30, 0.15)  #グランド
+            #motor.move(30, -30, 0.15)  #グランド
         else:
             break
     if break_outer_loop == False:
@@ -215,7 +217,7 @@ if __name__ == "__main__":
     break_outer_loop = False
     start_time = time.time()
     threshold = 20 * 60
-    elapsed_time = time.time()-start_time
+    # elapsed_time = time.time()-start_time
     #lat1 = 35.12345 #赤点
     #lon1 = 139.67890 #赤点
 
@@ -239,13 +241,14 @@ if __name__ == "__main__":
     #lon_human = 139.90825559
 
     #人検知に使用するモデルの読み込み
-    global ML_people
+    # global ML_people
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     #まずはメインエリアを捜索
 
     # for k in range(6):
     for k in range(24):
+        elapsed_time = time.time()-start_time
         if break_outer_loop == False:
             motor.move(25, -25, 0.15) #グランド
             human_judge_count = 0
