@@ -39,6 +39,7 @@ log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrun
 log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
 log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
 log_photorunning =other.filename( '/home/dendenmushi/cansat2023/sequence/log/photorunninglog','txt')
+log_goal=other.filename('/home/dendenmushi/cansat2023/sequence/log/goallog','txt')
 
 def get_locations(lat_human, lon_human):
 #最後の位置情報をもとに周囲の4つの点の座標を求める
@@ -660,15 +661,17 @@ if __name__=='__main__':
 
             area_ratio, angle = imgguide.detect_goal(lat_goal, lon_goal)
             imgguide.image_guided_driving(area_ratio, angle, lat_goal, lon_goal)
+            other.log(log_goal, datetime.datetime.now(), time.time() -
+                      t_start,area_ratio)
             break
         except:
             print("restarting photo running")
 
 #------ゴール終了-----#
-
+    _, last_lat, last_lon, _, _ =gps.read_gps()
     other.log(log_photorunning,"photorun finish")
     print("photorun finish")
     send.send_data("all complete!")
     time.sleep(10)
-    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
+    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start,last_lat, last_lon)
     print("all complete!")
