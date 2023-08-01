@@ -16,7 +16,7 @@ def add_text_to_last_line(input_file, output_file, text_to_add):
         with open(input_file, 'r') as infile:
             lines = infile.readlines()
 
-        with open(output_file, 'w') as outfile:
+        with open(output_file, 'a') as outfile:
             # 元のファイルの内容を新しいファイルに書き込む
             outfile.writelines(lines)
 
