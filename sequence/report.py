@@ -110,8 +110,8 @@ start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("5")
 
-text_to_add = "Detailed control record"
-add_text_to_last_line(input_file, output_file, text_to_add)
+text_to_add = "Detailed control record:"
+add_text_to_last_line(output_file, text_to_add)
 print("6")
 
 #log_release
