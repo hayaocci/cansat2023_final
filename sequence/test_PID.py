@@ -76,6 +76,7 @@ class PID_Controller:
         self.output = self.kp * self.error[-1] + self.ki * self.integral*(self.count >= self.validate_ki) + self.kd * self.derivative
         self.count += 1
         return self.output
+    
 def make_theta_array(array: list, array_num: int):
     #-----決められた数の要素を含む空配列の作成-----#
 
@@ -165,10 +166,8 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
 
     Parameters
     ----------
-    target_theta : int
-        目標角度
-
-    magx_off : int
+    target_theta : float
+        ローバーを向かせたい方位角
 
     '''
 
@@ -186,9 +185,15 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
     magdata = bmx055.mag_dataRead()
     mag_x = magdata[0]
     mag_y = magdata[1]
-    error_theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+    rover_angle = calibration.angle(mag_x, mag_y, magx_off, magy_off)
     # output = controller.get_output(theta)
     # print(controller.kp)
+
+    error_theta = target_theta - rover_angle
+    if error_theta < -180:
+        error_theta += 360
+    elif error_theta > 180:
+        error_theta -= 360
 
     
     print('theta = ' + str(error_theta))
@@ -198,7 +203,6 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
     #-----制御処理-----#
     #while abs(theta_array[-1]) > 5:
     while True:
-
         if count < 25:
             Ki = 0
             Kd = Kd_
@@ -220,9 +224,6 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
         m = PID_control(error_theta, theta_array, Kp, Ki, Kd)
 
         #-----モータの出力-----#
-        # if m >40:
-        #     m = 40
-        # elif m < -40:
 
         m = min(m, 40)
         m = max(m, -40)
@@ -243,9 +244,9 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
         magdata = bmx055.mag_dataRead()
         mag_x = magdata[0]
         mag_y = magdata[1]
-        theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+        rover_angle = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
-        error_theta = target_theta - theta
+        error_theta = target_theta - rover_angle
 
         if error_theta < -180:
             error_theta += 360
