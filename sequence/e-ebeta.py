@@ -39,7 +39,6 @@ log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrun
 log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
 log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
 log_photorunning =other.filename( '/home/dendenmushi/cansat2023/sequence/log/photorunninglog','txt')
-log_goal=other.filename('/home/dendenmushi/cansat2023/sequence/log/goallog','txt')
 
 def get_locations(lat_human, lon_human):
 #最後の位置情報をもとに周囲の4つの点の座標を求める
@@ -137,6 +136,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
     if break_outer_loop == False:
         print("24回撮影しました")
         print("次のエリアに移動します")
+        other.log(log_humandetect,datetime.datetime.now(), time.time() - t_start,"move to next")
     return human_judge_count , break_outer_loop
 
     
@@ -204,7 +204,11 @@ if __name__=='__main__':
 ###----------set up -----------###
     t_start=time.time()
     print("START: Setup")
-    other.log(log_phase,'1',"setup phase",datetime.datetime.now(),time.time()-t_start)
+    gps.open_gps()
+    bmx055.bmx055_setup()
+    lat_log,lon_log=gps.location()
+    other.log(log_phase,'0',"phase","Time","Elapsed Time","lat","lon")
+    other.log(log_phase,'1',"setup phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
     phase=other.phase(log_phase)
     bme280.bme280_setup()
     bme280.bme280_calib_param()
@@ -219,8 +223,8 @@ if __name__=='__main__':
     #para
     # motor.setup()
     #run1
-    gps.open_gps()
-    bmx055.bmx055_setup()
+    #gps.open_gps()
+    # bmx055.bmx055_setup()
     #画像伝送
     # latest_picture_path = None
 
@@ -255,6 +259,8 @@ if __name__=='__main__':
     # press_d = 0
 
     other.log(log_release, "release judge start")
+    other.log(log_release, "datetime.datetime.now()", "time.time() - t_start",
+                          "bme280.bme280_read()", "press_count_release","press_judge_release","timeout_release-time.time()")
     #while True:
     while time.time() < timeout_release:
         press_count_release, press_judge_release = release.pressdetect_release(thd_press_release, t_delta_release)
@@ -285,6 +291,8 @@ if __name__=='__main__':
     timeout_land = time.time() + (0.5*60)
 
     other.log(log_landing, "land judge start")
+    other.log(log_landing, "datetime.datetime.now()", "time.time() - t_start",
+                           "bme280.bme280_read()","landcount","presslandjudge","timeout_land-time.time()")
     #while True:
     while time.time() < timeout_land:
         presslandjudge = 0
@@ -300,8 +308,8 @@ if __name__=='__main__':
         else:
             print('Press unfulfilled')
             send.send_data("judging")
-    lat_land, lon_land=gps.location()
-    other.log(log_landing, "land judge finish",lat_land, lon_land)
+    lat_log, lon_log=gps.location()
+    other.log(log_landing, "land judge finish",lat_log, lon_log)
     send.send_data("land finish")
     time.sleep(3)
     print("land finish!!!")
@@ -309,19 +317,21 @@ if __name__=='__main__':
     ###-------melt-------###
 
     print("START: Melt")
-    other.log(log_phase,'4',"melt phase",datetime.datetime.now(),time.time()-t_start)
+    lat_log, lon_log=gps.location()
+    other.log(log_phase,'4',"melt phase",datetime.datetime.now(),time.time()-t_start,lat_log, lon_log)
     phase=other.phase(log_phase)
     pi = pigpio.pi()
 
     meltPin = 4
-    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt start")
+    other.log(log_melting, "datetime.datetime.now()", "time.time() - t_start", "start or finish","lat", "lon")
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt start",lat_log, lon_log)
     try:
         melt.down()
         send.send_data("melting")
     except:
         pi.write(meltPin, 0)
-    lat_melt, lon_melt=gps.location()
-    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish",lat_melt, lon_melt)
+    lat_log, lon_log=gps.location()
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish",lat_log, lon_log)
     send.send_data("melt finish")
     print("melt finish!!!")
     ###------paraavo-------###
@@ -375,37 +385,42 @@ if __name__=='__main__':
     time.sleep(15)
 
     #-----praschute avoid-----#
-    other.log(log_phase,'5',"paraavo phase",datetime.datetime.now(),time.time()-t_start)
+    lat_log, lon_log=gps.location()
+    other.log(log_phase,'5',"paraavo phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
     phase=other.phase(log_phase)
-    lat_paraavo, lon_paraavo=gps.location()
-    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Start",lat_paraavo, lon_paraavo)
+    lat_log, lon_log=gps.location()
+    other.log(log_para, "datetime.datetime.now()", "time.time() - t_start", "start or finish","lat", "lon")
+    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Start",lat_log, lon_log)
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
-    lat_paraavo, lon_paraavo=gps.location()
-    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Finish",lat_paraavo, lon_paraavo)
+    lat_log, lon_log=gps.location()
+    
     send.send_data("paraavo finish")
     time.sleep(3)
 
     print("paraavo finish!!!")
 ######--------------run1--------------######
     print("START:gps running1")
-    other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start)
+    lat_log, lon_log=gps.location()
+    other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
     phase=other.phase(log_phase)
 
     # gps.open_gps()
     # bmx055.bmx055_setup()
     # motor.setup()
-    other.log(log_gpsrunning1,"run1 start")
+    other.log(log_gpsrunning1,datetime.datetime.now(),time.time()-t_start,"run1 start")
+    other.log(log_gpsrunning1,"datetime.datetime.now()","time.time()-t_start","lat","lon","direction","goal-distance")
     goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=60,logpath=log_gpsrunning1,t_start=t_start)
     print(f'-----distance: {goal_distance}-----')
-    other.log(log_gpsrunning1,"run1 finish")
+    other.log(log_gpsrunning1,datetime.datetime.now(),time.time()-t_start,"run1 finish")
     send.send_data("run1 finish")
     print("finish!")
     motor.motor_stop(1)
     send.send_reset(t_reset=5)
 ######--------------mission--------------######
     print("START:human detect")
-    other.log(log_phase,'7',"humandetect phase",datetime.datetime.now(),time.time()-t_start)
+    lat_log,lon_log=gps.location()
+    other.log(log_phase,'7',"humandetect phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
     phase=other.phase(log_phase)
     count = 0
     human_judge_count=0
@@ -418,7 +433,9 @@ if __name__=='__main__':
 
     lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = get_locations(lat_human, lon_human)
     
-    other.log(log_humandetect,"humandetect start")
+    other.log(log_humandetect,datetime.datetime.now(), time.time() -
+                      t_start,"humandetect start")
+    other.log(log_humandetect,"datetime.datetime.now()", "time.time() - t_start","result","additional_result","human_judge_count","break_outer_loop","mission_time")
     #まずはメインエリアを捜索
     for k in range(24):
         elapsed_time = time.time()-start_time
@@ -467,6 +484,7 @@ if __name__=='__main__':
     if break_outer_loop == False:
         print("24回撮影しました")
         print("次のエリアに移動します")
+        other.log(log_humandetect,datetime.datetime.now(), time.time() - t_start,"move to next")
 
 
     if human_judge_count==0:
@@ -566,9 +584,9 @@ if __name__=='__main__':
     #---------------------画像伝送----------------------------#
     
         time.sleep(15)
-        lat_sendphoto,lon_sendphoto=gps.location()
+        lat_log,lon_log=gps.location()
         other.log(log_humandetect, datetime.datetime.now(), time.time() -
-                      t_start,"画像伝送開始",lat_sendphoto,lon_sendphoto)
+                      t_start,"画像伝送開始",lat_log,lon_log)
         #file_path = latest_picture_path
         file_name = "/home/dendenmushi/cansat2023/sequence/ML_imgs/jpg"  # 保存するファイル名を指定
         photo_take = take.picture(file_name, 320, 240)
@@ -641,29 +659,34 @@ if __name__=='__main__':
         
         print("実行時間:", execution_time, "秒")
         print("データを", output_filename, "に保存しました。")
-        lat_sendphoto,lon_sendphoto=gps.location()
+        lat_log,lon_log=gps.location()
         other.log(log_humandetect, datetime.datetime.now(), time.time() -
-                      t_start,"画像伝送終了",lat_sendphoto,lon_sendphoto)            
-    other.log(log_humandetect,"humandetect finish")
+                      t_start,"画像伝送終了",lat_log,lon_log)            
+    other.log(log_humandetect,datetime.datetime.now(), time.time() -
+                      t_start,"humandetect finish")
     send.send_data("human finish")
     print("human detection finish!!!")
 ######--------------run2--------------######
-    other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start)
+    lat_log,lon_log=gps.location()
+    other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
     phase=other.phase(log_phase)
-    other.log(log_gpsrunning2,"run2 start")
+    other.log(log_gpsrunning2,datetime.datetime.now(),time.time()-t_start,"run2 start")
+    other.log(log_gpsrunning2,"datetime.datetime.now()","time.time()-t_start","lat","lon","direction","goal-distance")
     gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=50,logpath=log_gpsrunning2,t_start=t_start)
     print(f'-----distance: {goal_distance}-----')
-    other.log(log_gpsrunning2,"run2 finish")
+    other.log(log_gpsrunning2,datetime.datetime.now(),time.time()-t_start,"run2 finish")
     #send.send_data("run2 finish")
     print("finish!")
     motor.motor_stop(1)
     send.send_data("run2 finish")
     time.sleep(10)
 ######--------------goal--------------######
-    other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start)
+    lat_log,lon_log=gps.location()
+    other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
     phase=other.phase(log_phase)
     lat_last, lon_last=gps.location()
-    other.log(log_photorunning,"photorun start",lat_last, lon_last)
+    other.log(log_photorunning,datetime.datetime.now(),time.time()-t_start,"photorun start",lat_last, lon_last)
+    other.log(log_photorunning, "datetime.datetime.now()", "time.time() - t_start","area_ratio")
     while True:
         try:
             angle = 0
@@ -671,7 +694,7 @@ if __name__=='__main__':
 
             area_ratio, angle = imgguide.detect_goal(lat_goal, lon_goal)
             imgguide.image_guided_driving(area_ratio, angle, lat_goal, lon_goal)
-            other.log(log_goal, datetime.datetime.now(), time.time() -
+            other.log(log_photorunning, datetime.datetime.now(), time.time() -
                       t_start,area_ratio)
             break
         except:
@@ -679,9 +702,10 @@ if __name__=='__main__':
 
 #------ゴール終了-----#
     last_lat, last_lon=gps.location()
-    other.log(log_photorunning,"photorun finish",last_lat, last_lon)
+    other.log(log_photorunning,datetime.datetime.now(),time.time()-t_start,"photorun finish",last_lat, last_lon)
     print("photorun finish")
     send.send_data("all complete!")
     time.sleep(10)
-    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start)
+    lat_log,lon_log=gps.location()
+    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
     print("all complete!")
