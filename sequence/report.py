@@ -37,7 +37,7 @@ start_line = 3
 extract_and_write(input_file, output_file, start_line)
 print("1")
 
-# 使用例：元のファイルの内容を読み込み、最下行に「あいうえお」を追加して新しいファイルとして保存する
+# 使用例：元のファイルの内容を読み込み、最下行に文章を追加して新しいファイルとして保存する
 text_to_add = "Time and position at which the control ended:"
 add_text_to_last_line(input_file, output_file, text_to_add)
 print("2")
