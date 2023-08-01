@@ -246,6 +246,7 @@ if __name__=='__main__':
  
 ###-------release judge -------###
     print("START: Release judge")
+    lat_log,lon_log=gps.location()
     other.log(log_phase,'2',"release phase",datetime.datetime.now(),time.time()-t_start)
     phase=other.phase(log_phase)
     thd_press_release = 0.1
@@ -279,7 +280,8 @@ if __name__=='__main__':
     print("release finish!!!")
     ###-------land judge -------###
     print("START: Land judge")
-    other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start)
+    lat_log,lon_log=gps.location()
+    other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
     phase=other.phase(log_phase)
 
     #bme280.bme280_setup()
