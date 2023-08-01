@@ -186,11 +186,6 @@ def angle(magx, magy, magx_off=0, magy_off=0):
     theta += 180 #センサの傾きを考慮する場合？？
     theta  = theta % 360
 
-    if theta >= 180:
-        theta -= 360
-    elif theta < -180:
-        theta += 360
-
     return theta
 
 

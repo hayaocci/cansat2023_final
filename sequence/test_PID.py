@@ -11,9 +11,11 @@ import time
 import other
 import send
 from collections import deque
+
+
 #PID制御のテストコード
 
-def get_theta_dest(lon_dest, lat_dest, magx_off, magy_off):
+def get_theta_dest_gps(lon_dest, lat_dest, magx_off, magy_off):
     '''
     目標地点(dest)との相対角度を算出する関数
     ローバーが向いている角度を基準に、時計回りを正とする。
@@ -45,6 +47,45 @@ def get_theta_dest(lon_dest, lat_dest, magx_off, magy_off):
     #-----目標地点との相対角度を算出-----#
     #ローバーが向いている角度を0度としたときの、目的地への相対角度。このとき時計回りを正とする。
     theta_dest = rover_angle - azimuth
+
+    #-----相対角度の範囲を-180~180度にする-----#
+    if theta_dest >= 180:
+        theta_dest -= 360
+    elif theta_dest <= -180:
+        theta_dest += 360
+
+    return theta_dest
+
+def get_theta_dest(target_azimuth, magx_off, magy_off):
+    '''
+    #ローバーから目標地点までの方位角が既知の場合に目標地点(dest)との相対角度を算出する関数
+    ローバーが向いている角度を基準に、時計回りを正とする。
+
+    theta_dest = 60 のとき、目標地点はローバーから見て右手60度の方向にある。
+
+    -180 < theta_dest < 180
+
+    Parameters
+    ----------
+    lon2 : float
+        目標地点の経度
+    lat2 : float
+        目標地点の緯度
+    magx_off : int
+        地磁気x軸オフセット
+    magy_off : int
+        地磁気y軸オフセット
+
+    '''
+    #-----ローバーの角度を取得-----#
+    magdata= bmx055.mag_dataRead()
+    mag_x, mag_y = magdata[0], magdata[1]
+
+    rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+
+    #-----目標地点との相対角度を算出-----#
+    #ローバーが向いている角度を0度としたときの、目的地への相対角度。このとき時計回りを正とする。
+    theta_dest = rover_azimuth - target_azimuth
 
     #-----相対角度の範囲を-180~180度にする-----#
     if theta_dest >= 180:
@@ -181,20 +222,11 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
     
     print('adjust_direction_PID')
 
-    #-----角度の取得-----#
-    magdata = bmx055.mag_dataRead()
-    mag_x = magdata[0]
-    mag_y = magdata[1]
-    rover_angle = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+    #-----ローバーの角度の取得-----#
+    theta_dest = get_theta_dest()
+
     # output = controller.get_output(theta)
     # print(controller.kp)
-
-    error_theta = target_theta - rover_angle
-    if error_theta < -180:
-        error_theta += 360
-    elif error_theta > 180:
-        error_theta -= 360
-
     
     print('theta = ' + str(error_theta))
 
