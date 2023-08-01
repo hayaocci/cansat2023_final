@@ -1,3 +1,4 @@
 Brief description of the control algorithm:
 This CanSat is controlled using the relative positions of the current location and the goal..
 Time and position at which control was initiated:
+	
