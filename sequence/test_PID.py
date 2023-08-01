@@ -15,7 +15,26 @@ from collections import deque
 
 theta_array = []
 theta_differential_array = []
-
+class PID_Controller:
+    def __init__(self, kp, ki, kd, target, num_log, validate_ki):
+        self.kp = kp
+        self.ki = ki
+        self.kd = kd
+        self.target = target
+        self.num_log = num_log
+        self.validate_ki = validate_ki
+        self.error = deque([0] * num_log, maxlen=num_log)
+        self.integral = 0
+        self.derivative = 0
+        self.output = 0
+        self.count = 0
+    def get_output(self, measured, ):
+        self.error.append(measured - self.target)
+        self.integral += self.error[-1] 
+        self.derivative = (self.error[-1] - self.error[-2]) 
+        self.output = self.kp * self.error[-1] + self.ki * self.integral*(self.count >= self.validate_ki) + self.kd * self.derivative
+        self.count += 1
+        return self.output
 def make_theta_array(array: list, array_num: int):
     #-----決められた数の要素を含む空配列の作成-----#
 
@@ -100,6 +119,17 @@ def PID_control(theta, theta_array: list, Kp=0.1, Ki=0.04, Kd=2.5):
     return m
 
 def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
+    '''
+    目標角度に合わせて方向調整を行う関数
+
+    Parameters
+    ----------
+    target_theta : int
+        目標角度
+
+    magx_off : int
+
+    '''
 
     #パラメータの設定
     Kp = 0.4
@@ -107,6 +137,7 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
     Ki_ = 0.03
 
     count = 0
+    controller = PID_Controller(kp=0.4, ki=0.03, kd=3, target=target_theta, num_log=5, validate_ki=25)
     
     print('adjust_direction_PID')
 
@@ -115,6 +146,9 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
     mag_x = magdata[0]
     mag_y = magdata[1]
     theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+    output = controller.get_output(theta)
+    print(controller.kp)
+    motor_left, motor_right = 50-output, 50+output
     if theta > 180:
         theta = theta - 360
 
@@ -309,7 +343,29 @@ def PID_drive(target_theta, magx_off, magy_off, theta_array: list, loop_num):
 
     # motor.motor_stop(1)
 
-        
+def drive(lat, lon, thd_distance, t_adj_gps, log_path, t_start):
+    '''
+    目標地点までPID制御により走行する関数
+    
+    Parameters
+    ----------
+    lat : float
+        目標地点の緯度
+    lon : float
+        目標地点の経度
+    thed_distance : float
+        目標地点に到達したと判定する距離
+    t_adj_gps : float
+        GPSの取得間隔
+    log_path : 
+        ログの保存先
+    t_start : float
+        開始時間
+    
+
+
+    '''
+
 
 
 if __name__ == "__main__":
@@ -317,7 +373,6 @@ if __name__ == "__main__":
     #-----セットアップ-----#
     motor.setup()
     bmx055.bmx055_setup()
-
     #-----初期設定-----#
     theta_array = []
     theta_differential_array = []
@@ -344,3 +399,5 @@ if __name__ == "__main__":
     time.sleep(1)
 
     adjust_direction_PID(270, magx_off, magy_off, theta_array)
+    
+    
