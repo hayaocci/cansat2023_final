@@ -201,7 +201,7 @@ def PID_control(theta, theta_array: list, Kp=0.1, Ki=0.04, Kd=2.5):
 
     return m
 
-def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
+def adjust_direction_PID(target_azimuth, magx_off, magy_off, theta_array: list):
     '''
     目標角度に合わせて方向調整を行う関数
 
@@ -223,12 +223,12 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
     print('adjust_direction_PID')
 
     #-----ローバーの角度の取得-----#
-    theta_dest = get_theta_dest()
+    error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
     # output = controller.get_output(theta)
     # print(controller.kp)
     
-    print('theta = ' + str(error_theta))
+    print('error theta = ' + str(error_theta))
 
     theta_array.append(error_theta)
 
@@ -243,10 +243,7 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
             Kd = 5
 
         #-----角度の取得-----#
-        magdata = bmx055.mag_dataRead()
-        mag_x = magdata[0]
-        mag_y = magdata[1]
-        theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+        error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
         #-----thetaの値を蓄積する-----#
         theta_array = latest_theta_array(error_theta, theta_array)
@@ -278,12 +275,7 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
         mag_y = magdata[1]
         rover_angle = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
-        error_theta = target_theta - rover_angle
-
-        if error_theta < -180:
-            error_theta += 360
-        elif error_theta > 180:
-            error_theta -= 360
+        error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
         check = 0
         bool_com = True
