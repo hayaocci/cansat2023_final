@@ -167,7 +167,6 @@ def cal(l, r, n):
 def angle(magx, magy, magx_off=0, magy_off=0):
     '''
     ローバーが向いている方位角を計算する関数
-    -180~180度で返す
     '''
 
     if magy - magy_off == 0:
