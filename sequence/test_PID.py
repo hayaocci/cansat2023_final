@@ -13,7 +13,7 @@ import send
 from collections import deque
 #PID制御のテストコード
 
-def theta_dest(lon_dest, lat_dest, magx_off, magy_off):
+def get_theta_dest(lon_dest, lat_dest, magx_off, magy_off):
     '''
     目標地点(dest)との相対角度を算出する関数
     ローバーが向いている角度を基準に、時計回りを正とする。
@@ -178,7 +178,7 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
     Ki_ = 0.03
 
     count = 0
-    controller = PID_Controller(kp=0.4, ki=0.03, kd=3, target=target_theta, num_log=5, validate_ki=25)
+    # controller = PID_Controller(kp=0.4, ki=0.03, kd=3, target=target_theta, num_log=5, validate_ki=25)
     
     print('adjust_direction_PID')
 
@@ -186,18 +186,10 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
     magdata = bmx055.mag_dataRead()
     mag_x = magdata[0]
     mag_y = magdata[1]
-    theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-    output = controller.get_output(theta)
-    print(controller.kp)
-    motor_left, motor_right = 50-output, 50+output
-    if theta > 180:
-        theta = theta - 360
+    error_theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+    # output = controller.get_output(theta)
+    # print(controller.kp)
 
-    error_theta = target_theta - theta
-    if error_theta < -180:
-        error_theta += 360
-    elif error_theta > 180:
-        error_theta -= 360
     
     print('theta = ' + str(error_theta))
 
@@ -219,12 +211,6 @@ def adjust_direction_PID(target_theta, magx_off, magy_off, theta_array: list):
         mag_x = magdata[0]
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-
-        error_theta = target_theta - theta
-        if error_theta < -180:
-            error_theta += 360
-        elif error_theta > 180:
-            error_theta -= 360
 
         #-----thetaの値を蓄積する-----#
         theta_array = latest_theta_array(error_theta, theta_array)
@@ -416,8 +402,10 @@ def drive(lon_dest, lat_dest, thd_distance, t_adj_gps, log_path, t_start):
         magx_off, magy_off = calibration.cal(30, -30, 40)
 
         #-----角度の取得-----#
-        theta = calibration.angle_goal(magx_off, magy_off, lon_dest, lat_dest)
+        theta_dest = get_theta_dest(magx_off, magy_off, lon_dest, lat_dest)
 
+        #-----方向調整-----#
+        adjust_direction_PID(, magx_off, magy_off, theta_array)
 
 
 
