@@ -13,6 +13,47 @@ import send
 from collections import deque
 #PID制御のテストコード
 
+def theta_dest(lon_dest, lat_dest, magx_off, magy_off):
+    '''
+    目標地点(dest)との相対角度を算出する関数
+    ローバーが向いている角度を基準に、時計回りを正とする。
+
+    theta_dest = 60 のとき、目標地点はローバーから見て右手60度の方向にある。
+
+    -180 < theta_dest < 180
+
+    Parameters
+    ----------
+    lon2 : float
+        目標地点の経度
+    lat2 : float
+        目標地点の緯度
+    magx_off : int
+        地磁気x軸オフセット
+    magy_off : int
+        地磁気y軸オフセット
+
+    '''
+    #-----ローバーの角度を取得-----#
+    magdata= bmx055.mag_dataRead()
+    mag_x, mag_y = magdata[0], magdata[1]
+
+    rover_angle = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+    direction = calibration.calculate_direction(lon_dest, lat_dest)
+    azimuth = direction["azimuth1"]
+
+    #-----目標地点との相対角度を算出-----#
+    #ローバーが向いている角度を0度としたときの、目的地への相対角度。このとき時計回りを正とする。
+    theta_dest = rover_angle - azimuth
+
+    #-----相対角度の範囲を-180~180度にする-----#
+    if theta_dest >= 180:
+        theta_dest -= 360
+    elif theta_dest <= -180:
+        theta_dest += 360
+
+    return theta_dest
+
 theta_array = []
 theta_differential_array = []
 class PID_Controller:
@@ -343,16 +384,16 @@ def PID_drive(target_theta, magx_off, magy_off, theta_array: list, loop_num):
 
     # motor.motor_stop(1)
 
-def drive(lat, lon, thd_distance, t_adj_gps, log_path, t_start):
+def drive(lon_dest, lat_dest, thd_distance, t_adj_gps, log_path, t_start):
     '''
-    目標地点までPID制御により走行する関数
+    任意の地点までPID制御により走行する関数
     
     Parameters
     ----------
+    lon_dest : float
+        目標地点の経度
     lat : float
         目標地点の緯度
-    lon : float
-        目標地点の経度
     thed_distance : float
         目標地点に到達したと判定する距離
     t_adj_gps : float
@@ -361,10 +402,22 @@ def drive(lat, lon, thd_distance, t_adj_gps, log_path, t_start):
         ログの保存先
     t_start : float
         開始時間
-    
-
-
     '''
+
+    #-----目標地点までの角度と距離を取得-----#
+    direction = calibration.calculate_direction(lon_dest, lat_dest)
+    azimuth, distance = direction["azimuth1"], direction["distance"]
+
+    while distance > thd_distance:
+        #-----上向き判定-----#
+        stuck2.ue_jug()
+
+        #-----キャリブレーション-----#
+        magx_off, magy_off = calibration.cal(30, -30, 40)
+
+        #-----角度の取得-----#
+        theta = calibration.angle_goal(magx_off, magy_off, lon_dest, lat_dest)
+
 
 
 
