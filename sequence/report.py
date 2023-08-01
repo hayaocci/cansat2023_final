@@ -52,7 +52,7 @@ def extract_and_write(input_file, output_file, start_line, end_line=float('inf')
 
         # ファイルの内容を追記モードで開き、元の内容を保持したまま新しい内容を追記
         with open(output_file, 'a') as outfile:
-            outfile.writelines(extracted_lines+ '\n')
+            outfile.writelines(extracted_lines)
 
         print(f"{len(extracted_lines)}行が {output_file} に追記されました。")
     except Exception as e:
