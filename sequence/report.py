@@ -52,7 +52,7 @@ def extract_and_write(input_file, output_file, start_line, end_line=float('inf')
 
         # ファイルの内容を追記モードで開き、元の内容を保持したまま新しい内容を追記
         with open(output_file, 'a') as outfile:
-            outfile.writelines(extracted_lines)
+            outfile.writelines(extracted_lines+ '\n')
 
         print(f"{len(extracted_lines)}行が {output_file} に追記されました。")
     except Exception as e:
@@ -79,3 +79,12 @@ print("1")
 text_to_add = "Time and position at which the control ended:"
 add_text_to_last_line(input_file, output_file, text_to_add)
 print("2")
+
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/phaselog0109.txt'
+start_line = 3
+extract_and_write(input_file, output_file, start_line)
+print("3")
+
+text_to_add = "All control history:"
+add_text_to_last_line(input_file, output_file, text_to_add)
+print("4")
