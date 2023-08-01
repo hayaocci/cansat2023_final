@@ -165,6 +165,10 @@ def cal(l, r, n):
 
 #ちゃんと北をむいてる確認する
 def angle(magx, magy, magx_off=0, magy_off=0):
+    '''
+    ローバーが向いている方位角を計算する関数
+    '''
+
     if magy - magy_off == 0:
         magy += 0.000001
     theta = math.degrees(math.atan((magy - magy_off) / (magx - magx_off)))
@@ -180,8 +184,7 @@ def angle(magx, magy, magx_off=0, magy_off=0):
 
     theta += 180 #センサの傾きを考慮する場合？？
     theta  = theta % 360
-    # if 360 <= theta <= 450:
-    #     theta -= 360
+
     return theta
 
 
