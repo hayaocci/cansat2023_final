@@ -2,6 +2,3 @@ Brief description of the control algorithm:
 ここに制御アルゴリズムの簡単な説明を入れる
 Time and position at which control was initiated:
 
-Time and position at which the control ended:
-
-All control history:
