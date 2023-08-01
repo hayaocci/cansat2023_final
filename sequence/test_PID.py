@@ -290,9 +290,11 @@ def adjust_direction_PID(target_azimuth, magx_off, magy_off, theta_array: list):
 
     motor.motor_stop(1)
 
-def PID_drive(target_theta, magx_off, magy_off, theta_array: list, loop_num):
-
-    #パラメータの設定
+def PID_drive(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
+    '''
+    目標地点までの方位角が既知の場合にPID制御により走行する関数
+    '''
+    #-----パラメータの設定-----#
     Kp = 0.4
     Kd_ = 3
     Ki_ = 0.03
@@ -301,21 +303,8 @@ def PID_drive(target_theta, magx_off, magy_off, theta_array: list, loop_num):
     
     print('PID_drive')
 
-    #-----角度の取得-----#
-    magdata = bmx055.mag_dataRead()
-    mag_x = magdata[0]
-    mag_y = magdata[1]
-    theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-    if theta > 180:
-        theta = theta - 360
-
-    error_theta = target_theta - theta
-    if error_theta < -180:
-        error_theta += 360
-    elif error_theta > 180:
-        error_theta -= 360
-    
-    print('theta = ' + str(error_theta))
+    #-----相対角度の取得-----#
+    error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
     theta_array.append(error_theta)
 
@@ -421,7 +410,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
 
     while distance > thd_distance:
         #-----初期設定-----#
-        t_stuck_count = 1
+        stuck_count = 1
 
         #-----上向き判定-----#
         stuck2.ue_jug()
@@ -475,7 +464,6 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
 
             if distance > thd_distance:
                 for _ in range(25):
-                    get_theta_dest(azimuth, magx_off, magy_off)
                     PID_drive(azimuth, magx_off, magy_off, theta_array, loop_num=25)
             else:
                 break
