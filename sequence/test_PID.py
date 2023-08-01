@@ -97,6 +97,7 @@ def get_theta_dest(target_azimuth, magx_off, magy_off):
 
 theta_array = []
 theta_differential_array = []
+
 class PID_Controller:
     def __init__(self, kp, ki, kd, target, num_log, validate_ki):
         self.kp = kp
@@ -209,7 +210,6 @@ def adjust_direction_PID(target_azimuth, magx_off, magy_off, theta_array: list):
     ----------
     target_theta : float
         ローバーを向かせたい方位角
-
     '''
 
     #パラメータの設定
@@ -395,7 +395,7 @@ def PID_drive(target_theta, magx_off, magy_off, theta_array: list, loop_num):
 
     # motor.motor_stop(1)
 
-def drive(lon_dest, lat_dest, thd_distance, t_adj_gps, log_path, t_start):
+def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
     '''
     任意の地点までPID制御により走行する関数
     
@@ -417,22 +417,75 @@ def drive(lon_dest, lat_dest, thd_distance, t_adj_gps, log_path, t_start):
 
     #-----目標地点までの角度と距離を取得-----#
     direction = calibration.calculate_direction(lon_dest, lat_dest)
-    azimuth, distance = direction["azimuth1"], direction["distance"]
+    distance = direction["distance"]
 
     while distance > thd_distance:
+        #-----初期設定-----#
+        t_stuck_count = 1
+
         #-----上向き判定-----#
         stuck2.ue_jug()
 
         #-----キャリブレーション-----#
         magx_off, magy_off = calibration.cal(30, -30, 40)
 
-        #-----角度の取得-----#
-        theta_dest = get_theta_dest(magx_off, magy_off, lon_dest, lat_dest)
+        #-----目標地点への角度を取得-----#
+        direction = calibration.calculate_direction(lon_dest, lat_dest)
+        azimuth = direction["azimuth1"]
 
-        #-----方向調整-----#
-        adjust_direction_PID(, magx_off, magy_off, theta_array)
+        #-----PID制御による角度調整-----#
+        adjust_direction_PID(azimuth, magx_off, magy_off, theta_array)
 
+        #-----角度ログの出力-----#
+        magdata = bmx055.mag_dataRead()
+        mag_x = magdata[0]
+        mag_y = magdata[1]
 
+        log_rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+        other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat1, lon1, log_rover_azimuth, direction['distance'])
+
+        #-----
+        t_cal = time.time()
+        lat_old, lon_old = gps.location()
+        lat_str = "{:.6f}".format(lat_old)  # 緯度を小数点以下8桁に整形
+        lon_str = "{:.6f}".format(lon_old)  # 経度を小数点以下8桁に整形
+        send.send_data(lat_str)
+        time.sleep(3)
+        send.send_data(lon_str)
+        time.sleep(15)
+
+        while time.time() - t_cal <= t_run:
+            print("-------gps走行-------")
+            lat_now, lon_now = gps.location()
+            print(lat_now, lon_now)
+
+            #-----
+            lat_new, lon_new = lat_now, lon_now
+            direction = gps_navigate.vincenty_inverse(lat_now, lon_now, lat_dest, lon_dest)
+            distance, azimuth = direction["distance"], direction["azimuth1"]
+
+            #-----スタックチェック-----#
+            if stuck_count % 25 == 0:
+                if stuck2.stuck_jug(lat_old, lon_old, lat_new, lon_new, 1):
+                    pass
+                else:
+                    stuck2.stuck_avoid()
+                    pass
+                lat_old, lon_old = gps.location()
+
+            if distance > thd_distance:
+                for _ in range(25):
+                    get_theta_dest(azimuth, magx_off, magy_off)
+                    PID_drive(azimuth, magx_off, magy_off, theta_array, loop_num=25)
+            else:
+                break
+
+            stuck_count += 1
+            lat_new, lon_new = gps.location()
+            print("whileの最下行")
+
+        direction = calibration.calculate_direction(lon_dest, lat_dest)
+        distance = direction["distance"]
 
 if __name__ == "__main__":
 
