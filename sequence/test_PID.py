@@ -512,5 +512,15 @@ if __name__ == "__main__":
     time.sleep(1)
 
     adjust_direction_PID(270, magx_off, magy_off, theta_array)
+
+    time.sleep(4)
+
+    #-----PID制御によるGPS走行-----#
+    #-----目標地点の設定-----#
+    lat_goal = 35.9242411
+    lon_goal = 139.9120618
+
+    drive(lon_dest=lon_goal, lat_dest=lat_goal, thd_distance=10, t_run=60, log_path='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt'))
+
     
     
