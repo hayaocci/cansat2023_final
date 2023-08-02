@@ -251,6 +251,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
 
         direction = calibration.calculate_direction(lon2, lat2)
         goal_distance = direction['distance']
+        motor.motor_stop(1)
         other.print_im920sl(f'-----distance: {goal_distance}-----')
 
 if __name__ == '__main__':

@@ -290,7 +290,7 @@ def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
 
     motor.motor_stop(1)
 
-def PID_run(Kp, Kd, Ki, target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
+def PID_run(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
     '''
     目標地点までの方位角が既知の場合にPID制御により走行する関数
     '''
@@ -305,7 +305,6 @@ def PID_run(Kp, Kd, Ki, target_azimuth, magx_off, magy_off, theta_array: list, l
 
     #-----相対角度の取得-----#
     error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
-
     print('error theta = ' + str(error_theta))
 
     theta_array.append(error_theta)
@@ -316,7 +315,7 @@ def PID_run(Kp, Kd, Ki, target_azimuth, magx_off, magy_off, theta_array: list, l
 
         if count < 25:
             Ki = 0
-            Kd = Kd-2
+            Kd = Kd_
         else:
             Ki = Ki_
             Kd = 5
@@ -335,7 +334,7 @@ def PID_run(Kp, Kd, Ki, target_azimuth, magx_off, magy_off, theta_array: list, l
 
         #直進補正分(m=0のとき直進するように設定するため)
         s_r = 35
-        s_l = 30
+        s_l = 35
 
         m = min(m, 15)
         m = max(m, -15)
@@ -348,22 +347,13 @@ def PID_run(Kp, Kd, Ki, target_azimuth, magx_off, magy_off, theta_array: list, l
 
         #-----モータの操作-----#
         motor.motor_move(pwr_l, pwr_r, 0.01)
-        #motor.move(pwr_l, pwr_r, 0.2)
 
         time.sleep(0.04)
 
+        count += 1
+
         #-----角度の取得-----#
-        magdata = bmx055.mag_dataRead()
-        mag_x = magdata[0]
-        mag_y = magdata[1]
-        theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-
-        error_theta = target_azimuth - theta
-
-        if error_theta < -180:
-            error_theta += 360
-        elif error_theta > 180:
-            error_theta -= 360
+        # error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
     #     check = 0
     #     bool_com = True
@@ -399,18 +389,23 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
     '''
 
     #-----PID制御用のパラメータの設定-----#
-    KP = 0.4
-    KD = 3
-    KI = 0.03
+    # KP = 0.4
+    # KD = 3
+    # KI = 0.03
 
 
     #-----目標地点までの角度と距離を取得-----#
     direction = calibration.calculate_direction(lon_dest, lat_dest)
     distance = direction["distance"]
 
+    theta_array = []
+    theta_array = make_theta_array(theta_array, 5)
+
     while distance > thd_distance:
         #-----初期設定-----#
         stuck_count = 1
+        theta_array = []
+        theta_array = make_theta_array(theta_array, 5)
 
         #-----上向き判定-----#
         stuck2.ue_jug()
@@ -468,7 +463,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
 
             #-----PID制御による走行-----#
             if distance_dest > thd_distance:
-                PID_run(KP, KD, KI, target_azimuth, magx_off, magy_off, theta_array, loop_num=25)
+                PID_run(target_azimuth, magx_off, magy_off, theta_array, loop_num=50)
             else:
                 break
 
@@ -478,6 +473,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
 
         direction = calibration.calculate_direction(lon_dest, lat_dest)
         distance = direction["distance"]
+        motor.motor_stop(1)
     
 
 
@@ -499,19 +495,19 @@ if __name__ == "__main__":
     magx_off, magy_off = calibration.cal(30, -30, 40)
 
     #-----PID制御-----#
-    adjust_direction_PID(180, magx_off, magy_off, theta_array)
+    PID_adjust_direction(180, magx_off, magy_off, theta_array)
 
     time.sleep(1)
 
-    adjust_direction_PID(0, magx_off, magy_off, theta_array)
+    PID_adjust_direction(0, magx_off, magy_off, theta_array)
 
     time.sleep(1)
 
-    adjust_direction_PID(90, magx_off, magy_off, theta_array)
+    PID_adjust_direction(90, magx_off, magy_off, theta_array)
 
     time.sleep(1)
 
-    adjust_direction_PID(270, magx_off, magy_off, theta_array)
+    PID_adjust_direction(270, magx_off, magy_off, theta_array)
 
     time.sleep(4)
 
@@ -520,7 +516,9 @@ if __name__ == "__main__":
     lat_goal = 35.9242411
     lon_goal = 139.9120618
 
-    drive(lon_dest=lon_goal, lat_dest=lat_goal, thd_distance=10, t_run=60, log_path='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt'))
+
+
+    drive(lon_dest=lon_goal, lat_dest=lat_goal, thd_distance=10, t_run=60, log_path='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt')
 
     
     
