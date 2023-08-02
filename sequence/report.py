@@ -87,7 +87,7 @@ def add_text_to_last_line(output_file, text_to_add):
 #report file
 output_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/control_record_report.txt'
 
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/reportlog.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/reportlog/reportlog0002.txt'
 line_number=1
 extract_single_line(input_file, output_file, line_number)
 print("1")
@@ -105,7 +105,7 @@ add_text_to_last_line(output_file, text_to_add)
 print("4")
 
 #log_phase
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/phaselog0109.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/phaselog/phaselog0006.txt'
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("5")
@@ -115,49 +115,49 @@ add_text_to_last_line(output_file, text_to_add)
 print("6")
 
 #log_release
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/releaselog0103.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/releaselog/releaselog0002.txt'
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("7")
 
 #log_landing
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/landinglog0082.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/landinglog/landinglog0002.txt'
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("8")
 
 #log_melting
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/meltinglog0078.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/meltinglog/meltinglog0002.txt'
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("9")
 
 #log_para
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/para_avoid_log0067.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/para_avoid_log/para_avoid_log0002.txt'
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("10")
 
 #log_gpsrunning1
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/gpsrunning1log0051.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/gpsrunning1log/gpsrunning1log0002.txt'
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("11")
 
 #log_humandetect
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/humandetectlog0042.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/humandetectlog/humandetectlog0001.txt'
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("12")
 
 #log_gpsrunning2
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/gpsrunning2log0012.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/gpsrunning2log/gpsrunning2log0001.txt'
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("13")
 
 #log_photorunning
-input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/photorunninglog0011.txt'
+input_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/photorunninglog/photorunninglog0001.txt'
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("14")
