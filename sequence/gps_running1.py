@@ -144,18 +144,22 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
 
         rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
         other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start, lat1, lon1, rover_azimuth,direction['distance'])
+                      t_start, lat1, lon1, rover_azimuth, direction['distance'])
         
 
 
         t_cal = time.time()
         lat_old, lon_old = gps.location()
+
+        other.log(logpath, datetime.datetime.now(), time.time() -
+                      t_start, lat_old, lon_old, rover_azimuth, direction['distance'])
+
         lat_str = "{:.6f}".format(lat_old)  # 緯度を小数点以下8桁に整形
         lon_str = "{:.6f}".format(lon_old)  # 経度を小数点以下8桁に整形
         send.send_data(lat_str)
-        time.sleep(3)
+        time.sleep(9)
         send.send_data(lon_str)
-        time.sleep(15)
+        time.sleep(9)
         # send.send_data("TXDU 0001,F0" + str(lat1) + "0")
         # send.send_data("TXDU 0001,F1" + str(lon1))
         #print("-------gps走行開始-------")
