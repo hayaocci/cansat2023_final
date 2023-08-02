@@ -257,8 +257,8 @@ def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
         m = min(m, 40)
         m = max(m, -40)
 
-        pwr_l = m
-        pwr_r = -m
+        pwr_l = -m
+        pwr_r = m
 
         print(f"{error_theta=}")
         print('left', pwr_l, 'right', pwr_r)
