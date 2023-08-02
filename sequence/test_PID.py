@@ -327,7 +327,7 @@ def PID_run(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
-        error_theta = target_theta - theta
+        error_theta = target_azimuth - theta
         if error_theta < -180:
             error_theta += 360
         elif error_theta > 180:
@@ -366,7 +366,7 @@ def PID_run(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
         mag_y = magdata[1]
         theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
-        error_theta = target_theta - theta
+        error_theta = target_azimuth - theta
 
         if error_theta < -180:
             error_theta += 360
