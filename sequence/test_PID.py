@@ -202,7 +202,7 @@ def PID_control(theta, theta_array: list, Kp=0.1, Ki=0.04, Kd=2.5):
 
     return m
 
-def adjust_direction_PID(target_azimuth, magx_off, magy_off, theta_array: list):
+def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
     '''
     目標角度に合わせて方向調整を行う関数
 
@@ -290,7 +290,7 @@ def adjust_direction_PID(target_azimuth, magx_off, magy_off, theta_array: list):
 
     motor.motor_stop(1)
 
-def PID_drive(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
+def PID_run(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
     '''
     目標地点までの方位角が既知の場合にPID制御により走行する関数
     '''
@@ -424,7 +424,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
         target_azimuth,  distance_dest = direction["azimuth1"], direction["distance"]
 
         #-----PID制御による角度調整-----#
-        adjust_direction_PID(target_azimuth, magx_off, magy_off, theta_array)
+        PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array)
 
         #-----現在のローバーの情報取得-----#
         magdata = bmx055.mag_dataRead()
@@ -468,7 +468,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
 
             #-----PID制御による走行-----#
             if distance_dest > thd_distance:
-                PID_drive(target_azimuth, magx_off, magy_off, theta_array, loop_num=25)
+                PID_run(target_azimuth, magx_off, magy_off, theta_array, loop_num=25)
             else:
                 break
 
