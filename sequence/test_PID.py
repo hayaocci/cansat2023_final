@@ -440,9 +440,9 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
         lat_str = "{:.6f}".format(lat_old)  # 緯度を小数点以下8桁に整形
         lon_str = "{:.6f}".format(lon_old)  # 経度を小数点以下8桁に整形
         send.send_data(lat_str)
-        time.sleep(3)
+        time.sleep(9)
         send.send_data(lon_str)
-        time.sleep(15)
+        time.sleep(9)
 
         while time.time() - t_cal <= t_run:
             print("-------gps走行-------")
