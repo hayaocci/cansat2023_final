@@ -416,6 +416,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
         stuck2.ue_jug()
 
         #-----キャリブレーション-----#
+        time.sleep(1)
         magx_off, magy_off = calibration.cal(30, -30, 40)
 
         #-----目標地点への角度を取得-----#
@@ -429,7 +430,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
         magdata = bmx055.mag_dataRead()
         mag_x = magdata[0]
         mag_y = magdata[1]
-        lat_old, lon_old = gps.location()
+        lat_old, lon_old = gps.location() #スタックチェック用の変数の更新
         
         log_rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
@@ -454,7 +455,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
             #-----スタックチェック用の変数の更新-----#
             lat_new, lon_new = lat_now, lon_now
             direction = gps_navigate.vincenty_inverse(lat_now, lon_now, lat_dest, lon_dest)
-            distance, azimuth = direction["distance"], direction["azimuth1"]
+            distance_dest, target_azimuth = direction["distance"], direction["azimuth1"]
 
             #-----スタックチェック-----#
             if stuck_count % 25 == 0:
@@ -465,10 +466,9 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
                     pass
                 lat_old, lon_old = gps.location()
 
-            #
-            if distance > thd_distance:
-                for _ in range(25):
-                    PID_drive(azimuth, magx_off, magy_off, theta_array, loop_num=25)
+            #-----PID制御による走行-----#
+            if distance_dest > thd_distance:
+                PID_drive(target_azimuth, magx_off, magy_off, theta_array, loop_num=25)
             else:
                 break
 
@@ -478,6 +478,8 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
 
         direction = calibration.calculate_direction(lon_dest, lat_dest)
         distance = direction["distance"]
+    
+
 
 if __name__ == "__main__":
 
@@ -510,5 +512,15 @@ if __name__ == "__main__":
     time.sleep(1)
 
     adjust_direction_PID(270, magx_off, magy_off, theta_array)
+
+    time.sleep(4)
+
+    #-----PID制御によるGPS走行-----#
+    #-----目標地点の設定-----#
+    lat_goal = 35.9242411
+    lon_goal = 139.9120618
+
+    drive(lon_dest=lon_goal, lat_dest=lat_goal, thd_distance=10, t_run=60, log_path='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt'))
+
     
     
