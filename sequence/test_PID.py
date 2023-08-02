@@ -220,7 +220,7 @@ def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
     count = 0
     # controller = PID_Controller(kp=0.4, ki=0.03, kd=3, target=target_theta, num_log=5, validate_ki=25)
     
-    print('adjust_direction_PID')
+    print('PID_adjust_direction')
 
     #-----ローバーの角度の取得-----#
     error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
@@ -305,6 +305,8 @@ def PID_run(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
 
     #-----相対角度の取得-----#
     error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
+
+    print('error theta = ' + str(error_theta))
 
     theta_array.append(error_theta)
 
