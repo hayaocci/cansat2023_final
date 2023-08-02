@@ -213,7 +213,7 @@ def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
     '''
 
     #パラメータの設定
-    Kp = 0.2
+    Kp = 0.4
     Kd_ = 3
     Ki_ = 0.03
 
