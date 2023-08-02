@@ -30,16 +30,16 @@ import beta_para_avoid as para_avoid
 import wgps_beta_photo_running as imgguide
 from math import sqrt
 #variable for log
-log_phase=other.filename('./log/phaselog','txt')
-log_report=other.filename('/home/dendenmushi/cansat2023/sequence/log/reportlog','txt')
-log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog','txt')
-log_landing=other.filename('/home/dendenmushi/cansat2023/sequence/log/landinglog','txt')
-log_melting=other.filename('/home/dendenmushi/cansat2023/sequence/log/meltinglog','txt')
-log_para=other.filename('/home/dendenmushi/cansat2023/sequence/log/para_avoid_log','txt')
-log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log','txt')
-log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
-log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log','txt')
-log_photorunning =other.filename( '/home/dendenmushi/cansat2023/sequence/log/photorunninglog','txt')
+log_phase=other.filename('/home/dendenmushi/cansat2023/sequence/log/phaselog/phaselog','txt')
+log_report=other.filename('/home/dendenmushi/cansat2023/sequence/log/reportlog/reportlog','txt')
+log_release=other.filename('/home/dendenmushi/cansat2023/sequence/log/releaselog/releaselog','txt')
+log_landing=other.filename('/home/dendenmushi/cansat2023/sequence/log/landinglog/landinglog','txt')
+log_melting=other.filename('/home/dendenmushi/cansat2023/sequence/log/meltinglog/meltinglog','txt')
+log_para=other.filename('/home/dendenmushi/cansat2023/sequence/log/para_avoid_log/para_avoid_log','txt')
+log_gpsrunning1=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log/gpsrunning1log','txt')
+log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog/humandetectlog','txt')
+log_gpsrunning2=other.filename('/home/dendenmushi/cansat2023/sequence/log/gpsrunning2log/gpsrunning2log','txt')
+log_photorunning =other.filename( '/home/dendenmushi/cansat2023/sequence/log/photorunninglog/photorunninglog','txt')
 
 def get_locations(lat_human, lon_human):
 #最後の位置情報をもとに周囲の4つの点の座標を求める
