@@ -210,7 +210,7 @@ if __name__=='__main__':
     lat_log,lon_log=gps.location()
     other.log(log_phase,'0',"phase","Time","Elapsed Time","lat","lon")
     other.log(log_phase,'1',"setup phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     other.phase(log_report,datetime.datetime.now()+"(PDT)",time.time()-t_start,"N"+lat_log,"W"+lon_log)
     bme280.bme280_setup()
     bme280.bme280_calib_param()
@@ -250,7 +250,7 @@ if __name__=='__main__':
     print("START: Release judge")
     lat_log,lon_log=gps.location()
     other.log(log_phase,'2',"release phase",datetime.datetime.now(),time.time()-t_start)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     thd_press_release = 0.1
     # pressreleasecount = 0
     # pressreleasejudge = 0
@@ -284,7 +284,7 @@ if __name__=='__main__':
     print("START: Land judge")
     lat_log,lon_log=gps.location()
     other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
 
     #bme280.bme280_setup()
     #bme280.bme280_calib_param()
@@ -323,7 +323,7 @@ if __name__=='__main__':
     print("START: Melt")
     lat_log, lon_log=gps.location()
     other.log(log_phase,'4',"melt phase",datetime.datetime.now(),time.time()-t_start,lat_log, lon_log)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     pi = pigpio.pi()
 
     meltPin = 4
@@ -391,7 +391,7 @@ if __name__=='__main__':
     #-----praschute avoid-----#
     lat_log, lon_log=gps.location()
     other.log(log_phase,'5',"paraavo phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     lat_log, lon_log=gps.location()
     other.log(log_para, "datetime.datetime.now()", "time.time() - t_start", "start or finish","lat", "lon")
     other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Start",lat_log, lon_log)
@@ -407,7 +407,7 @@ if __name__=='__main__':
     print("START:gps running1")
     lat_log, lon_log=gps.location()
     other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
 
     # gps.open_gps()
     # bmx055.bmx055_setup()
@@ -425,7 +425,7 @@ if __name__=='__main__':
     print("START:human detect")
     lat_log,lon_log=gps.location()
     other.log(log_phase,'7',"humandetect phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     count = 0
     human_judge_count=0
     break_outer_loop =False
@@ -673,7 +673,7 @@ if __name__=='__main__':
 ######--------------run2--------------######
     lat_log,lon_log=gps.location()
     other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     other.log(log_gpsrunning2,datetime.datetime.now(),time.time()-t_start,"run2 start")
     other.log(log_gpsrunning2,"datetime.datetime.now()","time.time()-t_start","lat","lon","direction","goal-distance")
     gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=50,logpath=log_gpsrunning2,t_start=t_start)
@@ -687,7 +687,7 @@ if __name__=='__main__':
 ######--------------goal--------------######
     lat_log,lon_log=gps.location()
     other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
-    phase=other.phase(log_phase)
+    #phase=other.phase(log_phase)
     lat_last, lon_last=gps.location()
     other.log(log_photorunning,datetime.datetime.now(),time.time()-t_start,"photorun start",lat_last, lon_last)
     other.log(log_photorunning, "datetime.datetime.now()", "time.time() - t_start","area_ratio")
