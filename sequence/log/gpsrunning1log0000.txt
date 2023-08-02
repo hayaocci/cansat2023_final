@@ -1,2 +1,4 @@
 run1 start	
 run1 start	
+2023-08-02 17:56:57.309257	79.81334018707275	run1 start	
+datetime.datetime.now()	time.time()-t_start	lat	lon	direction	goal-distance	

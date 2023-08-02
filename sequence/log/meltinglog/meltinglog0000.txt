@@ -1,0 +1,3 @@
+datetime.datetime.now()	time.time() - t_start	start or finish	lat	lon	
+2023-08-02 17:56:28.034337	50.53842782974243	melt start	35.924332	139.912876	
+2023-08-02 17:56:34.058883	56.562968254089355	melt finish	35.924327	139.912877	

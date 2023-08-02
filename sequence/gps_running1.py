@@ -143,8 +143,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         mag_y = magdata[1]
 
         rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-        other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start, lat1, lon1, rover_azimuth, direction['distance'])
+        #other.log(logpath, datetime.datetime.now(), time.time() -
+                      #t_start, lat1, lon1, rover_azimuth, direction['distance'])
         
 
 

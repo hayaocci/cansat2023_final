@@ -209,9 +209,9 @@ if __name__=='__main__':
     bmx055.bmx055_setup()
     lat_log,lon_log=gps.location()
     other.log(log_phase,'0',"phase","Time","Elapsed Time","lat","lon")
-    other.log(log_phase,'1',"setup phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
+    other.log(log_phase,'1',"setup phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
-    other.phase(log_report,datetime.datetime.now()+"(PDT)",time.time()-t_start,"N"+lat_log,"W"+lon_log)
+    other.log(log_report,datetime.datetime.now(),"(PDT)",time.time()-t_start,"N",str(lat_log),"W",str(lon_log))
     bme280.bme280_setup()
     bme280.bme280_calib_param()
 
@@ -249,7 +249,7 @@ if __name__=='__main__':
 ###-------release judge -------###
     print("START: Release judge")
     lat_log,lon_log=gps.location()
-    other.log(log_phase,'2',"release phase",datetime.datetime.now(),time.time()-t_start)
+    other.log(log_phase,'2',"release phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
     thd_press_release = 0.1
     # pressreleasecount = 0
@@ -322,20 +322,20 @@ if __name__=='__main__':
 
     print("START: Melt")
     lat_log, lon_log=gps.location()
-    other.log(log_phase,'4',"melt phase",datetime.datetime.now(),time.time()-t_start,lat_log, lon_log)
+    other.log(log_phase,'4',"melt phase",datetime.datetime.now(),time.time()-t_start,str(lat_log), str(lon_log))
     #phase=other.phase(log_phase)
     pi = pigpio.pi()
 
     meltPin = 4
     other.log(log_melting, "datetime.datetime.now()", "time.time() - t_start", "start or finish","lat", "lon")
-    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt start",lat_log, lon_log)
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt start",str(lat_log), str(lon_log))
     try:
         melt.down()
         send.send_data("melting")
     except:
         pi.write(meltPin, 0)
     lat_log, lon_log=gps.location()
-    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish",lat_log, lon_log)
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish",str(lat_log), str(lon_log))
     send.send_data("melt finish")
     print("melt finish!!!")
     ###------paraavo-------###
@@ -390,11 +390,11 @@ if __name__=='__main__':
 
     #-----praschute avoid-----#
     lat_log, lon_log=gps.location()
-    other.log(log_phase,'5',"paraavo phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
+    other.log(log_phase,'5',"paraavo phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
     lat_log, lon_log=gps.location()
     other.log(log_para, "datetime.datetime.now()", "time.time() - t_start", "start or finish","lat", "lon")
-    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Start",lat_log, lon_log)
+    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Start",str(lat_log), str(lon_log))
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
     lat_log, lon_log=gps.location()
@@ -406,7 +406,7 @@ if __name__=='__main__':
 ######--------------run1--------------######
     print("START:gps running1")
     lat_log, lon_log=gps.location()
-    other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
+    other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
 
     # gps.open_gps()
@@ -424,7 +424,7 @@ if __name__=='__main__':
 ######--------------mission--------------######
     print("START:human detect")
     lat_log,lon_log=gps.location()
-    other.log(log_phase,'7',"humandetect phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
+    other.log(log_phase,'7',"humandetect phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
     count = 0
     human_judge_count=0
@@ -672,7 +672,7 @@ if __name__=='__main__':
     print("human detection finish!!!")
 ######--------------run2--------------######
     lat_log,lon_log=gps.location()
-    other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
+    other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
     other.log(log_gpsrunning2,datetime.datetime.now(),time.time()-t_start,"run2 start")
     other.log(log_gpsrunning2,"datetime.datetime.now()","time.time()-t_start","lat","lon","direction","goal-distance")
@@ -686,10 +686,10 @@ if __name__=='__main__':
     time.sleep(10)
 ######--------------goal--------------######
     lat_log,lon_log=gps.location()
-    other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
+    other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
     lat_last, lon_last=gps.location()
-    other.log(log_photorunning,datetime.datetime.now(),time.time()-t_start,"photorun start",lat_last, lon_last)
+    other.log(log_photorunning,datetime.datetime.now(),time.time()-t_start,"photorun start",str(lat_last), str(lon_last))
     other.log(log_photorunning, "datetime.datetime.now()", "time.time() - t_start","area_ratio")
     while True:
         try:
@@ -706,11 +706,11 @@ if __name__=='__main__':
 
 #------ゴール終了-----#
     last_lat, last_lon=gps.location()
-    other.log(log_photorunning,datetime.datetime.now(),time.time()-t_start,"photorun finish",last_lat, last_lon)
+    other.log(log_photorunning,datetime.datetime.now(),time.time()-t_start,"photorun finish",str(last_lat), str(last_lon))
     print("photorun finish")
     send.send_data("all complete!")
     time.sleep(10)
     lat_log,lon_log=gps.location()
-    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
-    other.phase(log_report,datetime.datetime.now()+"(PDT)",time.time()-t_start,"N"+lat_log,"W"+lon_log)
+    other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
+    other.log(log_report,datetime.datetime.now(),"(PDT)",time.time()-t_start,"N",str(lat_log),"W",str(lon_log))
     print("all complete!")

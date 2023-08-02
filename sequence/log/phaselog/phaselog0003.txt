@@ -1,0 +1,2 @@
+0	phase	Time	Elapsed Time	lat	lon	
+1	setup phase	2023-08-02 17:53:37.773322	1.1202127933502197	35.924334	139.91287	
