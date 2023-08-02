@@ -431,12 +431,13 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
         mag_y = magdata[1]
 
         log_rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-        other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat1, lon1, log_rover_azimuth, direction['distance'])
-        # ログのlat1, lon1 がよく分からない
 
         #-----GPS走行のための初期設定などもろもろ-----#
         t_cal = time.time() #キャリブレーションを行った時刻
         lat_old, lon_old = gps.location()
+
+        other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat_old, lon_old, log_rover_azimuth, direction['distance'])
+
         lat_str = "{:.6f}".format(lat_old)  # 緯度を小数点以下8桁に整形
         lon_str = "{:.6f}".format(lon_old)  # 経度を小数点以下8桁に整形
         send.send_data(lat_str)
