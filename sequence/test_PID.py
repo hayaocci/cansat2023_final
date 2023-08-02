@@ -339,8 +339,8 @@ def PID_run(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
         m = min(m, 15)
         m = max(m, -15)
 
-        pwr_l = m + s_l
-        pwr_r = -m + s_r
+        pwr_l = -m + s_l
+        pwr_r = m + s_r
 
         print(f"{error_theta=}")
         print('left', pwr_l, 'right', pwr_r)
