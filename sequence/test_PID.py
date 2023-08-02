@@ -431,10 +431,11 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
         mag_y = magdata[1]
 
         log_rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-        # other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat1, lon1, log_rover_azimuth, direction['distance'])
+        other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat1, lon1, log_rover_azimuth, direction['distance'])
+        # ログのlat1, lon1 がよく分からない
 
-        #-----
-        t_cal = time.time()
+        #-----GPS走行のための初期設定などもろもろ-----#
+        t_cal = time.time() #キャリブレーションを行った時刻
         lat_old, lon_old = gps.location()
         lat_str = "{:.6f}".format(lat_old)  # 緯度を小数点以下8桁に整形
         lon_str = "{:.6f}".format(lon_old)  # 経度を小数点以下8桁に整形
@@ -448,7 +449,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
             lat_now, lon_now = gps.location()
             print(lat_now, lon_now)
 
-            #-----
+            #-----スタックチェック用の変数の更新-----#
             lat_new, lon_new = lat_now, lon_now
             direction = gps_navigate.vincenty_inverse(lat_now, lon_now, lat_dest, lon_dest)
             distance, azimuth = direction["distance"], direction["azimuth1"]
@@ -462,6 +463,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
                     pass
                 lat_old, lon_old = gps.location()
 
+            #
             if distance > thd_distance:
                 for _ in range(25):
                     PID_drive(azimuth, magx_off, magy_off, theta_array, loop_num=25)
