@@ -420,30 +420,31 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
 
         #-----目標地点への角度を取得-----#
         direction = calibration.calculate_direction(lon_dest, lat_dest)
-        target_azimuth = direction["azimuth1"]
+        target_azimuth,  distance_dest = direction["azimuth1"], direction["distance"]
 
         #-----PID制御による角度調整-----#
         adjust_direction_PID(target_azimuth, magx_off, magy_off, theta_array)
 
-        #-----角度ログの出力-----#
+        #-----現在のローバーの情報取得-----#
         magdata = bmx055.mag_dataRead()
         mag_x = magdata[0]
         mag_y = magdata[1]
-
+        lat_old, lon_old = gps.location()
+        
         log_rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
-        #-----GPS走行のための初期設定などもろもろ-----#
-        t_cal = time.time() #キャリブレーションを行った時刻
-        lat_old, lon_old = gps.location()
+        #-----ログの保存-----#
+        other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat_old, lon_old, log_rover_azimuth, distance_dest)
 
-        other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat_old, lon_old, log_rover_azimuth, direction['distance'])
-
+        #------無線通信による現在位置情報の送信-----#
         lat_str = "{:.6f}".format(lat_old)  # 緯度を小数点以下8桁に整形
         lon_str = "{:.6f}".format(lon_old)  # 経度を小数点以下8桁に整形
         send.send_data(lat_str)
         time.sleep(9)
         send.send_data(lon_str)
         time.sleep(9)
+
+        t_cal = time.time() #GPS走行開始前の時刻
 
         while time.time() - t_cal <= t_run:
             print("-------gps走行-------")
