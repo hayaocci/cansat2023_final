@@ -395,7 +395,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
     lat : float
         目標地点の緯度
     thed_distance : float
-        目標地点に到達したと判定する距離
+        目標地点に到達したと判定する距離（10mぐらいが望ましい？？短くしすぎるとうまく停止してくれない）
     t_adj_gps : float
         GPSの取得間隔
     log_path : 
@@ -420,10 +420,10 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
 
         #-----目標地点への角度を取得-----#
         direction = calibration.calculate_direction(lon_dest, lat_dest)
-        azimuth = direction["azimuth1"]
+        target_azimuth = direction["azimuth1"]
 
         #-----PID制御による角度調整-----#
-        adjust_direction_PID(azimuth, magx_off, magy_off, theta_array)
+        adjust_direction_PID(target_azimuth, magx_off, magy_off, theta_array)
 
         #-----角度ログの出力-----#
         magdata = bmx055.mag_dataRead()
@@ -431,7 +431,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start):
         mag_y = magdata[1]
 
         log_rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-        other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat1, lon1, log_rover_azimuth, direction['distance'])
+        # other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat1, lon1, log_rover_azimuth, direction['distance'])
 
         #-----
         t_cal = time.time()
