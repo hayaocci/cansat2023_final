@@ -410,7 +410,7 @@ if __name__=='__main__':
 ######--------------run1--------------######
     print("START:gps running1")
     lat_log, lon_log=gps.location()
-    other.log(log_phase,'6',"gps running1 phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
+    other.log(log_phase,'6',"gps run1 phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
 
     # gps.open_gps()
@@ -428,7 +428,7 @@ if __name__=='__main__':
 ######--------------mission--------------######
     print("START:human detect")
     lat_log,lon_log=gps.location()
-    other.log(log_phase,'7',"humandetect phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
+    other.log(log_phase,'7',"mission phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
     count = 0
     human_judge_count=0
@@ -674,7 +674,7 @@ if __name__=='__main__':
     print("human detection finish!!!")
 ######--------------run2--------------######
     lat_log,lon_log=gps.location()
-    other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
+    other.log(log_phase,'8',"gps run2 phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
     other.log(log_gpsrunning2,"run2 start")
     other.log(log_gpsrunning2,"datetime.datetime.now()","time.time()-t_start","lat","lon","direction","goal-distance")
@@ -688,7 +688,7 @@ if __name__=='__main__':
     time.sleep(10)
 ######--------------goal--------------######
     lat_log,lon_log=gps.location()
-    other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
+    other.log(log_phase,'9',"photorun phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
     # lat_last, lon_last=gps.location()
     other.log(log_photorunning,"photorun start")
