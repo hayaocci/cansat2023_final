@@ -205,6 +205,7 @@ if __name__=='__main__':
 ###----------set up -----------###
     t_start=time.time()
     print("START: Setup")
+    other.log(log_phase,'0',"phase","Time","Elapsed Time","lat","lon")
     gps.open_gps()
     bmx055.bmx055_setup()
     lat_log,lon_log=gps.location()
