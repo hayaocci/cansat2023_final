@@ -401,7 +401,7 @@ if __name__=='__main__':
     
     send.send_data("paraavo finish")
     time.sleep(3)
-
+    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance finish",str(lat_log), str(lon_log))
     print("paraavo finish!!!")
 ######--------------run1--------------######
     print("START:gps running1")
