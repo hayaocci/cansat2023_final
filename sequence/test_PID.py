@@ -213,7 +213,7 @@ def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
     '''
 
     #パラメータの設定
-    Kp = 0.4
+    Kp = 0.2
     Kd_ = 3
     Ki_ = 0.03
 
@@ -223,14 +223,14 @@ def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
     print('PID_adjust_direction')
 
     #-----ローバーの角度の取得-----#
-    error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
+    # error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
-    # output = controller.get_output(theta)
-    # print(controller.kp)
+    # # output = controller.get_output(theta)
+    # # print(controller.kp)
     
-    print('error theta = ' + str(error_theta))
+    # print('error theta = ' + str(error_theta))
 
-    theta_array.append(error_theta)
+    # theta_array.append(error_theta)
 
     #-----制御処理-----#
     #while abs(theta_array[-1]) > 5:
@@ -270,14 +270,14 @@ def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
         time.sleep(0.04)
 
         #-----角度の取得-----#
-        magdata = bmx055.mag_dataRead()
-        mag_x = magdata[0]
-        mag_y = magdata[1]
-        rover_angle = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+        # magdata = bmx055.mag_dataRead()
+        # mag_x = magdata[0]
+        # mag_y = magdata[1]
+        # rover_angle = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
         error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
-        check = 0
+        # check = 0
         bool_com = True
         for i in range(len(theta_array)):
             if abs(theta_array[i]) > 15:
