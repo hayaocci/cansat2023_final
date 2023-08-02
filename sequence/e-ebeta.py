@@ -312,8 +312,8 @@ if __name__=='__main__':
         else:
             print('Press unfulfilled')
             send.send_data("judging")
-    lat_log, lon_log=gps.location()
-    other.log(log_landing, "land judge finish",lat_log, lon_log)
+    #lat_log, lon_log=gps.location()
+    other.log(log_landing, "land judge finish")
     send.send_data("land finish")
     time.sleep(3)
     print("land finish!!!")
@@ -327,15 +327,17 @@ if __name__=='__main__':
     pi = pigpio.pi()
 
     meltPin = 4
+    other.log(log_melting,"melt start")
     other.log(log_melting, "datetime.datetime.now()", "time.time() - t_start", "start or finish","lat", "lon")
-    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt start",str(lat_log), str(lon_log))
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "start",str(lat_log), str(lon_log))
     try:
         melt.down()
         send.send_data("melting")
     except:
         pi.write(meltPin, 0)
     lat_log, lon_log=gps.location()
-    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "melt finish",str(lat_log), str(lon_log))
+    other.log(log_melting, datetime.datetime.now(), time.time() - t_start,  "finish",str(lat_log), str(lon_log))
+    other.log(log_melting,"melt finish")
     send.send_data("melt finish")
     print("melt finish!!!")
     ###------paraavo-------###
@@ -393,15 +395,17 @@ if __name__=='__main__':
     other.log(log_phase,'5',"paraavo phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
     lat_log, lon_log=gps.location()
+    other.log(log_para,"paraavo start")
     other.log(log_para, "datetime.datetime.now()", "time.time() - t_start", "start or finish","lat", "lon")
-    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance Start",str(lat_log), str(lon_log))
+    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "start",str(lat_log), str(lon_log))
     red_area, angle = para_avoid.detect_para()
     para_avoid.para_avoid(red_area, angle, check_count=5)
     lat_log, lon_log=gps.location()
-    
+    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "finish",str(lat_log), str(lon_log))
+    other.log(log_para,"paraavo finish")
     send.send_data("paraavo finish")
     time.sleep(3)
-    other.log(log_para, datetime.datetime.now(),time.time() - t_start, "Parachute avoidance finish",str(lat_log), str(lon_log))
+    
     print("paraavo finish!!!")
 ######--------------run1--------------######
     print("START:gps running1")
@@ -412,11 +416,11 @@ if __name__=='__main__':
     # gps.open_gps()
     # bmx055.bmx055_setup()
     # motor.setup()
-    other.log(log_gpsrunning1,datetime.datetime.now(),time.time()-t_start,"run1 start")
+    other.log(log_gpsrunning1,"run1 start")
     other.log(log_gpsrunning1,"datetime.datetime.now()","time.time()-t_start","lat","lon","direction","goal-distance")
     goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=60,logpath=log_gpsrunning1,t_start=t_start)
     print(f'-----distance: {goal_distance}-----')
-    other.log(log_gpsrunning1,datetime.datetime.now(),time.time()-t_start,"run1 finish")
+    other.log(log_gpsrunning1,"run1 finish")
     send.send_data("run1 finish")
     print("finish!")
     motor.motor_stop(1)
@@ -437,8 +441,7 @@ if __name__=='__main__':
 
     lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w = get_locations(lat_human, lon_human)
     
-    other.log(log_humandetect,datetime.datetime.now(), time.time() -
-                      t_start,"humandetect start")
+    other.log(log_humandetect,"mission start")
     other.log(log_humandetect,"datetime.datetime.now()", "time.time() - t_start","result","additional_result","human_judge_count","break_outer_loop","mission_time")
     #まずはメインエリアを捜索
     for k in range(24):
@@ -666,19 +669,18 @@ if __name__=='__main__':
     #     lat_log,lon_log=gps.location()
     #     other.log(log_humandetect, datetime.datetime.now(), time.time() -
     #                   t_start,"画像伝送終了",lat_log,lon_log)            
-    other.log(log_humandetect,datetime.datetime.now(), time.time() -
-                      t_start,"humandetect finish")
+    other.log(log_humandetect,"mission finish")
     send.send_data("human finish")
     print("human detection finish!!!")
 ######--------------run2--------------######
     lat_log,lon_log=gps.location()
     other.log(log_phase,'8',"gps running2 phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
-    other.log(log_gpsrunning2,datetime.datetime.now(),time.time()-t_start,"run2 start")
+    other.log(log_gpsrunning2,"run2 start")
     other.log(log_gpsrunning2,"datetime.datetime.now()","time.time()-t_start","lat","lon","direction","goal-distance")
     gps_running1.drive(lon_goal, lat_goal, thd_distance=10, t_adj_gps=50,logpath=log_gpsrunning2,t_start=t_start)
     print(f'-----distance: {goal_distance}-----')
-    other.log(log_gpsrunning2,datetime.datetime.now(),time.time()-t_start,"run2 finish")
+    other.log(log_gpsrunning2,"run2 finish")
     #send.send_data("run2 finish")
     print("finish!")
     motor.motor_stop(1)
@@ -688,8 +690,8 @@ if __name__=='__main__':
     lat_log,lon_log=gps.location()
     other.log(log_phase,'9',"goal phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
-    lat_last, lon_last=gps.location()
-    other.log(log_photorunning,datetime.datetime.now(),time.time()-t_start,"photorun start",str(lat_last), str(lon_last))
+    # lat_last, lon_last=gps.location()
+    other.log(log_photorunning,"photorun start")
     other.log(log_photorunning, "datetime.datetime.now()", "time.time() - t_start","area_ratio")
     while True:
         try:
@@ -706,7 +708,7 @@ if __name__=='__main__':
 
 #------ゴール終了-----#
     last_lat, last_lon=gps.location()
-    other.log(log_photorunning,datetime.datetime.now(),time.time()-t_start,"photorun finish",str(last_lat), str(last_lon))
+    other.log(log_photorunning,"photorun finish")
     print("photorun finish")
     send.send_data("all complete!")
     time.sleep(10)

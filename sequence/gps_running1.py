@@ -142,7 +142,7 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         mag_x = magdata[0]
         mag_y = magdata[1]
 
-        rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+        # rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
         #other.log(logpath, datetime.datetime.now(), time.time() -
                       #t_start, lat1, lon1, rover_azimuth, direction['distance'])
         
@@ -151,8 +151,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
         t_cal = time.time()
         lat_old, lon_old = gps.location()
 
-        other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start, lat_old, lon_old, rover_azimuth, direction['distance'])
+        # other.log(logpath, datetime.datetime.now(), time.time() -
+        #               t_start, lat_old, lon_old, rover_azimuth, direction['distance'])
 
         lat_str = "{:.6f}".format(lat_old)  # 緯度を小数点以下8桁に整形
         lon_str = "{:.6f}".format(lon_old)  # 経度を小数点以下8桁に整形
@@ -207,8 +207,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     magx, magy, magz = calibration.get_data()
                     print('********calibartion.get_data***********')
                     print(magx,magy,magz)                 
-                    theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
-                    angle_relative = azimuth - theta
+                    rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+                    angle_relative = azimuth - rover_azimuth
 
                     if angle_relative >= 0:
                         angle_relative = angle_relative if angle_relative <= 180 else angle_relative - 360
@@ -242,8 +242,8 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     time.sleep(0.04)
 
             t_stuck_count += 1
-            # other.log(logpath, datetime.datetime.now(), time.time() -
-            #           t_start, lat1, lon1, mag_x, direction['distance'], angle_relative)
+            other.log(logpath, datetime.datetime.now(), time.time() -
+                      t_start, lat_old, lon_old, rover_azimuth, direction['distance'])
             #motor.deceleration(strength_l, strength_r)
             #time.sleep(2)
             lat_new, lon_new = gps.location()
