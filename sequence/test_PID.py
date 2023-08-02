@@ -495,19 +495,19 @@ if __name__ == "__main__":
     magx_off, magy_off = calibration.cal(30, -30, 40)
 
     #-----PID制御-----#
-    # PID_adjust_direction(180, magx_off, magy_off, theta_array)
+    PID_adjust_direction(180, magx_off, magy_off, theta_array)
 
-    # time.sleep(1)
+    time.sleep(1)
 
     PID_adjust_direction(0, magx_off, magy_off, theta_array)
 
-    # time.sleep(1)
+    time.sleep(1)
 
-    # PID_adjust_direction(90, magx_off, magy_off, theta_array)
+    PID_adjust_direction(90, magx_off, magy_off, theta_array)
 
-    # time.sleep(1)
+    time.sleep(1)
 
-    # PID_adjust_direction(270, magx_off, magy_off, theta_array)
+    PID_adjust_direction(270, magx_off, magy_off, theta_array)
 
     time.sleep(4)
 
