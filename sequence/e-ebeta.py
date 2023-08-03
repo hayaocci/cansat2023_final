@@ -692,16 +692,14 @@ if __name__=='__main__':
     #phase=other.phase(log_phase)
     # lat_last, lon_last=gps.location()
     other.log(log_photorunning,"photorun start")
-    other.log(log_photorunning, "datetime.datetime.now()", "time.time() - t_start","area_ratio")
+    other.log(log_photorunning, "datetime.datetime.now()", "time.time() - t_start","area_ratio", "lat" , "lon")
     while True:
         try:
             angle = 0
             t_running = 0
 
             area_ratio, angle = imgguide.detect_goal(lat_goal, lon_goal)
-            imgguide.image_guided_driving(area_ratio, angle, lat_goal, lon_goal)
-            other.log(log_photorunning, datetime.datetime.now(), time.time() -
-                      t_start,area_ratio)
+            imgguide.image_guided_driving(area_ratio, angle, lat_goal, lon_goal, 75, 10, log_photorunning, t_start=t_start)
             break
         except:
             print("restarting photo running")

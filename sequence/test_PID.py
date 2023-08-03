@@ -466,8 +466,14 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start=0):
                 PID_run(target_azimuth, magx_off, magy_off, theta_array, loop_num=50)
             else:
                 break
+            
+            magdata = bmx055.mag_dataRead()
+            mag_x = magdata[0]
+            mag_y = magdata[1]
+            rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
             stuck_count += 1
+            other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat_old, lon_old, rover_azimuth, direction['distance'])
             lat_new, lon_new = gps.location()
             print("whileの最下行")
 

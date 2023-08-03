@@ -9,6 +9,10 @@ import bmx055
 import calibration
 import gps_running1
 import save_photo
+import other
+import time
+import datetime
+
 
 #細かいノイズを除去するために画像を圧縮
 def mosaic(original_img, ratio):
@@ -163,7 +167,7 @@ def detect_goal(lat2, lon2, thd_dist_goal=10, run_t=2):
         
     return area_ratio, angle
 
-def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dist_goal=10):
+def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dist_goal=10, log_path, t_start=0):
     #thd_full_red = 0mゴールと判断するときの赤色が画像を占める割合の閾値
     #thd_dist_goal = 赤色検知モードの範囲の円の半径。ゴールから5mのとき赤色検知モードに入る。
 
@@ -171,6 +175,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
     lat1, lon1 = gps.location()
     distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
     dist_flag = distance_azimuth['distance']
+    other.log(log_path, datetime.datetime.now(), time.time()-t_start, 0, lat1, lon1)
     print("ゴールまでの距離は", dist_flag, "です。")
 
     #赤色検知モードの範囲外にいた場合の処理に必要な情報
@@ -195,6 +200,9 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
                     pwr_undetect = 25
                     motor.move(pwr_undetect, -pwr_undetect, 0.15)
                     area_ratio, angle = detect_goal(lat2, lon2)
+                    lat1, lon1 = gps.location()
+                    other.log(log_path, datetime.datetime.now(), time.time()-t_start, area_ratio, lat1, lon1)
+
                 else:
                     if area_ratio >= thd_full_red:
                         print("ゴール判定2")
@@ -218,6 +226,8 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
                                 break
                             
                             area_ratio, angle = detect_goal(lat2, lon2)
+                            lat1, lon1 = gps.location()
+                            other.log(log_path, datetime.datetime.now(), time.time()-t_start, area_ratio, lat1, lon1)
 
                         if lost_goal == 1:
                             break
@@ -244,7 +254,8 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
                         
                         motor.move(pwr_l, pwr_r, t_running)
                         area_ratio, angle = detect_goal(lat2, lon2)
-
+                        lat1, lon1 = gps.location()
+                        other.log(log_path, datetime.datetime.now(), time.time()-t_start, area_ratio, lat1, lon1)
                     else: 
                         #area_ratio が90以上のときゴールを発見したのでループを抜ける
                         if area_ratio != 0:
@@ -256,12 +267,15 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dis
 
                 #GPS誘導後、再度ゴールまでの距離を得る
                 lat1, lon1 = gps.location()
+                other.log(log_path, datetime.datetime.now(), time.time()-t_start, 0, lat1, lon1)
                 distance_azimuth = gps_navigate.vincenty_inverse(lat1, lon1, lat2, lon2)
                 dist_flag = distance_azimuth['distance']
                 print("ゴールまでの距離は", dist_flag, "です。")
 
         print("目的地周辺に到着しました。案内を終了します。")
         print("お疲れさまでした。")
+        lat1, lon1 = gps.location()
+        other.log(log_path, datetime.datetime.now(), time.time()-t_start, area_ratio, lat1, lon1)
 
     except KeyboardInterrupt:
         print("stop")
