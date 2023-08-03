@@ -473,8 +473,8 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start=0):
             rover_azimuth = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
             stuck_count += 1
-            other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat_old, lon_old, rover_azimuth, direction['distance'])
             lat_new, lon_new = gps.location()
+            other.log(log_path, datetime.datetime.now(), time.time() - t_start, lat_new, lon_new, rover_azimuth, direction['distance'])
             print("whileの最下行")
 
         direction = calibration.calculate_direction(lon_dest, lat_dest)

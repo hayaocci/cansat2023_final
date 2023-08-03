@@ -242,11 +242,10 @@ def drive(lon2, lat2, thd_distance, t_adj_gps, logpath='/home/dendenmushi/cansat
                     time.sleep(0.04)
 
             t_stuck_count += 1
-            other.log(logpath, datetime.datetime.now(), time.time() -
-                      t_start, lat_old, lon_old, rover_azimuth, direction['distance'])
             #motor.deceleration(strength_l, strength_r)
             #time.sleep(2)
             lat_new, lon_new = gps.location()
+            other.log(logpath, datetime.datetime.now(), time.time() - t_start, lat_new, lon_new, rover_azimuth, direction['distance'])
             print("whileの最下行")
 
         direction = calibration.calculate_direction(lon2, lat2)
