@@ -2,3 +2,8 @@
 2023-07-22 15:07:00.287228	Parachute avoidance Start	
 2023-07-22 15:08:11.322889	Parachute avoidance Finish	
 2023-07-22 15:08:11.322889	Parachute avoidance Finish	
+paraavo start	
+datetime.datetime.now()	time.time() - t_start	start or finish	lat	lon	
+2023-08-03 18:03:15.550438	75.26828694343567	start	35.924411	139.912865	
+2023-08-03 18:03:19.081524	78.79936051368713	finish	35.924411	139.912865	
+paraavo finish	

@@ -167,7 +167,7 @@ def detect_goal(lat2, lon2, thd_dist_goal=10, run_t=2):
         
     return area_ratio, angle
 
-def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red=75, thd_dist_goal=10, log_path, t_start=0):
+def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red, thd_dist_goal, log_path, t_start):
     #thd_full_red = 0mゴールと判断するときの赤色が画像を占める割合の閾値
     #thd_dist_goal = 赤色検知モードの範囲の円の半径。ゴールから5mのとき赤色検知モードに入る。
 
