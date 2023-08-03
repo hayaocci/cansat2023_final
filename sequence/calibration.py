@@ -83,6 +83,43 @@ def magdata_matrix(l, r, n):
         print('Interrupt')
     except Exception as e:
         print(e.message())
+
+    return magdata
+
+def magdata_matrix_v2(l, r, n):
+    """
+        キャリブレーション用の地磁気データを得るための関数。
+        モータを連続的に動かして回転して地磁気データを得る。
+        エラーが発生したときに再度キャリブレーションをさせるように、改善したバージョン
+        """
+    
+    count = 0
+
+    while True:
+
+        try:
+            stuck2.ue_jug()
+            magx, magy, magz = get_data()
+            magdata = np.array([[magx, magy, magz]])
+            for _ in range(n - 1):
+                motor.motor_continue(l, r)
+                magx, magy, magz = get_data()
+                print(magx, magy)
+                # --- multi dimention matrix ---#
+                magdata = np.append(magdata, np.array(
+                    [[magx, magy, magz]]), axis=0)
+                time.sleep(0.03)
+                # time.sleep(0.1)
+            motor.deceleration(l, r)
+        except KeyboardInterrupt:
+            print('Interrupt')
+        except Exception as e:
+            print(e.message())
+            count  += 1
+
+        if count == 0:
+            break
+
     return magdata
 
 
