@@ -6,6 +6,7 @@ def get_last_file_in_folder(folder_path):
     if file_list:
         file_list.sort()  # ファイル名でソート
         last_file = os.path.join(folder_path, file_list[-1])
+        print(last_file)
         return last_file
 
     else:
@@ -90,7 +91,7 @@ add_text_to_last_line(output_file, text_to_add)
 print("6")
 
 #log_release
-input_file = get_last_file_in_folder('C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/releaselog/releaselog0006.txt')
+input_file = get_last_file_in_folder('C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/releaselog')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("7")
