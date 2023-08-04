@@ -79,6 +79,7 @@ output_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari
 #reset
 line_to_delete_below = 4
 delete_lines_below(output_file, line_to_delete_below)
+print("0")
 
 input_file = get_last_file_in_folder('C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/reportlog')
 line_number=1
