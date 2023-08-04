@@ -19,7 +19,7 @@ def delete_lines_below(file_path, line_number):
 
         with open(file_path, 'w') as file:
             for i, line in enumerate(lines, 1):
-                if i <= line_number:
+                if i > line_number:
                     continue
                 file.write(line)
 
@@ -77,7 +77,7 @@ def add_text_to_last_line(output_file, text_to_add):
 output_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/test_control_record_report.txt'
 
 #reset
-line_to_delete_below = 4
+line_to_delete_below = 3
 delete_lines_below(output_file, line_to_delete_below)
 print("0")
 
