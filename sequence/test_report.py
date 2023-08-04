@@ -28,8 +28,6 @@ def delete_lines_below(file_path, line_number):
         print(f"ファイル {file_path} が見つかりません。")
 
 
-
-
 def extract_and_write(input_file, output_file, start_line, end_line=float('inf')):
     try:
         with open(input_file, 'r') as infile:
@@ -81,11 +79,13 @@ line_to_delete_below = 3
 delete_lines_below(output_file, line_to_delete_below)
 print("0")
 
+#開始時間
 input_file = get_last_file_in_folder('C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/reportlog')
 line_number=1
 extract_single_line(input_file, output_file, line_number)
 print("1")
 
+#終了時間
 text_to_add = "Time and position at which the control ended:"
 add_text_to_last_line(output_file, text_to_add)
 print("2")
