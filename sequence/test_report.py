@@ -99,7 +99,7 @@ add_text_to_last_line(output_file, text_to_add)
 print("4")
 
 #log_phase
-input_file = get_last_file_in_folder('./sequence/log/phaselog')
+input_file = get_last_file_in_folder('./log/phaselog')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("5")
@@ -109,49 +109,49 @@ add_text_to_last_line(output_file, text_to_add)
 print("6")
 
 #log_release
-input_file = get_last_file_in_folder('./sequence/log/releaselog')
+input_file = get_last_file_in_folder('./log/releaselog')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("7")
 
 #log_landing
-input_file = get_last_file_in_folder('./sequence/log/landinglog')
+input_file = get_last_file_in_folder('./log/landinglog')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("8")
 
 #log_melting
-input_file = get_last_file_in_folder('./sequence/log/meltinglog')
+input_file = get_last_file_in_folder('./log/meltinglog')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("9")
 
 #log_para
-input_file = get_last_file_in_folder('./sequence/log/para_avoid_log')
+input_file = get_last_file_in_folder('./log/para_avoid_log')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("10")
 
 #log_gpsrunning1
-input_file = get_last_file_in_folder('./sequence/log/gpsrunning1log')
+input_file = get_last_file_in_folder('./log/gpsrunning1log')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("11")
 
 #log_humandetect
-input_file = get_last_file_in_folder('./sequence/log/humandetectlog')
+input_file = get_last_file_in_folder('./log/humandetectlog')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("12")
 
 #log_gpsrunning2
-input_file = get_last_file_in_folder('./sequence/log/gpsrunning2log')
+input_file = get_last_file_in_folder('./log/gpsrunning2log')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("13")
 
 #log_photorunning
-input_file = get_last_file_in_folder('./sequence/log/photorunninglog')
+input_file = get_last_file_in_folder('./log/photorunninglog')
 start_line = 1
 extract_and_write(input_file, output_file, start_line)
 print("14")
