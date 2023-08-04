@@ -12,10 +12,23 @@ def get_last_file_in_folder(folder_path):
     else:
         return "フォルダ内にファイルが見つかりませんでした。"
 
-# 使用例:
-folder_path = "/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log"
-last_file_path = get_last_file_in_folder(folder_path)
-print(last_file_path)  # ファイルのパスを表示する例
+def delete_lines_below(file_path, line_number):
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+
+        with open(file_path, 'w') as file:
+            for i, line in enumerate(lines, 1):
+                if i <= line_number:
+                    continue
+                file.write(line)
+
+        print(f"ファイル {file_path} の {line_number} 行以下をすべて消去しました。")
+    except FileNotFoundError:
+        print(f"ファイル {file_path} が見つかりません。")
+
+
+
 
 def extract_and_write(input_file, output_file, start_line, end_line=float('inf')):
     try:
@@ -62,6 +75,10 @@ def add_text_to_last_line(output_file, text_to_add):
 
 #report file
 output_file = 'C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/test_control_record_report.txt'
+
+#reset
+line_to_delete_below = 4
+delete_lines_below(output_file, line_to_delete_below)
 
 input_file = get_last_file_in_folder('C:/Users/arass/OneDrive/ドキュメント/GitHub/cansat2023/kari/cansat2023/sequence/log/reportlog')
 line_number=1
