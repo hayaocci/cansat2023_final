@@ -1,9 +1,6 @@
 Brief description of the control algorithm:
 This CanSat is controlled using the relative positions of the current location and the goal.
 Time and position at which control was initiated:
-1
-2
-3
 2023-08-04 12:21:16.589829	(PDT)	14.14103078842163	N	35.924486	W	139.912568	
 Time and position at which the control ended:
 2023-08-04 12:27:14.284488	(PDT)	371.8356921672821	N	35.924234	W	139.912059	
