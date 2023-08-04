@@ -1,6 +1,4 @@
 photorun start	
-photorun start	
-photorun start	
 datetime.datetime.now()	time.time() - t_start	area_ratio	lat	lon	
 2023-08-04 12:24:44.074051	221.6252498626709	0	35.924252	139.91199	
 2023-08-04 12:24:45.979206	223.5304036140442	0	35.924251	139.91199	
