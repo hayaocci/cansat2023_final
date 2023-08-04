@@ -212,7 +212,7 @@ if __name__=='__main__':
     other.log(log_phase,'0',"phase","Time","Elapsed Time","lat","lon")
     other.log(log_phase,'1',"setup phase",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
     #phase=other.phase(log_phase)
-    other.log(log_report,datetime.datetime.now(),"(PDT)",time.time()-t_start,"N",str(lat_log),"W",str(lon_log))
+    other.log(log_report,datetime.datetime.now(),"(PDT)","N",str(lat_log),"W",str(lon_log))
     bme280.bme280_setup()
     bme280.bme280_calib_param()
 
@@ -715,5 +715,5 @@ if __name__=='__main__':
     time.sleep(10)
     lat_log,lon_log=gps.location()
     other.log(log_phase,'10',"all phase complete",datetime.datetime.now(),time.time()-t_start,str(lat_log),str(lon_log))
-    other.log(log_report,datetime.datetime.now(),"(PDT)",time.time()-t_start,"N",str(lat_log),"W",str(lon_log))
+    other.log(log_report,datetime.datetime.now(),"(PDT)","N",str(lat_log),"W",str(lon_log))
     print("all complete!")
