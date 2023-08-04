@@ -420,7 +420,7 @@ if __name__=='__main__':
     other.log(log_gpsrunning1,"run1 start")
     other.log(log_gpsrunning1,"datetime.datetime.now()","time.time()-t_start","lat","lon","direction","goal-distance")
     # goal_distance = gps_running1.drive(lon_human, lat_human, thd_distance=10, t_adj_gps=60,logpath=log_gpsrunning1,t_start=t_start)
-    goal_distance = PID.drive(lon_dest=lon_human, lat_dest=lat_human, thd_distance=10, t_run=60, log_path=log_gpsrunning2,t_start=t_start)
+    goal_distance = PID.drive(lon_dest=lon_human, lat_dest=lat_human, thd_distance=10, t_run=60, log_path=log_gpsrunning1,t_start=t_start)
     print(f'-----distance: {goal_distance}-----')
     other.log(log_gpsrunning1,"run1 finish")
     send.send_data("run1 finish")
