@@ -107,7 +107,7 @@ def land_shock():
     time.sleep(2)
     print("Motor Start")
     other.log(logpath, datetime.datetime.now(), "Motor Start")
-    motor.move(30, 30, 0.5)
+    motor.move(30, 30, 0.2)
     print("Motor Stop")
     other.log(logpath, datetime.datetime.now(), "Motor Stop")
 
