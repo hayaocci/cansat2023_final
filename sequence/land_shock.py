@@ -103,13 +103,13 @@ def land_shock():
         pi.write(meltPin, 0)
     time.sleep(1)
     print("Melt Finish")
-    other.log(logpath, datetime.datetime.now(), "Melt Finish")
+    other.log(logpath, datetime.datetime.now(), "-----Melt Finish-----")
     time.sleep(2)
     print("Motor Start")
-    other.log(logpath, datetime.datetime.now(), "Motor Start")
+    other.log(logpath, datetime.datetime.now(), "-----Motor Start-----")
     motor.move(30, 30, 0.2)
     print("Motor Stop")
-    other.log(logpath, datetime.datetime.now(), "Motor Stop")
+    other.log(logpath, datetime.datetime.now(), "-----Motor Stop-----")
 
     while True:
         try:
