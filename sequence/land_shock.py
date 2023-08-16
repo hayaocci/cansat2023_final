@@ -55,18 +55,18 @@ def land_shock():
             gps.close_gps()
             print(e.message())
     
-        print("#-----Melt Start-----#")
-        meltPin = 4
-        try:
-            melt.down()
-        except:
-            pi.write(meltPin, 0)
-        time.sleep(1)
-        print("Melt Finish")
-        time.sleep(2)
-        print("Motor Start")
-        motor.move(30, 30, 0.5)
-        print("Motor Stop")
+    print("#-----Melt Start-----#")
+    meltPin = 4
+    try:
+        melt.down()
+    except:
+        pi.write(meltPin, 0)
+    time.sleep(1)
+    print("Melt Finish")
+    time.sleep(2)
+    print("Motor Start")
+    motor.move(30, 30, 0.5)
+    print("Motor Stop")
 
     while True:
         try:
