@@ -17,7 +17,7 @@ def land_shock():
     pressdata = deque([0.0, 0.0], maxlen=2)
     land_count = 0
 
-    other.log(logpath, datetime.datetime.now(), "Land Impact Test Start")
+    other.log(logpath, datetime.datetime.now(), "-----Land Impact Test Start-----")
 
     t_start = time.time()  
 
@@ -50,7 +50,7 @@ def land_shock():
             gps.close_gps()
             print(e.message())
 
-    other.log(logpath, datetime.datetime.now(), "Land Detect Start")
+    other.log(logpath, datetime.datetime.now(), "-----Land Detect Start-----")
     time.sleep(1)
 
     while True:
