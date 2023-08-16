@@ -17,7 +17,7 @@ def land_shock():
     pressdata = deque([0.0, 0.0], maxlen=2)
     land_count = 0
 
-    other.log(logpath, "Land Impact Test Start")
+    other.log(logpath, datetime.datetime.now(), "Land Impact Test Start")
 
     t_start = time.time()  
 
@@ -50,7 +50,7 @@ def land_shock():
             gps.close_gps()
             print(e.message())
 
-    other.log(logpath, "Land Detect Start")
+    other.log(logpath, datetime.datetime.now(), "Land Detect Start")
     time.sleep(1)
 
     while True:
@@ -84,7 +84,7 @@ def land_shock():
 
             if land_count > 4:
                 print("#-----Landed-----#")
-                other.log(logpath, "#-----Landed-----#")
+                other.log(logpath, datetime.datetime.now(), "#-----Landed-----#")
                 break
 
         except KeyboardInterrupt:
@@ -95,6 +95,7 @@ def land_shock():
             print(e.message())
     
     print("#-----Melt Start-----#")
+    other.log(logpath, datetime.datetime.now(), "#-----Melt Start-----#")
     meltPin = 4
     try:
         melt.down()
@@ -102,10 +103,13 @@ def land_shock():
         pi.write(meltPin, 0)
     time.sleep(1)
     print("Melt Finish")
+    other.log(logpath, datetime.datetime.now(), "Melt Finish")
     time.sleep(2)
     print("Motor Start")
+    other.log(logpath, datetime.datetime.now(), "Motor Start")
     motor.move(30, 30, 0.5)
     print("Motor Stop")
+    other.log(logpath, datetime.datetime.now(), "Motor Stop")
 
     while True:
         try:
