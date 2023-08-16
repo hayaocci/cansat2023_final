@@ -87,6 +87,8 @@ def land_shock():
                     print("Status V")
             else:
                 print(utc, lat, lon, sHeight, gHeight)
+            
+            time.sleep(1)
 
             other.log(logpath, time.time(), accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz, temp, press, hum, alt, utc, lat, lon, sHeight, gHeight)
 
