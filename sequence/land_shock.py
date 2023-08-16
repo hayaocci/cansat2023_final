@@ -34,6 +34,8 @@ def land_shock():
             else:
                 print(utc, lat, lon, sHeight, gHeight)
 
+            time.sleep(1)
+
             pressdata.append(press)
             delta_press = pressdata[1] - pressdata[0]
             if delta_press < 0.1:
