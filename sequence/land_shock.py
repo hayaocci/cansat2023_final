@@ -13,11 +13,6 @@ from collections import deque
 def land_shock():
     logpath = other.filename('./log/land_shock/land_shock_log', 'txt')
 
-    bmx055.bmx055_setup()
-    bme280.bme280_setup()
-    bme280.bme280_calib_param()
-    motor.setup()
-
     pressdata = deque([0.0, 0.0], maxlen=2)
     land_count = 0
 
