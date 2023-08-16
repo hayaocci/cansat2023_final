@@ -17,7 +17,41 @@ def land_shock():
     pressdata = deque([0.0, 0.0], maxlen=2)
     land_count = 0
 
-    other.log(logpath, "land shock test start")
+    other.log(logpath, "Land Impact Test Start")
+
+    t_start = time.time()  
+
+    while time.time() - t_start < 10:
+        try:
+            accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz  = bmx055.bmx055_read()
+            print("-----bmx055 data-----")
+            print(accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz)            
+            temp, press, hum, alt = bme280.bme280_read()
+            print("-----bme280 data-----")
+            print(temp, press, hum, alt)
+            print("-----gps data-----")            
+            utc, lat, lon, sHeight, gHeight = gps.read_gps()
+            if utc == -1.0:
+                if lat == -1.0:
+                    print("Reading gps Error")
+                else:
+                    print("Status V")
+            else:
+                print(utc, lat, lon, sHeight, gHeight)
+
+            time.sleep(1)
+
+            other.log(logpath, datetime.datetime.now(), accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz, temp, press, hum, alt, utc, lat, lon, sHeight, gHeight)
+
+        except KeyboardInterrupt:
+            gps.close_gps()
+            print("\r\n")
+        except Exception as e:
+            gps.close_gps()
+            print(e.message())
+
+    other.log(logpath, "Land Detect Start")
+    time.sleep(1)
 
     while True:
         try:
