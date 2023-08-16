@@ -15,6 +15,8 @@ import land
 def vib_test():
     logpath = other.filename('./log/vibration_test/vibration_test_log','txt')
 
+    other.log(logpath, "vibration test start")
+
     #-----3分のマージン-----#
     print("vibration test start")
     print("wait 3mins")

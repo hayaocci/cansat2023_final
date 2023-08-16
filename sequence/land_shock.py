@@ -9,12 +9,15 @@ import send
 import melt
 import land
 from collections import deque
+import datetime
 
 def land_shock():
     logpath = other.filename('./log/land_shock/land_shock_log', 'txt')
 
     pressdata = deque([0.0, 0.0], maxlen=2)
     land_count = 0
+
+    other.log(logpath, "land shock test start")
 
     while True:
         try:
@@ -43,7 +46,7 @@ def land_shock():
             else:
                 land_count = 0
 
-            other.log(logpath, time.time(), accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz, temp, press, hum, alt, utc, lat, lon, sHeight, gHeight, delta_press, land_count)
+            other.log(logpath, datetime.datetime.now(), accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz, temp, press, hum, alt, utc, lat, lon, sHeight, gHeight, delta_press, land_count)
 
             if land_count > 4:
                 print("#-----Landed-----#")
@@ -90,7 +93,7 @@ def land_shock():
             
             time.sleep(1)
 
-            other.log(logpath, time.time(), accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz, temp, press, hum, alt, utc, lat, lon, sHeight, gHeight)
+            other.log(logpath, datetime.datetime.now(), accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz, temp, press, hum, alt, utc, lat, lon, sHeight, gHeight)
 
         except KeyboardInterrupt:
             gps.close_gps()
