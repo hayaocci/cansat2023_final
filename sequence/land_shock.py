@@ -11,6 +11,9 @@ import land
 from collections import deque
 import datetime
 
+pi = pigpio.pi()
+
+
 def land_shock():
     logpath = other.filename('./log/land_shock/land_shock_log', 'txt')
 
