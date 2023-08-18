@@ -334,36 +334,40 @@ def PID_adjust_direction2(controller, target_azimuth, magx_off, magy_off):
     # -----制御処理-----#
     # while abs(theta_array[-1]) > 5:
     controller.reset()
-    while time.time() - adjust_start_time <= adjust_time :
-        # -----角度の取得-----#
-        error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
+    while True :
+        if time.time() - adjust_start_time <= adjust_time:
+            # -----角度の取得-----#
+            error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
-        # -----PID制御-----#
-        m = controller.get_output(error_theta)
-        # -----モータの出力-----#
+            # -----PID制御-----#
+            m = controller.get_output(error_theta)
+            # -----モータの出力-----#
 
-        m = min(m, 40)
-        m = max(m, -40)
+            m = min(m, 40)
+            m = max(m, -40)
 
-        pwr_l = -m
-        pwr_r = m
+            pwr_l = -m
+            pwr_r = m
 
-        print(f"{error_theta=}")
-        print("left", pwr_l, "right", pwr_r)
+            print(f"{error_theta=}")
+            print("left", pwr_l, "right", pwr_r)
 
-        # -----モータの操作-----#
-        motor.motor_move(pwr_l, pwr_r, 0.01)
+            # -----モータの操作-----#
+            motor.motor_move(pwr_l, pwr_r, 0.01)
 
-        time.sleep(0.04)
-        error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
+            time.sleep(0.04)
+            error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
-        # check = 0
-        bool_com = True
-        for i in range(len(controller.error)):
-            if abs(controller.error[i]) > 15:
-                bool_com = False
+            # check = 0
+            bool_com = True
+            for i in range(len(controller.error)):
+                if abs(controller.error[i]) > 15:
+                    bool_com = False
+                    break
+            if bool_com:
                 break
-        if bool_com:
+        else:
+            print('time out')
             break
     motor.motor_stop(1)
 
