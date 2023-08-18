@@ -327,11 +327,14 @@ def PID_adjust_direction2(controller, target_azimuth, magx_off, magy_off):
         ローバーを向かせたい方位角
     """
 
+    adjust_start_time = time.time()
+    adjust_time = 5
+
     print("PID_adjust_direction")
     # -----制御処理-----#
     # while abs(theta_array[-1]) > 5:
     controller.reset()
-    while True:
+    while time.time() - adjust_start_time <= adjust_time :
         # -----角度の取得-----#
         error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
