@@ -238,6 +238,9 @@ def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
         ローバーを向かせたい方位角
     """
 
+    adjust_start_time = time.time()
+    adjust_time = 5
+
     # パラメータの設定
     Kp = 0.4
     Kd_ = 3
@@ -261,58 +264,62 @@ def PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array: list):
     # -----制御処理-----#
     # while abs(theta_array[-1]) > 5:
     while True:
-        if count < 25:
-            Ki = 0
-            Kd = Kd_
-        else:
-            Ki = Ki_
-            Kd = 5
+        if time.time() - adjust_start_time <= adjust_time:
+            if count < 25:
+                Ki = 0
+                Kd = Kd_
+            else:
+                Ki = Ki_
+                Kd = 5
 
-        # -----角度の取得-----#
-        error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
+            # -----角度の取得-----#
+            error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
-        # -----thetaの値を蓄積する-----#
-        theta_array = latest_theta_array(error_theta, theta_array)
+            # -----thetaの値を蓄積する-----#
+            theta_array = latest_theta_array(error_theta, theta_array)
 
-        # -----PID制御-----#
-        # パラメータが0の場合それは含まれない
-        m = PID_control(error_theta, theta_array, Kp, Ki, Kd)
+            # -----PID制御-----#
+            # パラメータが0の場合それは含まれない
+            m = PID_control(error_theta, theta_array, Kp, Ki, Kd)
 
-        # -----モータの出力-----#
+            # -----モータの出力-----#
 
-        m = min(m, 40)
-        m = max(m, -40)
+            m = min(m, 40)
+            m = max(m, -40)
 
-        pwr_l = -m
-        pwr_r = m
+            pwr_l = -m
+            pwr_r = m
 
-        print(f"{error_theta=}")
-        print("left", pwr_l, "right", pwr_r)
+            print(f"{error_theta=}")
+            print("left", pwr_l, "right", pwr_r)
 
-        # -----モータの操作-----#
-        motor.motor_move(pwr_l, pwr_r, 0.01)
-        # motor.move(pwr_l, pwr_r, 0.2)
+            # -----モータの操作-----#
+            motor.motor_move(pwr_l, pwr_r, 0.01)
+            # motor.move(pwr_l, pwr_r, 0.2)
 
-        time.sleep(0.04)
+            time.sleep(0.04)
 
-        # -----角度の取得-----#
-        # magdata = bmx055.mag_dataRead()
-        # mag_x = magdata[0]
-        # mag_y = magdata[1]
-        # rover_angle = calibration.angle(mag_x, mag_y, magx_off, magy_off)
+            # -----角度の取得-----#
+            # magdata = bmx055.mag_dataRead()
+            # mag_x = magdata[0]
+            # mag_y = magdata[1]
+            # rover_angle = calibration.angle(mag_x, mag_y, magx_off, magy_off)
 
-        error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
+            error_theta = get_theta_dest(target_azimuth, magx_off, magy_off)
 
-        # check = 0
-        bool_com = True
-        for i in range(len(theta_array)):
-            if abs(theta_array[i]) > 15:
-                bool_com = False
+            # check = 0
+            bool_com = True
+            for i in range(len(theta_array)):
+                if abs(theta_array[i]) > 15:
+                    bool_com = False
+                    break
+            if bool_com:
                 break
-        if bool_com:
-            break
 
-        count += 1
+            count += 1
+        else:
+            print('time out')
+            break
 
     motor.motor_stop(1)
 
