@@ -295,9 +295,12 @@ def PID_run(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
     目標地点までの方位角が既知の場合にPID制御により走行する関数
     '''
     #-----パラメータの設定-----#
-    Kp = 0.4
-    Kd_ = 3
-    Ki_ = 0.03
+    #Kp = 0.4
+    Kp = 0.25
+    #Kd_ = 3
+    Kd_ = 5 
+    #Ki_ = 0.03
+    Ki_ = 0.02
 
     count = 0
     
@@ -524,7 +527,7 @@ if __name__ == "__main__":
 
 
 
-    drive(lon_dest=lon_goal, lat_dest=lat_goal, thd_distance=10, t_run=60, log_path='/home/dendenmushi/cansat2023/sequence/log/gpsrunningLog.txt')
+    drive(lon_dest=lon_goal, lat_dest=lat_goal, thd_distance=5, t_run=60, log_path='/home/dendenmushi/cansat2023/sequence/log/gpsrunning1log.txt')
 
     
     

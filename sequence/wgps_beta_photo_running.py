@@ -303,7 +303,7 @@ if __name__ == "__main__":
     #ゴール
     lat2 = 35.9242411
     lon2 = 139.9120618
-
+    log_photorunning =other.filename( '/home/dendenmushi/cansat2023/sequence/log/photorunninglog/photorunninglog','txt')
     #セットアップ系
     motor.setup()
     gps.open_gps()
@@ -315,7 +315,7 @@ if __name__ == "__main__":
     try:
         angle = 0
         area_ratio, angle = detect_goal(lat2, lon2)
-        image_guided_driving(area_ratio, angle, lat2, lon2)
+        image_guided_driving(area_ratio, angle, lat2, lon2,75,10,log_photorunning,0)
 
     except KeyboardInterrupt:
         print("stop")
