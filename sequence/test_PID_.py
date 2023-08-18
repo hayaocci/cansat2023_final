@@ -674,9 +674,8 @@ if __name__ == "__main__":
 
     # -----PID制御によるGPS走行-----#
     # -----目標地点の設定-----#
-    lat_goal = 35.9242411
-    lon_goal = 139.9120618
-
+    lat_goal = 35.91817415
+    lon_goal = 139.90825559
     drive(
         lon_dest=lon_goal,
         lat_dest=lat_goal,
