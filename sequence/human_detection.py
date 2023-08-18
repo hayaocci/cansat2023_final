@@ -11,8 +11,9 @@ import motor
 import bmx055
 import other
 import datetime
+import test_PID as PID
 
-log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog','txt')
+log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog/humandetectlog','txt')
 
 
 #グローバル変数として宣言
@@ -112,8 +113,8 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
             result = model.predict(image_path=img_path)
             other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
-            # hitoの確率80%かどうか
-            if result >= 0.80:
+            # hitoの確率50%かどうか
+            if result >= 0.50:
                 human_judge_count += 1
                 print(human_judge_count)
                 # 追加の写真を撮影
@@ -123,7 +124,7 @@ def take_and_rotation(human_judge_count, break_outer_loop,logpath, model):
                     additional_result = model.predict(image_path=additional_img_path)
                     other.log(logpath, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
-                    if additional_result >= 0.80:
+                    if additional_result >= 0.50:
                         human_judge_count += 1
                         print(human_judge_count)
                         if human_judge_count >= 3:
@@ -168,48 +169,36 @@ def move_to_bulearea(count, lat_human, lon_human):
 
 
     print(count)
-    #青点から5m以内か
+    
     if count == 1:
-        # condition =1
-        # while condition == 1:
-        #     if data_dist_bulearea1['distance']<=5:
-        #         print("第"+count+"エリア到着")
-        #         condition =0
-        #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_n, lat_n, thd_distance=3, t_adj_gps=60)#60秒もいるのか？
+        PID.drive(lon_n, lat_n, thd_distance=3, t_run=60, logpath=log_humandetect,t_start=t_start)
         print("第1エリアです")
     elif count == 2:
-        # condition =1
-        # while condition == 1:
-        #     if data_dist_bulearea2['distance']<=5:
-        #         print("第"+count+"エリア到着")
-        #         condition =0
-        #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_e, lat_e, thd_distance=3, t_adj_gps=60) 
+        PID.drive(lon_e, lat_e, thd_distance=3, t_run=60, logpath=log_humandetect,t_start=t_start) 
         print("第2エリアです")  
     elif count == 3:
-        # condition =1
-        # while condition == 1:
-        #     if data_dist_bulearea3['distance']<=5:
-        #         print("第"+count+"エリア到着")
-        #         condition =0
-        #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_s, lat_s, thd_distance=3, t_adj_gps=60)
+        PID.drive(lon_s, lat_s, thd_distance=3, t_run=60, logpath=log_humandetect,t_start=t_start)
         print("第3エリアです")
     elif count == 4:
-        # condition =1
-        # while condition == 1:
-        #     if data_dist_bulearea4['distance']<=5:
-        #         print("第"+count+"エリア到着")
-        #         condition =0
-        #     print("第"+count+"エリア外です")
-        gps_running1.drive(lon_w, lat_w, thd_distance=3, t_adj_gps=60)
+        PID.drive(lon_w, lat_w, thd_distance=3, t_run=60, logpath=log_humandetect,t_start=t_start)
         print("第4エリアです")
+    elif count == 5:
+        PID.drive(lon_w, lat_n, thd_distance=3, t_run=60, logpath=log_humandetect,t_start=t_start)
+        print("第5エリアです")
+    elif count == 6:
+        PID.drive(lon_e, lat_n, thd_distance=3, t_run=60, logpath=log_humandetect,t_start=t_start)
+        print("第6エリアです")
+    elif count == 7:
+        PID.drive(lon_e, lat_s, thd_distance=3, t_run=60, logpath=log_humandetect,t_start=t_start)
+        print("第7エリアです")
+    elif count == 8:
+        PID.drive(lon_w, lat_s, thd_distance=3, t_run=60, logpath=log_humandetect,t_start=t_start)
+        print("第8エリアです")
     else:
         print("青点エリア捜索終了")             
     
 if __name__ == "__main__":
-    t_start = 0
+    t_start = time.time()
     count = 0
     human_judge_count = 0
     break_outer_loop = False
@@ -239,7 +228,7 @@ if __name__ == "__main__":
     #lon_human = 139.90825559
 
     #人検知に使用するモデルの読み込み
-    global ML_people
+    # global ML_people
     ML_people = DetectPeople(model_path="model_mobile.tflite" )
 
     #まずはメインエリアを捜索
@@ -255,8 +244,8 @@ if __name__ == "__main__":
             result = ML_people.predict(image_path=img_path)
             other.log(log_humandetect, datetime.datetime.now(), time.time() -
                       t_start,result,0,human_judge_count,break_outer_loop,elapsed_time)
-            #hitoの確率80%かどうか
-            if result >= 0.80:
+            #hitoの確率50%かどうか
+            if result >= 0.50:
                 human_judge_count += 1
                 # 追加の写真を撮影
                 for h in range(2):
@@ -264,7 +253,7 @@ if __name__ == "__main__":
                     additional_result = ML_people.predict(image_path=additional_img_path)
                     other.log(log_humandetect, datetime.datetime.now(), time.time() -
                       t_start,result,additional_result,human_judge_count,break_outer_loop,elapsed_time)
-                    if additional_result >= 0.80:
+                    if additional_result >= 0.50:
                         human_judge_count += 1
                         if human_judge_count >= 3:
                             break_outer_loop = True
@@ -289,7 +278,7 @@ if __name__ == "__main__":
 
     if human_judge_count==0:
         print ("青点エリア捜索に移行")
-        for j in range(4):#4地点について行うよ
+        for j in range(8):#8地点について行うよ
             elapsed_time = time.time()-start_time #経過時間の更新
             if break_outer_loop == True:
                 break
