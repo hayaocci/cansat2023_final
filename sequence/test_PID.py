@@ -371,7 +371,7 @@ def PID_run(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
 
     # motor.motor_stop(1)
 
-def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start=0):
+def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start=0, loop_num=25, ):
     '''
     任意の地点までPID制御により走行する関数
     
@@ -466,7 +466,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start=0):
 
             #-----PID制御による走行-----#
             if distance_dest > thd_distance:
-                PID_run(target_azimuth, magx_off, magy_off, theta_array, loop_num=25)
+                PID_run(target_azimuth, magx_off, magy_off, theta_array, loop_num)
             else:
                 break
             

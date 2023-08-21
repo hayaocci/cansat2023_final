@@ -67,10 +67,6 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
         time.sleep(5)
         red_area, angle = detect_para()
 
-
-
-
-
     #-----初めて取った写真にパラシュートが映っていなかった場合-----#
     if red_area == 0:
         print("パラシュートは前方にありません。")
