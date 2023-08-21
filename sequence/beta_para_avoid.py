@@ -141,9 +141,26 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
     motor.move(pwr_f, pwr_f, t_forward)
     print("パラシュートは回避できました。")
 
+def beta_para_avoid(red_area, angle, para_thd_avoid, check_count):
+    '''
+    パラシュートを回避する関数 新しいバージョン
+    Parameters
+    ----------
+    red_area : int
+        赤色の面積
+    angle : int
+        重心からの角度
+    thd_red_area : float
+        赤色の面積がこれ以上大きいとパラシュートがあると判断する
+    '''
+
+
 if __name__ == '__main__':
+    # パラメータ
+    PARA_CHECK_COUNT = 5
     #セットアップ
     motor.setup()
 
     red_area, angle = detect_para()
     para_avoid(red_area, angle, check_count=5)
+    beta_para_avoid(red_area, angle, thd_red_area=0.5, check_count=PARA_CHECK_COUNT)
