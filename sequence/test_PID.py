@@ -466,7 +466,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start=0):
 
             #-----PID制御による走行-----#
             if distance_dest > thd_distance:
-                PID_run(target_azimuth, magx_off, magy_off, theta_array, loop_num=50)
+                PID_run(target_azimuth, magx_off, magy_off, theta_array, loop_num=25)
             else:
                 break
             
