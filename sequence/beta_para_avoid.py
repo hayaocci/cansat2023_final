@@ -150,8 +150,10 @@ def beta_para_avoid(red_area, angle, para_thd_avoid, check_count):
         赤色の面積
     angle : int
         重心からの角度
-    thd_red_area : float
+    para_thd_avoid : float
         赤色の面積がこれ以上大きいとパラシュートがあると判断する
+    check_count : int
+        何回確認するか
     '''
 
 
