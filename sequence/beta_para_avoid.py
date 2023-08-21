@@ -141,20 +141,54 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
     motor.move(pwr_f, pwr_f, t_forward)
     print("パラシュートは回避できました。")
 
-def beta_para_avoid(red_area, angle, para_thd_avoid, check_count):
+def beta_para_avoid(para_thd_covered : int, para_thd_avoid :int, check_count :int):
     '''
-    パラシュートを回避する関数 新しいバージョン
+    パラシュートを回避する関数 0821作成
     Parameters
     ----------
-    red_area : int
-        赤色の面積
-    angle : int
-        重心からの角度
     para_thd_avoid : int
         赤色の面積がこれ以上大きいとパラシュートがあると判断する
     check_count : int
         何回確認するか
     '''
+
+    #-----パラメータの設定-----#
+    motor_pwr = 25
+    motor_time = 0.15
+
+    para_red_area, para_angle = detect_para()
+
+    #-----パラシュートが覆いかぶさっていた時の処理-----#
+    while para_red_area > para_thd_covered:
+        print("Parachute On Top")
+        time.sleep(20)
+        para_red_area, para_angle = detect_para()
+
+    #-----初めて撮った写真にパラシュートが映っていなかった場合-----#
+    if para_red_area == 0:
+        print("Parachute Not Found\nCheck Around")
+
+        for i in range(check_count):
+            print("Check Right " + str(i+1) + "times")
+            motor.move(motor_pwr, -motor_pwr, motor_time)
+            para_red_area, para_angle = detect_para()
+            i += 1
+            
+            #-----パラシュートが映っていた場合-----#
+            if para_red_area != 0:
+                print("Parachute Found\nReturn To Initial Position")
+                while i != 0:
+                    motor.move(-motor_pwr, motor_pwr, motor_time)
+                    i -= 1
+                break
+    
+    #-----パラシュートが映っていた場合-----#
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
