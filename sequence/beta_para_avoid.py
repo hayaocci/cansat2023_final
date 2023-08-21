@@ -141,51 +141,6 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
     motor.move(pwr_f, pwr_f, t_forward)
     print("パラシュートは回避できました。")
 
-
-
-        # #thd_para_avoidはパラシュートがあると判定する割合の閾値
-        # #thd_para_countはパラシュートがないとき何回確認するかの閾値
-        # pwr = 30
-        # check_count = 0
-        # i = 0
-
-        # while 1:
-        #     red_area, angle = detect_para()
-        #     while red_area > thd_para_avoid and check_count <= thd_para_count:
-        #         # if check_count == thd_para_count:
-        #         #     break
-
-        #         if angle == 1:
-        #             motor.move(pwr, -pwr, 0.2)
-        #         elif angle == 2:
-        #             motor.move(pwr, -pwr, 0.3)
-        #         elif angle == 3:
-        #             motor.move(pwr, -pwr, 0.4)
-        #         elif angle == 4:
-        #             motor.move(-pwr, pwr, 0.3)
-        #         elif angle == 5:
-        #             motor.move(-pwr, pwr, 0.2)
-        #         #elif red_area == 0 or angle == 0:
-        #         else:
-        #             i = 1 + check_count
-        #             print("パラシュートはありません。確認" + str(i) + "回目です。")
-
-        #         check_count += 1
-
-        #         red_area, angle = detect_para()
-        #     else:
-        #         print(str(i) + "回確認しました。パラシュートはありません。")
-        #         print("直進します。")
-        #         red_area, angle = detect_para()
-        #         break
-
-        # #パラシュートが前方にないことが確認できたので、直進する。
-        # # if red_area == 0 and check_count == thd_para_count:
-        # pwr_st = 30
-        # motor.move(pwr_st, pwr_st, 2)
-        # print("パラシュートは回避できました。")
-        # # print(str(i) + "回パラシュートがないことを確認しました。")
-
 if __name__ == '__main__':
     #セットアップ
     motor.setup()
