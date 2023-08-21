@@ -160,9 +160,10 @@ def beta_para_avoid(red_area, angle, para_thd_avoid, check_count):
 if __name__ == '__main__':
     # パラメータ
     PARA_CHECK_COUNT = 5
+    PARA_THD_AVOID = 0
     #セットアップ
     motor.setup()
 
     red_area, angle = detect_para()
     para_avoid(red_area, angle, check_count=5)
-    beta_para_avoid(red_area, angle, thd_red_area=0.5, check_count=PARA_CHECK_COUNT)
+    beta_para_avoid(red_area, angle, para_thd_avoid=PARA_THD_AVOID, check_count=PARA_CHECK_COUNT)
