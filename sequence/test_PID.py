@@ -98,26 +98,26 @@ def get_theta_dest(target_azimuth, magx_off, magy_off):
 theta_array = []
 theta_differential_array = []
 
-class PID_Controller:
-    def __init__(self, kp, ki, kd, target, num_log, validate_ki):
-        self.kp = kp
-        self.ki = ki
-        self.kd = kd
-        self.target = target
-        self.num_log = num_log
-        self.validate_ki = validate_ki
-        self.error = deque([0] * num_log, maxlen=num_log)
-        self.integral = 0
-        self.derivative = 0
-        self.output = 0
-        self.count = 0
-    def get_output(self, measured, ):
-        self.error.append(measured - self.target)
-        self.integral += self.error[-1] 
-        self.derivative = (self.error[-1] - self.error[-2]) 
-        self.output = self.kp * self.error[-1] + self.ki * self.integral*(self.count >= self.validate_ki) + self.kd * self.derivative
-        self.count += 1
-        return self.output
+# class PID_Controller:
+#     def __init__(self, kp, ki, kd, target, num_log, validate_ki):
+#         self.kp = kp
+#         self.ki = ki
+#         self.kd = kd
+#         self.target = target
+#         self.num_log = num_log
+#         self.validate_ki = validate_ki
+#         self.error = deque([0] * num_log, maxlen=num_log)
+#         self.integral = 0
+#         self.derivative = 0
+#         self.output = 0
+#         self.count = 0
+#     def get_output(self, measured, ):
+#         self.error.append(measured - self.target)
+#         self.integral += self.error[-1] 
+#         self.derivative = (self.error[-1] - self.error[-2]) 
+#         self.output = self.kp * self.error[-1] + self.ki * self.integral*(self.count >= self.validate_ki) + self.kd * self.derivative
+#         self.count += 1
+#         return self.output
     
 def make_theta_array(array: list, array_num: int):
     #-----決められた数の要素を含む空配列の作成-----#

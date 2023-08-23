@@ -5,6 +5,10 @@ from save_photo import save_img
 import take
 import motor
 import time
+import gps
+import gps_navigate
+import calibration
+import stuck2
 
 def detect_para():
     #画像の撮影
@@ -39,7 +43,7 @@ def detect_para():
     
     return red_area, angle
 
-def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4):
+def para_avoid(check_count, thd_para_avoid=0, thd_para_count=4):
 
     #-----パラメータの設定-----#
     #-----周囲を確認する-----#
@@ -56,7 +60,7 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
     t_forward = 1
 
     #読み込み
-    #red_area, angle = detect_para()
+    red_area, angle = detect_para()
 
     #パラシュートが覆いかぶさっていたとき用の閾値
     thd_para_covered = 69120
@@ -141,50 +145,76 @@ def para_avoid(red_area, angle, check_count, thd_para_avoid=0, thd_para_count=4)
     motor.move(pwr_f, pwr_f, t_forward)
     print("パラシュートは回避できました。")
 
-def beta_para_avoid(para_thd_covered : int, para_thd_avoid :int, check_count :int):
-    '''
-    パラシュートを回避する関数 0821作成
-    Parameters
-    ----------
-    para_thd_avoid : int
-        赤色の面積がこれ以上大きいとパラシュートがあると判断する
-    check_count : int
-        何回確認するか
-    '''
+# def beta_para_avoid(para_thd_covered : int, para_thd_avoid :int, check_count :int):
+#     '''
+#     パラシュートを回避する関数 0821作成
+#     Parameters
+#     ----------
+#     para_thd_avoid : int
+#         赤色の面積がこれ以上大きいとパラシュートがあると判断する
+#     check_count : int
+#         何回確認するか
+#     '''
 
-    #-----パラメータの設定-----#
-    motor_pwr = 25
-    motor_time = 0.15
+#     #-----パラメータの設定-----#
+#     motor_pwr = 25
+#     motor_time = 0.15
 
-    para_red_area, para_angle = detect_para()
+#     para_red_area, para_angle = detect_para()
 
-    #-----パラシュートが覆いかぶさっていた時の処理-----#
-    while para_red_area > para_thd_covered:
-        print("Parachute On Top")
-        time.sleep(20)
-        para_red_area, para_angle = detect_para()
+#     #-----パラシュートが覆いかぶさっていた時の処理-----#
+#     while para_red_area > para_thd_covered:
+#         print("Parachute On Top")
+#         time.sleep(20)
+#         para_red_area, para_angle = detect_para()
 
-    #-----初めて撮った写真にパラシュートが映っていなかった場合-----#
-    if para_red_area == 0:
-        print("Parachute Not Found\nCheck Around")
+#     #-----初めて撮った写真にパラシュートが映っていなかった場合-----#
+#     if para_red_area == 0:
+#         print("Parachute Not Found\nCheck Around")
 
-        for i in range(check_count):
-            print("Check Right " + str(i+1) + "times")
-            motor.move(motor_pwr, -motor_pwr, motor_time)
-            para_red_area, para_angle = detect_para()
-            i += 1
+#         for i in range(check_count):
+#             print("Check Right " + str(i+1) + "times")
+#             motor.move(motor_pwr, -motor_pwr, motor_time)
+#             para_red_area, para_angle = detect_para()
+#             i += 1
             
-            #-----パラシュートが映っていた場合-----#
-            if para_red_area != 0:
-                print("Parachute Found\nReturn To Initial Position")
-                while i != 0:
-                    motor.move(-motor_pwr, motor_pwr, motor_time)
-                    i -= 1
-                break
+#             #-----パラシュートが映っていた場合-----#
+#             if para_red_area != 0:
+#                 print("Parachute Found\nReturn To Initial Position")
+#                 while i != 0:
+#                     motor.move(-motor_pwr, motor_pwr, motor_time)
+#                     i -= 1
+#                 break
     
-    #-----パラシュートが映っていた場合-----#
+#     #-----パラシュートが映っていた場合-----#
 
+def wgps_para_avoid(small_thd_dist, large_thd_dist, check_count, thd_para_avoid=0, thd_para_count=4):
+    
+    stuck2.ue_jug()
 
+    #-----着地地点のGPS座標の取得-----#
+    lat_land, lon_land = gps.location()
+
+    para_info = calibration.calculate_direction(lat_land, lon_land)
+    para_dist = para_info['distance']
+
+    while para_dist <= small_thd_dist:
+        print("Warning: Parachute is very close\nStarting Parachute Avoid Sequence")
+        para_avoid(check_count, thd_para_avoid, thd_para_count)
+
+        para_info = calibration.calculate_direction(lat_land, lon_land)
+        para_dist = para_info['distance']
+
+    while small_thd_dist < para_dist <= large_thd_dist:
+        print("Parachute is near\nGetting away from parachute")
+
+        #-----キャリブレーション-----#
+        print("Starting Calibration")
+        magx_off, magy_off = calibration.cal(30, -30, 30)
+
+        #-----パラシュート位置の取得-----#
+        
+    
 
 
 
@@ -193,11 +223,13 @@ def beta_para_avoid(para_thd_covered : int, para_thd_avoid :int, check_count :in
 
 if __name__ == '__main__':
     # パラメータ
+    PARA_THD_COVERED = 69120
     PARA_CHECK_COUNT = 5
     PARA_THD_AVOID = 0
+
     #セットアップ
     motor.setup()
 
-    red_area, angle = detect_para()
-    para_avoid(red_area, angle, check_count=5)
-    beta_para_avoid(red_area, angle, para_thd_avoid=PARA_THD_AVOID, check_count=PARA_CHECK_COUNT)
+    # red_area, angle = detect_para()
+    # para_avoid(red_area, angle, check_count=5)
+    wgps_para_avoid(para_thd_covered=PARA_THD_COVERED, para_thd_avoid=PARA_THD_AVOID, check_count=PARA_CHECK_COUNT)
