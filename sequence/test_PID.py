@@ -316,7 +316,7 @@ def PID_run(target_azimuth, magx_off, magy_off, theta_array: list, loop_num):
     #while abs(theta_array[-1]) > 5:
     for _ in range(loop_num):
 
-        if count < 25:
+        if count < 15: #25から15に変更 by 田口 8/23
             Ki = 0
             Kd = Kd_
         else:

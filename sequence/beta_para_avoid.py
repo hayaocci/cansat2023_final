@@ -9,6 +9,8 @@ import gps
 import gps_navigate
 import calibration
 import stuck2
+import test_PID
+import bmx055
 
 def detect_para():
     #画像の撮影
@@ -213,13 +215,53 @@ def wgps_para_avoid(small_thd_dist, large_thd_dist, check_count, thd_para_avoid=
         magx_off, magy_off = calibration.cal(30, -30, 30)
 
         #-----パラシュート位置の取得-----#
-        
-    
+        direction = calibration.calculate_direction(lon_land, lat_land)
+        target_azimuth = direction["azimuth1"]
 
+        #-----PID制御による角度調整-----#
+        theta_array = []
+        test_PID.make_theta_array(theta_array, 5)
+        test_PID.PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array)
 
+        red_area, angle = detect_para()
 
+        while True:
+            if red_area != 0 and angle ==2:
+                magdata = bmx055.mag_dataRead()
+                para_mag_x, para_mag_y = magdata[0], magdata[1]
+                para_angle = calibration.angle(para_mag_x, para_mag_y, magx_off, magy_off)
+                break
+            else:
+                est_target_azimuth = target_azimuth + 15
+                if est_target_azimuth > 180:
+                    est_target_azimuth -= 360
+                elif est_target_azimuth < -180:
+                    est_target_azimuth += 360
 
+                theta_array = []
+                test_PID.make_theta_array(theta_array, 5)
+                test_PID.PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array)
+            
+        #-----パラシュートから離れる-----#
+        print("Getting away from Parachute")
+        target_azimuth = para_angle + 90
+        if target_azimuth > 180:
+            target_azimuth -= 360
+        elif target_azimuth < -180:
+            target_azimuth += 360
 
+        theta_array = []
+        test_PID.make_theta_array(theta_array, 5)
+        test_PID.PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array)
+
+        T_FORWARD = 5
+
+        t_start_run = time.time()
+        theta_array = []
+        test_PID.make_theta_array(theta_array, 5)
+
+        while time.time() - t_start_run <= T_FORWARD:
+            test_PID.PID_run(target_azimuth, magx_off, magy_off, theta_array, loop_num=25)
 
 if __name__ == '__main__':
     # パラメータ
