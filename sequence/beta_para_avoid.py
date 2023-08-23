@@ -208,6 +208,7 @@ def wgps_para_avoid(small_thd_dist :int, large_thd_dist :int, check_count :int, 
     para_info = calibration.calculate_direction(lat_land, lon_land)
     para_dist = para_info['distance']
 
+    #-----パラシュートがすぐ近くにあるとき-----#
     while para_dist <= small_thd_dist:
         print("Warning: Parachute is very close\nStarting Parachute Avoid Sequence")
         try:
@@ -221,32 +222,80 @@ def wgps_para_avoid(small_thd_dist :int, large_thd_dist :int, check_count :int, 
         para_dist = para_info['distance']
 
         count += 1
-
+    
+    #-----パラシュートからsmall_thd_dist以上離れたとき-----#
+    #-----キャリブレーション-----#
+    print("Starting Calibration")
+    magx_off, magy_off = calibration.cal(30, -30, 30)
+    #-----パラシュート位置の取得-----#
+    direction = calibration.calculate_direction(lon_land, lat_land)
+    target_azimuth = direction["azimuth1"]
+    
+    #-----パラシュートが近くにあるとき-----#
     while small_thd_dist < para_dist <= large_thd_dist:
         print("Parachute is near\nGetting away from parachute")
 
-        #-----キャリブレーション-----#
-        print("Starting Calibration")
-        magx_off, magy_off = calibration.cal(30, -30, 30)
-
-        #-----パラシュート位置の取得-----#
-        direction = calibration.calculate_direction(lon_land, lat_land)
-        target_azimuth = direction["azimuth1"]
-
-        #-----PID制御による角度調整-----#
+        #-----PID制御による角度調整（パラシュートがある方向に向かせる）-----#
         theta_array = []
         test_PID.make_theta_array(theta_array, 5)
         test_PID.PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array)
 
+        #-----写真を撮影してパラシュートの位置を確認する-----#
         red_area, angle = detect_para()
 
         while True:
-            if red_area != 0 and angle ==2:
+            if red_area != 0 and angle == 2:
                 magdata = bmx055.mag_dataRead()
                 para_mag_x, para_mag_y = magdata[0], magdata[1]
                 para_angle = calibration.angle(para_mag_x, para_mag_y, magx_off, magy_off)
                 break
             else:
+                if angle == 1:
+                    print('Rotating Left')
+                    azimuth_nxt = target_azimuth - 15
+                elif angle == 3:
+                    print('Rotating Right')
+                    azimuth_nxt = target_azimuth + 15
+                else:
+                    print('Parachute Not Found\nChecking Around')
+
+
+
+                #-----パラシュートが左前方にあるとき-----#
+                if angle == 1:
+                    print('Rotating Left')
+                    magdata = bmx055.mag_dataRead()
+                    mag_x_now, mag_y_now = magdata[0], magdata[1]
+                    azimuth_now = calibration.angle(mag_x_now, mag_y_now, magx_off, magy_off)
+                    azimuth_nxt = azimuth_now - 15
+                    theta_array = []
+                    test_PID.make_theta_array(theta_array, 5)
+                    test_PID.PID_adjust_direction(azimuth_nxt, magx_off, magy_off, theta_array)
+
+                #-----パラシュートが右前方にあるとき-----#
+                elif angle == 3:
+                    print('Rotating Right')
+                    magdata = bmx055.mag_dataRead()
+                    mag_x_now, mag_y_now = magdata[0], magdata[1]
+                    azimuth_now = calibration.angle(mag_x_now, mag_y_now, magx_off, magy_off)
+                    azimuth_nxt = azimuth_now + 15
+                    theta_array = []
+                    test_PID.make_theta_array(theta_array, 5)
+                    test_PID.PID_adjust_direction(azimuth_nxt, magx_off, magy_off, theta_array)
+                
+                #-----パラシュートがまったく見つからないとき-----#
+                elif red_area == 0:
+                    print('Parachute Not Found\nChecking Around')
+                    azimuth_nxt = target_azimuth + 30
+                    theta_array = []
+                    test_PID.make_theta_array(theta_array, 5)
+                    test_PID.PID_adjust_direction(azimuth_nxt, magx_off, magy_off, theta_array)
+
+
+                
+
+
+
                 #-----15度だけ回転してパラシュートを探す-----#
                 est_target_azimuth = target_azimuth + 15
                 est_target_azimuth = basics.standarize_angle(est_target_azimuth)
