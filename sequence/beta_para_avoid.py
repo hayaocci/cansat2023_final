@@ -240,10 +240,11 @@ def wgps_para_avoid(small_thd_dist :int, large_thd_dist :int, check_count :int, 
         test_PID.make_theta_array(theta_array, 5)
         test_PID.PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array)
 
-        #-----写真を撮影してパラシュートの位置を確認する-----#
-        red_area, angle = detect_para()
+        rotate_count = 2
 
         while True:
+            #-----写真を撮影してパラシュートの位置を確認する-----#
+            red_area, angle = detect_para()
             if red_area != 0 and angle == 2:
                 magdata = bmx055.mag_dataRead()
                 para_mag_x, para_mag_y = magdata[0], magdata[1]
@@ -258,52 +259,16 @@ def wgps_para_avoid(small_thd_dist :int, large_thd_dist :int, check_count :int, 
                     azimuth_nxt = target_azimuth + 15
                 else:
                     print('Parachute Not Found\nChecking Around')
+                    azimuth_nxt = target_azimuth + 15*rotate_count
+                    rotate_count += 1
 
-
-
-                #-----パラシュートが左前方にあるとき-----#
-                if angle == 1:
-                    print('Rotating Left')
-                    magdata = bmx055.mag_dataRead()
-                    mag_x_now, mag_y_now = magdata[0], magdata[1]
-                    azimuth_now = calibration.angle(mag_x_now, mag_y_now, magx_off, magy_off)
-                    azimuth_nxt = azimuth_now - 15
-                    theta_array = []
-                    test_PID.make_theta_array(theta_array, 5)
-                    test_PID.PID_adjust_direction(azimuth_nxt, magx_off, magy_off, theta_array)
-
-                #-----パラシュートが右前方にあるとき-----#
-                elif angle == 3:
-                    print('Rotating Right')
-                    magdata = bmx055.mag_dataRead()
-                    mag_x_now, mag_y_now = magdata[0], magdata[1]
-                    azimuth_now = calibration.angle(mag_x_now, mag_y_now, magx_off, magy_off)
-                    azimuth_nxt = azimuth_now + 15
-                    theta_array = []
-                    test_PID.make_theta_array(theta_array, 5)
-                    test_PID.PID_adjust_direction(azimuth_nxt, magx_off, magy_off, theta_array)
-                
-                #-----パラシュートがまったく見つからないとき-----#
-                elif red_area == 0:
-                    print('Parachute Not Found\nChecking Around')
-                    azimuth_nxt = target_azimuth + 30
-                    theta_array = []
-                    test_PID.make_theta_array(theta_array, 5)
-                    test_PID.PID_adjust_direction(azimuth_nxt, magx_off, magy_off, theta_array)
-
-
-                
-
-
-
-                #-----15度だけ回転してパラシュートを探す-----#
-                est_target_azimuth = target_azimuth + 15
-                est_target_azimuth = basics.standarize_angle(est_target_azimuth)
-
-                theta_array = []
-                test_PID.make_theta_array(theta_array, 5)
-                test_PID.PID_adjust_direction(est_target_azimuth, magx_off, magy_off, theta_array)
-            
+            #-----機体の回転-----#
+            basics.standarize_angle(azimuth_nxt)
+            theta_array = []
+            test_PID.make_theta_array(theta_array, 5)
+            test_PID.PID_adjust_direction(azimuth_nxt, magx_off, magy_off, theta_array)
+        
+    
         #-----パラシュートから離れる-----#
         print("Getting away from Parachute")
         target_azimuth = para_angle + 90
