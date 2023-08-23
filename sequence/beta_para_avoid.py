@@ -11,6 +11,7 @@ import calibration
 import stuck2
 import test_PID
 import bmx055
+import basics
 
 def detect_para():
     #画像の撮影
@@ -190,8 +191,15 @@ def para_avoid(check_count, thd_para_avoid=0, thd_para_count=4):
     
 #     #-----パラシュートが映っていた場合-----#
 
-def wgps_para_avoid(small_thd_dist, large_thd_dist, check_count, thd_para_avoid=0, thd_para_count=4):
-    
+def wgps_para_avoid(small_thd_dist :int, large_thd_dist :int, check_count :int, thd_para_avoid=0, thd_para_count=4):
+    '''
+    Parameters
+    ----------
+
+    '''
+    #-----setup-----#
+    count = 0
+
     stuck2.ue_jug()
 
     #-----着地地点のGPS座標の取得-----#
@@ -202,10 +210,17 @@ def wgps_para_avoid(small_thd_dist, large_thd_dist, check_count, thd_para_avoid=
 
     while para_dist <= small_thd_dist:
         print("Warning: Parachute is very close\nStarting Parachute Avoid Sequence")
-        para_avoid(check_count, thd_para_avoid, thd_para_count)
+        try:
+            para_avoid(check_count, thd_para_avoid, thd_para_count)
+        except:
+            print("Parachute Avoid Sequence Failed")
+            print("Trying Again")
 
+        #-----パラシュートまでの距離を計算-----#
         para_info = calibration.calculate_direction(lat_land, lon_land)
         para_dist = para_info['distance']
+
+        count += 1
 
     while small_thd_dist < para_dist <= large_thd_dist:
         print("Parachute is near\nGetting away from parachute")
@@ -232,23 +247,18 @@ def wgps_para_avoid(small_thd_dist, large_thd_dist, check_count, thd_para_avoid=
                 para_angle = calibration.angle(para_mag_x, para_mag_y, magx_off, magy_off)
                 break
             else:
+                #-----15度だけ回転してパラシュートを探す-----#
                 est_target_azimuth = target_azimuth + 15
-                if est_target_azimuth > 180:
-                    est_target_azimuth -= 360
-                elif est_target_azimuth < -180:
-                    est_target_azimuth += 360
+                est_target_azimuth = basics.standarize_angle(est_target_azimuth)
 
                 theta_array = []
                 test_PID.make_theta_array(theta_array, 5)
-                test_PID.PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array)
+                test_PID.PID_adjust_direction(est_target_azimuth, magx_off, magy_off, theta_array)
             
         #-----パラシュートから離れる-----#
         print("Getting away from Parachute")
         target_azimuth = para_angle + 90
-        if target_azimuth > 180:
-            target_azimuth -= 360
-        elif target_azimuth < -180:
-            target_azimuth += 360
+        target_azimuth = basics.standarize_angle(target_azimuth)
 
         theta_array = []
         test_PID.make_theta_array(theta_array, 5)
