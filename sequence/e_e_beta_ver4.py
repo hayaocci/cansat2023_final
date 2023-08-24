@@ -37,9 +37,9 @@ import test_PID as PID
 from CONST import *
 import module.log as log
 
-#----------set up----------#
+###----------set up----------###
 
-#-----clock setup-----#
+###-----clock setup-----###
 t_start = time.time()
 
 #-----log setup-----#
@@ -53,7 +53,7 @@ human_detection_log = log.Logger(dir='log/6_human_detection_log', filename='huma
 gps_running_goal_log = log.Logger(dir='log/7_gps_running_goal_log', filename='gps_running_goal', t_start=t_start)
 photo_running_log = log.Logger(dir='log/8_photo_running_log', filename='photo_running', t_start=t_start)
 
-#-----sensor setup-----#
+###-----sensor setup-----###
 print("Starting Mission")
 
 gps.open_gps()
@@ -62,18 +62,20 @@ bme280.bme280_setup()
 
 
 
-#----------Mission Sequence----------#
+###----------Mission Sequence----------###
 
-#-----Release Detect Sequence-----#
+###-----Release Detect Sequence-----###
 print('Release Detect Sequence: Start')
 release_log.save_log('start')
 
 
-#-----Land Detect Sequence-----#
+###-----Land Detect Sequence-----###
 print('Land Detect Sequence: Start')
 
 #-----Melt Sequence-----#
 print('Melt Sequence: Start')
+
+
 melt.main(meltPin=MELT_PIN, t_melt=MELT_TIME)
 print('Melt Sequence: End')
 
