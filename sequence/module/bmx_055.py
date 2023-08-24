@@ -1,0 +1,16 @@
+'''
+BMX055 9軸センサモジュール
+'''
+
+import smbus
+import time
+
+ACC_ADDRESS = 0x19
+ACC_REGISTER_ADDRESS = 0x02
+GYR_ADDRESS = 0x69
+GYR_REGISTER_ADDRESS = 0x02
+MAG_ADDRESS = 0x13
+MAG_REGISTER_ADDRESS = 0x42
+
+i2c = smbus.SMBus(1)
+
