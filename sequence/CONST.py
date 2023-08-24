@@ -1,7 +1,11 @@
+import time
+
 '''
 定数定義
 '''
-
+#-----放出判定-----#
+RELEASE_THD_PRESS = 0.1
+RELEASE_TIMEOUT = time.time() + 60*5 #5分後に放出判定を強制終了
 
 #-----パラシュート回避-----#
 PARA_CHECK_COUNT = 5
