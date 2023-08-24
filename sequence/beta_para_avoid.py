@@ -271,12 +271,8 @@ def wgps_para_avoid(small_thd_dist :int, large_thd_dist :int, check_count :int, 
     
         #-----パラシュートから離れる-----#
         print("Getting away from Parachute")
-        target_azimuth = para_angle + 90
+        target_azimuth = para_angle + 120
         target_azimuth = basics.standarize_angle(target_azimuth)
-
-        theta_array = []
-        test_PID.make_theta_array(theta_array, 5)
-        test_PID.PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array)
 
         T_FORWARD = 5
 
