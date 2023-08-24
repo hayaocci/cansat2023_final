@@ -265,7 +265,7 @@ if __name__=='__main__':
     other.log(log_release, "release judge start")
     other.log(log_release, "datetime.datetime.now()", "time.time() - t_start",
                           "bme280.bme280_read()", "press_count_release","press_judge_release","timeout_release-time.time()")
-    #while True:
+
     while time.time() < timeout_release:
         press_count_release, press_judge_release = release.pressdetect_release(thd_press_release, t_delta_release)
         print(f'count:{press_count_release}\tjudge:{press_judge_release}')
@@ -285,13 +285,7 @@ if __name__=='__main__':
     print("START: Land judge")
     lat_log,lon_log=gps.location()
     other.log(log_phase,'3',"land phase",datetime.datetime.now(),time.time()-t_start,lat_log,lon_log)
-    #phase=other.phase(log_phase)
 
-    #bme280.bme280_setup()
-    #bme280.bme280_calib_param()
-
-    # landcount = 0
-    # pressdata = [0.0, 0.0, 0.0, 0.0]
     #タイムアウトを20分に設定
     timeout_land = time.time() + (0.5*60)
 
@@ -341,49 +335,7 @@ if __name__=='__main__':
     other.log(log_melting,"melt finish")
     send.send_data("melt finish")
     print("melt finish!!!")
-    ###------paraavo-------###
-    # try:
-    #     motor.setup()
 
-    #     print("START: Parachute avoidance")
-    #     other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
-    #     phase=other.phase(log_phase)
-    #     other.log(log_paraavoidance,"paraavo start")
-
-    #     flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320, 240,
-    #                                                               200, 10, 120, 1)
-    #     print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
-    #     other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
-    #                   t_start, flug, area, gap, photoname)
-    #     print("paradetection phase success")
-    #     count_paraavo = 0
-    #     while count_paraavo < 3:
-    #         flug, area, gap, photoname = paradetection.para_detection("photostorage/photostorage_paradete/para", 320,
-    #                                                                   240, 200, 10, 120, 1)
-    #         print(f'flug:{flug}\tarea:{area}\tgap:{gap}\tphotoname:{photoname}')
-    #         other.log(log_paraavoidance, datetime.datetime.now(), time.time() -
-    #                   t_start, flug, area, gap, photoname,count_paraavo)
-    #         parachute_avoid.parachute_avoidance(flug, gap)
-    #         print(flug)
-    #         if flug == -1 or flug == 0:
-    #             count_paraavo += 1
-    #             print(count_paraavo)
-
-    #     print("パラシュート回避完了")
-
-    # except KeyboardInterrupt:
-    #     print("emergency!")
-
-    # except:
-    #     print(traceback.format_exc())
-    # print("finish!")
-    # other.log(log_phase,'5',"Paraavo phase",datetime.datetime.now(),time.time()-t_start)
-    # phase=other.phase(log_phase)
-    # other.log(log_paraavoidance,"paraavo start")
-    # #motor.setup()
-    # red_area, angle = para_avoid.detect_para()
-    # para_avoid.para_avoid(red_area, angle, check_count=5)
-    # other.log(log_paraavoidance,"paraavo finish")
     #-----上ジャッジ-----#
     # motor.setup()
     stuck2.ue_jug()
