@@ -60,8 +60,6 @@ gps.open_gps()
 bmx055.bmx055_setup()
 bme280.bme280_setup()
 
-
-
 ###----------Mission Sequence----------###
 
 ###-----Release Detect Sequence-----###
