@@ -12,7 +12,6 @@ import other
 import send
 from collections import deque
 
-
 #PID制御のテストコード
 
 def get_theta_dest_gps(lon_dest, lat_dest, magx_off, magy_off):
