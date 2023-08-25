@@ -1,13 +1,17 @@
-import bmx055
-import bme280
-import gps
+'''
+着地衝撃用のプログラム こっちのほうがいいかな by 田口
+'''
+
+import cansat2023_main.libs.bmx055 as bmx055
+import cansat2023_main.libs.bme280 as bme280
+import cansat2023_main.libs.gps as cansat2023_main.libs.gps
 import time
 import pigpio
-import other
-import motor
-import send
-import melt
-import land
+import cansat2023_main.libs.other as other
+import cansat2023_main.libs.motor as motor
+import cansat2023_main.libs.send as send
+import cansat2023_main.libs.melt as melt
+import cansat2023_main.libs.land as land
 from collections import deque
 import datetime
 

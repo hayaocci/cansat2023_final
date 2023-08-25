@@ -1,6 +1,6 @@
 import base64
 import take
-import send
+import cansat2023_main.libs.send as send
 
 if __name__ == '__main__':
     try:
