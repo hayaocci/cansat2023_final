@@ -1,27 +1,25 @@
 import release
-import land
-import melt
+import libs.land as land
+import libs.melt as melt
 #import parachute_avoid
 import gps_running1
-import human_detection
-import photo_running
+import libs.human_detection as human_detection
 import stuck2
 import send_photo
-
-import bmx055
-import bme280
-import send
-import motor
+import libs.bmx055
+import libs.bme280
+import libs.send
+import libs.motor as motor
 import traceback
 import pigpio
 import time
-import gps
+import libs.gps as gps
 import take
 #import paradetection
-from machine_learning import DetectPeople
+from libs.machine_learning import DetectPeople
 import sys
-import calibration
-import other
+import libs.calibration as calibration
+import libs.other as other
 import datetime
 import wgps_beta_photo_running as photo_running
 import cv2

@@ -1,3 +1,8 @@
+'''
+準静的荷重試験用のプログラム
+'''
+
+
 import bmx055
 import bme280
 import gps
