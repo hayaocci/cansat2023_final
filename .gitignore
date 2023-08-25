@@ -1,6 +1,6 @@
 
-sequence/picamera2
-sequence/ML_imgs
-sequence/photo
-sequence/photo_imageguide
-sequence/photo_storage
+test/junks
+imgs/human_detect
+imgs/goal_detect
+imgs/parachute_avoid
+imgs/sample
