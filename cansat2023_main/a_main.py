@@ -7,31 +7,30 @@ import land
 import melt
 import gps_running1
 import human_detection
-import photo_running
-import stuck2
-import send_photo
-import bmx055
-import bme280
-import send
-import motor
+import libs.stuck2 as stuck2
+import libs.send_photo as send_photo
+import libs.bmx055 as bmx055
+import libs.bme280 as bme280
+import libs.send as send
+import libs.motor as motor
 import traceback
 import pigpio
 import time
-import gps
-import take
+import libs.gps as gps
+import libs.take as take
 #import paradetection
-from machine_learning import DetectPeople
+from libs.machine_learning import DetectPeople
 import sys
-import calibration
-import other
+import libs.calibration as calibration
+import libs.other as other
 import datetime
 import wgps_beta_photo_running as photo_running
 import cv2
-import save_photo as save_img
+import libs.save_photo as save_img
 import beta_para_avoid as para_avoid
 import wgps_beta_photo_running as imgguide
 from math import sqrt
-import test_PID as PID
+import libs.PID as PID
 from a_CONST import *
 import libs.log as log
 
