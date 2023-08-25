@@ -1,15 +1,19 @@
-import bmx055
-import bme280
-import gps
-import melt
-import land
-import send
+'''
+着地衝撃用のプログラム
+'''
+
+import cansat2023_main.libs.bmx055 as bmx055
+import cansat2023_main.libs.bme280 as bme280
+import cansat2023_main.libs.gps as gps
+import cansat2023_main.libs.melt as melt
+import cansat2023_main.libs.land as land
+import cansat2023_main.libs.send as send
 import time
 import pigpio
 from smbus import SMBus
 import smbus
 import logging
-import motor
+import cansat2023_main.libs.motor as motor
 
 #着地衝撃試験用プログラム
 

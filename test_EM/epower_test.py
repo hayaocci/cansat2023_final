@@ -1,3 +1,7 @@
+'''
+電力試験用のプログラム
+'''
+
 import cansat2023_main.libs.motor as motor
 import time
 

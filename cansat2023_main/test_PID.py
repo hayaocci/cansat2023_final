@@ -6,10 +6,10 @@ import libs.gps as gps
 import calibration
 import libs.bmx055 as bmx055
 import stuck2
-import motor
+import cansat2023_main.libs.motor as motor
 import time
-import other
-import send
+import cansat2023_main.libs.other as other
+import cansat2023_main.libs.send as send
 from collections import deque
 
 #PID制御のテストコード

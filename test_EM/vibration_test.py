@@ -1,3 +1,6 @@
+'''
+振動試験用のプログラム
+'''
 import cansat2023_main.libs.bmx055 as bmx055
 import cansat2023_main.libs.bme280 as bme280
 import cansat2023_main.libs.gps as gps
@@ -6,11 +9,11 @@ import pigpio
 from smbus import SMBus
 import smbus
 import logging
-import other
-import motor
-import send
-import melt
-import land
+import cansat2023_main.libs.other as other
+import cansat2023_main.libs.motor as motor
+import cansat2023_main.libs.send as send
+import cansat2023_main.libs.melt as melt
+import cansat2023_main.libs.land as land
 
 def vib_test():
     logpath = other.filename('./log/vibration_test/vibration_test_log','txt')
