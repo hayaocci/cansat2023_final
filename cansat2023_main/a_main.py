@@ -11,7 +11,6 @@ import human_detection
 import photo_running
 import stuck2
 import send_photo
-
 import bmx055
 import bme280
 import send
