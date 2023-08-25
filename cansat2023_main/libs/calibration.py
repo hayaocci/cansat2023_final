@@ -15,7 +15,6 @@ from other import print_im920sl
 import motor
 import stuck2
 
-
 path_log = '/home/dendenmushi/cansat2023/sequence/calibration.txt'
 
 

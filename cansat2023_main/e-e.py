@@ -18,7 +18,7 @@ import time
 import gps
 import take
 #import paradetection
-from machine_learning import DetectPeople
+from libs.machine_learning import DetectPeople
 import sys
 import calibration
 import other

@@ -4,7 +4,7 @@
 
 import cansat2023_main.libs.bmx055 as bmx055
 import cansat2023_main.libs.bme280 as bme280
-import cansat2023_main.libs.gps as cansat2023_main.libs.gps
+import cansat2023_main.libs.gps as gps
 import time
 import pigpio
 import cansat2023_main.libs.other as other
