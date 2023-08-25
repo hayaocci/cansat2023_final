@@ -5,7 +5,6 @@
 import release
 import land
 import melt
-#import parachute_avoid
 import gps_running1
 import human_detection
 import photo_running

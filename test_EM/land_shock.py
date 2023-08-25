@@ -10,8 +10,8 @@ import pigpio
 import cansat2023_main.libs.other as other
 import cansat2023_main.libs.motor as motor
 import cansat2023_main.libs.send as send
-import cansat2023_main.libs.melt as melt
-import cansat2023_main.libs.land as land
+import cansat2023_main.melt as melt
+import cansat2023_main.land as land
 from collections import deque
 import datetime
 

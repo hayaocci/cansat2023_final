@@ -5,8 +5,8 @@
 import cansat2023_main.libs.bmx055 as bmx055
 import cansat2023_main.libs.bme280 as bme280
 import cansat2023_main.libs.gps as gps
-import cansat2023_main.libs.melt as melt
-import cansat2023_main.libs.land as land
+import cansat2023_main.melt as melt
+import cansat2023_main.land as land
 import cansat2023_main.libs.send as send
 import time
 import pigpio
