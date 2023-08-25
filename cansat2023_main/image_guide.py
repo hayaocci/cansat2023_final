@@ -282,7 +282,7 @@ def image_guided_driving(area_ratio, angle, lat2, lon2, thd_full_red, thd_dist_g
     except KeyboardInterrupt:
         print("stop")
 
-def image_guide(lat_dest, lon_dest, thd_distance_goal, thd_red_area, pwr, t_rotate):
+def PID_image_guide(lat_dest, lon_dest, thd_distance_goal, thd_red_area, pwr, t_rotate):
     '''
     PID制御を用いた画像誘導プログラム
     Parameters
@@ -327,7 +327,7 @@ def image_guide(lat_dest, lon_dest, thd_distance_goal, thd_red_area, pwr, t_rota
                             target_azimuth = rover_azimuth + 15
                         
                         ###-----PID制御による角度調整開始-----###
-                        
+
                         PID.PID_adjust_direction(target_azimuth, magx_off, magy_off, theta_array=)
 
                 ###-----撮像した画像の中にゴールが映っていない場合の処理-----###
