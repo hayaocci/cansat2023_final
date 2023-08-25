@@ -1,8 +1,5 @@
 # CanSat 2023
-## ソースコード
+## このソースコードのディレクトリ構成
 
-*cansat2023_main
-*imgs
-*logs
-*test
+* cansat2023_main
 
