@@ -1,15 +1,15 @@
 import datetime
 import time
-import gps_navigate
+import libs.gps_navigate as gps_navigate
 import libs.gps as gps
-import bmx055
-import motor #motor.move(l,r,t)
-import im920sl
-import calibration
-import stuck2
-import other
-import send
-import test_PID
+import libs.bmx055 as bmx055
+import libs.motor as motor
+import libs.im920sl as im920sl
+import libs.calibration as calibration
+import libs.stuck2 as stuck2
+import libs.other as other
+import libs.send as send
+import libs.PID as test_PID
 
 def angle_goal(magx_off, magy_off, lon2, lat2):
     """
