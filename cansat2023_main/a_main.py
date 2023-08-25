@@ -33,8 +33,8 @@ import beta_para_avoid as para_avoid
 import wgps_beta_photo_running as imgguide
 from math import sqrt
 import test_PID as PID
-from CONST import *
-import module.log as log
+from a_CONST import *
+import libs.log as log
 
 ###----------set up----------###
 
