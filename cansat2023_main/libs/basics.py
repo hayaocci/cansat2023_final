@@ -15,9 +15,7 @@ def standarize_angle(angle):
 
     return angle
 
-
-
 if __name__ == "__main__":
     angle = int(input())
 
-print(standarize_angle(angle))
+    print(standarize_angle(angle))

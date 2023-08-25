@@ -13,7 +13,6 @@ import send
 def angle_goal(magx_off, magy_off, lon2, lat2):
     """
     ゴールとの相対角度を算出する関数
-
     -180~180度
     """
     magdata = bmx055.mag_dataRead()
