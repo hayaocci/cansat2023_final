@@ -52,11 +52,10 @@ class Logger:
         with open(self.path, mode='a') as f:
             f.write(log_txt)
 
-
 print(datetime.datetime.now())
 print(time.time())
 
-release = Logger(dir='../log/log_test2', filename='test', t_start=30, columns=['num', 'num2', 'num3'])
+release = Logger(dir='../../logs/log_test2', filename='test', t_start=30, columns=['num', 'num2', 'num3'])
 
 release.save_log('a', [1,2])
 

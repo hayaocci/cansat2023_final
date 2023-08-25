@@ -5,7 +5,7 @@ from save_photo import save_img
 import take
 import motor
 import time
-import gps
+import libs.gps as gps
 import gps_navigate
 import calibration
 import stuck2
