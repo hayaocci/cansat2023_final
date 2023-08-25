@@ -13,7 +13,6 @@ import other
 import time
 import datetime
 
-
 #細かいノイズを除去するために画像を圧縮
 def mosaic(original_img, ratio):
     small_img = cv2.resize(original_img, None, fx=ratio, fy=ratio, interpolation=cv2.INTER_NEAREST)

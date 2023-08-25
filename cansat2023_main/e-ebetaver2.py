@@ -5,7 +5,7 @@ import libs.melt as melt
 import gps_running1
 import libs.human_detection as human_detection
 import stuck2
-import send_photo
+import libs.send_photo as send_photo
 import libs.bmx055
 import libs.bme280
 import libs.send
@@ -23,7 +23,7 @@ import libs.other as other
 import datetime
 import wgps_beta_photo_running as photo_running
 import cv2
-import save_photo as save_img
+import libs.save_photo as save_img
 import beta_para_avoid as para_avoid
 import wgps_beta_photo_running as imgguide
 from math import sqrt
