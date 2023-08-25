@@ -3,7 +3,7 @@ sys.path.append('/home/dendenmushi/cansat2023/sequence/bme280')  ####
 import time
 import signal
 
-from gps import gps_data_read
+from libs.gps import gps_data_read
 import bme280
 from bmx055 import bmx055_read
 
