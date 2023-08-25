@@ -41,7 +41,7 @@ def get_center(contour):
     else:
         # set values as what you need in the situation
         cx, cy = 0, 0
-
+        
     return cx, cy
 
 

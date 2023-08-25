@@ -1,7 +1,7 @@
 import datetime
 import time
 import gps_navigate
-import gps
+import libs.gps as gps
 import bmx055
 import motor #motor.move(l,r,t)
 import im920sl

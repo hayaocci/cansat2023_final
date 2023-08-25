@@ -2,9 +2,9 @@
 import datetime
 import time
 import gps_navigate
-import gps
+import libs.gps as gps
 import calibration
-import bmx055
+import libs.bmx055 as bmx055
 import stuck2
 import motor
 import time
@@ -34,7 +34,6 @@ def get_theta_dest_gps(lon_dest, lat_dest, magx_off, magy_off):
         地磁気x軸オフセット
     magy_off : int
         地磁気y軸オフセット
-
     '''
     #-----ローバーの角度を取得-----#
     magdata= bmx055.mag_dataRead()

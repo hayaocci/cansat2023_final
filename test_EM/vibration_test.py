@@ -1,6 +1,6 @@
-import bmx055
-import bme280
-import gps
+import cansat2023_main.libs.bmx055 as bmx055
+import cansat2023_main.libs.bme280 as bme280
+import cansat2023_main.libs.gps as gps
 import time
 import pigpio
 from smbus import SMBus

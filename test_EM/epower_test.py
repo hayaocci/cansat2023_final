@@ -1,4 +1,4 @@
-import motor
+import cansat2023_main.libs.motor as motor
 import time
 
 def e_power_test(t_move):
@@ -14,9 +14,7 @@ def e_power_test(t_move):
         elapsed_time = time.time() - s_time
         print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
         
-
-
 if __name__ == '__main__':
     motor.setup()
-    #2分間走らせて、10秒休憩
+    # 2分間走行→10秒停止→キャリブレーション→3秒停止　の繰り返し
     e_power_test(120)

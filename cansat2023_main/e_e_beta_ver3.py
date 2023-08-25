@@ -15,7 +15,7 @@ import motor
 import traceback
 import pigpio
 import time
-import module.gps as gps
+import libs.gps as gps
 import take
 #import paradetection
 from machine_learning import DetectPeople
@@ -23,7 +23,6 @@ import sys
 import calibration
 import other
 import datetime
-import wgps_beta_photo_running as photo_running
 import cv2
 import save_photo as save_img
 import beta_para_avoid as para_avoid
