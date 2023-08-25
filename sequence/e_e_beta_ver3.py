@@ -15,7 +15,7 @@ import motor
 import traceback
 import pigpio
 import time
-import gps
+import module.gps as gps
 import take
 #import paradetection
 from machine_learning import DetectPeople
