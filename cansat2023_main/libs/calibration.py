@@ -14,6 +14,7 @@ import gps_navigate
 from other import print_im920sl
 import motor
 import stuck2
+import basics
 
 path_log = '/home/dendenmushi/cansat2023/sequence/calibration.txt'
 
@@ -219,7 +220,7 @@ def angle(magx, magy, magx_off=0, magy_off=0):
         theta = 360 + theta  # 270 <= theta <= 360
 
     theta += 180 #センサの傾きを考慮する場合？？
-    theta  = theta % 360
+    theta = theta % 360
 
     return theta
 

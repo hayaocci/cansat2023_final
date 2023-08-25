@@ -1,20 +1,18 @@
-import gps_navigate
-import time 
-#import rotation
-import machine_learning
-from machine_learning import DetectPeople
-import gps_running1
-import take
-import gps
-from math import sqrt
-import motor
-import bmx055
-import other
 import datetime
-import test_PID as PID
+import time
+import libs.gps_navigate as gps_navigate 
+import libs.machine_learning
+from libs.machine_learning import DetectPeople
+import gps_running1
+import libs.take as take
+import libs.gps as gps
+from math import sqrt
+import libs.motor as motor
+import libs.bmx055 as bmx055
+import libs.other as other
+import libs.PID as PID
 
 log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humandetectlog/humandetectlog','txt')
-
 
 #グローバル変数として宣言
 # global human_judge_count
@@ -25,33 +23,6 @@ log_humandetect=other.filename('/home/dendenmushi/cansat2023/sequence/log/humand
 motor.setup()
 gps.open_gps()
 bmx055.bmx055_setup()
-'''
-#chatGPTさんより青点の設定
-#lon1,lat1は赤点の位置
-def calculate_square_corners(lon1, lat1):
-    # 1度あたりの緯度経度の差（おおよその値）
-    lat_diff_per_meter = 0.000009
-    lon_diff_per_meter = 0.000011
-
-    # 正方形の一辺の長さ（メートル）
-    square_side_length = 20
-
-    # 正方形の角の座標を計算
-    lon_n = lon1 + (square_side_length / 2) * lon_diff_per_meter
-    lat_n = lat1 - (square_side_length / 2) * lat_diff_per_meter
-
-    lon_e = lon1 + (square_side_length / 2) * lon_diff_per_meter
-    lat_e = lat1 + (square_side_length / 2) * lat_diff_per_meter
-
-    lon_s = lon1 - (square_side_length / 2) * lon_diff_per_meter
-    lat_s = lat1 - (square_side_length / 2) * lat_diff_per_meter
-
-    lon_w = lon1 - (square_side_length / 2) * lon_diff_per_meter
-    lat_w = lat1 + (square_side_length / 2) * lat_diff_per_meter
-
-    return lat_n, lon_n, lat_e, lon_e, lat_s, lon_s, lat_w, lon_w
-'''
-
 
 def get_locations(lat_human, lon_human):
 #最後の位置情報をもとに周囲の4つの点の座標を求める
@@ -198,6 +169,11 @@ def move_to_bulearea(count, lat_human, lon_human):
         print("青点エリア捜索終了")             
     
 if __name__ == "__main__":
+    ###-----set up-----###
+    motor.setup()
+    gps.open_gps()
+    bmx055.bmx055_setup()   
+
     t_start = time.time()
     count = 0
     human_judge_count = 0

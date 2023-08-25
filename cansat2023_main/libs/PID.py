@@ -10,7 +10,7 @@ import cansat2023_main.libs.motor as motor
 import time
 import cansat2023_main.libs.other as other
 import cansat2023_main.libs.send as send
-from collections import deque
+import libs.basics as basics
 
 #PID制御のテストコード
 
@@ -47,10 +47,7 @@ def get_theta_dest_gps(lon_dest, lat_dest, magx_off, magy_off):
     theta_dest = rover_angle - azimuth
 
     #-----相対角度の範囲を-180~180度にする-----#
-    if theta_dest >= 180:
-        theta_dest -= 360
-    elif theta_dest <= -180:
-        theta_dest += 360
+    theta_dest = basics.standarize_angle(theta_dest)
 
     return theta_dest
 
@@ -58,8 +55,8 @@ def get_theta_dest(target_azimuth, magx_off, magy_off):
     '''
     #ローバーから目標地点までの方位角が既知の場合に目標地点(dest)との相対角度を算出する関数
     ローバーが向いている角度を基準に、時計回りを正とする。
-
-    theta_dest = 60 のとき、目標地点はローバーから見て右手60度の方向にある。
+    
+    例) theta_dest = 60 のとき、目標地点はローバーから見て右手60度の方向にある。
 
     -180 < theta_dest < 180
 
@@ -73,7 +70,6 @@ def get_theta_dest(target_azimuth, magx_off, magy_off):
         地磁気x軸オフセット
     magy_off : int
         地磁気y軸オフセット
-
     '''
     #-----ローバーの角度を取得-----#
     magdata= bmx055.mag_dataRead()
@@ -86,10 +82,7 @@ def get_theta_dest(target_azimuth, magx_off, magy_off):
     theta_dest = rover_azimuth - target_azimuth
 
     #-----相対角度の範囲を-180~180度にする-----#
-    if theta_dest >= 180:
-        theta_dest -= 360
-    elif theta_dest <= -180:
-        theta_dest += 360
+    theta_dest = basics.standarize_angle(theta_dest)
 
     return theta_dest
 
@@ -116,7 +109,7 @@ theta_differential_array = []
 #         self.output = self.kp * self.error[-1] + self.ki * self.integral*(self.count >= self.validate_ki) + self.kd * self.derivative
 #         self.count += 1
 #         return self.output
-    
+
 def make_theta_array(array: list, array_num: int):
     #-----決められた数の要素を含む空配列の作成-----#
 
@@ -379,7 +372,7 @@ def drive(lon_dest, lat_dest, thd_distance, t_run, log_path, t_start=0, loop_num
         目標地点の経度
     lat : float
         目標地点の緯度
-    thed_distance : float
+    thd_distance : float
         目標地点に到達したと判定する距離（10mぐらいが望ましい？？短くしすぎるとうまく停止してくれない）
     t_adj_gps : float
         GPSの取得間隔

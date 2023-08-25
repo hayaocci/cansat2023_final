@@ -10,24 +10,31 @@ import libs.stuck2 as stuck2
 import libs.other as other
 import libs.send as send
 import libs.PID as test_PID
+import libs.basics as basics
 
 def angle_goal(magx_off, magy_off, lon2, lat2):
     """
     ゴールとの相対角度を算出する関数
-
     -180~180度
+    Parameters
+    ----------
+    magx_off : float
+        キャリブレーション後の地磁気センサのオフセット値
+    magy_off : float
+        キャリブレーション後の地磁気センサのオフセット値
+    lon2 : float
+        ゴールの経度
+    lat2 : float
+        ゴールの緯度
     """
     magdata = bmx055.mag_dataRead()
-    mag_x = magdata[0]
-    mag_y = magdata[1]
+    mag_x, mag_y = magdata[0], magdata[1]
     theta = calibration.angle(mag_x, mag_y, magx_off, magy_off)
     direction = calibration.calculate_direction(lon2, lat2)
     azimuth = direction["azimuth1"]
     angle_relative = azimuth - theta
-    if angle_relative >= 0:
-        angle_relative = angle_relative if angle_relative <= 180 else angle_relative - 360
-    else:
-        angle_relative = angle_relative if angle_relative >= -180 else angle_relative + 360
+    angle_relative = basics.standarize_angle(angle_relative)
+
     return angle_relative
 
 
