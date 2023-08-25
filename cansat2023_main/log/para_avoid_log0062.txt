@@ -1,4 +1,0 @@
-2023-07-30 15:02:35.655111	Parachute avoidance Start	
-2023-07-30 15:02:35.655111	Parachute avoidance Start	
-2023-07-30 15:02:41.681958	Parachute avoidance Finish	
-2023-07-30 15:02:41.681958	Parachute avoidance Finish	

@@ -1,2 +1,0 @@
-0	phase	Time	Elapsed Time	lat	lon	
-0	phase	Time	Elapsed Time	lat	lon	

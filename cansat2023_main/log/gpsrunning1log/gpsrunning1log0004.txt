@@ -1,3 +1,0 @@
-run1 start	
-datetime.datetime.now()	time.time()-t_start	lat	lon	direction	goal-distance	
-run1 finish	

@@ -1,2 +1,0 @@
-release judge start	
-datetime.datetime.now()	time.time() - t_start	bme280.bme280_read()	press_count_release	press_judge_release	timeout_release-time.time()	

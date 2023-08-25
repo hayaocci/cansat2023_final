@@ -1,5 +1,0 @@
-paraavo start	
-datetime.datetime.now()	time.time() - t_start	start or finish	lat	lon	
-2023-08-03 17:50:32.637935	83.53496885299683	start	35.924425	139.912869	
-2023-08-03 17:50:38.533376	89.43040943145752	finish	35.924426	139.912868	
-paraavo finish	
